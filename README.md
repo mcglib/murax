@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/curationexperts/nurax.svg?branch=master)](https://travis-ci.org/curationexperts/nurax)
 
 # README
 This is an application used for testing the state of [Hyrax](https://github.com/samvera/hyrax). The `master` branch is pinned to Hyrax
@@ -28,5 +27,3 @@ today = Time.now.strftime('%Y-%m-%e-%H-%M')
 `cd /home/ubuntu/nurax; git checkout master; git branch -d "#{today}"; git push origin --delete "${today}"`
 ```
 
-## Questions
-Please direct questions about this code or the servers where it runs to the `#nurax` channel on Samvera slack.
