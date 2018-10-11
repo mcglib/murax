@@ -24,9 +24,8 @@ pt-BR:
           identifier_tesim: Identificador
           keyword_tesim: Palavra-chave
           language_tesim: Língua
-          license_tesim: Licença
           publisher_tesim: Editor
-          rights_statement_tesim: Direitos
+          rights_tesim: Direitos
           subject_tesim: Sujeito
         show:
           based_near_tesim: Localização
@@ -40,9 +39,8 @@ pt-BR:
           identifier_tesim: Identificador
           keyword_tesim: Palavra-chave
           language_tesim: Língua
-          license_tesim: Licença
           publisher_tesim: Editor
-          rights_statement_tesim: Direitos
+          rights_tesim: Direitos
           subject_tesim: Sujeito
           title_tesim: Título
   hyrax:
@@ -55,4 +53,4 @@ pt-BR:
     institution_name: Instituição
     institution_name_full: O Nome da Instituição
     product_name: Hyrax
-    product_twitter_handle: "@SamveraRepo"
+    product_twitter_handle: "@HydraSphere"

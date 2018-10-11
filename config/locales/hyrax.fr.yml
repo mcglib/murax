@@ -24,9 +24,8 @@ fr:
           identifier_tesim: Identificateur
           keyword_tesim: Mot-clé
           language_tesim: La langue
-          license_tesim: Licence
           publisher_tesim: Éditeur
-          rights_statement_tesim: Déclaration des droits
+          rights_tesim: Droits
           subject_tesim: Assujettir
         show:
           based_near_tesim: Emplacement
@@ -40,9 +39,8 @@ fr:
           identifier_tesim: Identificateur
           keyword_tesim: Mot-clé
           language_tesim: La langue
-          license_tesim: Licence
           publisher_tesim: Éditeur
-          rights_statement_tesim: Déclaration des droits
+          rights_tesim: Droits
           subject_tesim: Assujettir
           title_tesim: Titre
   hyrax:
@@ -55,4 +53,4 @@ fr:
     institution_name: Institution
     institution_name_full: Nom de l'établissement
     product_name: Hyrax
-    product_twitter_handle: "@SamveraRepo"
+    product_twitter_handle: "@HydraSphere"

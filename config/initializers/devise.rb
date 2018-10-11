@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -8,11 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '1b7cc2903c407bb414f9f7e9164adb38a3e3c378e2141e6639bc9c82a3c2f6aa9e9d032788eb5974739c6ba617475a283716596a110d0904606181fe2fd00ffd'
-  
-  # ==> Controller configuration
-  # Configure the parent class to the devise controllers.
-  # config.parent_controller = 'DeviseController'
+  # config.secret_key = '751dded09da3df46be9700989bfbcab7057fc1c0c2913956c95a39e7737b6213c2bc428e11d3bb42c2c229c41bfc20880f74fbf3044ecf031271af30618d270a'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -114,7 +108,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '8927c2d4daa8b2df3d98c870f77ac06415963e2246df31bc9bd2943e109d32223c80f6f2549fcdb0435059a87ee471ca8709d4b7734af3f382acdb0fc4671819'
+  # config.pepper = '56e3c352689ca822dbd1d38e45fb24416c62f201021c0fea18bac13f4f9b3f244880387fe1016685dab6a6cb1f40fbd872c22fb0f89b8121e82899637e6ceb9a'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -280,11 +274,4 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
-
-  # ==> Turbolinks configuration
-  # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
-  #
-  # ActiveSupport.on_load(:devise_failure_app) do
-  #   include Turbolinks::Controller
-  # end
 end
