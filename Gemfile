@@ -75,6 +75,7 @@ gem 'devise-i18n'
 gem 'devise-guests', '~> 0.6'
 gem 'rsolr', '~> 2.0'
 gem 'jquery-rails'
+gem 'clamav'
 gem 'sidekiq'
 
 gem 'riiif', '~> 1.1'
