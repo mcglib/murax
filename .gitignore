@@ -27,6 +27,5 @@
 # Ignore Ruby artifacts
 /.ruby-*
 
-.env.web
-.env
-.env.development
+.env.production
+.env.local
