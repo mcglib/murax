@@ -2,6 +2,8 @@
 development:
   url: http://<% ENV['SOLR_DEVELOPMENT_HOST'] %>:<%= ENV['SOLR_DEVELOPMENT_PORT'] || 8983 %>/solr/samvera
 test:
-  url: http://<% ENV['SOLR_TEST_HOST'] %>:<%= ENV['SOLR_TEST_PORT'] || 8983 %>/solr/samvera
+  url: http://<% ENV['SOLR_TEST_HOST'] %>:<%= ENV['SOLR_TEST_PORT'] || 8983 %>/solr/samvera_test
+staging:
+  url: http://<% ENV['SOLR_STAGING_HOST'] %>:<%= ENV['SOLR_STAGING_PORT'] || 8983 %>/solr/samvera
 production:
   url: http://<% ENV['SOLR_PROD_HOST'] %>:<%= ENV['SOLR_PROD_PORT'] || 8983 %>/solr/samvera
