@@ -17,15 +17,7 @@
 !/log/.keep
 !/tmp/.keep
 
-# From Rails 5.1
 /node_modules
 /yarn-error.log
 
-# Ignore Byebug command history file.
 .byebug_history
-
-# Ignore Ruby artifacts
-/.ruby-*
-
-.env.production
-.env.local
