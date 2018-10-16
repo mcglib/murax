@@ -51,7 +51,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("based_near_label", :facetable), limit: 5
     config.add_facet_field solr_name("publisher", :facetable), limit: 5
     config.add_facet_field solr_name("file_format", :facetable), limit: 5
-    config.add_facet_field solr_name('member_of_collections', :symbol), limit: 5, label: 'Collections'
+    config.add_facet_field solr_name('member_of_collection_ids', :symbol), limit: 5, label: 'Collections', helper_method: :collection_title_by_id
 
     # The generic_type isn't displayed on the facet list
     # It's used to give a label to the filter that comes from the user profile
@@ -78,7 +78,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("date_uploaded", :stored_sortable, type: :date), itemprop: 'datePublished', helper_method: :human_readable_date
     config.add_index_field solr_name("date_modified", :stored_sortable, type: :date), itemprop: 'dateModified', helper_method: :human_readable_date
     config.add_index_field solr_name("date_created", :stored_searchable), itemprop: 'dateCreated'
-    config.add_index_field solr_name("rights", :stored_searchable), helper_method: :license_links
+    config.add_index_field solr_name("rights_statement", :stored_searchable), helper_method: :rights_statement_links
+    config.add_index_field solr_name("license", :stored_searchable), helper_method: :license_links
     config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type", link_to_search: solr_name("resource_type", :facetable)
     config.add_index_field solr_name("file_format", :stored_searchable), link_to_search: solr_name("file_format", :facetable)
     config.add_index_field solr_name("identifier", :stored_searchable), helper_method: :index_field_link, field_name: 'identifier'
@@ -99,7 +100,8 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("date_uploaded", :stored_searchable)
     config.add_show_field solr_name("date_modified", :stored_searchable)
     config.add_show_field solr_name("date_created", :stored_searchable)
-    config.add_show_field solr_name("rights", :stored_searchable)
+    config.add_show_field solr_name("rights_statement", :stored_searchable)
+    config.add_show_field solr_name("license", :stored_searchable)
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable)
     config.add_show_field solr_name("identifier", :stored_searchable)
@@ -255,8 +257,16 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('rights') do |field|
-      solr_name = solr_name("rights", :stored_searchable)
+    config.add_search_field('rights_statement') do |field|
+      solr_name = solr_name("rights_statement", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('license') do |field|
+      solr_name = solr_name("license", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
