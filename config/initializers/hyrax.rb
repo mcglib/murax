@@ -1,8 +1,4 @@
 Hyrax.config do |config|
-  # Injected via `rails g hyrax:work GenericWork`
-  config.register_curation_concern :generic_work
-  # Injected via `rails g hyrax:work Image`
-  config.register_curation_concern :image
   # Register roles that are expected by your implementation.
   # @see Hyrax::RoleRegistry for additional details.
   # @note there are magical roles as defined in Hyrax::RoleRegistry::MAGIC_ROLES
@@ -15,11 +11,21 @@ Hyrax.config do |config|
   # @see Hyrax::Configuration for additional details and defaults.
   # config.default_active_workflow_name = 'default'
 
+  # Which RDF term should be used to relate objects to an admin set?
+  # If this is a new repository, you may want to set a custom predicate term here to
+  # avoid clashes if you plan to use the default (dct:isPartOf) for other relations.
+  # config.admin_set_predicate = ::RDF::DC.isPartOf
+
+  # Which RDF term should be used to relate objects to a rendering?
+  # If this is a new repository, you may want to set a custom predicate term here to
+  # avoid clashes if you plan to use the default (dct:hasFormat) for other relations.
+  # config.rendering_predicate = ::RDF::DC.hasFormat
+
   # Email recipient of messages sent via the contact form
-  config.contact_email = 'hyraxrepomanager@gmail.com'
+  # config.contact_email = "repo-admin@example.org"
 
   # Text prefacing the subject entered in the contact form
-  config.subject_prefix = "[Hyrax Testing] contact form:"
+  # config.subject_prefix = "Contact form:"
 
   # How many notifications should be displayed on the dashboard
   # config.max_notifications_for_dashboard = 5
@@ -37,10 +43,10 @@ Hyrax.config do |config|
   # Enable displaying usage statistics in the UI
   # Defaults to false
   # Requires a Google Analytics id and OAuth2 keyfile.  See README for more info
-  config.analytics = true
+  # config.analytics = false
 
   # Google Analytics tracking ID to gather usage statistics
-  config.google_analytics_id = 'UA-106138142-1'
+  # config.google_analytics_id = 'UA-99999999-1'
 
   # Date you wish to start collecting Google Analytic statistics for
   # Leaving it blank will set the start date to when ever the file was uploaded by
@@ -49,7 +55,7 @@ Hyrax.config do |config|
 
   # Enables a link to the citations page for a work
   # Default is false
-  config.citations = true
+  # config.citations = false
 
   # Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
   # config.temp_file_base = '/home/developer1'
@@ -58,7 +64,7 @@ Hyrax.config do |config|
   # config.persistent_hostpath = 'http://localhost/files/'
 
   # If you have ffmpeg installed and want to transcode audio and video set to true
-  config.enable_ffmpeg = true
+  # config.enable_ffmpeg = false
 
   # Hyrax uses NOIDs for files and collections instead of Fedora UUIDs
   # where NOID = 10-character string and UUID = 32-character string w/ hyphens
@@ -68,7 +74,7 @@ Hyrax.config do |config|
   # config.noid_template = ".reeddeeddk"
 
   # Use the database-backed minter class
-  # config.noid_minter_class = ActiveFedora::Noid::Minter::Db
+  # config.noid_minter_class = Noid::Rails::Minter::Db
 
   # Store identifier minter's state in a file for later replayability
   # config.minter_statefile = '/tmp/minter-state'
@@ -94,11 +100,11 @@ Hyrax.config do |config|
   # config.arkivo_api = false
 
   # Stream realtime notifications to users in the browser
-  config.realtime_notifications = false
+  # config.realtime_notifications = true
 
   # Location autocomplete uses geonames to search for named regions
   # Username for connecting to geonames
-  config.geonames_username = 'nuraxdemo'
+  # config.geonames_username = ''
 
   # Should the acceptance of the licence agreement be active (checkbox), or
   # implied when the save button is pressed? Set to true for active
@@ -108,7 +114,11 @@ Hyrax.config do |config|
   # Should work creation require file upload, or can a work be created first
   # and a file added at a later time?
   # The default is true.
-  config.work_requires_files = false
+  # config.work_requires_files = true
+
+  # How many rows of items should appear on the work show view?
+  # The default is 10
+  # config.show_work_item_rows = 10
 
   # Enable IIIF image service. This is required to use the
   # UniversalViewer-ified show page
@@ -124,7 +134,7 @@ Hyrax.config do |config|
   #   * iiif_image_size_default
   #
   # Default is false
-  config.iiif_image_server = true
+  # config.iiif_image_server = false
 
   # Returns a URL that resolves to an image provided by a IIIF image server
   config.iiif_image_url_builder = lambda do |file_id, base_url, size|
@@ -162,16 +172,16 @@ Hyrax.config do |config|
   # config.audit_user_key = 'audituser@example.com'
   #
   # The banner image. Should be 5000px wide by 1000px tall
-  config.banner_image = 'https://user-images.githubusercontent.com/101482/29949206-ffa60d2c-8e67-11e7-988d-4910b8787d56.jpg'
+  # config.banner_image = 'https://cloud.githubusercontent.com/assets/92044/18370978/88ecac20-75f6-11e6-8399-6536640ef695.jpg'
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately
-  config.upload_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads') }
-  config.cache_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads', 'cache') }
+  #  config.upload_path = ->() { Rails.root + 'tmp' + 'uploads' }
+  #  config.cache_path = ->() { Rails.root + 'tmp' + 'uploads' + 'cache' }
 
   # Location on local file system where derivatives will be stored
   # If you use a multi-server architecture, this MUST be a shared volume
-  config.derivatives_path = ENV['DERIVATIVES_PATH'] || '/opt/derivatives'
+  # config.derivatives_path = Rails.root.join('tmp', 'derivatives')
 
   # Should schema.org microdata be displayed?
   # config.display_microdata = true
@@ -183,7 +193,7 @@ Hyrax.config do |config|
   # Location on local file system where uploaded files will be staged
   # prior to being ingested into the repository or having derivatives generated.
   # If you use a multi-server architecture, this MUST be a shared volume.
-  config.working_path = Rails.root.join('..', '..', 'shared', 'uploads')
+  # config.working_path = Rails.root.join( 'tmp', 'uploads')
 
   # Should the media display partial render a download link?
   # config.display_media_download_link = true
@@ -208,7 +218,7 @@ Hyrax.config do |config|
   # config.fits_message_length = 5
 
   # ActiveJob queue to handle ingest-like jobs
-  config.ingest_queue_name = :ingest
+  # config.ingest_queue_name = :default
 
   ## Attributes for the lock manager which ensures a single process/thread is mutating a ore:Aggregation at once.
   # How many times to retry to acquire the lock before raising UnableToAcquireLockError
@@ -221,8 +231,13 @@ Hyrax.config do |config|
   # config.lock_time_to_live = 60_000
 
   ## Do not alter unless you understand how ActiveFedora handles URI/ID translation
-  # config.translate_id_to_uri = ActiveFedora::Noid.config.translate_id_to_uri
-  # config.translate_uri_to_id = ActiveFedora::Noid.config.translate_uri_to_id
+  # config.translate_id_to_uri = lambda do |uri|
+  #                                baseparts = 2 + [(Noid::Rails::Config.template.gsub(/\.[rsz]/, '').length.to_f / 2).ceil, 4].min
+  #                                uri.to_s.sub(baseurl, '').split('/', baseparts).last
+  #                              end
+  # config.translate_uri_to_id = lambda do |id|
+  #                                "#{ActiveFedora.fedora.host}#{ActiveFedora.fedora.base_path}/#{Noid::Rails.treeify(id)}"
+  #                              end
 
   ## Fedora import/export tool
   #
@@ -242,6 +257,22 @@ Hyrax.config do |config|
   rescue Errno::ENOENT
     config.browse_everything = nil
   end
+
+  ## Whitelist all directories which can be used to ingest from the local file
+  # system.
+  #
+  # Any file, and only those, that is anywhere under one of the specified
+  # directories can be used by CreateWithRemoteFilesActor to add local files
+  # to works. Files uploaded by the user are handled separately and the
+  # temporary directory for those need not be included here.
+  #
+  # Default value includes BrowseEverything.config['file_system'][:home] if it
+  # is set, otherwise default is an empty list. You should only need to change
+  # this if you have custom ingestions using CreateWithRemoteFilesActor to
+  # ingest files from the file system that are not part of the BrowseEverything
+  # mount point.
+  #
+  # config.whitelisted_ingest_dirs = []
 end
 
 Date::DATE_FORMATS[:standard] = "%m/%d/%Y"

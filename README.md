@@ -1,29 +1,24 @@
-
 # README
-This is an application used for testing the state of [Hyrax](https://github.com/samvera/hyrax). The `master` branch is pinned to Hyrax
-master, and is automatically deployed to [nurax-dev.curationexperts.com](https://nurax-dev.curationexperts.com) once per
-day. The `nurax-stable` branch is pinned to the latest stable release of Hyrax,
-and is deployed much less often, only when there has been a new release, to
-[nurax-stable.curationexperts.com](https://nurax-stable.curationexperts.com).
 
-## Infrastructure
-The nurax servers are built using the [ansible-samvera](https://github.com/curationexperts/ansible-samvera) ansible roles. These servers are maintained by Data Curation Experts as a service to [the Samvera Community](http://samvera.org).
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-## Auto-deploy process
-There is a cron-job on `nurax-dev` running this script once per day:
-```
-#!/usr/local/bin/ruby
+Things you may want to cover:
 
-# Get the latest nurax master
-# Make a branch with today's date and update hyrax
-# Push and deploy that branch
-# Delete the branch
+* Ruby version
 
-today = Time.now.strftime('%Y-%m-%e-%H-%M')
-`cd /home/ubuntu/nurax; git checkout master; git pull; git checkout -b "#{today}"`
-`cd /home/ubuntu/nurax; bundle update hyrax`
-`cd /home/ubuntu/nurax; git commit -a -m 'Daily update for "#{today}"'; git push --set-upstream origin #{today}`
-`cd /home/ubuntu/nurax; BRANCH_NAME="#{today}" cap nurax-dev deploy`
-`cd /home/ubuntu/nurax; git checkout master; git branch -d "#{today}"; git push origin --delete "${today}"`
-```
+* System dependencies
 
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
