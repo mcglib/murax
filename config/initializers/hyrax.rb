@@ -16,7 +16,7 @@ Hyrax.config do |config|
   # config.default_active_workflow_name = 'default'
 
   # Email recipient of messages sent via the contact form
-  config.contact_email = 'hyraxrepomanager@gmail.com'
+  config.contact_email = 'hyraxrepomanager@mcgill.ca'
 
   # Text prefacing the subject entered in the contact form
   config.subject_prefix = "[Hyrax Testing] contact form:"
@@ -40,7 +40,7 @@ Hyrax.config do |config|
   config.analytics = true
 
   # Google Analytics tracking ID to gather usage statistics
-  config.google_analytics_id = 'UA-106138142-1'
+  config.google_analytics_id = ''
 
   # Date you wish to start collecting Google Analytic statistics for
   # Leaving it blank will set the start date to when ever the file was uploaded by
@@ -98,7 +98,7 @@ Hyrax.config do |config|
 
   # Location autocomplete uses geonames to search for named regions
   # Username for connecting to geonames
-  config.geonames_username = 'nuraxdemo'
+  config.geonames_username = 'muraxdemo'
 
   # Should the acceptance of the licence agreement be active (checkbox), or
   # implied when the save button is pressed? Set to true for active

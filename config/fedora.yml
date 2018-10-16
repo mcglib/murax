@@ -4,7 +4,7 @@ default: &default
 
 development:
   <<: *default
-  url: http://<% ENV['FCREPO_DEVELOPMENT_HOST'] %>:<%= ENV['FCREPO_DEVELOPMENT_PORT'] || 8984 %>/rest
+  url: http://<% ENV['FCREPO_DEVELOPMENT_HOST'] %>:<%= ENV['FCREPO_DEVELOPMENT_PORT'] || 8080 %>/rest
   base_path: /<% ENV['FCREPO_DEVELOPMENT_BASE_PATH'] || 'fcrepo' %>
 
 test:
