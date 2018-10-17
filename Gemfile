@@ -29,7 +29,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 3.0'
+gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -44,9 +44,8 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'solr_wrapper', '>= 0.3'
-  #gem 'solr_wrapper', '>= 0.3'
-  #gem 'fcrepo_wrapper'
   gem 'rspec-rails'
+  gem 'fcrepo_wrapper'
 end
 
 group :development do
@@ -74,14 +73,4 @@ gem 'sidekiq'
 
 gem 'riiif', '~> 1.1'
 
-
-group :development, :test do
-end
-
-
-group :development, :test do
-end
-
-group :development, :test do
-  gem 'fcrepo_wrapper'
-end
+gem 'hydra-role-management'
