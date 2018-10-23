@@ -2,10 +2,11 @@
 lock "3.9.0"
 
 set :application, "murax"
-set :repo_url, "https://github.com/curationexperts/murax.git"
+set :repo_url, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+set :repository, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
-set :ssh_options, keys: ['murax-dev-deploy_rsa'] if File.exist?('murax-dev-deploy_rsa')
+set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
 
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
@@ -25,7 +26,7 @@ set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
 
 # Default value for :linked_files is []
 append :linked_files, "config/analytics.yml"
-# append :linked_files, "config/browse_everything_providers.yml"
+#append :linked_files, "config/browse_everything_providers.yml"
 append :linked_files, "config/database.yml"
 append :linked_files, "config/secrets.yml"
 append :linked_files, ".env.production"
@@ -40,7 +41,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :local_user, -> { `git config user.name`.chomp }
 
 # Default value for keep_releases is 5
-# set :keep_releases, 5
+set :keep_releases, 5
 
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
