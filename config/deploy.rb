@@ -3,7 +3,7 @@ lock "3.9.0"
 
 set :application, "murax"
 set :repo_url, "https://github.com/curationexperts/murax.git"
-set :deploy_to, '/opt/murax'
+set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
 set :ssh_options, keys: ['murax-dev-deploy_rsa'] if File.exist?('murax-dev-deploy_rsa')
 
