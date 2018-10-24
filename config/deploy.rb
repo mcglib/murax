@@ -7,7 +7,6 @@ set :repository, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
 set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
-set :pty, true
 
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
