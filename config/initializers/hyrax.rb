@@ -16,7 +16,7 @@ Hyrax.config do |config|
   # config.default_active_workflow_name = 'default'
 
   # Email recipient of messages sent via the contact form
-  config.contact_email = '<% ENV['CONTACT_EMAIL'] %>'
+  config.contact_email = "<%= ENV['CONTACT_EMAIL'] %>"
 
   # Text prefacing the subject entered in the contact form
   config.subject_prefix = "[Digitool] contact form:"
