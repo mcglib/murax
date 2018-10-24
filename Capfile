@@ -39,3 +39,5 @@ require "capistrano/sidekiq"
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 #require 'capistrano/honeybadger'
+#
+require 'sshkit/sudo'
