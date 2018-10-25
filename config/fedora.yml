@@ -1,7 +1,7 @@
 default: &default
   user: <%= ENV['FEDORA_USER'] %>
   password: <%= ENV['FEDORA_PASSWORD'] %>
-  url: <%= ENV['FEDORA_REPO_URL']  %>
+  url: <%= ENV['FEDORA_URL']  %>
 
 development:
   <<: *default
