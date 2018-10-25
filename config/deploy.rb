@@ -7,7 +7,7 @@ set :repository, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
 set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
-
+set :tmp_dir, '/storage/www/tmp'
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
 
@@ -22,7 +22,7 @@ set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 #append :linked_files, "config/analytics.yml"
