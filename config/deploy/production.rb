@@ -1,5 +1,6 @@
-# deploys to DCE sandbox
-set :stage, :sandbox
+# For use in production
+set :stage, :production
 set :rails_env, 'production'
 set :deploy_to, '/storage/www/murax'
-server 'dlirap.library.mcgill.ca', user: 'dev.library', roles: [:web, :app, :db]
+set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
+server '127.0.0.1', user: 'dev.library', roles: [:web, :app, :db]

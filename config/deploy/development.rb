@@ -1,4 +1,4 @@
-# For use in first ansible deploy
+# For development
 set :stage, :development
 set :rails_env, 'development'
 set :deploy_to, '/storage/www/murax'
