@@ -41,7 +41,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :local_user, -> { `git config user.name`.chomp }
 
 # Default value for keep_releases is 5
-set :keep_releases, 5
+set :keep_releases, 3
 
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
@@ -71,14 +71,15 @@ set :keep_releases, 5
 # # FIRST_DEPLOY=true bundle exec cap production deploy
 if ENV['FIRST_DEPLOY']
   after :deploy, 'db:seed'
+  after :deploy, 'hyrax:roles'
 end
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
-#namespace :deploy do
-#  after :finishing, :restart_apache do
-#    on roles(:app) do
-#      execute :sudo, :systemctl, :restart, :apache2
-#    end
-#  end
-#end
+namespace :deploy do
+  after :finishing, :restart_apache do
+    on roles(:app) do
+      execute :sudo, :systemctl, :restart, :httpd
+    end
+  end
+end
