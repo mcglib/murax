@@ -38,4 +38,13 @@ require "capistrano/sidekiq"
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
-require 'capistrano/honeybadger'
+# First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
+# # FIRST_DEPLOY=true bundle exec cap production deploy
+#if ENV['FIRST_DEPLOY']
+#   require 'capistrano/rails/migrations'
+#end
+
+
+#require 'capistrano/honeybadger'
+#
+require 'sshkit/sudo'

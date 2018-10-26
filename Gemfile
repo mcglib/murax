@@ -36,6 +36,12 @@ gem 'redis', '~> 4.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'whenever', require: false
+gem 'xray-rails'
+
+gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
+gem 'ffaker' # Needed so we can load fixtures for demos in production
+
 group :development, :test do
   gem 'bixby'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -71,6 +77,7 @@ group :development do
   gem 'binding_of_caller'
 end
 
+gem 'sshkit-sudo'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
@@ -84,6 +91,12 @@ gem 'jquery-rails'
 gem 'hydra-role-management'
 gem 'clamav'
 gem 'sidekiq'
+
+# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
+# gem 'turbolinks', '~> 5'
+# gem 'twitter-bootstrap-rails'
+
+
 
 gem 'riiif', '~> 1.1'
 
