@@ -67,6 +67,7 @@ set :keep_releases, 5
 #  end
 #end
 
+after :deploy, 'db:seed'
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
