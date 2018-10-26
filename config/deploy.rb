@@ -79,7 +79,7 @@ end
 namespace :deploy do
   after :finishing, :restart_apache do
     on roles(:app) do
-      execute :sudo, :systemctl, :restart, :httpd
+      sudo :service, :httpd, :reload
     end
   end
 end
