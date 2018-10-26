@@ -37,16 +37,29 @@ gem 'redis', '~> 4.0'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'bixby'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
+  gem 'capistrano', '3.9.0'
+  gem 'capistrano-bundler'
+  gem 'capistrano-passenger'
+  gem 'capistrano-rails'
+  gem 'capistrano-sidekiq'
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'solr_wrapper', '>= 0.3'
-  gem 'rspec-rails'
   gem 'fcrepo_wrapper'
+  gem 'rspec-rails'
 end
+
+group :test do
+  gem 'capybara', '~> 2.13'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+end
+
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -68,9 +81,9 @@ gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
 gem 'rsolr', '>= 1.0'
 gem 'jquery-rails'
+gem 'hydra-role-management'
 gem 'clamav'
 gem 'sidekiq'
 
 gem 'riiif', '~> 1.1'
 
-gem 'hydra-role-management'
