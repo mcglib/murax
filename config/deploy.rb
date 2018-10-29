@@ -75,6 +75,7 @@ if ENV['FIRST_DEPLOY']
   after :deploy, 'murax:create_collections'
   after :deploy, 'hyrax:create_admin_set'
   after :deploy, 'hyrax:generate_work'
+  after :deploy, 'murax:create_roles'
 end
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure

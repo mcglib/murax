@@ -58,6 +58,7 @@ group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 
 group :test do
@@ -75,6 +76,9 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'pry'
+  gem 'pry-byebug'
+
 end
 
 gem 'sshkit-sudo'
