@@ -99,7 +99,5 @@ gem 'sidekiq'
 # gem 'turbolinks', '~> 5'
 # gem 'twitter-bootstrap-rails'
 
-
-
 gem 'riiif', '~> 1.1'
 
