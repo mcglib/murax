@@ -4,17 +4,25 @@ default: &default
   url: <%= ENV['FEDORA_URL']  %>
 
 development:
-  <<: *default
-  base_path: /samvera
+  user: <%= ENV['FEDORA_USER'] %>
+  password: <%= ENV['FEDORA_PASSWORD'] %>
+  url: <%= ENV['FEDORA_URL']  %>
+  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_development
 
 test:
-  <<: *default
-  base_path: /test
+  user: <%= ENV['FEDORA_USER'] %>
+  password: <%= ENV['FEDORA_PASSWORD'] %>
+  url: <%= ENV['FEDORA_URL']  %>
+  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_test
 
 staging:
-  <<: *default
-  base_path: /staging
+  user: <%= ENV['FEDORA_USER'] %>
+  password: <%= ENV['FEDORA_PASSWORD'] %>
+  url: <%= ENV['FEDORA_URL']  %>
+  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_staging
 
 production:
-  <<: *default
-  base_path: /production
+  user: <%= ENV['FEDORA_USER'] %>
+  password: <%= ENV['FEDORA_PASSWORD'] %>
+  url: <%= ENV['FEDORA_URL']  %>
+  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_prod
