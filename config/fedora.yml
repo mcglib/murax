@@ -7,22 +7,22 @@ development:
   user: <%= ENV['FEDORA_USER'] %>
   password: <%= ENV['FEDORA_PASSWORD'] %>
   url: <%= ENV['FEDORA_URL']  %>
-  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_development
+  base_path: /<%= ENV['FEDORA_BASE_PATH'] %>_development
 
 test:
   user: <%= ENV['FEDORA_USER'] %>
   password: <%= ENV['FEDORA_PASSWORD'] %>
   url: <%= ENV['FEDORA_URL']  %>
-  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_test
+  base_path: /<%= ENV['FEDORA_BASE_PATH'] %>_test
 
 staging:
   user: <%= ENV['FEDORA_USER'] %>
   password: <%= ENV['FEDORA_PASSWORD'] %>
   url: <%= ENV['FEDORA_URL']  %>
-  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_staging
+  base_path: /<%= ENV['FEDORA_BASE_PATH'] %>_staging
 
 production:
   user: <%= ENV['FEDORA_USER'] %>
   password: <%= ENV['FEDORA_PASSWORD'] %>
   url: <%= ENV['FEDORA_URL']  %>
-  base_path: /<%= ENV['FEDORA_BASEPATH'] %>_prod
+  base_path: /<%= ENV['FEDORA_BASE_PATH'] %>_prod
