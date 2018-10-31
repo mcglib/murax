@@ -71,7 +71,7 @@ set :keep_releases, 3
 # # FIRST_DEPLOY=true bundle exec cap production deploy
 if ENV['FIRST_DEPLOY']
   after :deploy, 'db:seed'
-  after :deploy, 'murax:create_collections'
+  after :deploy, 'hyrax:create_collections'
   after :deploy, 'hyrax:create_admin_set'
   after :deploy, 'hyrax:generate_work'
 end

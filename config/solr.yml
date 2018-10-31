@@ -6,5 +6,5 @@ test:
 staging:
   url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>
 production:
-    #url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>
-    url: http://dgeneral.library.mcgill.ca:8983/solr/murax
+    url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>
+    #url: http://dgeneral.library.mcgill.ca:8983/solr/murax
