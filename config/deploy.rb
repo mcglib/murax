@@ -8,6 +8,9 @@ set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
 set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
 set :tmp_dir, '/storage/www/tmp'
+
+set :bundle_env_variables, nokogiri_use_system_libraries: 1
+
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
 
@@ -42,6 +45,9 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Default value for keep_releases is 5
 set :keep_releases, 3
+
+
+SSHKit.config.command_map[:rake] = 'bundle exec rake'
 
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined

@@ -12,8 +12,6 @@ require "capistrano/deploy"
 # require "capistrano/scm/svn"
 # install_plugin Capistrano::SCM::Svn
 # or
-require "capistrano/scm/git"
-install_plugin Capistrano::SCM::Git
 
 # Include tasks from other gems included in your Gemfile
 #
@@ -32,19 +30,17 @@ install_plugin Capistrano::SCM::Git
 require "capistrano/bundler"
 require "capistrano/rails/assets"
 require "capistrano/rails/migrations"
-#require "capistrano/passenger"
+require 'sshkit/sudo'
 require "capistrano/sidekiq"
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
+require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 # First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
-# # FIRST_DEPLOY=true bundle exec cap production deploy
-#if ENV['FIRST_DEPLOY']
-#   require 'capistrano/rails/migrations'
-#end
 
 
 #require 'capistrano/honeybadger'
 #
-require 'sshkit/sudo'
