@@ -42,6 +42,13 @@ gem 'xray-rails'
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 
+gem 'tinymce-rails'
+
+gem 'twitter-bootstrap-rails'
+
+gem 'yard'
+gem 'webpacker', '~> 3.5'
+
 group :development, :test do
   gem 'bixby'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

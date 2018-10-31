@@ -1,10 +1,10 @@
 # This is a sample config file that points to a solr server for each environment
 development:
-  url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>
+  url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>_dev
 test:
   url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>_test
 staging:
-  url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>
+  url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>_qa
 production:
-    #url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>
-    url: http://dgeneral.library.mcgill.ca:8983/solr/murax
+    url: <%= ENV['SOLR_URL'] %>/<%= ENV['SOLR_CORE'] %>_prod
+    #url: http://dgeneral.library.mcgill.ca:8983/solr/murax
