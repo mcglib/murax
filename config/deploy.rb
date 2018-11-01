@@ -9,6 +9,9 @@ set :rails_env, 'production'
 set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
 set :tmp_dir, '/storage/www/tmp'
 
+set :log_level, :debug
+set :bundle_flags, '--deployment'
+
 set :bundle_env_variables, nokogiri_use_system_libraries: 1
 
 # Default branch is :master
@@ -36,6 +39,9 @@ append :linked_files, ".env.production"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_dirs, "public/assets"
+append :linked_dirs, "tmp/sockets"
+
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
