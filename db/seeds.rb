@@ -17,7 +17,7 @@ roles.each do |role|
   Role.create(name: "#{role}")
 end
 
-# Add admin to all the admin role
+# Add u  to all the admin role
 admin_role = Role.find_or_create_by(name: 'admin')
 admin_role.users << u
 admin_role.save
