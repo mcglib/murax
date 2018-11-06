@@ -41,6 +41,7 @@ Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 # First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
 
+#require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
 #

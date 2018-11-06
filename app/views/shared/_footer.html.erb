@@ -27,13 +27,7 @@
 
     <div class="pull-right col-md-4" id="copyright">
       <span> &copy; <%= Date.today.year %> Samvera-Hyrax </span>
-      <br> Murax Version
-      <div class="version">
-        ENV: <%= Rails.env %>
-        <br>SHA: <%= GIT_SHA %>
-        <br>Branch: <%= BRANCH %>
-        <br>Updated: <%= LAST_DEPLOYED %>
-      </div>
+      <br> <%= application_name %>  Version
     </div>
   </div>
 </div>

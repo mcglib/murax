@@ -49,3 +49,8 @@ end
 every :day, at: '2:00am' do
   rake "Hyrax::RepositoryFixityCheckService.fixity_check_everything"
 end
+
+# Update user stats on a daily basis
+every :day, at: '2:00am' do
+   rake "hyrax:stats:user_stats"
+end
