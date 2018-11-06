@@ -101,7 +101,7 @@ Hyrax.config do |config|
 
   # Location autocomplete uses geonames to search for named regions
   # Username for connecting to geonames
-  config.geonames_username = 'nuraxdemo'
+  config.geonames_username = 'murax'
 
   # Should the acceptance of the licence agreement be active (checkbox), or
   # implied when the save button is pressed? Set to true for active
@@ -165,7 +165,7 @@ Hyrax.config do |config|
   # config.audit_user_key = 'audituser@example.com'
   #
   # The banner image. Should be 5000px wide by 1000px tall
-  config.banner_image = 'https://user-images.githubusercontent.com/101482/29949206-ffa60d2c-8e67-11e7-988d-4910b8787d56.jpg'
+  config.banner_image = 'http://digitool.library.mcgill.ca/icon/library_en.jpg'
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately
@@ -205,7 +205,7 @@ Hyrax.config do |config|
   # config.owner_permission_levels = { "Edit Access" => "edit" }
 
   # Path to the ffmpeg tool
-  # config.ffmpeg_path = 'ffmpeg'
+  config.ffmpeg_path = 'ffmpeg'
 
   # Max length of FITS messages to display in UI
   # config.fits_message_length = 5
