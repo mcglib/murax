@@ -42,5 +42,10 @@ end
 
 # Remove files in /tmp owned by the dev.library user that are older than 7 days
 every :day, at: '1:00am' do
-  command "/usr/bin/find /tmp -type f -mtime +7 -user dev.library -execdir /bin/rm -- {} \\;"
+  command "/usr/bin/find /storage/www/tmp -type f -mtime +7 -user dev.library -execdir /bin/rm -- {} \\;"
+end
+
+# Run Fixity checking
+every :day, at: '2:00am' do
+  rake "Hyrax::RepositoryFixityCheckService.fixity_check_everything"
 end

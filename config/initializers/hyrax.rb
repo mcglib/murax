@@ -74,7 +74,7 @@ Hyrax.config do |config|
   # config.noid_minter_class = ActiveFedora::Noid::Minter::Db
 
   # Store identifier minter's state in a file for later replayability
-  # config.minter_statefile = '/tmp/minter-state'
+  config.minter_statefile = '/storage/www/tmp/minter-state'
 
   # Prefix for Redis keys
   # config.redis_namespace = "hyrax"
@@ -174,7 +174,7 @@ Hyrax.config do |config|
 
   # Location on local file system where derivatives will be stored
   # If you use a multi-server architecture, this MUST be a shared volume
-  config.derivatives_path = ENV['DERIVATIVES_PATH'] || '/opt/derivatives'
+  config.derivatives_path = ENV['DERIVATIVES_PATH'] || '/storage/www/derivatives'
 
   # Should schema.org microdata be displayed?
   # config.display_microdata = true
