@@ -51,8 +51,8 @@ en:
       suffix: "@example.org"
     footer:
       copyright_html: "<strong>Copyright &copy; 2019 Samvera</strong> Licensed under the Apache License, Version 2.0"
-      service_html: A service of <a href="http://samvera.org/" class="navbar-link" target="_blank">Samvera</a>.
-    institution_name: Institution
+      service_html: A service of <a href="https://www.mcgill.ca/library" class="navbar-link" target="_blank">McGill University Library</a>.
+    institution_name: McGill Library
     institution_name_full: McGill University Library
     product_name: Digitool Revised
-    product_twitter_handle: "@SamveraRepo"
+    product_twitter_handle: "@mcgill_library"
