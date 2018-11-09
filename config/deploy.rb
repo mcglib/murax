@@ -6,7 +6,8 @@ set :repo_url, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
-set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
+set :ssh_options, keys: ['~/.ssh/id_new_rsa'] if File.exist?('~/.ssh/id_new_rsa')
+set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 
 set :log_level, :debug

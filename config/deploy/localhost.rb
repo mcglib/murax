@@ -2,5 +2,8 @@
 set :stage, :production
 set :rails_env, 'production'
 set :deploy_to, '/storage/www/murax'
-set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
-server '127.0.0.1', user: 'dev.library', roles: [:web, :app, :db]
+set :repository_cache, "git_cache"
+set :branch, "master"
+set :ssh_options, keys: ['id_new_rsa'] if File.exist?('id_new_rsa')
+#set :ssh_options, { :forward_agent => true }
+server 'localhost', user: 'dev.library', roles: [:web, :app, :db]
