@@ -7,6 +7,7 @@ variables:
 
 
 before_script:
+  -  subscription-manager repos --list-enabled | grep "Repo ID" | tr -s " " | perl -l -a -n -e 'print $F[2]'
   - yum install rh-ruby25-ruby rh-ruby25-ruby-devel
   - ruby -v
   - which ruby
