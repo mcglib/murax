@@ -1,4 +1,5 @@
 before_script:
+  - yum install rh-ruby25-ruby rh-ruby25-ruby-devel
   - ruby -v
   - which ruby
   - gem install bundler --no-ri --no-rdoc
