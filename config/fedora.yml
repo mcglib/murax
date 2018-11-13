@@ -1,23 +1,20 @@
 default: &default
-  user: <% ENV['FCREPO_ADMIN_USER'] %>
-  password: <% ENV['FCREPO_ADMIN_PASSWORD'] %>
+  user: <%= ENV['FEDORA_USER'] %>
+  password: <%= ENV['FEDORA_PASSWORD'] %>
+  url: <%= ENV['FEDORA_URL']  %>
 
 development:
   <<: *default
-  url: http://<% ENV['FCREPO_DEVELOPMENT_HOST'] %>:<%= ENV['FCREPO_DEVELOPMENT_PORT'] || 8080 %>/rest
-  base_path: /<% ENV['FCREPO_DEVELOPMENT_BASE_PATH'] || 'fcrepo' %>
+  base_path: /samvera
 
 test:
   <<: *default
-  url: http://<% ENV['FCREPO_TEST_HOST'] %>:<%= ENV['FCREPO_TEST_PORT'] || 8080 %>/rest
-  base_path: /<% ENV['FCREPO_TEST_BASE_PATH'] || 'fcrepo_test' %>
+  base_path: /test
 
 staging:
   <<: *default
-  url: http://<% ENV['FCREPO_STAGING_HOST'] %>:<%= ENV['FCREPO_STAGING_PORT'] || 8080 %>/rest
-  base_path: /<% ENV['FCREPO_STAGING_BASE_PATH'] || 'fcrepo' %>
+  base_path: /staging
 
 production:
   <<: *default
-  url: http://<% ENV['FCREPO_PROD_HOST'] %>:<%= ENV['FCREPO_PROD_PORT'] || 8080 %>/rest
-  base_path: /<% ENV['FCREPO_PROD_BASE_PATH'] || 'fcrepo' %>
+  base_path: /production
