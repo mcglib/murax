@@ -1,3 +1,11 @@
+image: registry.it.mcgill.ca/docker/rhel7-ansible
+
+variables:
+  # make sure that your .gitmodules file is configured to use relative paths!
+  GIT_SUBMODULE_STRATEGY: recursive
+  ANSIBLE_CONFIG: /builds/lts/LIRAP//ansible.cfg
+
+
 before_script:
   - yum install rh-ruby25-ruby rh-ruby25-ruby-devel
   - ruby -v
@@ -5,10 +13,27 @@ before_script:
   - gem install bundler --no-ri --no-rdoc
   - bundle install --jobs $(nproc) "${FLAGS[@]}"
 
+stages:
+  - test
+  - deploy_dev
+  - deploy_qa
+  - deploy_prod
+  - cleanup
+
 rspec:
+  stage: deploy_dev
   script:
     - bundle exec rspec
+  when: always
 
 rubocop:
   script:
     - bundle exec rubocop
+  when: always
+
+cleanup:
+  stage: cleanup
+  script:
+    - rm -rf .vault-password
+    - rm -rf /root/.ssh
+  when: always
