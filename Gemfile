@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'rb-readline'
 gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -42,6 +43,13 @@ gem 'xray-rails'
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 
+gem 'tinymce-rails'
+
+gem 'twitter-bootstrap-rails'
+
+gem 'yard'
+gem 'webpacker', '~> 3.5'
+
 group :development, :test do
   gem 'bixby'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -58,10 +66,10 @@ group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 
 group :test do
-  gem 'capybara', '~> 2.13'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
 end
@@ -75,6 +83,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'better_errors'
   gem 'binding_of_caller'
+  #gem 'pry'
+  #gem 'pry-byebug'
 end
 
 gem 'sshkit-sudo'
@@ -95,8 +105,6 @@ gem 'sidekiq'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # gem 'turbolinks', '~> 5'
 # gem 'twitter-bootstrap-rails'
-
-
 
 gem 'riiif', '~> 1.1'
 

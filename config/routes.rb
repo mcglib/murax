@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+        mount BrowseEverything::Engine => '/browse'
   
   mount Riiif::Engine => 'images', as: :riiif if Hyrax.config.iiif_image_server?
     concern :searchable, Blacklight::Routes::Searchable.new
@@ -32,8 +33,10 @@ Rails.application.routes.draw do
   mount Blacklight::Engine => '/'
   
   require 'sidekiq/web'
+
   authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
+
  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

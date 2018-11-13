@@ -6,10 +6,20 @@ set :repo_url, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
-set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
+set :ssh_options, keys: ['~/.ssh/id_new_rsa'] if File.exist?('~/.ssh/id_new_rsa')
+set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
+
+set :log_level, :debug
+set :bundle_flags, '--deployment'
+
+set :bundle_env_variables, nokogiri_use_system_libraries: 1
+
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
+
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
@@ -33,6 +43,9 @@ append :linked_files, ".env.production"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_dirs, "public/assets"
+append :linked_dirs, "tmp/sockets"
+
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -42,6 +55,9 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Default value for keep_releases is 5
 set :keep_releases, 3
+
+
+SSHKit.config.command_map[:rake] = 'bundle exec rake'
 
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
@@ -70,11 +86,10 @@ set :keep_releases, 3
 # First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
 # # FIRST_DEPLOY=true bundle exec cap production deploy
 if ENV['FIRST_DEPLOY']
-  after :deploy, 'db:seed'
-  after :deploy, 'hyrax:roles'
-  after :deploy, 'murax:create_collections'
-  after :deploy, 'hyrax:create_admin_set'
-  after :deploy, 'hyrax:generate_work'
+  #after :deploy, 'db:seed'
+  #after :deploy, 'murax:create_collections'
+  after :deploy, 'murax:create_admin_set'
+  #after :deploy, 'murax:generate_work'
 end
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
