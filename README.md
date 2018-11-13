@@ -1,5 +1,8 @@
 # README
 
+[![pipeline status](https://gitlab.ncs.mcgill.ca/lts/murax/badges/master/pipeline.svg)](https://gitlab.ncs.mcgill.ca/lts/murax/commits/master)
+
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
