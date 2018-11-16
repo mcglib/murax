@@ -60,6 +60,7 @@ group :development, :test do
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'
+  gem 'capistrano-rbenv', '~> 2.1'
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
