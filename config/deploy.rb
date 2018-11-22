@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
-set :rbenv_ruby, '2.5.2'
+set :rbenv_ruby, '2.5.3'
 set :rbenv_type, :user
 
 set :application, "murax"
@@ -9,7 +9,7 @@ set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/mur
 set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
-set :ssh_options, keys: ['~/.ssh/id_new_rsa'] if File.exist?('~/.ssh/id_new_rsa')
+set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 
