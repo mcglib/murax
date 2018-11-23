@@ -3,7 +3,7 @@ require 'active_fedora/cleaner'
 namespace :murax do
   include ActiveFedora::Cleaner
   desc "Clean out the fedora datasets etc"
-  task clean_out_fedora: [:environment] do
+  task :clean_out_fedora do
     ActiveFedora::Cleaner.clean!
   end
 
