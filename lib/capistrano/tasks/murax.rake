@@ -1,3 +1,5 @@
+require 'active_fedora/cleaner'
+
 namespace :murax do
   desc "Create the default collections"
   task :create_collections do

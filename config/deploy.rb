@@ -90,6 +90,7 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # # FIRST_DEPLOY=true bundle exec cap production deploy
 if ENV['FIRST_DEPLOY']
   after :deploy, 'db:seed'
+  after :deploy, 'murax:clean_out_fedora'
   after :deploy, 'murax:create_collections'
   after :deploy, 'murax:create_admin_set'
   after :deploy, 'murax:generate_work'
