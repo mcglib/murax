@@ -48,8 +48,8 @@ gem 'tinymce-rails'
 gem 'twitter-bootstrap-rails'
 
 gem 'yard'
-#gem 'webpacker', '~> 3.5'
-gem 'webpacker', '>= 4.0.x'
+gem 'webpacker', '~> 3.5'
+#gem 'webpacker', '>= 4.0.x'
 
 group :development, :test do
   gem 'bixby'
