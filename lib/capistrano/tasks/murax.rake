@@ -1,6 +1,12 @@
 require 'active_fedora/cleaner'
 
 namespace :murax do
+  include ActiveFedora::Cleaner
+  desc "Clean out the fedora datasets etc"
+  task clean_out_fedora: [:environment] do
+    ActiveFedora::Cleaner.clean!
+  end
+
   desc "Create the default collections"
   task :create_collections do
     on roles(:app) do

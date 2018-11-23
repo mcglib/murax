@@ -99,9 +99,29 @@ end
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
 namespace :deploy do
+# @example
+# # bundle exec cap staging deploy:invoke task=salesforce:sync_accounts
+  desc "Invoke rake task"
+  task :invoke do
+    fail 'no task provided' unless ENV['task']
+    on roles(:app) do
+      within release_path do
+          with rails_env: fetch(:rails_env) do
+              execute :rake, ENV['task']
+          end
+      end
+    end
+  end
+
   after :finishing, :restart_apache do
     on roles(:app) do
       sudo :service, :httpd, :reload
     end
   end
 end
+
+
+
+
+
+
