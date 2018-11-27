@@ -1,10 +1,14 @@
-require 'active_fedora/cleaner'
 
 namespace :murax do
-  include ActiveFedora::Cleaner
-  desc "Clean out the fedora datasets etc"
-  task :clean_out_fedora do
-    ActiveFedora::Cleaner.clean!
+  desc "Erase / Clear out fedora data"
+  task :clear_fedora do
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+         execute :rake, 'murax:fedora_clean'
+        end
+      end
+    end
   end
 
   desc "Create the default collections"
