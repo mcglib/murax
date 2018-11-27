@@ -40,6 +40,9 @@ gem 'redis', '~> 4.0'
 gem 'whenever', require: false
 gem 'xray-rails'
 
+gem 'capistrano-locally', require: false
+
+
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 

@@ -1,6 +1,16 @@
 require 'active_fedora/cleaner'
 namespace :murax do
-
+  desc ' Clear out all the fedora data'
+  task :clean_out_fedora do
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+          ActiveFedora::Cleaner.clean!
+         execute :rake, 'hyrax:default_admin_set:create'
+        end
+      end
+    end
+  end
 
   desc 'Loop over all objects and regenerative derivatives'
   task regenerate_derivatives: [:environment] do
