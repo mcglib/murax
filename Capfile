@@ -5,6 +5,9 @@ require "capistrano/setup"
 # Include default deployment tasks
 require "capistrano/deploy"
 
+# Load custom tasks from `lib/capistrano/tasks` if you have any defined
+Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
+
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"
@@ -36,9 +39,6 @@ require "capistrano/sidekiq"
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 #require "capistrano/passenger"
-
-# Load custom tasks from `lib/capistrano/tasks` if you have any defined
-Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 # First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
 
