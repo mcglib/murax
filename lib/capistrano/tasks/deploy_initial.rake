@@ -4,9 +4,9 @@ namespace :deploy do
   task :initial do
     before "deploy:migrate", "deploy:clear"
     before "deploy:migrate", "deploy:clear_fedora"
+    after "deploy:migrate", "deploy:create_collections"
+    after "deploy:migrate", "deploy:create_admin_set"
     after "deploy:migrate", "db:seed"
-    #after "deploy:migrate", "murax:create_collections"
-    #after "deploy:migrate", "murax:create_admin_set"
     invoke "deploy"
   end
   
