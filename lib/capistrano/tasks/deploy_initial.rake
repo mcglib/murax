@@ -2,9 +2,9 @@
 namespace :deploy do
   desc "Performs first deploy to a server by clearing the database before db:migrate"
   task :initial do
-    before "deploy:assets:precompile", "deploy:clear"
-    before "deploy:assets:precompile", "deploy:clear_fedora"
-    #after "deploy:migrate", "db:seed"
+    before "deploy:migrate", "deploy:clear"
+    before "deploy:migrate", "deploy:clear_fedora"
+    after "deploy:migrate", "db:seed"
     #after "deploy:migrate", "murax:create_collections"
     #after "deploy:migrate", "murax:create_admin_set"
     invoke "deploy"
