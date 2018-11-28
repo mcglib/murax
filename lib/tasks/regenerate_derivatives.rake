@@ -1,6 +1,23 @@
 require 'active_fedora/cleaner'
+require 'active_record'
 namespace :murax do
   include ActiveFedora::Cleaner
+  desc ' Clear out all the fedora data'
+  task fedora_clean: [:environment] do
+       ActiveFedora::Cleaner.clean!
+       ActiveFedora::SolrService.instance.conn.delete_by_query('*:*', params: { 'softCommit' => true })
+  end
+
+  desc ' Clear out all the DB tables'
+  task db_clean: [:environment] do
+  	conn = ActiveRecord::Base.connection
+  	tables = conn.tables
+  	tables.each do |table|
+    	   puts "Deleting #{table}"
+    	   conn.drop_table(table, {:force=>:cascade} )
+  	end
+  end
+
   desc 'Loop over all objects and regenerative derivatives'
   task regenerate_derivatives: [:environment] do
     Hyrax.config.curation_concerns.each do |concern|
