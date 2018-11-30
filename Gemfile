@@ -40,6 +40,9 @@ gem 'redis', '~> 4.0'
 gem 'whenever', require: false
 gem 'xray-rails'
 
+gem 'capistrano-locally', require: false
+
+
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 
@@ -49,6 +52,7 @@ gem 'twitter-bootstrap-rails'
 
 gem 'yard'
 gem 'webpacker', '~> 3.5'
+#gem 'webpacker', '>= 4.0.x'
 
 group :development, :test do
   gem 'bixby'
@@ -60,6 +64,7 @@ group :development, :test do
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'
+  gem 'capistrano-rbenv', '~> 2.1'
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
@@ -71,7 +76,6 @@ end
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
 end
 
 

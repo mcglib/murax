@@ -1,12 +1,15 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
+set :rbenv_ruby, '2.5.3'
+set :rbenv_type, :user
+
 set :application, "murax"
-set :repo_url, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
-set :repository, "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
 set :rails_env, 'production'
-set :ssh_options, keys: ['~/.ssh/id_new_rsa'] if File.exist?('~/.ssh/id_new_rsa')
+set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 
@@ -86,18 +89,38 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
 # # FIRST_DEPLOY=true bundle exec cap production deploy
 if ENV['FIRST_DEPLOY']
-  #after :deploy, 'db:seed'
+  #after :deploy, 'murax:clean_out_fedora'
   #after :deploy, 'murax:create_collections'
-  after :deploy, 'murax:create_admin_set'
+  #after :deploy, 'murax:create_admin_set'
   #after :deploy, 'murax:generate_work'
 end
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
 namespace :deploy do
+# @example
+# # bundle exec cap staging deploy:invoke task=salesforce:sync_accounts
+  desc "Invoke rake task"
+  task :invoke do
+    fail 'no task provided' unless ENV['task']
+    on roles(:app) do
+      within release_path do
+          with rails_env: fetch(:rails_env) do
+              execute :rake, ENV['task']
+          end
+      end
+    end
+  end
+
   after :finishing, :restart_apache do
     on roles(:app) do
       sudo :service, :httpd, :reload
     end
   end
 end
+
+
+
+
+
+
