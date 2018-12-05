@@ -13,6 +13,9 @@ set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 
+set :migration_role, :app
+
+
 set :log_level, :debug
 set :bundle_flags, '--deployment'
 
@@ -23,6 +26,9 @@ set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
 
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
+
+# Skip migration if files in db/migrate were not modified
+set :conditionally_migrate, true
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
@@ -65,35 +71,30 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
 # tasks before re-defining them.
-#Rake::Task["sidekiq:stop"].clear_actions
-#Rake::Task["sidekiq:start"].clear_actions
-#Rake::Task["sidekiq:restart"].clear_actions
-#namespace :sidekiq do
-#  task :stop do
-#    on roles(:app) do
-#      execute :sudo, :systemctl, :stop, :sidekiq
-#    end
-#  end
-#  task :start do
-#    on roles(:app) do
-#      execute :sudo, :systemctl, :start, :sidekiq
-#    end
-#  end
-#  task :restart do
-#    on roles(:app) do
-#      execute :sudo, :systemctl, :restart, :sidekiq
-#    end
-#  end
-#end
-
-# First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
-# # FIRST_DEPLOY=true bundle exec cap production deploy
-if ENV['FIRST_DEPLOY']
-  #after :deploy, 'murax:clean_out_fedora'
-  #after :deploy, 'murax:create_collections'
-  #after :deploy, 'murax:create_admin_set'
-  #after :deploy, 'murax:generate_work'
+Rake::Task["sidekiq:stop"].clear_actions
+Rake::Task["sidekiq:start"].clear_actions
+Rake::Task["sidekiq:restart"].clear_actions
+namespace :sidekiq do
+  task :stop do
+    on roles(:app) do
+      execute :sudo, :systemctl, :stop, :sidekiq
+      #sudo :systemctl, :stop, :sidekiq
+    end
+  end
+  task :start do
+    on roles(:app) do
+      execute :sudo, :systemctl, :start, :sidekiq
+      #sudo :systemctl, :start, :sidekiq
+    end
+  end
+  task :restart do
+    on roles(:app) do
+      execute :sudo, :systemctl, :restart, :sidekiq
+      #sudo :systemctl, :restart, :sidekiq
+    end
+  end
 end
+
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
