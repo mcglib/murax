@@ -86,14 +86,6 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 #  end
 #end
 
-# First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
-# # FIRST_DEPLOY=true bundle exec cap production deploy
-if ENV['FIRST_DEPLOY']
-  #after :deploy, 'murax:clean_out_fedora'
-  #after :deploy, 'murax:create_collections'
-  #after :deploy, 'murax:create_admin_set'
-  #after :deploy, 'murax:generate_work'
-end
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
