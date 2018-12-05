@@ -106,7 +106,7 @@ namespace :deploy do
 
   after :finishing, :restart_apache do
     on roles(:app) do
-      sudo :service, :httpd, :reload
+      sudo :systemctl, :reload, :httpd
     end
   end
 end
