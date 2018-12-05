@@ -12,7 +12,6 @@ set :rails_env, 'production'
 set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
-
 set :migration_role, :app
 
 
@@ -94,7 +93,6 @@ namespace :sidekiq do
     end
   end
 end
-
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
