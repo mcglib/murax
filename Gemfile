@@ -37,6 +37,10 @@ gem 'redis', '~> 4.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'curb', '~> 0.9.4'
+
+gem 'awesome-print'
+
 gem 'whenever', require: false
 gem 'xray-rails'
 
