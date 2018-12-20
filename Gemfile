@@ -39,7 +39,7 @@ gem 'redis', '~> 4.0'
 
 gem 'curb', '~> 0.9.4'
 
-gem 'awesome-print'
+gem 'awesome_print'
 
 gem 'whenever', require: false
 gem 'xray-rails'
