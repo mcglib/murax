@@ -1,3 +1,4 @@
+# Require capistrano locally
 require 'capistrano/locally'
 # Load DSL and set up stages
 require "capistrano/setup"
@@ -9,13 +10,8 @@ require "capistrano/deploy"
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 # Load the SCM plugin appropriate to your project:
-#
-# require "capistrano/scm/hg"
-# install_plugin Capistrano::SCM::Hg
-# or
-# require "capistrano/scm/svn"
-# install_plugin Capistrano::SCM::Svn
-# or
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
 
 # Include tasks from other gems included in your Gemfile
 #
@@ -28,21 +24,15 @@ Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 #   https://github.com/capistrano/rails
 #   https://github.com/capistrano/passenger
 #
-# require "capistrano/rvm"
 require "capistrano/rbenv"
-# require "capistrano/chruby"
 require "capistrano/bundler"
-require "capistrano/rails/assets"
 require "capistrano/rails/migrations"
+require "capistrano/rails/assets"
 require 'sshkit/sudo'
 require "capistrano/sidekiq"
-require "capistrano/scm/git"
-install_plugin Capistrano::SCM::Git
 #require "capistrano/passenger"
 
-# First time deploy tasks  can be run  by setting up local 'FIRST_DEPLOY' variable, i.e.
-
-require "whenever/capistrano"
+#require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
-#
+

@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: postgres:9.6-alpine
+    ports:
+      - "5432:5432"
+  solr:
+    image: solr:7.3
+    ports:
+      - "3000:3000"
+  fedora:
+    image:  yinlinchen/fcrepo4-docker
+    ports:
+      - "8080:8080"
+  web:
+    build: .
+    command: bin/rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+      - fedora
+      - solr
