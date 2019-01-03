@@ -1,10 +1,18 @@
-# sshd
-#
-# VERSION 0.0.1
+FROM ubuntu:16.04
+RUN apt-get update
+RUN apt-get install locales
 
-FROM drecom/centos-base:latest AS build
+# Set the locale
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
-MAINTAINER Drecom Technical Development Department <pr_itn@drecom.co.jp>
+# Install dependencies
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update
+RUN apt-get install -qq wget unzip build-essential cmake gcc libcunit1-dev libudev-dev git redis-server curl \
+&& apt-get install -qq libssl-dev libreadline-dev zlib1g-dev
 
 RUN git clone git://github.com/rbenv/rbenv.git /usr/local/rbenv \
 && git clone git://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
@@ -38,12 +46,3 @@ ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
 RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
 && echo 'eval "$(rbenv init -)"' >> /root/.bashrc \
-&& yum -y install epel-release make gcc git libxslt-devel openssl-devel mysql-devel redis sqlite-devel bzip2 clamav-devel clamav-lib clamav
-
-ENV APP_PATH /usr/src/app
-
-# Different layer for gems installation
-WORKDIR $APP_PATH
-ADD Gemfile $APP_PATH
-ADD Gemfile.lock $APP_PATH
-RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3

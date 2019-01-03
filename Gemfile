@@ -107,7 +107,7 @@ gem 'devise-guests', '~> 0.6'
 gem 'rsolr', '>= 1.0'
 gem 'jquery-rails'
 gem 'hydra-role-management'
-gem 'clamav'
+#gem 'clamav'
 gem 'sidekiq'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
