@@ -79,12 +79,39 @@ RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
 
 
 
+# install libreoffice and imagemagick
+RUN apt-get -qq install libreoffice imagemagick ffmpeg
+
+# Install YARN
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+&& apt-get -qq update && apt-get -qq install yarn
+
+# Install fits
+ENV FITS_VERSION 1.0.5
+ENV FITS_HOME /opt/$FITS_VERSION/install
+
+RUN apt-get -qq install ghostscript poppler-utils  nano lynx libsaxon-java unzip zlib1g-dev tcsh telnet
+
+RUN mkdir -p $FITS_HOME
+
+RUN cd $FITS_HOME \
+ && wget  http://projects.iq.harvard.edu/files/fits/files/fits-$FITS_VERSION.zip \
+ && unzip fits-$FITS_VERSION.zip
+RUN cd $FITS_HOME \
+ && chmod 755 $FITS_HOME/fits-$FITS_VERSION/fits.sh \ 
+ && cp -r $FITS_HOME/fits-$FITS_VERSION /usr/local/lib \
+ && ln -s $FITS_HOME/fits-$FITS_VERSION/fits.sh /usr/local/bin/fits.sh
+
 
 # Different layer for gems installation
 ENV APP_PATH /usr/src/app
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
+
+# install CAPISTRANO
+RUN gem install capistrano
 
 #RUN bundle update && bundle install --retry 5
 ENV GEM_HOME="/usr/local/bundle"
