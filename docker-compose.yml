@@ -1,5 +1,8 @@
 version: '3.3'
 
+volumes:
+  data:
+
 networks:
     appnetwork:
       driver: bridge
@@ -33,6 +36,14 @@ services:
     image: solr:7.0
     ports:
       - 8983:8983
+    volumes:
+      - data:/opt/solr/server/solr/mycores
+      - $PWD/solr/conf:/myconfig
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - murax
+      - /myconfig
     networks:
       appnetwork:
         aliases:

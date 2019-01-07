@@ -27,25 +27,24 @@ RUN cd /tmp \
 
 
 # Install Solr
-ENV SOLR_VERSION 7.5.0
-ENV SOLR_HOME /usr/local/tomcat/solr
+#ENV SOLR_VERSION 7.5.0
+#ENV SOLR_HOME /opt
 
-RUN cd /tmp \
-	&& mkdir -p /var/lib/tomcat/fcrepo4-data \
-	&& chmod g-w /var/lib/tomcat/fcrepo4-data \
-	&& curl -fSL http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz -o solr-$SOLR_VERSION.tgz \
-	&& curl -fSL http://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.2/commons-logging-1.1.2.jar -o commons-logging-1.1.2.jar \
-	&& mkdir -p "$SOLR_HOME"
+#RUN cd $SOLR_HOME \
+#    && wget -q http://www-eu.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz
 
-#RUN tar -xzf solr-"$SOLR_VERSION".tgz \
-#	&& cp -v /tmp/solr-"$SOLR_VERSION"/dist/solr-"$SOLR_VERSION".war /usr/local/tomcat/webapps/solr.war \
-#	&& cp "commons-logging-1.1.2.jar" /usr/local/tomcat/lib \
-#	&& cp /tmp/solr-"$SOLR_VERSION"/example/lib/ext/slf4j* /usr/local/tomcat/lib \
-#	&& cp /tmp/solr-"$SOLR_VERSION"/example/lib/ext/log4j* /usr/local/tomcat/lib \
-#	&& cp -Rv /tmp/solr-"$SOLR_VERSION"/example/solr/* $SOLR_HOME \
-#	&& touch /var/lib/tomcat/velocity.log
+#WORKDIR $SOLR_HOME
+#RUN tar xzf solr-$SOLR_VERSION.tgz solr-$SOLR_VERSION/bin/install_solr_service.sh --strip-components=2
 
-COPY config/schema.xml $SOLR_HOME/collection1/conf/
+#RUN apt-get install -y procps
+
+#RUN cd $SOLR_HOME \
+#    && bash ./install_solr_service.sh solr-$SOLR_VERSION.tgz
+
+#RUN service solr start \
+#&&  su - solr -c "$SOLR_HOME/solr/bin/solr create -c collection1 -n collection1"
+
+#COPY config/schema.xml $SOLR_HOME/solr/server/solr/configsets/_default/conf/
 
 
 WORKDIR /usr/local/tomcat
