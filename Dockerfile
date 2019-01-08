@@ -113,6 +113,15 @@ ADD Gemfile.lock $APP_PATH
 # install CAPISTRANO
 RUN gem install capistrano
 
+# for nokogiri
+RUN apt-get install -y libxml2-dev libxslt1-dev
+
+# for capybara-webkit
+#RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
+
+
+
+
 #RUN bundle update && bundle install --retry 5
 ENV GEM_HOME="/usr/local/bundle"
 ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
@@ -128,5 +137,19 @@ COPY ./docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 # Bundle installs with binstubs to our custom /bundle/bin volume path. Let system use those stubs.
+
+RUN a2enmod ssl
+RUN mkdir -p /storage/www/murax/public
+RUN mkdir -p /var/log/apache2/murax
+
+# Setup apache + passenger
+COPY ./docker/services/hyrax/config/apache_vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/services/hyrax/config/apache_sslredirect_vhost.conf /etc/apache2/sites-enabled/redirect.conf
+
+# Setup the apache ssl
+COPY ./docker/services/hyrax/config/cert.crt /etc/ssl/private/cert.crt
+COPY ./docker/services/hyrax/config/cert.key /etc/ssl/private/cert.key
+COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.crt
+
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
