@@ -71,6 +71,7 @@ services:
     build: .
     volumes:
       - .:/usr/src/app
+      - data:/storage/www/murax/shared/bundle
     depends_on:
       - postgres
       - fcrepo

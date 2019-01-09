@@ -140,6 +140,9 @@ RUN chmod +x /docker-entrypoint.sh
 
 RUN a2enmod ssl
 RUN mkdir -p /storage/www/murax/public
+RUN mkdir -p /storage/www/murax/releases
+RUN mkdir -p /storage/www/tmp
+RUN mkdir -p /storage/www/uploads
 RUN mkdir -p /var/log/apache2/murax
 
 # Setup apache + passenger
@@ -150,6 +153,12 @@ COPY ./docker/services/hyrax/config/apache_sslredirect_vhost.conf /etc/apache2/s
 COPY ./docker/services/hyrax/config/cert.crt /etc/ssl/private/cert.crt
 COPY ./docker/services/hyrax/config/cert.key /etc/ssl/private/cert.key
 COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.crt
+
+WORKDIR $APP_PATH
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 3000
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
