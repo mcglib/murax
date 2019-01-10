@@ -82,6 +82,15 @@ RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
 # install libreoffice and imagemagick
 RUN apt-get -qq install libreoffice imagemagick ffmpeg
 
+# for nokogiri
+RUN apt-get install -y libxml2-dev libxslt1-dev
+
+# for capybara-webkit
+#RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
+
+
+
+
 # Install YARN
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -110,16 +119,42 @@ WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
-# install CAPISTRANO
-RUN gem install capistrano
-
-# for nokogiri
-RUN apt-get install -y libxml2-dev libxslt1-dev
-
-# for capybara-webkit
-#RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
-
-
+# install global gems
+RUN echo $'gem install capistrano \
+ therubyracer \
+ rails-html-sanitizer \
+ mini_portile2 \
+ crass \
+ rails-dom-testing \
+ builder \
+ erubi \
+ thor \
+ method_source \
+ i18n \
+ concurrent-ruby \
+ tzinfo \
+ thread_safe \
+ rack \
+ i18n \
+ concurrent-ruby \
+ tzinfo \
+ thread_safe \
+ rack \
+ rack-test \
+ loofah \
+ nokogiri \
+ nio4r \
+ websocket-extensions \
+ globalid \
+ mini_mime \
+ mail \
+ sprockets \
+ sprockets-rails \
+ redis \
+ connection_pool \
+ rack-protection \
+ whenever' \
+ >> /etc/example.conf
 
 
 #RUN bundle update && bundle install --retry 5
