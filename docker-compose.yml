@@ -66,12 +66,13 @@ services:
       appnetwork:
         aliases:
             - fcrepo.docker.local
-  web:
+  hyrax:
     stdin_open: true
     build: .
     volumes:
       - .:/usr/src/app
       - data:/storage/www/murax/shared/bundle
+    command: bash /docker/startup.sh
     depends_on:
       - postgres
       - fcrepo
@@ -83,4 +84,4 @@ services:
     networks:
       appnetwork:
         aliases:
-            - web.docker.local
+            - hyrax.docker.local

@@ -133,8 +133,8 @@ ENV WAITFORIT_VERSION="v2.1.0"
 RUN curl -o /usr/local/bin/waitforit -sSL https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 && \
     chmod +x /usr/local/bin/waitforit
 
-COPY ./docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
+
+COPY ./docker/services/hyrax/config/sidekiq_systemd.init /etc/init.d/sidekiq
 
 # Bundle installs with binstubs to our custom /bundle/bin volume path. Let system use those stubs.
 
@@ -156,9 +156,23 @@ COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.c
 
 WORKDIR $APP_PATH
 
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+ENV STARTUP_PATH /docker
+RUN mkdir -p $STARTUP_PATH
+COPY ./docker/services/hyrax/startup.sh $STARTUP_PATH/startup.sh
+RUN chmod 0644 $STARTUP_PATH/startup.sh
+
+
 EXPOSE 80
 EXPOSE 443
 EXPOSE 3000
+
+
+COPY ./docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
