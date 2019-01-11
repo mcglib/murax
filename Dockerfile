@@ -120,7 +120,7 @@ ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
 # install global gems
-RUN echo $'gem install capistrano \
+RUN gem install capistrano \
  therubyracer \
  rails-html-sanitizer \
  mini_portile2 \
@@ -153,8 +153,7 @@ RUN echo $'gem install capistrano \
  redis \
  connection_pool \
  rack-protection \
- whenever' \
- >> /etc/example.conf
+ whenever
 
 
 #RUN bundle update && bundle install --retry 5
@@ -210,4 +209,5 @@ COPY ./docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
+CMD ['/bin/bash', "/docker/startup.sh"]
