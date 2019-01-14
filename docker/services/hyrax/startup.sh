@@ -48,7 +48,8 @@ bundle exec rake hyrax:default_collection_types:create RAILS_ENV=${RAILS_ENV} > 
 echo "Create the default admin set"
 bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
 
-
+echo "Seed the database with some default values"
+bundle exec rake murax: RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
 #    before "deploy:migrate", "deploy:clear_fedora"
 #    after "deploy:migrate", "deploy:create_collections"
 #    after "deploy:migrate", "deploy:create_admin_set"
@@ -65,4 +66,10 @@ whenever -w
 echo "Starting the cron service"
 cron
 cd /usr/src/app
+
+rm -rf tmp/pids/server.pid
+echo "Precompiling the rake assets"
+bundle exec rake assets:precompile RAILS_ENV=${RAILS_ENV}
+echo "Starting the server on ${RAILS_ENV}"
+RAILS_ENV=${RAILS_ENV} bundle exec rails s -p 3000 -b '0.0.0.0'
 
