@@ -40,21 +40,28 @@ bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
 echo "------END OF DB SETUP-------------------"
 
 echo "Clean out an Fedora items if needed "
-bundle exec rake murax:fedora_clean RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
+bundle exec rake murax:fedora_clean RAILS_ENV=${RAILS_ENV}
 
 echo "Create the default collection types"
-bundle exec rake hyrax:default_collection_types:create RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
+bundle exec rake hyrax:default_collection_types:create RAILS_ENV=${RAILS_ENV}
 
 echo "Create the default admin set"
-bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
+if grep -q "false" /tmp/stderr.txt; then
+  echo "Initializing the default admin set and roles..."
+  echo "bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV}"
+  bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV}
+else
+  echo "Default admin set exists. Skipping."
+fi
 
-echo "Seed the database with some default values"
-bundle exec rake murax: RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
-#    before "deploy:migrate", "deploy:clear_fedora"
-#    after "deploy:migrate", "deploy:create_collections"
-#    after "deploy:migrate", "deploy:create_admin_set"
- #   after "deploy:migrate", "db:seed"
- #   invoke "deploy"
+if grep -q "false" /tmp/stderr.txt; then
+    echo "Seed the database with some default roles"
+    bundle exec rake murax:create_default_roles RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
+    echo "Create the default admin user"
+    bundle exec rake murax:create_default_admin_user -- -n ${ADMIN_USERNAME}  -p ${ADMIN_PASSWORD} -e ${ADMIN_EMAIL} RAILS_ENV=${RAILS_ENV}
+else
+  echo "Default roles and admin user existing. skipping"
+fi
 
 
 rm /tmp/stderr.txt
