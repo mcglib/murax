@@ -36,12 +36,13 @@ services:
     image: solr:7.0
     ports:
       - 8983:8983
-    #volumes:
-    #  - data:/opt/solr/server/solr/mycores
-    entrypoint:
-      - docker-entrypoint.sh
-      - solr-precreate
-      - murax
+    volumes:
+      - ./solr/config/:/myconfig
+    #entrypoint:
+    #  - docker-entrypoint.sh
+    #  - solr-precreate
+    #  - murax
+    command: solr-create -c murax -d /myconfig
     networks:
       appnetwork:
         aliases:
