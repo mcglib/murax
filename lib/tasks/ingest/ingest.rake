@@ -11,6 +11,19 @@ namespace :ingest do
   require 'tasks/migrate/services/ingest_service'
   require 'tasks/migrate/services/metadata_parser'
 
+
+  # Must include the email address of a valid user in order to ingest files
+  @depositor_email = 'dev.library@mcgill.ca'
+
+  @private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+  @public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+  #
+  # temporary location for file download
+  @temp = 'lib/tasks/ingest/tmp'
+  FileUtils::mkdir_p @temp
+
+
+
   desc 'Ingests a set of ethesis based on a pid'
   task :ethesis, [:pid, :collection] => :environment do |t, args|
     @collection_name = args[:collection]
@@ -50,7 +63,7 @@ namespace :ingest do
 
     # Add contributors
     contributors = Array.new
-    c_items = desc_md.xpath(".//dc:contributors").children
+    c_items = desc_md.xpath(".//dc:contributor").children
     unless c_items.empty?
         c_items.each do |n|
           contributors << n.to_s
@@ -86,15 +99,13 @@ namespace :ingest do
     # get the modifiedDate
     date_modified_str = metadata.xpath(".//control/modification_date/text()").to_s
     date_modified = DateTime.strptime(date_modified_str, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d') unless date_modified_str.nil?
-    #work_attributes['date_modified'] = [(Date.try(:edtf, date_modified) || date_modified).to_s]
+    work_attributes['date_modified'] = [(Date.try(:edtf, date_modified) || date_modified).to_s]
 
 
     # Set access controls for work
     # Set default visibility first
-    private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-    public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     #work_attributes['embargo_release_date'] = ''
-    work_attributes['visibility'] = public_visibility
+    work_attributes['visibility'] = @public_visibility
 
     # Keywords I believe are subjects
     unless desc_md.xpath(".//dc:subject").nil?
@@ -124,14 +135,65 @@ namespace :ingest do
                                          depositor: @depositor.ids.first,
                                          collection_type_gid: user_collection_type))
     end
+    
+    @admin_set_id = (AdminSet.where(title: @admin_set).first || AdminSet.where(title: "Default Admin Set").first).id
+    work_attributes['admin_set_id'] = @admin_set_id
 
-    work_attributes['admin_set_id'] = (AdminSet.where(title: @admin_set).first || AdminSet.where(title: "Default Admin Set").first).id
+
+    directory_path = metadata.xpath("//xb:digital_entity/stream_ref/directory_path/text()").to_s
+
+    # Download and get the file for the items
+    download_url =  "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl?pid=#{pid}&dir_path=#{directory_path}"
+    download = open("#{download_url}")
+    file_path = "/tmp/#{pid}.pdf"
+    IO.copy_stream(download, file_path)
+    ordered_members = Array.new
 
 
     work = Work.new(work_attributes)
     work.save
+    fileset_attrs = { 'title' => ["#{pid}.pdf"],
+                      'visibility' => @public_visibility }
+    fileset = create_fileset(parent: work, resource: fileset_attrs, file: file_path)
+    ordered_members << fileset
+  
+
+    work.ordered_members = ordered_members
+    end_time = Time.now
+    puts "[#{end_time.to_s}] Completed migration of #{pid} in #{end_time-start_time} seconds"
+
+
     exit
   end
+
+  def ingest_ethesis_file(parent: nil, resource: nil, f: nil)
+    puts "ingesting... #{f.to_s}"
+    fileset_metadata = resource.slice('visibility', 'embargo_release_date', 'visibility_during_embargo',
+    'visibility_after_embargo')
+    if resource['embargo_release_date'].blank?
+      fileset_metadata.except!('embargo_release_date', 'visibility_during_embargo', 'visibility_after_embargo')
+    end
+    
+  end
+
+  def create_fileset(parent: nil, resource: nil, file: nil)
+    @depositor = User.find_by_email(@depositor_email)
+    file_set = FileSet.create(resource)
+    actor = Hyrax::Actors::FileSetActor.new(file_set, @depositor)
+    actor.create_metadata(resource)
+
+
+    actor.create_content(Hyrax::UploadedFile.create(file: File.open(file), user: @depositor))
+    actor.attach_to_work(parent, resource)
+
+    File.delete(file) if File.exist?(file)
+
+    file_set
+
+  end
+
+
+
 
 
   desc 'batch migrate records from XML file'
