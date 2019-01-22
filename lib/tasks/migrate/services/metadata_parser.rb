@@ -1,4 +1,4 @@
-module Ingest
+module Migrate
   module Services
     class MetadataParser
 

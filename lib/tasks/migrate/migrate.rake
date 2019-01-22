@@ -7,10 +7,15 @@ namespace :migrate do
   require 'yaml'
 
   # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
-  require "modules/migrate/ingest_service"
-  require "modules/migrate/id_mapper"
+  require "tasks/migrate/services/ingest_service"
+  require "tasks/migrate/services/id_mapper"
+  require 'tasks/migrate/services/metadata_parser'
 
-  desc 'batch migrate records from XML file'
+  # temporary location for file download
+  @temp = 'lib/tasks/ingest/tmp'
+  FileUtils::mkdir_p @temp
+  
+  desc 'batch migrate records from CSV file with PIDs'
   task :works, [:collection, :configuration_file, :mapping_file] => :environment do |t, args|
 
     start_time = Time.now
@@ -32,7 +37,7 @@ namespace :migrate do
       @object_hash = Hash.new
       create_filepath_hash(collection_config['objects'], @object_hash)
 
-      # Hash of all premis files in storage directory
+      # Hash of all waivers files in storage directory
       @premis_hash = Hash.new
       create_filepath_hash(collection_config['premis'], @premis_hash)
 
