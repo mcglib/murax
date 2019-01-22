@@ -8,12 +8,14 @@ namespace :ingest do
   require 'open-uri'
 
   # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
-  require 'tasks/migrate/services/ingest_service'
-  require 'tasks/migrate/services/metadata_parser'
+  require 'tasks/ingest/services/ingest_service'
+  require 'tasks/ingest/services/metadata_parser'
 
 
   # Must include the email address of a valid user in order to ingest files
   @depositor_email = 'dev.library@mcgill.ca'
+  #url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-xmlfile.pl?pid=#{args[:pid]}"
+  @metadata_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/pid-metadata-for-hyrax/retrieve-DEs-by-pidlist.php?pid="
 
   @private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
   @public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
@@ -25,16 +27,48 @@ namespace :ingest do
 
 
   desc 'Ingests a set of ethesis based on a pid'
-  task :ethesis, [:pid, :collection] => :environment do |t, args|
-    @collection_name = args[:collection]
-    @depositor = User.where(email: "dev.library@mcgill.ca")
-    start_time = Time.now
-    pid = args[:pid]
-    puts "[#{start_time.to_s}] Start migration of ethesis with PID:#{args[:pid]}"
+  task :ethesis, [:pid, :collection, :configuration_file] => :environment do |t, args|
 
-    url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-xmlfile.pl?pid=#{args[:pid]}"
-    #url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/pid-metadata-for-hyrax/retrieve-DEs-by-pidlist.php?pid=148464,12033,12034,12190,12729"
-    metadata = Nokogiri::XML(open(url))
+    @collection_name = args[:collection]
+    @depositor = User.where(email: @depositor_email)
+
+
+    start_time = Time.now
+    puts "[#{start_time.to_s}] Start migration of @collection_name"
+
+    config = YAML.load_file(args[:configuration_file])
+    collection_config = config[args[:collection]]
+
+
+    # The default admin set and designated depositor must exist before running this script
+    if AdminSet.where(title: @env_default_admin_set ).count != 0 &&
+        User.where(email: collection_config['depositor_email']).count > 0
+      @depositor = User.where(email: collection_config['depositor_email']).first
+
+      # Hash of all binaries in storage directory
+      @binary_hash = Hash.new
+      create_filepath_hash(collection_config['binaries'], @binary_hash)
+
+      # Hash of all .xml objects in storage directory
+      @object_hash = Hash.new
+      create_filepath_hash(collection_config['objects'], @object_hash)
+
+      # Hash of all premis files in storage directory
+      @premis_hash = Hash.new
+      create_filepath_hash(collection_config['premis'], @premis_hash)
+
+      Migrate::Services::IngestService.new(collection_config,
+                                           @object_hash,
+                                           @binary_hash,
+                                           @premis_hash,
+                                           args[:mapping_file],
+                                           @depositor).ingest_records
+    else
+      puts 'The default admin set or specified depositor does not exist'
+    end
+
+    end_time = Time.now
+    puts "[#{end_time.to_s}] Completed migration of #{args[:collection]} in #{end_time-start_time} seconds"
 
     puts "getting metadata for: #{pid}"
     work_attributes = Hash.new

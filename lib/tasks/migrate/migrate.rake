@@ -7,7 +7,8 @@ namespace :migrate do
   require 'yaml'
 
   # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
-  require 'tasks/migrate/services/ingest_service'
+  require "modules/migrate/ingest_service"
+  require "modules/migrate/id_mapper"
 
   desc 'batch migrate records from XML file'
   task :works, [:collection, :configuration_file, :mapping_file] => :environment do |t, args|
