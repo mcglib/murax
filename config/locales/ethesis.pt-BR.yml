@@ -1,0 +1,8 @@
+pt-BR:
+  hyrax:
+    icons:
+      ethesis:     'fa fa-file-text-o'
+    select_type:
+      ethesis:
+        description:        "Ethesis trabalhos"
+        name:               "Ethesis"

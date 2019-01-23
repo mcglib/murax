@@ -1,0 +1,8 @@
+fr:
+  hyrax:
+    icons:
+      ethesis:     'fa fa-file-text-o'
+    select_type:
+      ethesis:
+        description:        "Ethesis œuvres"
+        name:               "Ethesis"
