@@ -1,0 +1,33 @@
+[
+  {"updated": "2016-09-12T14:45:12.02-04:00"},
+  {
+    "slug": "living-lab",
+    "title": "Living labs",
+    "collection_type": "Admin Set",
+    "blurb": "McGill's Living Lab : A database of sustainability-focused Applied Student Research (ASR) projects,The Living Lab is a digital repository of applied research that creates a culture of sustainability on McGill campus. The database aims to help McGill and the broader community access, learn from, and build upon sustainability-focused projects."
+  },
+  {
+    "slug": "ethesis",
+    "title": "Theses/Dissertations ",
+    "collection_type": "Admin Set",
+    "blurb": "Contains all theses and dissertations completed at McGill. This wording will need massaging for public use, this is just what Robin wrote as placeholder."
+  },
+  {
+    "slug": "faculty-pubs",
+    "title": "Faculty publications",
+    "collection_type": "Admin Set",
+    "blurb": "Faculty publications include articles, conference papers, books and working papers by members of the McGill academic community."
+  },
+  {
+    "slug": "grad-pub",
+    "title": "Graduate Projects",
+    "collection_type": "Admin Set",
+    "blurb": "Research projects coming from a course-based graduate degree. NB. Civil and Mechanical Engineering reports are not full-text searchable."
+  },
+  {
+    "slug": "ugrad-research",
+    "title": "Undergraduate Research",
+    "collection_type": "Admin Set",
+    "blurb": "Undergraduate research contains undergraduate Bioresource Engineering project reports, Honours theses, and Faculty-sponsored papers. Honours undergraduate theses may be included in eScholarship if sponsored by a faculty member. Faculty-sponsored papers are exemplary examples of undergraduate scholarship. Faculty members wishing to sponsor an honours thesis or a paper for deposit should contact escholarship.library@mcgill.ca"
+  }
+]

@@ -16,13 +16,19 @@ namespace :migrate do
   FileUtils::mkdir_p @temp
   
   desc 'batch migrate records from CSV file with PIDs'
-  task :works, [:collection, :configuration_file, :mapping_file] => :environment do |t, args|
+  task :works, [:collection_sl, :configuration_file, :mapping_file] => :environment do |t, args|
+
+    require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
 
     start_time = Time.now
     puts "[#{start_time.to_s}] Start migration of #{args[:collection]}"
 
     config = YAML.load_file(args[:configuration_file])
     collection_config = config[args[:collection]]
+    
+    @collection = FindOrCreateCollection(args[:collection], collection_config['depositor_email'])
+
+    byebug
 
     # The default admin set and designated depositor must exist before running this script
     if AdminSet.where(title: ENV['DEFAULT_ADMIN_SET']).count != 0 &&
