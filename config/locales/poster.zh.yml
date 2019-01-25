@@ -1,0 +1,10 @@
+zh:
+  hyrax:
+    icons:
+      poster:     'fa fa-file-text-o'
+    select_type:
+      poster:
+        # TODO: translate `human_name` into Chinese
+        description:        "Poster 作品"
+        name:               "Poster"
+        # TODO: translate `human_name` into Chinese
