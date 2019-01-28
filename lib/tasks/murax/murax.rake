@@ -10,6 +10,40 @@ namespace :murax do
     	   conn.drop_table(table, {:force=>:cascade} )
   	end
   end
+  
+
+  #bundle exec rake murax:create_digitool_collections -- -f config/digitool_collections.json --owner dev.library.mcgill.ca
+  desc 'Create the default collections via a json file'
+  task :create_digitool_collections => :environment do
+    require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
+    options = {
+          file: 'config/digitool_collections.json',
+          owner: 'dev.library@mcgill.ca'
+    }
+    o = OptionParser.new
+    o.banner = "Usage: rake create_digitool_collections [options]"
+    o.on('-f FILENAME', '--filename FILENAME') { |file|
+      options[:file] = file
+    }
+    o.on('-o EMAIL', '--owner EMAIL') { |owner|
+      options[:owner] = owner
+    }
+    #return `ARGV` with the intended arguments
+    args = o.order!(ARGV) {}
+    o.parse!(args)
+    puts "hello #{options.inspect}"
+    start_time = Time.now
+    
+    collection_metadata = JSON.parse(File.read(File.join(Rails.root, options[:file])))
+    collection_metadata.each do |c|
+      slug = c['slug']
+      collection = FindOrCreateCollection.create(slug, options[:owner]) if c['slug'].present?
+      puts "Added the collection  :#{c['title']} to the collection type: #{c['collection_type']}"
+    end
+    puts "Added the  user :#{options[:full_name]} to the role 'admin'"
+    exit
+
+  end
 
   desc 'Create the default admin user'
   task :create_default_admin_user => :environment do

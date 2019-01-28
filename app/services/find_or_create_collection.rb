@@ -8,12 +8,14 @@ module FindOrCreateCollection
       @user = User.where(:email => email).first
       col.apply_depositor_metadata @user
       col.save!
+
+      # Set the privacy to public by default
       col
     end
 
     def metadata_for_collection(slug)
       collection_metadata.each do |c|
-        return { id: slug, title: [c['title']], description: [c['blurb']] ,  collection_type_gid:  get_collection_type_gid(c['collection_type'])} if c['slug'] == slug
+        return { visibility: c['visibility'], id: slug, title: [c['title']], description: [c['blurb']] ,  collection_type_gid:  get_collection_type_gid(c['collection_type'])} if c['slug'] == slug
       end
       raise StandardError, "No collection metadata found for slug '#{slug}'"
     end
