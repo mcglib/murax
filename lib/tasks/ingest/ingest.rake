@@ -16,6 +16,26 @@ namespace :ingest do
   FileUtils::mkdir_p @temp
 
 
+  desc 'Create collections'
+  task :create_collections => :environment do
+    options = {
+          config_file: 'spec/fixtures/ingest/collection_config.yml',
+          collection: 'ethesis'
+    }
+    o = OptionParser.new
+    o.banner = "Usage: rake ingest:ethesis [options]"
+    o.on('-f FILENAME', '--xmlfile FILENAME') { |xmlfile|
+      options[:xmlfile] = xmlfile
+    }
+    o.on('-c CONFIGFILE', '--config CONFIGFILE') { |config_file|
+      options[:config_file] = config_file
+    }
+    #return `ARGV` with the intended arguments
+    args = o.order!(ARGV) {}
+    o.parse!(args)
+
+  end
+
 
   desc 'Ingest  the Ethesis records from the GPSO team'
   task :ethesis =>:environment do
@@ -75,7 +95,6 @@ namespace :ingest do
     config = YAML.load_file(args[:configuration_file])
     collection_config = config[args[:collection]]
 
-    byebug
 
     # The default admin set and designated depositor must exist before running this script
     if AdminSet.where(title: ENV['DEFAULT_ADMIN_SET']).count != 0 &&

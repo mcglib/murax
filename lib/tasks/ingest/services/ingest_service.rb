@@ -28,6 +28,7 @@ module Ingest
           start_time = Time.now
           title = record.css('title').text
           puts "[#{start_time.to_s}] Start migration of #{title}"
+          work = CreateWork(record)
         end
 
 
