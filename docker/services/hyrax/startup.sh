@@ -54,6 +54,19 @@ else
   echo "Default admin set exists. Skipping."
 fi
 
+
+echo "Create the set of digitool collections"
+if grep -q "false" /tmp/stderr.txt; then
+  echo "Initializing the default digitool collections"
+  echo "bundle exec rake murax:create_digitool_collections RAILS_ENV=${RAILS_ENV}"
+  bundle exec rake murax:create_digitool_collections RAILS_ENV=${RAILS_ENV}
+else
+  echo "Create the digitool collections. Skipping."
+fi
+
+
+
+
 if grep -q "false" /tmp/stderr.txt; then
     echo "Seed the database with some default roles"
     bundle exec rake murax:create_default_roles RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt

@@ -31,7 +31,7 @@ namespace :deploy do
       end
     end
   end
-  desc "Create the default collections"
+  desc "Create the default collections types"
   task :create_collections do
     on roles(:app) do
       within "#{current_path}" do
@@ -41,7 +41,7 @@ namespace :deploy do
       end
     end
   end
-  desc "Create the default admin set"
+  desc "Create the default admin set collection"
   task :create_admin_set do
     on roles(:app) do
       within "#{current_path}" do

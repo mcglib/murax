@@ -45,11 +45,9 @@ namespace :ingest do
     config = YAML.load_file(File.join(Rails.root, options[:config_file]))
     collection_config = config[options[:collection]]
     depositor_email = collection_config['depositor_email']
-    
     # make sure you have a depositor
     @depositor = User.where(email: depositor_email).first
 
-    byebug
     # The default admin set and designated depositor must exist before running this script
     if @depositor.present?
 
@@ -76,7 +74,7 @@ namespace :ingest do
 
     config = YAML.load_file(args[:configuration_file])
     collection_config = config[args[:collection]]
- 
+
     byebug
 
     # The default admin set and designated depositor must exist before running this script

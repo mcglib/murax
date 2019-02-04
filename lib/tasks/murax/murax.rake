@@ -37,8 +37,10 @@ namespace :murax do
     collection_metadata = JSON.parse(File.read(File.join(Rails.root, options[:file])))
     collection_metadata.each do |c|
       slug = c['slug']
-      collection = FindOrCreateCollection.create(slug, options[:owner]) if c['slug'].present?
-      puts "Added the collection  :#{c['title']} to the collection type: #{c['collection_type']}"
+      if c['slug'].present?
+        collection = FindOrCreateCollection.create(slug, options[:owner])
+        puts "Added the collection  :#{c['title']} to the collection type: #{c['collection_type']}"
+      end
     end
     puts "Added the  user :#{options[:full_name]} to the role 'admin'"
     exit
