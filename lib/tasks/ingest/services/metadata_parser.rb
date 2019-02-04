@@ -1,37 +1,40 @@
-module Migrate
+module Ingest
   module Services
     class MetadataParser
 
       # Must include the email address of a valid user in order to ingest files
       @env_default_admin_set = 'default'
+      #@private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      #@public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
-      def initialize(metadata_file, ids, depositor, config)
-        @metadata_file = metadata_file
-        @collection_uuids = ids
+      def initialize(xml_metadata, depositor, collection, config)
+        @xml = xml_metadata
         @collection_name = config['collection_name']
+        @collection = collection
         @depositor = depositor
         @admin_set = config['admin_set']
       end
 
       def parse
-        metadata = Nokogiri::XML(File.open(@metadata_file))
+        metadata = @xml
 
         work_attributes = get_work_attributes(metadata)
 
         child_works = Array.new
 
-        # Add work to specified collection
-        work_attributes['member_of_collections'] = Array(Collection.where(title: @collection_name).first)
-        # Create collection if it does not yet exist
+
+        # Raise the error if  collections does not yet exist
         if !@collection_name.blank? && work_attributes['member_of_collections'].first.blank?
-          user_collection_type = Hyrax::CollectionType.where(title: 'User Collection').first.gid
-          work_attributes['member_of_collections'] = Array(Collection.create(title: [@collection_name],
-                                         depositor: @depositor.uid,
-                                         collection_type_gid: user_collection_type))
+          puts 'Raise Error'
         end
+        
+        byebug
+        # Add work to specified collection
+        work_attributes['member_of_collections'] = Array(@collection)
 
         work_attributes['admin_set_id'] = (AdminSet.where(title: @admin_set).first || AdminSet.where(title: @env_default_admin_set).first).id
 
+        # We return the set of attributes
         { work_attributes: work_attributes.reject!{|k,v| v.blank?}, child_works: child_works }
       end
 
@@ -40,6 +43,43 @@ module Migrate
         def get_work_attributes(metadata)
 
           work_attributes = Hash.new
+            # Set default visibility first
+          #work_attributes['embargo_release_date'] = (Date.try(:edtf, embargo_release_date) || embargo_release_date).to_s
+          ## investigate how we can get the visibility from the collection level
+          #work_attributes['visibility'] = @private_visibility
+          #work_attributes['visibility_during_embargo'] = @private_visibility
+          #work_attributes['visibility_after_embargo'] = @public_visibility
+          work_attributes['title'] = metadata.css("title").text
+          work_attributes['label'] = work_attributes['title']
+          
+          # Set the abstract
+          abstracts = []
+          abstracts << metadata.css("abstract[lang='fr']").text || nil
+          abstracts <<  metadata.css("abstract").first.text
+          work_attributes['abstract'] = abstracts
+
+          work_attributes['creator'] = [metadata.css("creator").map(&:text)]
+          work_attributes['contributor'] = [metadata.css("contributor").map(&:text)]
+        
+          # Get the date_uploaded
+          date_modified_string = metadata.css("localdissacceptdate").text 
+          date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y').strftime('%Y-%m-%d') unless date_modified_string.nil?
+          work_attributes['date_modified'] =  date_modified.to_s
+          work_attributes['date_uploaded'] =  date_modified.to_s
+
+          # get the modifiedDate
+
+          #work_attributes['language'] = get_language_uri(languages) if !languages.blank?
+          #work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
+          #work_attributes['resource_type'] = descriptive_mods.xpath('mods:genre[not(@*)]',MigrationConstants::NS).map(&:text)
+
+
+          work_attributes['publisher'] = [metadata.css("publisher").map(&:text)]
+
+
+
+          work_attributes['depositor'] = @depositor
+
           work_attributes
         end
 

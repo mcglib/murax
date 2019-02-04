@@ -13,6 +13,8 @@ module Ingest
         @depositor = depositor
         @config = config
         @collection = collection
+        #@private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+        #@public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
       end
 
       def ingest_records
@@ -21,14 +23,14 @@ module Ingest
 
         # Remove the namespaces
         xml = metadata.remove_namespaces!
-        #metadata.xpath("//record/dc:title","dc" => "http://purl.org/dc/elements/1.1/")
-        #record.xpath("dcterms:localdissacceptdate","dcterms" => "http://purl.org/dc/terms/")
 
+        # Create the records
         xml.xpath("//record").each do  |record|
           start_time = Time.now
           title = record.css('title').text
           puts "[#{start_time.to_s}] Start migration of #{title}"
-          work = CreateWork(record)
+          work = create_work(record)
+          puts "The work has been created" if work.present?
         end
 
 
@@ -202,6 +204,25 @@ module Ingest
 
           resource
         end
+
+        # Create a work using the xml parsed
+        def create_work(xml_metadata)
+          byebug
+          parsed_data = Ingest::Services::MetadataParser.new(xml_metadata,
+                                                              @depositor,
+                                                              @collection,
+                                                              @config).parse
+          work_attributes = parsed_data[:work_attributes]
+          # Create new work record and save
+          new_work = work_record(work_attributes)
+          new_work.save!
+
+
+        end
+        def get_work_attributes(metadata)
+
+        end
+
 
         # FileSets can include any metadata listed in BasicMetadata file
         def file_record(work_attributes)
