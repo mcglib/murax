@@ -1,4 +1,4 @@
-# For use in first ansible deploy
+# For staging (QA)
 set :stage, :staging
 set :rails_env, 'production'
 set :deploy_to, '/storage/www/murax'
