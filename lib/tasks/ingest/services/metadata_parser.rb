@@ -12,6 +12,8 @@ module Ingest
         @collection_name = config['collection_name']
         @collection = collection
         @depositor = depositor
+        @config = config
+        @work_type = config['work_type']
         @admin_set = config['admin_set']
       end
 
@@ -28,29 +30,38 @@ module Ingest
           puts 'Raise Error'
         end
         
-        byebug
         # Add work to specified collection
         work_attributes['member_of_collections'] = Array(@collection)
 
-        work_attributes['admin_set_id'] = (AdminSet.where(title: @admin_set).first || AdminSet.where(title: @env_default_admin_set).first).id
+        work_attributes['admin_set_id'] =  Hyrax::CollectionType.where(title: 'User Collection').first.gid
 
+        # Find manifest files
+        manifests = get_manifest_files(metadata)
+        
+        
+        
         # We return the set of attributes
-        { work_attributes: work_attributes.reject!{|k,v| v.blank?}, child_works: child_works }
+        #{ work_attributes: work_attributes.reject!{|k,v| v.blank?}, child_works: child_works }
+        { work_attributes: work_attributes, manifests: manifests, child_works: child_works }
       end
 
       private
 
+        def get_manifest_files(metadata)
+          manifests = Hash.new
+          manifests
+        end
         def get_work_attributes(metadata)
 
           work_attributes = Hash.new
             # Set default visibility first
           #work_attributes['embargo_release_date'] = (Date.try(:edtf, embargo_release_date) || embargo_release_date).to_s
           ## investigate how we can get the visibility from the collection level
-          #work_attributes['visibility'] = @private_visibility
+          work_attributes['visibility'] = 'open'
           #work_attributes['visibility_during_embargo'] = @private_visibility
           #work_attributes['visibility_after_embargo'] = @public_visibility
-          work_attributes['title'] = metadata.css("title").text
-          work_attributes['label'] = work_attributes['title']
+          work_attributes['title'] = [metadata.css("title").text]
+          work_attributes['label'] = metadata.css("title").text
           
           # Set the abstract
           abstracts = []
@@ -66,14 +77,18 @@ module Ingest
           date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y').strftime('%Y-%m-%d') unless date_modified_string.nil?
           work_attributes['date_modified'] =  date_modified.to_s
           work_attributes['date_uploaded'] =  date_modified.to_s
+          work_attributes['date_created'] =  date_modified.to_s
 
           # get the modifiedDate
 
           #work_attributes['language'] = get_language_uri(languages) if !languages.blank?
           #work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
-          #work_attributes['resource_type'] = descriptive_mods.xpath('mods:genre[not(@*)]',MigrationConstants::NS).map(&:text)
+          
+          work_attributes['resource_type'] = @work_type
 
 
+          # Rights visibility
+          work_attributes['rights_statement'] = 'http://www.europeana.eu/portal/rights/rr-r.html'
           work_attributes['publisher'] = [metadata.css("publisher").map(&:text)]
 
 

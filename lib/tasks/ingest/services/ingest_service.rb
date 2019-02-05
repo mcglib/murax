@@ -170,7 +170,7 @@ module Ingest
           else
             resource = @work_type.singularize.classify.constantize.new
           end
-          resource.depositor = @depositor.uid
+          resource.depositor = @depositor.id
           resource.save
 
           # Singularize non-enumerable attributes
@@ -207,7 +207,6 @@ module Ingest
 
         # Create a work using the xml parsed
         def create_work(xml_metadata)
-          byebug
           parsed_data = Ingest::Services::MetadataParser.new(xml_metadata,
                                                               @depositor,
                                                               @collection,
