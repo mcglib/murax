@@ -1,0 +1,8 @@
+fr:
+  hyrax:
+    icons:
+      poster:     'fa fa-file-text-o'
+    select_type:
+      poster:
+        description:        "Poster œuvres"
+        name:               "Poster"

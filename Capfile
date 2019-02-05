@@ -29,10 +29,9 @@ require "capistrano/bundler"
 require "capistrano/rails/migrations"
 require "capistrano/rails/assets"
 require 'sshkit/sudo'
-require "capistrano/sidekiq"
+#require "capistrano/sidekiq"
 #require "capistrano/passenger"
-
-#require "whenever/capistrano"
+require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
 

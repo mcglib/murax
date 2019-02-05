@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rb-readline'
+#gem 'rb-readline'
 gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -20,8 +20,6 @@ gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -46,7 +44,6 @@ gem 'xray-rails'
 
 gem 'capistrano-locally', require: false
 
-
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 
@@ -57,6 +54,8 @@ gem 'twitter-bootstrap-rails'
 gem 'yard'
 gem 'webpacker', '~> 3.5'
 #gem 'webpacker', '>= 4.0.x'
+
+#gem 'clamav'
 
 group :development, :test do
   gem 'bixby'
@@ -91,15 +90,15 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'better_errors'
   gem 'binding_of_caller'
-  #gem 'pry'
-  #gem 'pry-byebug'
+  gem 'pry'
+  gem 'pry-byebug'
 end
 
 gem 'sshkit-sudo'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
-gem 'hyrax', '2.3.3'
+gem 'hyrax', '2.4.1'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-guests', '~> 0.6'
@@ -107,7 +106,6 @@ gem 'devise-guests', '~> 0.6'
 gem 'rsolr', '>= 1.0'
 gem 'jquery-rails'
 gem 'hydra-role-management'
-gem 'clamav'
 gem 'sidekiq'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -115,4 +113,3 @@ gem 'sidekiq'
 # gem 'twitter-bootstrap-rails'
 
 gem 'riiif', '~> 1.1'
-

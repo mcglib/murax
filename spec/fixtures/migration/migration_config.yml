@@ -1,0 +1,6 @@
+# Example configuration for migration script
+living-lab:
+  work_type: Ethesis
+  admin_set: default
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: spec/fixtures/migration/files

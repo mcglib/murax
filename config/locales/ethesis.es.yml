@@ -1,0 +1,10 @@
+es:
+  hyrax:
+    icons:
+      ethesis:     'fa fa-file-text-o'
+    select_type:
+      ethesis:
+        # TODO: translate `human_name` into Spanish
+        description:        "Ethesis trabajos"
+        name:               "Ethesis"
+        # TODO: translate `human_name` into Spanish

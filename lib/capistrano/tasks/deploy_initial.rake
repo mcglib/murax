@@ -2,7 +2,7 @@
 namespace :deploy do
   desc "Performs first deploy to a server by clearing the database before db:migrate"
   task :initial do
-    before "deploy:migrate", "deploy:clear"
+    before "deploy:migrate", "deploy:clear_db"
     before "deploy:migrate", "deploy:clear_fedora"
     after "deploy:migrate", "deploy:create_collections"
     after "deploy:migrate", "deploy:create_admin_set"
@@ -11,7 +11,7 @@ namespace :deploy do
   end
   
   desc "Erase all DB tables"
-  task :clear do
+  task :clear_db do
     on roles(:app) do
       within "#{current_path}" do
         with rails_env: "#{fetch(:stage)}" do
@@ -31,7 +31,7 @@ namespace :deploy do
       end
     end
   end
-  desc "Create the default collections"
+  desc "Create the default collections types"
   task :create_collections do
     on roles(:app) do
       within "#{current_path}" do
@@ -41,7 +41,7 @@ namespace :deploy do
       end
     end
   end
-  desc "Create the default admin set"
+  desc "Create the default admin set collection"
   task :create_admin_set do
     on roles(:app) do
       within "#{current_path}" do

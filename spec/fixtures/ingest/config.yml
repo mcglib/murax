@@ -1,0 +1,7 @@
+# Example configuration for ingest script
+ethesis:
+  work_type: Ethesis
+  admin_set: "User Collection"
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: spec/fixtures/migration/files
+  collection: ethesis
