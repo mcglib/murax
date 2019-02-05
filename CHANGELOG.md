@@ -1,5 +1,5 @@
 === Release Notes ====
-Feb 5, 2019 - v1.04
+Feb 5, 2019 - v1.0.4
 * Upgraded to versions 2.4.1 of hyrax
 * Create a batch process to generate the digitool collections
 * Updated various gems and added others
