@@ -13,7 +13,7 @@ module Ingest
         @collection = collection
         @depositor = depositor
         @config = config
-        @work_type = config['work_type']
+        @resource_type = config['resource_type']
         @admin_set = config['admin_set']
       end
 
@@ -33,7 +33,8 @@ module Ingest
         # Add work to specified collection
         work_attributes['member_of_collections'] = Array(@collection)
 
-        work_attributes['admin_set_id'] =  Hyrax::CollectionType.where(title: 'User Collection').first.gid
+        #work_attributes['admin_set_id'] =  Hyrax::CollectionType.where(title: 'User Collection').first.gid
+
 
         # Find manifest files
         manifests = get_manifest_files(metadata)
@@ -67,33 +68,34 @@ module Ingest
           abstracts = []
           abstracts << metadata.css("abstract[lang='fr']").text || nil
           abstracts <<  metadata.css("abstract").first.text
-          work_attributes['abstract'] = abstracts
+          work_attributes['description'] = abstracts
 
-          work_attributes['creator'] = [metadata.css("creator").map(&:text)]
-          work_attributes['contributor'] = [metadata.css("contributor").map(&:text)]
+          work_attributes['creator'] = metadata.css("creator").map(&:text)
+          work_attributes['contributor'] = metadata.css("contributor").map(&:text)
         
           # Get the date_uploaded
           date_modified_string = metadata.css("localdissacceptdate").text 
           date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y').strftime('%Y-%m-%d') unless date_modified_string.nil?
-          work_attributes['date_modified'] =  date_modified.to_s
-          work_attributes['date_uploaded'] =  date_modified.to_s
-          work_attributes['date_created'] =  date_modified.to_s
+          date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
+          work_attributes['date_modified'] =  [date_modified.to_s]
+          work_attributes['date_uploaded'] =  [date_uploaded.to_s]
+          work_attributes['date_created'] =  [date_modified.to_s]
 
           # get the modifiedDate
 
           #work_attributes['language'] = get_language_uri(languages) if !languages.blank?
           #work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
           
-          work_attributes['resource_type'] = @work_type
+          work_attributes['resource_type'] = [@resource_type]
 
 
           # Rights visibility
-          work_attributes['rights_statement'] = 'http://www.europeana.eu/portal/rights/rr-r.html'
-          work_attributes['publisher'] = [metadata.css("publisher").map(&:text)]
+          work_attributes['rights_statement'] = [@config['rights_statement']]
+          work_attributes['publisher'] = metadata.css("publisher").map(&:text)
 
 
-
-          work_attributes['depositor'] = @depositor
+          # Set the depositor
+          work_attributes['depositor'] = @depositor.id
 
           work_attributes
         end

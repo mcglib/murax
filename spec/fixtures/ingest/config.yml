@@ -1,7 +1,9 @@
 # Example configuration for ingest script
 ethesis:
   work_type: Ethesis
+  resource_type: "Dissertation"
   admin_set: "User Collection"
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: spec/fixtures/migration/files
   collection: ethesis
+  rights_statement: "http://rightsstatements.org/vocab/UND/1.0/"

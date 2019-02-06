@@ -4,6 +4,9 @@ module Ingest
     require 'tasks/ingest/services/metadata_parser'
     require 'tasks/migration_helper'
     require 'importer/record'
+    
+    #@private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    #@public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
     class IngestService
 
@@ -13,8 +16,6 @@ module Ingest
         @depositor = depositor
         @config = config
         @collection = collection
-        #@private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-        #@public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
       end
 
       def ingest_records
@@ -162,49 +163,6 @@ module Ingest
 
 
       private
-
-        def work_record(work_attributes)
-          if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&
-              !(work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
-            resource = @child_work_type.singularize.classify.constantize.new
-          else
-            resource = @work_type.singularize.classify.constantize.new
-          end
-          resource.depositor = @depositor.id
-          resource.save
-
-          # Singularize non-enumerable attributes
-          work_attributes.each do |k,v|
-            if resource.attributes.keys.member?(k.to_s) && !resource.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
-              work_attributes[k] = v.first
-            else
-              work_attributes[k] = v
-            end
-          end
-
-          # Only keep attributes which apply to the given work type
-          work_attributes.select {|k,v| k.ends_with? '_attributes'}.each do |k,v|
-            if !resource.respond_to?(k.to_s+'=')
-              work_attributes.delete(k.split('s_')[0]+'_display')
-              work_attributes.delete(k)
-            end
-          end
-          resource.attributes = work_attributes.reject{|k,v| !resource.attributes.keys.member?(k.to_s) unless k.ends_with? '_attributes'}
-
-          resource.visibility = work_attributes['visibility']
-          unless work_attributes['embargo_release_date'].blank?
-            resource.embargo_release_date = work_attributes['embargo_release_date']
-            resource.visibility_during_embargo = work_attributes['visibility_during_embargo']
-            resource.visibility_after_embargo = work_attributes['visibility_after_embargo']
-          end
-          resource.admin_set_id = work_attributes['admin_set_id']
-          if !@collection_name.blank? && !work_attributes['member_of_collections'].first.blank?
-            resource.member_of_collections = work_attributes['member_of_collections']
-          end
-
-          resource
-        end
-
         # Create a work using the xml parsed
         def create_work(xml_metadata)
           parsed_data = Ingest::Services::MetadataParser.new(xml_metadata,
@@ -215,9 +173,48 @@ module Ingest
           # Create new work record and save
           new_work = work_record(work_attributes)
           new_work.save!
-
-
         end
+
+        def work_record(work_attributes)
+          if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&
+              !(work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
+            resource = @child_work_type.singularize.classify.constantize.new
+          else
+            resource = @work_type.singularize.classify.constantize.new
+          end
+
+          resource.depositor = @depositor.id
+          resource.visibility = work_attributes['visibility']
+          resource.title = work_attributes['title']
+          resource.save
+          
+          #  Singularize non-enumerable attributes
+          work_attributes.each do |k,v|
+            if resource.attributes.keys.member?(k.to_s) && !resource.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
+              work_attributes[k] = v.first
+            else
+              work_attributes[k] = v
+            end
+          end
+          resource.attributes = work_attributes.reject{|k,v| !resource.attributes.keys.member?(k.to_s) unless k.ends_with? '_attributes'}
+
+
+          # Singularize non-enumerable attributes
+          unless work_attributes['embargo_release_date'].blank?
+            resource.embargo_release_date = work_attributes['embargo_release_date']
+            resource.visibility_during_embargo = work_attributes['visibility_during_embargo']
+            resource.visibility_after_embargo = work_attributes['visibility_after_embargo']
+          end
+
+          unless work_attributes['admin_set_id'].blank?
+            resource.admin_set_id = work_attributes['admin_set_id']
+          end
+          
+          resource.member_of_collections = work_attributes['member_of_collections']
+
+          resource
+        end
+
         def get_work_attributes(metadata)
 
         end
