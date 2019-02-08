@@ -16,6 +16,7 @@ module Ingest
         @depositor = depositor
         @config = config
         @collection = collection
+        @created_works = Array.new
       end
 
       def ingest_records
@@ -32,8 +33,11 @@ module Ingest
           puts "[#{start_time.to_s}] Start migration of #{title}"
           work = create_work(record)
           puts "The work has been created" if work.present?
+          # Save the work id to the created_works array
+          @created_works << work.id if work.present?
         end
 
+        # Update the works with the collection
 
 
 
@@ -173,6 +177,9 @@ module Ingest
           # Create new work record and save
           new_work = work_record(work_attributes)
           new_work.save!
+
+          new_work
+
         end
 
         def work_record(work_attributes)
@@ -210,8 +217,13 @@ module Ingest
             resource.admin_set_id = work_attributes['admin_set_id']
           end
           
-          resource.member_of_collections = work_attributes['member_of_collections']
+          ## For perfomance reasons
+          # we will load the association of
+          # the works and collections after
+          #
+          #resource.member_of_collections = work_attributes['member_of_collections']
 
+          resource.admin_set_id = AdminSet.find_or_create_default_admin_set_id
           resource
         end
 

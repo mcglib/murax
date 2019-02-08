@@ -33,7 +33,6 @@ module Ingest
         # Add work to specified collection
         work_attributes['member_of_collections'] = Array(@collection)
 
-        #work_attributes['admin_set_id'] =  Hyrax::CollectionType.where(title: 'User Collection').first.gid
 
 
         # Find manifest files
@@ -74,19 +73,26 @@ module Ingest
           work_attributes['contributor'] = metadata.css("contributor").map(&:text)
         
           # Get the date_uploaded
+          date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
+          work_attributes['date_uploaded'] =  [date_uploaded.to_s]
+          
+          # get the modifiedDate
           date_modified_string = metadata.css("localdissacceptdate").text 
           date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y').strftime('%Y-%m-%d') unless date_modified_string.nil?
-          date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
           work_attributes['date_modified'] =  [date_modified.to_s]
-          work_attributes['date_uploaded'] =  [date_uploaded.to_s]
           work_attributes['date_created'] =  [date_modified.to_s]
 
-          # get the modifiedDate
-
+          languages = [metadata.css('language').text]
           #work_attributes['language'] = get_language_uri(languages) if !languages.blank?
           #work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
           
           work_attributes['resource_type'] = [@resource_type]
+
+          # get the department
+          work_attributes['department'] = metadata.css('localthesisdegreediscipline').text
+
+          # setup the keywords
+          work_attributes['keyword'] = get_subjects(metadata.css('localthesisdegreediscipline'))
 
 
           # Rights visibility
@@ -100,6 +106,27 @@ module Ingest
           work_attributes
         end
 
+
+        # Get the subjects from the thesisdiscipline
+        def get_subjects(degrees)
+          subjects = Array.new
+          degrees.each do | degree |
+            byebug
+            my_text = degree.text
+
+            @config['keywords_transformation'].each  do | forbidden_text |
+            
+              if my_text.downcase.include? forbidden_text.downcase()
+                subjects.push(my_text.sub! "#{forbidden_text}", "")
+              end
+            
+            end
+
+          end
+          subjects
+
+        end
+        #
         # Use language code to get iso639-2 uri from service
         def get_language_uri(language_codes)
           language_codes.map{|e| LanguagesService.label("http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}") ?

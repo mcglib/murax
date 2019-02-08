@@ -4,6 +4,15 @@ ethesis:
   resource_type: "Dissertation"
   admin_set: "User Collection"
   depositor_email: dev.library@mcgill.ca
-  tmp_file_location: spec/fixtures/migration/files
+  tmp_file_location: spec/fixtures/ingest/files
+  department_authorites: spec/fixtures/authorities/departments.yml
   collection: ethesis
   rights_statement: "http://rightsstatements.org/vocab/UND/1.0/"
+  keywords_transformation: 
+    - 'Schulich School of'
+    - 'Department of '
+    - 'Faculty of '
+    - 'School of '
+    - 'Institute of '
+    - 'Program in '
+    - 'Desautels Faculty of'
