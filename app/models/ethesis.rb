@@ -8,12 +8,11 @@ class Ethesis < ActiveFedora::Base
   # self.valid_child_concerns = []
   validates :title, presence: { message: 'Your Ethesis must have a title.' }
 
-  property :contact_email, predicate: ::RDF::Vocab::VCARD.hasEmail, multiple: false do |index|
-      index.as :stored_searchable
-  end
+  self.human_readable_type = 'ethesis'
 
-  property :contact_phone, predicate: ::RDF::Vocab::VCARD.hasTelephone do |index|
-      index.as :stored_searchable
+
+  property :description, predicate: ::RDF::URI.new("http://lib.my.edu/description"), multiple: true do |index|
+      index.as :stored_searchable, :facetable
   end
 
   property :department, predicate: ::RDF::URI.new("http://lib.my.edu/departments"), multiple: false do |index|
@@ -23,4 +22,7 @@ class Ethesis < ActiveFedora::Base
   # This must be included at the end, because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
   include ::Hyrax::BasicMetadata
+
+  apply_schema Schemas::CoreMetadata, Schemas::GeneratedResourceSchemaStrategy.new
+  apply_schema Schemas::EthesisMetadata, Schemas::GeneratedResourceSchemaStrategy.new
 end

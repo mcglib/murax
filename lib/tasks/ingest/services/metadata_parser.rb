@@ -83,16 +83,16 @@ module Ingest
           work_attributes['date_created'] =  [date_modified.to_s]
 
           languages = [metadata.css('language').text]
-          #work_attributes['language'] = get_language_uri(languages) if !languages.blank?
-          #work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
+          work_attributes['language'] = get_language_uri(languages) if !languages.blank?
+          work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
           
           work_attributes['resource_type'] = [@resource_type]
 
           # get the department
           work_attributes['department'] = metadata.css('localthesisdegreediscipline').text
 
-          # setup the keywords
-          work_attributes['keyword'] = get_subjects(metadata.css('localthesisdegreediscipline'))
+          # setup the subjects
+          work_attributes['subject'] = get_subjects(metadata.css('localthesisdegreediscipline'))
 
 
           # Rights visibility
@@ -101,17 +101,19 @@ module Ingest
 
 
           # Set the depositor
-          work_attributes['depositor'] = @depositor.id
+          work_attributes['depositor'] = @depositor.email
+
+          # Get the file_attributes
+
 
           work_attributes
         end
 
 
         # Get the subjects from the thesisdiscipline
-        def get_subjects(degrees)
+        def get_subjects(degrees_xml)
           subjects = Array.new
-          degrees.each do | degree |
-            byebug
+          degrees_xml.each do | degree |
             my_text = degree.text
 
             @config['keywords_transformation'].each  do | forbidden_text |

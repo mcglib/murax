@@ -26,15 +26,23 @@ module Ingest
         # Remove the namespaces
         xml = metadata.remove_namespaces!
 
+        Ethesis.all.each do | thesis |
+          if  attach_work_to_collection(thesis, @collection) 
+            puts "The work has been attached to the collection"
+          end
+        end
         # Create the records
         xml.xpath("//record").each do  |record|
           start_time = Time.now
           title = record.css('title').text
-          puts "[#{start_time.to_s}] Start migration of #{title}"
+          puts "[#{start_time.to_s}]: #{title}"
+
           work = create_work(record)
-          puts "The work has been created" if work.present?
+          puts "The work has been created for #{title}" if work.present?
+          
           # Save the work id to the created_works array
           @created_works << work.id if work.present?
+
         end
 
         # Update the works with the collection
@@ -167,6 +175,16 @@ module Ingest
 
 
       private
+
+        # Attach the work to a collection
+        def attach_work_to_collection(work,collection)
+
+          byebug
+          attached = false
+          attached
+        end
+
+
         # Create a work using the xml parsed
         def create_work(xml_metadata)
           parsed_data = Ingest::Services::MetadataParser.new(xml_metadata,

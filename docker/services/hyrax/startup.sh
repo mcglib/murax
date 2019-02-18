@@ -29,53 +29,35 @@ if grep -q "false" /tmp/stderr.txt; then
   echo "-------------------------"
   echo "bundle exec rake db:clean RAILS_ENV=${RAILS_ENV}"
   bundle exec rake db:clean RAILS_ENV=${RAILS_ENV}
+  
+  echo "Clean out an Fedora items if needed "
+  bundle exec rake murax:fedora_clean RAILS_ENV=${RAILS_ENV}
+  
+  echo "Create the default collection types"
+  bundle exec rake hyrax:default_collection_types:create RAILS_ENV=${RAILS_ENV}
+  
+  echo "Initializing the default admin set and roles..."
+  echo "bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV}"
+  bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV}
+
+  echo "Initializing the default digitool collections"
+  echo "bundle exec rake murax:create_digitool_collections RAILS_ENV=${RAILS_ENV}"
+  bundle exec rake murax:create_digitool_collections RAILS_ENV=${RAILS_ENV}
+  
+  echo "Seed the database with some default roles"
+  bundle exec rake murax:create_default_roles RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
+  
+  echo "Create the default admin user"
+  bundle exec rake murax:create_default_admin_user -- -n ${ADMIN_USERNAME}  -p ${ADMIN_PASSWORD} -e ${ADMIN_EMAIL} RAILS_ENV=${RAILS_ENV}
 
 else
   echo "Database tables exists. Not initializing."
 fi
+echo "------END OF DB SETUP-------------------"
 
 echo "Running any migrations first to be sure we are upto date"
 echo "bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}"
 bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
-echo "------END OF DB SETUP-------------------"
-
-echo "Clean out an Fedora items if needed "
-bundle exec rake murax:fedora_clean RAILS_ENV=${RAILS_ENV}
-
-echo "Create the default collection types"
-bundle exec rake hyrax:default_collection_types:create RAILS_ENV=${RAILS_ENV}
-
-echo "Create the default admin set"
-if grep -q "false" /tmp/stderr.txt; then
-  echo "Initializing the default admin set and roles..."
-  echo "bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV}"
-  bundle exec rake hyrax:default_admin_set:create RAILS_ENV=${RAILS_ENV}
-else
-  echo "Default admin set exists. Skipping."
-fi
-
-
-echo "Create the set of digitool collections"
-if grep -q "false" /tmp/stderr.txt; then
-  echo "Initializing the default digitool collections"
-  echo "bundle exec rake murax:create_digitool_collections RAILS_ENV=${RAILS_ENV}"
-  bundle exec rake murax:create_digitool_collections RAILS_ENV=${RAILS_ENV}
-else
-  echo "Create the digitool collections. Skipping."
-fi
-
-
-
-
-if grep -q "false" /tmp/stderr.txt; then
-    echo "Seed the database with some default roles"
-    bundle exec rake murax:create_default_roles RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt
-    echo "Create the default admin user"
-    bundle exec rake murax:create_default_admin_user -- -n ${ADMIN_USERNAME}  -p ${ADMIN_PASSWORD} -e ${ADMIN_EMAIL} RAILS_ENV=${RAILS_ENV}
-else
-  echo "Default roles and admin user existing. skipping"
-fi
-
 
 rm /tmp/stderr.txt
 

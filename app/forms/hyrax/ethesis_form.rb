@@ -4,8 +4,8 @@ module Hyrax
   # Generated form for Ethesis
   class EthesisForm < Hyrax::Forms::WorkForm
     self.model_class = ::Ethesis
-    self.terms += [:resource_type, :contact_email, :contact_phone, :department]
-    self.required_fields += [:department, :contact_email]
-    self.required_fields -= [:keyword, :rights]
+    self.terms += [:resource_type, :department]
+    self.required_fields += [:department, :subject, :rights]
+    self.required_fields -= [:keyword, :contact_email]
   end
 end

@@ -98,7 +98,11 @@ gem 'sshkit-sudo'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
+
 gem 'hyrax', '2.4.1'
+gem "rdf-vocab"
+
+
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-guests', '~> 0.6'

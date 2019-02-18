@@ -33,7 +33,6 @@ namespace :ingest do
     #return `ARGV` with the intended arguments
     args = o.order!(ARGV) {}
     o.parse!(args)
-
   end
 
 
@@ -55,7 +54,6 @@ namespace :ingest do
     #return `ARGV` with the intended arguments
     args = o.order!(ARGV) {}
     o.parse!(args)
-    puts "hello #{options.inspect}"
     start_time = Time.now
 
     @metadata_file = File.join(Rails.root, options[:xmlfile]) if options[:xmlfile].present?
