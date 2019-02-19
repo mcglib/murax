@@ -19,10 +19,12 @@ class Ethesis < ActiveFedora::Base
       index.as :stored_searchable, :facetable
   end
 
+  include ::Hyrax::EthesisMetadata
+
   # This must be included at the end, because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
   include ::Hyrax::BasicMetadata
 
-  apply_schema Schemas::CoreMetadata, Schemas::GeneratedResourceSchemaStrategy.new
-  apply_schema Schemas::EthesisMetadata, Schemas::GeneratedResourceSchemaStrategy.new
+  #apply_schema Schemas::CoreMetadata, Schemas::GeneratedResourceSchemaStrategy.new
+  #apply_schema Schemas::EthesisMetadata, Schemas::GeneratedResourceSchemaStrategy.new
 end
