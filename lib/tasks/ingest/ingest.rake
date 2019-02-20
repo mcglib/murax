@@ -36,6 +36,7 @@ namespace :ingest do
   end
 
 
+  # bundle exec rake ingest::ethesis -- -f spec/fixtures/ingest/j97202784.xml
   desc 'Ingest  the Ethesis records from the GPSO team'
   task :ethesis =>:environment do
     options = {

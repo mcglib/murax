@@ -83,6 +83,7 @@ module Ingest
           work_attributes['date_created'] =  [date_modified.to_s]
 
           languages = [metadata.css('language').text]
+          byebug
           work_attributes['language'] = get_language_uri(languages) if !languages.blank?
           work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
           
@@ -94,6 +95,17 @@ module Ingest
           # setup the subjects
           work_attributes['subject'] = get_subjects(metadata.css('localthesisdegreediscipline'))
 
+
+          # get the degree
+          work_attributes['degree'] = metadata.css('localthesisdegreediscipline').text
+
+
+          # get the institution
+          work_attributes['institution'] = metadata.css('localthesisdegreediscipline').text
+          
+          
+          # get the school
+          work_attributes['school'] = metadata.css('localthesisdegreediscipline').text
 
           # Rights visibility
           work_attributes['rights_statement'] = [@config['rights_statement']]

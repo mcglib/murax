@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-        mount BrowseEverything::Engine => '/browse'
+  mount BrowseEverything::Engine => '/browse'
   
   mount Riiif::Engine => 'images', as: :riiif if Hyrax.config.iiif_image_server?
     concern :searchable, Blacklight::Routes::Searchable.new
+  
+  match "/404", :to => "errors#not_found", :via => :all
+  match "/500", :to => "errors#internal_server_error", :via => :all
 
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
     concerns :searchable

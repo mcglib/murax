@@ -9,6 +9,7 @@ module LanguagesService
   end
 
   def self.label(id)
+    byebug
     authority.find(id).fetch('term')
   end
 
