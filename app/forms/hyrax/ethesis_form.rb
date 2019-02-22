@@ -5,7 +5,7 @@ module Hyrax
   class EthesisForm < Hyrax::Forms::WorkForm
     self.model_class = ::Ethesis
     self.terms += [:resource_type, :department, :degree, :institution, :school]
-    self.required_fields += [:department, :subject, :rights, :degree, :institution, :school]
+    self.required_fields += [:department, :subject, :rights, :degree]
     self.required_fields -= [:keyword, :contact_email]
   end
 end

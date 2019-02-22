@@ -15,9 +15,6 @@ class Ethesis < ActiveFedora::Base
       index.as :stored_searchable, :facetable
   end
 
-  property :department, predicate: ::RDF::URI.new("http://lib.my.edu/departments"), multiple: false do |index|
-      index.as :stored_searchable, :facetable
-  end
 
   include ::Hyrax::EthesisMetadata
 
