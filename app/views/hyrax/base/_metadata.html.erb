@@ -1,0 +1,4 @@
+<%# [hyc-override] remove license renderer (included in _attribute_rows) %>
+<dl class="mcgill-work-show <%= dom_class(presenter) %>" <%= presenter.microdata_type_to_html %>>
+  <%= render 'attribute_rows', presenter: presenter %>
+</dl>

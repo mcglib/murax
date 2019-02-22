@@ -70,7 +70,7 @@ module Ingest
           work_attributes['description'] = abstracts
 
           work_attributes['creator'] = metadata.css("creator").map(&:text)
-          work_attributes['contributor'] = metadata.css("contributor").map(&:text)
+          work_attributes['contributor'] = get_contributor_names(metadata.css("contributor"))
         
           # Get the date_uploaded
           date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
@@ -140,6 +140,17 @@ module Ingest
         def get_language_uri(language_codes)
           language_codes.map{|e| LanguagesService.label("http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}") ?
                                 "http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}" : e}
+        end
+
+        def get_contributor_names(contributor_xml)
+          contributors = Array.new
+          contributor_xml.each do | contrib |
+            my_text = contrib.text
+            role = my_text.gsub(/\(.*\)/, "")
+            contributors.push(role.strip)
+          end
+
+          contributors
         end
 
         def get_rdf_info

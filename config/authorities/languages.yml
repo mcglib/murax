@@ -845,6 +845,9 @@ terms:
     term: Sotho, Southern
   - id: http://id.loc.gov/vocabulary/iso639-2/spa
     term: Spanish |  Castilian
+  - id: http://id.loc.gov/vocabulary/iso639-2/es
+    term: Spanish
+    active: true
   - id: http://id.loc.gov/vocabulary/iso639-2/sqi
     term: Albanian
   - id: http://id.loc.gov/vocabulary/iso639-2/srd

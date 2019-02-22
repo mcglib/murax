@@ -1,12 +1,12 @@
+# [murax-override] Overriding default basic metadata to follow MAP
 module Hyrax
   # An optional model mixin to define some simple properties. This must be mixed
   # after all other properties are defined because no other properties will
   # be defined once  accepts_nested_attributes_for is called
-  module EthesisMetadata
+  module BasicMetadata
     extend ActiveSupport::Concern
 
     included do
-
       property :alternative_title,      predicate: RDF::Vocab::DC.alternative('http://purl.org/dc/terms/alternative'), multiple: true do | index |
               index.as :stored_searchable
       end
@@ -84,11 +84,11 @@ module Hyrax
               index.as :stored_searchable
       end
 
-      #id_blank = proc { |attributes| attributes[:id].blank? }
+      id_blank = proc { |attributes| attributes[:id].blank? }
 
-      #class_attribute :controlled_properties
-      #self.controlled_properties = [:based_near]
-      #accepts_nested_attributes_for :based_near, reject_if: id_blank, allow_destroy: true
+      class_attribute :controlled_properties
+      self.controlled_properties = [:based_near]
+      accepts_nested_attributes_for :based_near, reject_if: id_blank, allow_destroy: true
     end
   end
 end
