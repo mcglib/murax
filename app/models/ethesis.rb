@@ -15,6 +15,4 @@ class Ethesis < ActiveFedora::Base
   # schema (by adding accepts_nested_attributes)
   include ::Hyrax::BasicMetadata
 
-  #apply_schema Schemas::CoreMetadata, Schemas::GeneratedResourceSchemaStrategy.new
-  #apply_schema Schemas::EthesisMetadata, Schemas::GeneratedResourceSchemaStrategy.new
 end
