@@ -21,6 +21,7 @@ module Hyrax
       end
 
       property :Description,      predicate: RDF::Vocab::DC11.description, multiple: true do | index | 
+              index.type :text
               index.as :stored_searchable
       end
 
