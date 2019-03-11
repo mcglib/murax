@@ -29,7 +29,11 @@ if grep -q "false" /tmp/stderr.txt; then
   echo "-------------------------"
   echo "bundle exec rake db:clean RAILS_ENV=${RAILS_ENV}"
   bundle exec rake db:clean RAILS_ENV=${RAILS_ENV}
-  
+
+  echo "Running any migrations first to be sure we are upto date"
+  echo "bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}"
+  bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
+
   echo "Clean out an Fedora items if needed "
   bundle exec rake murax:fedora_clean RAILS_ENV=${RAILS_ENV}
   
@@ -55,9 +59,9 @@ else
 fi
 echo "------END OF DB SETUP-------------------"
 
-echo "Running any migrations first to be sure we are upto date"
-echo "bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}"
-bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
+#echo "Running any migrations first to be sure we are upto date"
+#echo "bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}"
+#bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
 
 rm /tmp/stderr.txt
 
