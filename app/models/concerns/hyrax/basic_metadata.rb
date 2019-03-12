@@ -92,6 +92,49 @@ module Hyrax
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near, class_name: Hyrax::ControlledVocabularies::Location     
       id_blank = proc { |attributes| attributes[:id].blank? }
 
+
+####These properties will be removed in the form app/forms/hyrax file.######
+
+      property :resource_type, predicate: ::RDF::Vocab::DC.type do |index|
+        index.as :stored_searchable, :facetable
+      end
+
+      property :keyword, predicate: ::RDF::Vocab::DC11.relation do |index|
+        index.as :stored_searchable, :facetable
+      end
+
+
+      property :description, predicate: ::RDF::Vocab::DC11.description do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
+      property :rights_statement, predicate: ::RDF::Vocab::EDM.rights do |index|
+        index.as :stored_searchable
+      end
+
+      property :date_created, predicate: ::RDF::Vocab::DC.created do |index|
+        index.as :stored_searchable
+      end
+
+      property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation do |index|
+        index.as :stored_searchable
+      end
+
+      property :source, predicate: ::RDF::Vocab::DC.source do |index|
+        index.as :stored_searchable
+      end
+
+      property :import_url, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#importUrl'), multiple: false do |index|
+        index.as :symbol
+      end
+
+      property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
+
+
+####End of properties that will removed #######
+
+      
       class_attribute :controlled_properties
       self.controlled_properties = [:based_near]
       accepts_nested_attributes_for :based_near, reject_if: id_blank, allow_destroy: true
