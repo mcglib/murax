@@ -13,6 +13,8 @@ Hyrax.config do |config|
   config.register_curation_concern :poster
   # Injected via `rails g hyrax:work Book`
   config.register_curation_concern :book
+  # Injected via `rails g hyrax:work Thesis`
+  config.register_curation_concern :thesis
   # Register roles that are expected by your implementation.
   # @see Hyrax::RoleRegistry for additional details.
   # @note there are magical roles as defined in Hyrax::RoleRegistry::MAGIC_ROLES
@@ -173,7 +175,8 @@ Hyrax.config do |config|
   # config.audit_user_key = 'audituser@example.com'
   #
   # The banner image. Should be 5000px wide by 1000px tall
-  config.banner_image = 'https://digitool.library.mcgill.ca/icon/library_en.jpg'
+  #config.banner_image = 'https://digitool.library.mcgill.ca/icon/library_en.jpg'
+  config.banner_image = Rails.root.join('app','assets', 'images', 'banner-small.jpg')
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately

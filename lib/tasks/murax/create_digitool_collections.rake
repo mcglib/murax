@@ -4,7 +4,7 @@ namespace :murax do
   #bundle exec rake murax:create_digitool_collections -- -f config/digitool_collections.json --owner dev.library.mcgill.ca
   desc 'Create the default collections via a json file'
   task :create_digitool_collections => :environment do
-    require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
+    require "#{Rails.root}/app/services/find_or_create_collection.rb" # <-- HERE!
     options = {
           file: 'config/digitool_collections.json',
           owner: 'dev.library@mcgill.ca'
