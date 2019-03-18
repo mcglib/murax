@@ -20,11 +20,6 @@ module Hyrax
               index.as :stored_searchable, :facetable
       end
 
-      property :Description,      predicate: RDF::Vocab::DC11.description, multiple: true do | index | 
-              index.type :text
-              index.as :stored_searchable
-      end
-
       property :abstract,      predicate: RDF::Vocab::DC.abstract, multiple: true do | index |
               index.as :stored_searchable
       end

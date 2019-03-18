@@ -6,10 +6,10 @@ module Hyrax
     
     class_attribute :single_value_fields
     self.model_class = ::Ethesis
-    self.terms += [:title, :department, :degree, :institution, :faculty,:alternative_title, :rights,
-                   :creator, :note, :publisher, :extent, :Description, :abstract, 
+    self.terms += [:title, :degree, :institution, :faculty,:alternative_title, :rights,
+                   :creator, :note, :publisher, :extent, :abstract, 
                    :date,  :rights, :subject, :rtype, :orcidid,  :identifier, :relation ]
-    self.terms -= [:description, :keyword, :rights_statement, :date_created, :source, :resource_type, :bibliographic_citation, :import_url, :relative_path]
+    self.terms -= [ :keyword, :rights_statement, :date_created, :source, :resource_type, :bibliographic_citation, :import_url, :relative_path]
 
     self.required_fields += [:creator, :abstract,  :publisher, :date, :subject, :institution, :degree,
                              :department, :faculty, :rights, :rtype, :identifier]
