@@ -1,0 +1,435 @@
+# Logfile created on 2019-03-07 12:06:22 -0500 by logger.rb/61378
+2019-03-07T17:06:50.030Z 16433 TID-grsxw6ojt INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-16433"}
+2019-03-07T17:06:52.376Z 16433 TID-grsxw6ojt INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T17:06:52.376Z 16433 TID-grsxw6ojt INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T17:06:52.376Z 16433 TID-grsxw6ojt INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T17:23:07.863Z 745 TID-gmtz7vml9 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-07T17:23:09.210Z 745 TID-gmtz7vml9 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T17:23:09.210Z 745 TID-gmtz7vml9 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T17:23:09.210Z 745 TID-gmtz7vml9 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T17:24:33.080Z 740 TID-grjvmv3to INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-740"}
+2019-03-07T17:24:34.556Z 740 TID-grjvmv3to INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T17:24:34.556Z 740 TID-grjvmv3to INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T17:24:34.556Z 740 TID-grjvmv3to INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T17:35:10.391Z 745 TID-grth4y58l INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-07T17:35:11.971Z 745 TID-grth4y58l INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T17:35:11.971Z 745 TID-grth4y58l INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T17:35:11.971Z 745 TID-grth4y58l INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T19:36:43.002Z 741 TID-gszuxhjq1 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-741"}
+2019-03-07T19:36:44.912Z 741 TID-gszuxhjq1 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T19:36:44.912Z 741 TID-gszuxhjq1 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T19:36:44.912Z 741 TID-gszuxhjq1 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T19:46:05.203Z 741 TID-gpy7ioj59 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-741"}
+2019-03-07T19:46:06.808Z 741 TID-gpy7ioj59 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T19:46:06.808Z 741 TID-gpy7ioj59 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T19:46:06.808Z 741 TID-gpy7ioj59 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T20:24:12.501Z 744 TID-gs2hji68g INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-07T20:24:13.969Z 744 TID-gs2hji68g INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T20:24:13.969Z 744 TID-gs2hji68g INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T20:24:13.969Z 744 TID-gs2hji68g INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T21:28:46.388Z 745 TID-gqea13ba9 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-07T21:28:48.010Z 745 TID-gqea13ba9 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T21:28:48.011Z 745 TID-gqea13ba9 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T21:28:48.011Z 745 TID-gqea13ba9 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-07T21:45:07.090Z 744 TID-go6epbvfs INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-07T21:45:08.567Z 744 TID-go6epbvfs INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-07T21:45:08.567Z 744 TID-go6epbvfs INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-07T21:45:08.567Z 744 TID-go6epbvfs INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-08T15:31:03.067Z 741 TID-gqllzl8f9 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-741"}
+2019-03-08T15:31:04.540Z 741 TID-gqllzl8f9 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-08T15:31:04.540Z 741 TID-gqllzl8f9 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-08T15:31:04.540Z 741 TID-gqllzl8f9 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-08T15:38:04.087Z 741 TID-gmzp19kwp INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-741"}
+2019-03-08T15:38:05.729Z 741 TID-gmzp19kwp INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-08T15:38:05.729Z 741 TID-gmzp19kwp INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-08T15:38:05.729Z 741 TID-gmzp19kwp INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-08T20:55:22.797Z 741 TID-gmzqdlg21 StreamNotificationsJob JID-fc812b1b20b4542027fad4a5 INFO: start
+2019-03-08T20:55:33.590Z 741 TID-gmzqdlg21 StreamNotificationsJob JID-fc812b1b20b4542027fad4a5 INFO: done: 10.793 sec
+2019-03-11T15:02:59.234Z 744 TID-gqma164v0 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-11T15:03:01.997Z 744 TID-gqma164v0 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-11T15:03:01.998Z 744 TID-gqma164v0 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-11T15:03:01.998Z 744 TID-gqma164v0 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-11T15:27:34.468Z 748 TID-gsuqv23v4 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-748"}
+2019-03-11T15:27:35.964Z 748 TID-gsuqv23v4 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-11T15:27:35.964Z 748 TID-gsuqv23v4 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-11T15:27:35.964Z 748 TID-gsuqv23v4 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-12T13:09:39.443Z 745 TID-go5b9p4bh INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-12T13:09:42.489Z 745 TID-go5b9p4bh INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-12T13:09:42.489Z 745 TID-go5b9p4bh INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-12T13:09:42.489Z 745 TID-go5b9p4bh INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-12T15:39:30.507Z 740 TID-gotr7n6qs INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-740"}
+2019-03-12T15:39:32.317Z 740 TID-gotr7n6qs INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-12T15:39:32.317Z 740 TID-gotr7n6qs INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-12T15:39:32.317Z 740 TID-gotr7n6qs INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-12T15:44:29.229Z 745 TID-gnwc80rtx INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-12T15:44:30.711Z 745 TID-gnwc80rtx INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-12T15:44:30.711Z 745 TID-gnwc80rtx INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-12T15:44:30.711Z 745 TID-gnwc80rtx INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-12T16:16:16.378Z 745 TID-gnwdl6v9l Hyrax::GrantEditToMembersJob JID-7aeb415fb5f4fad0781007c4 INFO: start
+2019-03-12T16:16:18.785Z 745 TID-gnwdl6ue1 ContentDepositEventJob JID-8717d347b9a02567ef2eee99 INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-12T16:16:28.249Z 745 TID-gnwdl6v9l Hyrax::GrantEditToMembersJob JID-7aeb415fb5f4fad0781007c4 INFO: done: 11.871 sec
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-12T16:16:29.653Z 745 TID-gnwdl6ue1 ContentDepositEventJob JID-8717d347b9a02567ef2eee99 INFO: done: 10.868 sec
+2019-03-12T16:21:20.214Z 745 TID-gnwdl6wd9 Hyrax::GrantEditToMembersJob JID-fcbef33c170059abb2e56839 INFO: start
+2019-03-12T16:21:20.346Z 745 TID-gnwdl6wd9 Hyrax::GrantEditToMembersJob JID-fcbef33c170059abb2e56839 INFO: done: 0.132 sec
+2019-03-12T16:21:22.826Z 745 TID-gnwdl6v4l ContentDepositEventJob JID-514ef46682f0ed9279c5ee95 INFO: start
+2019-03-12T16:21:22.979Z 745 TID-gnwdl6v4l ContentDepositEventJob JID-514ef46682f0ed9279c5ee95 INFO: done: 0.154 sec
+2019-03-12T16:32:09.014Z 745 TID-gnwdl6vu5 Hyrax::GrantEditToMembersJob JID-abd8a62a707941de1be6a925 INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-12T16:32:10.728Z 745 TID-gnwdl6vu5 Hyrax::GrantEditToMembersJob JID-abd8a62a707941de1be6a925 INFO: done: 1.714 sec
+2019-03-12T16:32:12.497Z 745 TID-gnwdl6vch ContentDepositEventJob JID-f64571c1dc4087d9e83f574e INFO: start
+2019-03-12T16:32:12.839Z 745 TID-gnwdl6vch ContentDepositEventJob JID-f64571c1dc4087d9e83f574e INFO: done: 0.342 sec
+2019-03-12T16:37:20.623Z 745 TID-gnwdl6v4l Hyrax::GrantEditToMembersJob JID-39d24d1e4e83eda8e7c36d39 INFO: start
+2019-03-12T16:37:20.730Z 745 TID-gnwdl6v4l Hyrax::GrantEditToMembersJob JID-39d24d1e4e83eda8e7c36d39 INFO: done: 0.107 sec
+2019-03-12T16:37:22.918Z 745 TID-gnwdl6v4l ContentDepositEventJob JID-fe1f4423cb2937355fcf4dc5 INFO: start
+2019-03-12T16:37:23.032Z 745 TID-gnwdl6v4l ContentDepositEventJob JID-fe1f4423cb2937355fcf4dc5 INFO: done: 0.114 sec
+2019-03-12T18:04:35.249Z 745 TID-gnwdl6uq9 Hyrax::GrantEditToMembersJob JID-3909c1536e970b8037c7bedc INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-12T18:04:36.878Z 745 TID-gnwdl6uq9 Hyrax::GrantEditToMembersJob JID-3909c1536e970b8037c7bedc INFO: done: 1.629 sec
+2019-03-12T18:04:37.724Z 745 TID-gnwdl6wd9 ContentDepositEventJob JID-153c1d1b314910d75bc86933 INFO: start
+2019-03-12T18:04:38.001Z 745 TID-gnwdl6wd9 ContentDepositEventJob JID-153c1d1b314910d75bc86933 INFO: done: 0.277 sec
+undefined local variable or method `image' for main:Object
+/usr/src/app/config/initializers/hyrax.rb:177:in `block in <top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/hyrax-2.4.1/lib/hyrax.rb:44:in `config'
+/usr/src/app/config/initializers/hyrax.rb:1:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `block in load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:258:in `load_dependency'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:655:in `block in load_config_initializer'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/notifications.rb:168:in `instrument'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:654:in `load_config_initializer'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:612:in `block (2 levels) in <class:Engine>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:611:in `each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:611:in `block in <class:Engine>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:30:in `instance_exec'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:30:in `run'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:59:in `block in run_initializers'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:228:in `block in tsort_each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:350:in `block (2 levels) in each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:422:in `block (2 levels) in each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:431:in `each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:421:in `block in each_strongly_connected_component_from'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:48:in `each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:48:in `tsort_each_child'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:415:in `call'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:415:in `each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:349:in `block in each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `call'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:226:in `tsort_each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:205:in `tsort_each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:58:in `run_initializers'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/application.rb:353:in `initialize!'
+/usr/src/app/config/environment.rb:5:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:278:in `require'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:278:in `boot_system'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:53:in `run'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/bin/sidekiq:12:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/bin/sidekiq:23:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/bin/sidekiq:23:in `<top (required)>'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:74:in `load'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:74:in `kernel_load'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:28:in `run'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:463:in `exec'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/command.rb:27:in `run'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/invocation.rb:126:in `invoke_command'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor.rb:387:in `dispatch'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:27:in `dispatch'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/base.rb:466:in `start'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:18:in `start'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/bundler-1.17.3/exe/bundle:30:in `block in <top (required)>'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/friendly_errors.rb:124:in `with_friendly_errors'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/bundler-1.17.3/exe/bundle:22:in `<top (required)>'
+/usr/local/rbenv/versions/2.5.3/bin/bundle:23:in `load'
+/usr/local/rbenv/versions/2.5.3/bin/bundle:23:in `<main>'
+undefined local variable or method `image' for main:Object
+/usr/src/app/config/initializers/hyrax.rb:177:in `block in <top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/hyrax-2.4.1/lib/hyrax.rb:44:in `config'
+/usr/src/app/config/initializers/hyrax.rb:1:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `block in load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:258:in `load_dependency'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:655:in `block in load_config_initializer'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/notifications.rb:168:in `instrument'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:654:in `load_config_initializer'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:612:in `block (2 levels) in <class:Engine>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:611:in `each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:611:in `block in <class:Engine>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:30:in `instance_exec'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:30:in `run'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:59:in `block in run_initializers'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:228:in `block in tsort_each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:350:in `block (2 levels) in each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:422:in `block (2 levels) in each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:431:in `each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:421:in `block in each_strongly_connected_component_from'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:48:in `each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:48:in `tsort_each_child'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:415:in `call'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:415:in `each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:349:in `block in each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `call'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:226:in `tsort_each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:205:in `tsort_each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:58:in `run_initializers'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/application.rb:353:in `initialize!'
+/usr/src/app/config/environment.rb:5:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:278:in `require'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:278:in `boot_system'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:53:in `run'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/bin/sidekiq:12:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/bin/sidekiq:23:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/bin/sidekiq:23:in `<top (required)>'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:74:in `load'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:74:in `kernel_load'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:28:in `run'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:463:in `exec'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/command.rb:27:in `run'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/invocation.rb:126:in `invoke_command'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor.rb:387:in `dispatch'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:27:in `dispatch'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/base.rb:466:in `start'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:18:in `start'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/bundler-1.17.3/exe/bundle:30:in `block in <top (required)>'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/friendly_errors.rb:124:in `with_friendly_errors'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/bundler-1.17.3/exe/bundle:22:in `<top (required)>'
+/usr/local/rbenv/versions/2.5.3/bin/bundle:23:in `load'
+/usr/local/rbenv/versions/2.5.3/bin/bundle:23:in `<main>'
+2019-03-13T14:01:30.674Z 745 TID-gmwb8d9ul INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-13T14:01:32.703Z 745 TID-gmwb8d9ul INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-13T14:01:32.703Z 745 TID-gmwb8d9ul INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-13T14:01:32.703Z 745 TID-gmwb8d9ul INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T19:40:50.522Z 745 TID-gorxcphxt INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-14T19:40:52.177Z 745 TID-gorxcphxt INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T19:40:52.177Z 745 TID-gorxcphxt INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T19:40:52.177Z 745 TID-gorxcphxt INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T19:52:09.892Z 741 TID-gr8h66nmd INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-741"}
+2019-03-14T19:52:11.383Z 741 TID-gr8h66nmd INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T19:52:11.383Z 741 TID-gr8h66nmd INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T19:52:11.383Z 741 TID-gr8h66nmd INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:00:46.825Z 743 TID-gqtqzlnvf INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-743"}
+2019-03-14T20:00:48.471Z 743 TID-gqtqzlnvf INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:00:48.471Z 743 TID-gqtqzlnvf INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:00:48.471Z 743 TID-gqtqzlnvf INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:09:00.580Z 744 TID-gras34hzk INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-14T20:09:02.055Z 744 TID-gras34hzk INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:09:02.055Z 744 TID-gras34hzk INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:09:02.055Z 744 TID-gras34hzk INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:15:40.139Z 744 TID-gpfhdmiak INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-14T20:15:41.629Z 744 TID-gpfhdmiak INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:15:41.629Z 744 TID-gpfhdmiak INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:15:41.629Z 744 TID-gpfhdmiak INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:27:16.418Z 740 TID-grhvame50 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-740"}
+2019-03-14T20:27:18.063Z 740 TID-grhvame50 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:27:18.063Z 740 TID-grhvame50 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:27:18.063Z 740 TID-grhvame50 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:31:52.632Z 744 TID-grz7vowdk INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-14T20:31:54.131Z 744 TID-grz7vowdk INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:31:54.131Z 744 TID-grz7vowdk INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:31:54.131Z 744 TID-grz7vowdk INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:39:26.109Z 743 TID-gpsot6wi7 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-743"}
+2019-03-14T20:39:27.597Z 743 TID-gpsot6wi7 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:39:27.597Z 743 TID-gpsot6wi7 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:39:27.597Z 743 TID-gpsot6wi7 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-14T20:44:06.381Z 741 TID-gtcgy0wlx INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-741"}
+2019-03-14T20:44:08.030Z 741 TID-gtcgy0wlx INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-14T20:44:08.030Z 741 TID-gtcgy0wlx INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-14T20:44:08.030Z 741 TID-gtcgy0wlx INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+undefined local variable or method `image' for main:Object
+/usr/src/app/config/initializers/hyrax.rb:177:in `block in <top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/hyrax-2.4.1/lib/hyrax.rb:44:in `config'
+/usr/src/app/config/initializers/hyrax.rb:1:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `block in load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:258:in `load_dependency'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/dependencies.rb:286:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:655:in `block in load_config_initializer'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/activesupport-5.1.6/lib/active_support/notifications.rb:168:in `instrument'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:654:in `load_config_initializer'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:612:in `block (2 levels) in <class:Engine>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:611:in `each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/engine.rb:611:in `block in <class:Engine>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:30:in `instance_exec'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:30:in `run'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:59:in `block in run_initializers'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:228:in `block in tsort_each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:350:in `block (2 levels) in each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:422:in `block (2 levels) in each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:431:in `each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:421:in `block in each_strongly_connected_component_from'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:48:in `each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:48:in `tsort_each_child'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:415:in `call'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:415:in `each_strongly_connected_component_from'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:349:in `block in each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `call'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:347:in `each_strongly_connected_component'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:226:in `tsort_each'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/2.5.0/tsort.rb:205:in `tsort_each'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/initializable.rb:58:in `run_initializers'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/railties-5.1.6/lib/rails/application.rb:353:in `initialize!'
+/usr/src/app/config/environment.rb:5:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:278:in `require'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:278:in `boot_system'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/lib/sidekiq/cli.rb:53:in `run'
+/storage/www/murax/shared/bundle/ruby/2.5.0/gems/sidekiq-5.2.3/bin/sidekiq:12:in `<top (required)>'
+/storage/www/murax/shared/bundle/ruby/2.5.0/bin/sidekiq:23:in `load'
+/storage/www/murax/shared/bundle/ruby/2.5.0/bin/sidekiq:23:in `<top (required)>'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:74:in `load'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:74:in `kernel_load'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli/exec.rb:28:in `run'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:463:in `exec'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/command.rb:27:in `run'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/invocation.rb:126:in `invoke_command'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor.rb:387:in `dispatch'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:27:in `dispatch'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/vendor/thor/lib/thor/base.rb:466:in `start'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/cli.rb:18:in `start'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/bundler-1.17.3/exe/bundle:30:in `block in <top (required)>'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/site_ruby/2.5.0/bundler/friendly_errors.rb:124:in `with_friendly_errors'
+/usr/local/rbenv/versions/2.5.3/lib/ruby/gems/2.5.0/gems/bundler-1.17.3/exe/bundle:22:in `<top (required)>'
+/usr/local/rbenv/versions/2.5.3/bin/bundle:23:in `load'
+/usr/local/rbenv/versions/2.5.3/bin/bundle:23:in `<main>'
+2019-03-15T12:55:36.163Z 745 TID-gr3n68vs9 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-15T12:55:37.800Z 745 TID-gr3n68vs9 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T12:55:37.800Z 745 TID-gr3n68vs9 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T12:55:37.800Z 745 TID-gr3n68vs9 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T13:00:50.458Z 745 TID-gtgkhial5 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-15T13:00:51.974Z 745 TID-gtgkhial5 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T13:00:51.974Z 745 TID-gtgkhial5 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T13:00:51.974Z 745 TID-gtgkhial5 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T13:05:04.772Z 744 TID-gn2p41kpk INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-15T13:05:06.364Z 744 TID-gn2p41kpk INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T13:05:06.364Z 744 TID-gn2p41kpk INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T13:05:06.364Z 744 TID-gn2p41kpk INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T14:38:43.568Z 744 TID-grcdvi09s INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-15T14:38:45.063Z 744 TID-grcdvi09s INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T14:38:45.063Z 744 TID-grcdvi09s INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T14:38:45.063Z 744 TID-grcdvi09s INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T14:44:03.496Z 744 TID-gpeduwrus INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-15T14:44:04.969Z 744 TID-gpeduwrus INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T14:44:04.969Z 744 TID-gpeduwrus INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T14:44:04.969Z 744 TID-gpeduwrus INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T14:54:28.740Z 745 TID-gsr6asdud INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-745"}
+2019-03-15T14:54:30.389Z 745 TID-gsr6asdud INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T14:54:30.389Z 745 TID-gsr6asdud INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T14:54:30.389Z 745 TID-gsr6asdud INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T16:20:59.196Z 744 TID-gmvz45tz8 INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-15T16:21:00.710Z 744 TID-gmvz45tz8 INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T16:21:00.711Z 744 TID-gmvz45tz8 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T16:21:00.711Z 744 TID-gmvz45tz8 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T16:28:02.626Z 744 TID-gr3z3x89g INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-15T16:28:04.094Z 744 TID-gr3z3x89g INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T16:28:04.094Z 744 TID-gr3z3x89g INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T16:28:04.094Z 744 TID-gr3z3x89g INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-15T17:16:56.703Z 740 TID-gsxug73tc INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-740"}
+2019-03-15T17:16:58.165Z 740 TID-gsxug73tc INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-15T17:16:58.165Z 740 TID-gsxug73tc INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-15T17:16:58.165Z 740 TID-gsxug73tc INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-27T19:24:00.483Z 740 TID-gsxvqxpog Hyrax::GrantEditToMembersJob JID-a392bd34bf3ee7bc4916a17e INFO: start
+2019-03-27T19:24:03.401Z 740 TID-gsxvqxpwk ContentDepositEventJob JID-73f4973ea225ed74709f2ba6 INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-27T19:24:14.104Z 740 TID-gsxvqxpog Hyrax::GrantEditToMembersJob JID-a392bd34bf3ee7bc4916a17e INFO: done: 13.621 sec
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-27T19:24:15.564Z 740 TID-gsxvqxpwk ContentDepositEventJob JID-73f4973ea225ed74709f2ba6 INFO: done: 12.163 sec
+2019-03-27T19:46:21.732Z 740 TID-gsxvqxog8 Hyrax::GrantEditToMembersJob JID-dbf28745a5a83c8db1d53a2a INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-27T19:46:23.327Z 740 TID-gsxvqxog8 Hyrax::GrantEditToMembersJob JID-dbf28745a5a83c8db1d53a2a INFO: done: 1.595 sec
+2019-03-27T19:46:24.252Z 740 TID-gsxvqxoms ContentDepositEventJob JID-5e347f7a7b682b0d464a833d INFO: start
+2019-03-27T19:46:24.543Z 740 TID-gsxvqxoms ContentDepositEventJob JID-5e347f7a7b682b0d464a833d INFO: done: 0.291 sec
+2019-03-27T19:46:45.528Z 740 TID-gsxvqxoms ContentUpdateEventJob JID-ce280f6fe1318ae57760e0a9 INFO: start
+2019-03-27T19:46:45.581Z 740 TID-gsxvqxoms ContentUpdateEventJob JID-ce280f6fe1318ae57760e0a9 INFO: done: 0.052 sec
+2019-03-27T20:41:44.580Z 740 TID-gsxvjpli8 ContentUpdateEventJob JID-0ee5a95b4e491a2223e99c1f INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-27T20:41:46.091Z 740 TID-gsxvjpli8 ContentUpdateEventJob JID-0ee5a95b4e491a2223e99c1f INFO: done: 1.51 sec
+2019-03-27T20:43:18.009Z 740 TID-gsxvqxpwk ContentUpdateEventJob JID-ef20672fbac905c26798cc70 INFO: start
+2019-03-27T20:43:18.089Z 740 TID-gsxvqxpwk ContentUpdateEventJob JID-ef20672fbac905c26798cc70 INFO: done: 0.08 sec
+2019-03-28T13:33:40.901Z 740 TID-gsxvqxpwk ContentUpdateEventJob JID-ae5f0523ba54348d1604488c INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-28T13:33:42.618Z 740 TID-gsxvqxpwk ContentUpdateEventJob JID-ae5f0523ba54348d1604488c INFO: done: 1.716 sec
+2019-03-28T13:40:30.540Z 740 TID-gsxvqxpog ContentUpdateEventJob JID-67f6c7bf1683cd928ada07b2 INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-28T13:40:32.258Z 740 TID-gsxvqxpog ContentUpdateEventJob JID-67f6c7bf1683cd928ada07b2 INFO: done: 1.717 sec
+2019-03-28T13:53:54.733Z 740 TID-gsxvqxoms ContentUpdateEventJob JID-5701408ff0f7c444441248c8 INFO: start
+2019-03-28T13:53:54.778Z 740 TID-gsxvqxoms ContentUpdateEventJob JID-5701408ff0f7c444441248c8 INFO: done: 0.045 sec
+2019-03-28T14:01:24.960Z 740 TID-gsxvqxoms Hyrax::GrantEditToMembersJob JID-9f2d77fab6d9407cd673cc7a INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-28T14:01:26.248Z 740 TID-gsxvqxoms Hyrax::GrantEditToMembersJob JID-9f2d77fab6d9407cd673cc7a INFO: done: 1.288 sec
+2019-03-28T14:01:27.689Z 740 TID-gsxvjpmp4 ContentDepositEventJob JID-a439f39199672103bd2ceb5a INFO: start
+2019-03-28T14:01:27.954Z 740 TID-gsxvjpmp4 ContentDepositEventJob JID-a439f39199672103bd2ceb5a INFO: done: 0.265 sec
+2019-03-28T14:06:07.533Z 740 TID-gsxvqxpog ContentUpdateEventJob JID-d602d6ff3ac5b4472b152cd9 INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-28T14:06:09.336Z 740 TID-gsxvqxpog ContentUpdateEventJob JID-d602d6ff3ac5b4472b152cd9 INFO: done: 1.803 sec
+2019-03-28T14:07:25.597Z 740 TID-gsxvjpli8 ContentUpdateEventJob JID-a6fdaf692eafb4a1ee85025d INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-28T14:07:27.054Z 740 TID-gsxvjpli8 ContentUpdateEventJob JID-a6fdaf692eafb4a1ee85025d INFO: done: 1.458 sec
+2019-03-28T14:09:33.847Z 740 TID-gsxvjpmp4 ContentUpdateEventJob JID-cded8bf1c650eeb974950b9b INFO: start
+2019-03-28T14:09:33.905Z 740 TID-gsxvjpmp4 ContentUpdateEventJob JID-cded8bf1c650eeb974950b9b INFO: done: 0.058 sec
+2019-03-28T14:18:23.921Z 740 TID-gsxvjpmp4 ContentUpdateEventJob JID-92ca4f9dffe7489c0ae0f1f3 INFO: start
+2019-03-28T14:18:23.976Z 740 TID-gsxvjpmp4 ContentUpdateEventJob JID-92ca4f9dffe7489c0ae0f1f3 INFO: done: 0.055 sec
+2019-03-28T15:04:13.031Z 740 TID-gsxvjpli8 ContentUpdateEventJob JID-af89e9e423787ee07b574937 INFO: start
+2019-03-28T15:04:13.110Z 740 TID-gsxvjpli8 ContentUpdateEventJob JID-af89e9e423787ee07b574937 INFO: done: 0.079 sec
+2019-03-28T15:09:04.408Z 740 TID-gsxvqxozg ContentUpdateEventJob JID-8f5de3104b8d994934d2351f INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-28T15:09:05.921Z 740 TID-gsxvqxozg ContentUpdateEventJob JID-8f5de3104b8d994934d2351f INFO: done: 1.513 sec
+2019-03-28T15:13:49.433Z 744 TID-gtnq8vt2g INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-744"}
+2019-03-28T15:13:52.732Z 744 TID-gtnq8vt2g INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-28T15:13:52.732Z 744 TID-gtnq8vt2g INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-28T15:13:52.732Z 744 TID-gtnq8vt2g INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-28T15:20:22.015Z 744 TID-gtnrc8qmc Hyrax::GrantEditToMembersJob JID-040c88b8779b2bf1efd5b28a INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+2019-03-28T15:20:24.213Z 744 TID-gtnrc8qmc Hyrax::GrantEditToMembersJob JID-040c88b8779b2bf1efd5b28a INFO: done: 2.198 sec
+2019-03-28T15:20:24.953Z 744 TID-gtnrc8rvw ContentDepositEventJob JID-4041a6bf9f3b2b7edb6a6675 INFO: start
+2019-03-28T15:20:25.270Z 744 TID-gtnrc8rvw ContentDepositEventJob JID-4041a6bf9f3b2b7edb6a6675 INFO: done: 0.316 sec
+2019-03-28T15:22:15.438Z 744 TID-gtnrlyh8c ContentUpdateEventJob JID-891f73ca5282f6d0d4a7fc0b INFO: start
+2019-03-28T15:22:15.554Z 744 TID-gtnrlyh8c ContentUpdateEventJob JID-891f73ca5282f6d0d4a7fc0b INFO: done: 0.116 sec
+2019-03-28T15:23:46.242Z 744 TID-gtnrc8rt4 ContentUpdateEventJob JID-bd8c86e4fb6925936030f0bb INFO: start
+2019-03-28T15:23:46.398Z 744 TID-gtnrc8rt4 ContentUpdateEventJob JID-bd8c86e4fb6925936030f0bb INFO: done: 0.155 sec
+2019-03-28T15:24:43.550Z 744 TID-gtnrlyh8c ContentUpdateEventJob JID-f6d58af7aa10c7c8bd212943 INFO: start
+2019-03-28T15:24:43.620Z 744 TID-gtnrlyh8c ContentUpdateEventJob JID-f6d58af7aa10c7c8bd212943 INFO: done: 0.07 sec
+2019-03-28T16:28:36.312Z 748 TID-gpicnjbbo INFO: Booting Sidekiq 5.2.3 with redis options {:url=>"redis://localhost:6379/", :id=>"Sidekiq-server-PID-748"}
+2019-03-28T16:28:37.819Z 748 TID-gpicnjbbo INFO: Running in ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-linux]
+2019-03-28T16:28:37.819Z 748 TID-gpicnjbbo INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2019-03-28T16:28:37.819Z 748 TID-gpicnjbbo INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org
+2019-03-28T17:27:05.790Z 748 TID-gpie0ms2w ContentUpdateEventJob JID-6c9254521c8466a89dd5b74d INFO: start
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Ethesis> at /usr/src/app/app/models/ethesis.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
+DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
+2019-03-28T17:27:17.967Z 748 TID-gpie0ms2w ContentUpdateEventJob JID-6c9254521c8466a89dd5b74d INFO: done: 12.176 sec

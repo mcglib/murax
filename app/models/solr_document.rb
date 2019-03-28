@@ -26,13 +26,44 @@ class SolrDocument
 
   use_extension( Hydra::ContentNegotiation )
 
+  def abstract 
+    self[Solrizer.solr_name('abstract')]
+  end
+
+  def institution
+    self[Solrizer.solr_name('institution')]
+  end
+
+  def degree
+    self[Solrizer.solr_name('degree')]
+  end
+
+  def department
+    self[Solrizer.solr_name('department')]
+  end
+
+  def faculty
+    self[Solrizer.solr_name('faculty')]
+  end
+
+  def rights
+    self[Solrizer.solr_name('rights')]
+  end
+  
+  def rtype
+    self[Solrizer.solr_name('rtype')]
+  end
+
+  def date
+    self[Solrizer.solr_name('date')]
+  end
+
+  def orcidid
+    self[Solrizer.solr_name('orcidid')]
+  end
 
 
 
 
 
-
-
-
-
-end
+end 

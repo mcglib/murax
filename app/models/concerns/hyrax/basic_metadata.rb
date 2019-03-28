@@ -45,7 +45,9 @@ module Hyrax
               index.as :stored_searchable, :facetable
       end
 
-      property :institution,      predicate: RDF::URI.new('http://vivoweb.org/ontology/core#University'), multiple: false
+      property :institution,      predicate: RDF::URI.new('http://vivoweb.org/ontology/core#University'), multiple: false do |index|
+             index.as :stored_searchable
+      end
 
       property :degree,      predicate: RDF::Vocab::BIBO.degree, multiple: true do | index |
               index.as :stored_searchable, :facetable
