@@ -433,3 +433,7 @@ DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from
 DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:Image> at /usr/src/app/app/models/image.rb:11)
 DEPRECATION WARNING: human_readable_type= is deprecated and will be removed from a future release (human_readable_type is deprecated. Set the i18n key for activefedora.models.#{model_name.i18n_key} instead. This will be removed in Hyrax 3). (called from <class:GenericWork> at /usr/src/app/app/models/generic_work.rb:11)
 2019-03-28T17:27:17.967Z 748 TID-gpie0ms2w ContentUpdateEventJob JID-6c9254521c8466a89dd5b74d INFO: done: 12.176 sec
+2019-03-28T18:01:45.013Z 748 TID-gpie0mrik ContentUpdateEventJob JID-4a400173bb247872aecd8ee6 INFO: start
+2019-03-28T18:01:45.108Z 748 TID-gpie0mrik ContentUpdateEventJob JID-4a400173bb247872aecd8ee6 INFO: done: 0.095 sec
+2019-03-28T18:03:34.655Z 748 TID-gpie0mqu8 ContentUpdateEventJob JID-dbd3ada48e216094cf15b3bb INFO: start
+2019-03-28T18:03:34.726Z 748 TID-gpie0mqu8 ContentUpdateEventJob JID-dbd3ada48e216094cf15b3bb INFO: done: 0.072 sec
