@@ -3,7 +3,6 @@
 [![pipeline status](https://gitlab.ncs.mcgill.ca/lts/murax/badges/master/pipeline.svg)](https://gitlab.ncs.mcgill.ca/lts/murax/commits/master)
 
 
-
 Docker Configuration 
 
 Fedora path:
@@ -39,4 +38,3 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
