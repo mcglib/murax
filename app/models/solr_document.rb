@@ -61,9 +61,4 @@ class SolrDocument
   def orcidid
     self[Solrizer.solr_name('orcidid')]
   end
-
-
-
-
-
 end 
