@@ -57,6 +57,10 @@ en:
     institution_name_full: McGill University Library
     product_name: "eScholarship@McGill"
     product_twitter_handle: "@mcgill_library"
+    base:
+      show:
+        rtype: Type
+
     search:
       button:
         html: <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Go
@@ -78,15 +82,4 @@ en:
         q:
           label: Search %{application_name}
           placeholder: Enter search terms or select "Go" to browse.  
-
-
-
-
-
-
-
-
-
-
-
 

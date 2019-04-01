@@ -10,7 +10,6 @@ module FindOrCreateCollection
       col.save!
 
       # Set the privacy to public by default
-      col
     end
 
     def metadata_for_collection(slug)

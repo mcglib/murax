@@ -1,12 +1,12 @@
 # Example configuration for ingest script
-ethesis:
-  work_type: Ethesis
+thesis:
+  work_type: Thesis
   resource_type: "Dissertation"
   admin_set: "User Collection"
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: spec/fixtures/ingest/files
   department_authorites: spec/fixtures/authorities/departments.yml
-  collection: ethesis
+  collection: thesis # derived from the digitool_collections.json file under /config
   rights_statement: "http://rightsstatements.org/vocab/UND/1.0/"
   keywords_transformation: 
     - 'Schulich School of'

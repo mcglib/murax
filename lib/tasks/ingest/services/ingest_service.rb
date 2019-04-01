@@ -26,7 +26,7 @@ module Ingest
         # Remove the namespaces
         xml = metadata.remove_namespaces!
 
-        Ethesis.all.each do | thesis |
+        Thesis.all.each do | thesis |
           if  attach_work_to_collection(thesis, @collection) 
             puts "The work has been attached to the collection"
           end
@@ -37,21 +37,19 @@ module Ingest
           title = record.css('title').text
           puts "[#{start_time.to_s}]: #{title}"
 
-          work = create_work(record)
-          puts "The work has been created for #{title}" if work.present?
+          #work = create_work(record)
+          #puts "The work has been created for #{title}" if work.present?
           
           # Save the work id to the created_works array
-          @created_works << work.id if work.present?
+          #@created_works << work.id if work.present?
 
         end
 
         # Update the works with the collection
 
-
-
         # Create file and hash mapping new and old ids
-        id_mapper = Migrate::Services::IdMapper.new(@mapping_file)
-        @mappings = Hash.new
+        #id_mapper = Migrate::Services::IdMapper.new(@mapping_file)
+        #@mappings = Hash.new
 
         # Store parent-child relationships
         @parent_hash = Hash.new
@@ -178,9 +176,17 @@ module Ingest
 
         # Attach the work to a collection
         def attach_work_to_collection(work,collection)
+          
+          attached = true
+          begin
+            collection_object.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
+            work.member_of_collections << collection
+            work.save!
+          rescue  StandardError => e
+            print e
+            attached = false
+          end
 
-          byebug
-          attached = false
           attached
         end
 
@@ -212,7 +218,6 @@ module Ingest
           resource.visibility = work_attributes['visibility']
           resource.title = work_attributes['title']
           resource.save
-          
           #  Singularize non-enumerable attributes
           work_attributes.each do |k,v|
             if resource.attributes.keys.member?(k.to_s) && !resource.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)

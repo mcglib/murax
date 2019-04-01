@@ -1,8 +1,8 @@
 en:
   hyrax:
     icons:
-      thesis:     'fa fa-file-text-o'
+      thesis:     'fa fa-file-pdf-o'
     select_type:
       thesis:
-        description:        "Thesis works"
-        name:               "Thesis"
+        description:        "Thesis"
+        name:               "Thesis/Dissertation"

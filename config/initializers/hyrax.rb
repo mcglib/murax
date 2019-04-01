@@ -203,6 +203,7 @@ Hyrax.config do |config|
   # A configuration point for changing the behavior of the license service
   #   @see Hyrax::LicenseService for implementation details
   # config.license_service_class = Hyrax::LicenseService
+  
 
   # Labels for display of permission levels
   # config.permission_levels = { "View/Download" => "read", "Edit access" => "edit" }
