@@ -112,10 +112,10 @@ module Ingest
           work_attributes['institution'] = metadata.css('publisher').map(&:text)
           
           # Rights visibility
-          work_attributes['rights_statement'] = [@config['rights_statement']]
+          #work_attributes['rights_statement'] = [@config['rights_statement']]
           
           # McGill rights statement
-          work_attributes['rights_statement'] = 
+          work_attributes['rights'] = "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated." 
 
 
           # Set the depositor

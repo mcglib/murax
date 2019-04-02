@@ -178,8 +178,8 @@ module Ingest
         def attach_work_to_collection(work,collection)
           
           attached = true
+          collection.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
           begin
-            collection_object.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
             work.member_of_collections << collection
             work.save!
           rescue  StandardError => e

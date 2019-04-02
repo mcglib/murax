@@ -2,7 +2,7 @@
 
 <%= render 'shared/citations' %>
 
-<div class="row work-type <%= render 'work_type', presenter: @presenter %>">
+<div class="row work-type <%= render_document_class document %>">
   <div class="col-xs-12">
     <%= render 'work_type', presenter: @presenter %>
   </div>

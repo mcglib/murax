@@ -15,9 +15,13 @@ Rails.application.routes.draw do
   mount Hydra::RoleManagement::Engine => '/'
   
   mount Qa::Engine => '/authorities'
+
   mount Hyrax::Engine, at: '/'
+
   resources :welcome, only: 'index'
+
   root 'hyrax/homepage#index'
+  
   curation_concerns_basic_routes
   concern :exportable, Blacklight::Routes::Exportable.new
 
