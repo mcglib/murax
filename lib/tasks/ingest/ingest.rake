@@ -16,6 +16,7 @@ namespace :ingest do
   FileUtils::mkdir_p @temp
 
 
+  # bundle exec rake ingest::create_collections -- -f spec/fixtures/ingest/collection_config.yml
   desc 'Create collections'
   task :create_collections => :environment do
     options = {
