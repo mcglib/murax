@@ -18,9 +18,8 @@ module Ingest
       end
 
       def parse
-        metadata = @xml
 
-        work_attributes = get_work_attributes(metadata)
+        work_attributes = get_work_attributes(@xml)
 
         child_works = Array.new
 
@@ -36,7 +35,7 @@ module Ingest
 
 
         # Find manifest files
-        manifests = get_manifest_files(metadata)
+        manifests = get_manifest_files(@xml)
         
         
         

@@ -10,7 +10,6 @@ namespace :migrate do
   require "tasks/migrate/services/ingest_service"
   require "tasks/migrate/services/id_mapper"
   require 'tasks/migrate/services/metadata_parser'
-  require 'tasks/migrate/services/digitool_service'
 
   # temporary location for file download
   @temp = 'lib/tasks/ingest/tmp'
