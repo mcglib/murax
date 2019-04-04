@@ -41,7 +41,7 @@ Hyrax.config do |config|
   # config.uploader = {
   #   limitConcurrentUploads: 6,
   #   maxNumberOfFiles: 100,
-  #   maxFileSize: 500.megabytes
+  #   maxFileSize: 1500.megabytes
   # }
 
   # Enable displaying usage statistics in the UI
@@ -63,7 +63,7 @@ Hyrax.config do |config|
   config.citations = true
 
   # Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
-  # config.temp_file_base = '/home/developer1'
+  config.temp_file_base = ENV['TMP_PATH'] || '/tmp'
 
   # Hostpath to be used in Endnote exports
   # config.persistent_hostpath = 'http://localhost/files/'
