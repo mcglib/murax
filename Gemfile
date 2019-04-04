@@ -13,20 +13,20 @@ gem 'rails', '~> 5.1.6'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use postgresql on the sandbox
-gem 'pg', '~> 0.18'
+gem 'pg', '~> 0.21.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '>= 3.2.0'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder', '~> 2.7.0'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -36,8 +36,6 @@ gem 'redis', '~> 4.0'
 # gem 'capistrano-rails', group: :development
 
 gem 'curb', '~> 0.9.4'
-
-gem 'awesome_print'
 
 gem 'whenever', require: false
 gem 'xray-rails'
@@ -75,10 +73,15 @@ group :development, :test do
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'awesome_print'
 end
 
 group :test do
-  gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1.2'
+  gem 'capybara', '~> 2.17.0'
+  gem 'rspec-mocks'
+  gem 'webmock'
+  gem 'factory_bot_rails', '~> 5.0.1'
 end
 
 
@@ -100,6 +103,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
 
 gem 'hyrax', '2.4.1'
+gem 'hydra-editor', '4.0.1'
+gem 'hydra-role-management', '~> 1..0'
 gem "rdf-vocab"
 
 
@@ -107,13 +112,14 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
-gem 'rsolr', '>= 1.0'
+gem 'rsolr', '~> 2.0.2'
 gem 'jquery-rails'
-gem 'hydra-role-management'
-gem 'sidekiq'
+gem 'sidekiq', '~> 5.0.4'
+gem 'sidekiq-limit_fetch', '~> 3.4.0'
+gem 'sidekiq-status', '~> 1.1.1'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # gem 'turbolinks', '~> 5'
 # gem 'twitter-bootstrap-rails'
 
-gem 'riiif', '~> 1.1'
+gem 'riiif', '~> 2.0'
