@@ -5,7 +5,7 @@ require 'nokogiri'
 class DigitoolItem 
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata, :title
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata, :title, :file_info
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
 
@@ -15,12 +15,11 @@ class DigitoolItem
     @added ||= false
     @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
     @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
+    @file_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"?pid=145396&dir_path=
 
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
 
-    # set the raw metadata
-    
 
   end
   
@@ -39,9 +38,29 @@ class DigitoolItem
   end
 
   def get_technical_xml
-      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity control')) if @raw_xml.present?
-      doc.to_s
+      @raw_xml.at_css('digital_entity control') if @raw_xml.present?
   end
+
+  def get_file_metadata
+      if @raw_xml.present? && !@file_info.present?
+        @file_info = {}
+        @file_info['file_name'] = @raw_xml.at_css('digital_entity stream_ref file_name').text
+        @file_info['file_ext'] = @raw_xml.at_css('digital_entity stream_ref file_extension').text
+        @file_info['mime_type'] = @raw_xml.at_css('digital_entity stream_ref mime_type').text
+        @file_info['path'] = @raw_xml.at_css('digital_entity stream_ref directory_path').text
+      end
+      @file_info
+  end
+
+  def download_pdf_file(pid, dir_path) 
+      if pid.present? && dir_path.present?
+        uri = URI.parse("#{@download_url}?pid=#{pid}&dir_path=#{dir_path}")
+        res = Net::HTTP.get_response(uri)
+        file_path = JSON.parse(res.body) if res.is_a?(Net::HTTPSuccess)
+      end
+      file_path
+  end
+
 
   private 
 
