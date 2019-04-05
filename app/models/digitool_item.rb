@@ -33,6 +33,16 @@ class DigitoolItem
       @metadata = Hash.from_xml(doc.to_s)
   end
 
+  def get_metadata_xml 
+      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
+      doc.to_s
+  end
+
+  def get_technical_xml
+      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity control')) if @raw_xml.present?
+      doc.to_s
+  end
+
   private 
 
     def fetch_related_pids(pid)
