@@ -74,9 +74,11 @@ chmod a+rwx -R ${UPLOAD_PATH}
 chmod a+rwx -R ${WORKING_PATH}
 
 echo "Set the writing permissions on the ${DERIVATIVES_PATH} folder"
+mkdir -p ${DERIVATIVES_PATH}
 chmod a+rwx -R ${DERIVATIVES_PATH}
 
 echo "Set the writing permissions on ${TMP_PATH} folder"
+mkdir -p ${TMP_PATH}
 chmod a+rwx -R ${TMP_PATH}
 
 

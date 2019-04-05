@@ -177,6 +177,7 @@ RUN mkdir -p /storage/www/murax/public
 RUN mkdir -p /storage/www/murax/releases
 RUN mkdir -p /storage/www/tmp
 RUN mkdir -p /storage/www/uploads
+RUN mkdir -p /storage/www/derivatives
 RUN mkdir -p /var/log/apache2/murax
 
 # Setup apache + passenger
