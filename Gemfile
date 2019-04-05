@@ -26,7 +26,7 @@ gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7.0'
+gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -42,7 +42,6 @@ gem 'xray-rails'
 
 gem 'capistrano-locally', require: false
 
-gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 
 gem 'tinymce-rails'
@@ -66,7 +65,6 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'
   gem 'capistrano-rbenv', '~> 2.1'
-  gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'solr_wrapper', '>= 0.3'
@@ -74,14 +72,12 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'awesome_print'
+  gem 'capybara', '~> 2.17.0'
 end
 
 group :test do
-  gem 'shoulda-matchers', '~> 3.1.2'
-  gem 'capybara', '~> 2.17.0'
   gem 'rspec-mocks'
   gem 'webmock'
-  gem 'factory_bot_rails', '~> 5.0.1'
 end
 
 
@@ -103,8 +99,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
 
 gem 'hyrax', '2.4.1'
-gem 'hydra-editor', '4.0.1'
-gem 'hydra-role-management', '~> 1..0'
+gem 'hydra-editor'
+gem 'hydra-role-management'
 gem "rdf-vocab"
 
 
@@ -112,11 +108,11 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
-gem 'rsolr', '~> 2.0.2'
+gem 'rsolr'
 gem 'jquery-rails'
-gem 'sidekiq', '~> 5.0.4'
-gem 'sidekiq-limit_fetch', '~> 3.4.0'
-gem 'sidekiq-status', '~> 1.1.1'
+gem 'sidekiq'
+gem 'sidekiq-limit_fetch'
+gem 'sidekiq-status'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # gem 'turbolinks', '~> 5'
