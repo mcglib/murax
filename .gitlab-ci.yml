@@ -1,4 +1,5 @@
-image: registry.it.mcgill.ca/docker/rhel7-ansible
+#image: registry.it.mcgill.ca/docker/rhel7-ansible
+image: ruby:2.3
 
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
@@ -7,12 +8,8 @@ variables:
 
 
 before_script:
-  -  subscription-manager repos --list-enabled | grep "Repo ID" | tr -s " " | perl -l -a -n -e 'print $F[2]'
-  - yum install rh-ruby25-ruby rh-ruby25-ruby-devel
   - ruby -v
   - which ruby
-  - gem install bundler --no-ri --no-rdoc
-  - bundle install --jobs $(nproc) "${FLAGS[@]}"
 
 stages:
   - test
@@ -31,6 +28,13 @@ rubocop:
   script:
     - bundle exec rubocop
   when: always
+
+deploy_app:
+  stage: deploy_dev
+  script:
+    - gem install bundler --no-ri --no-rdoc
+    - gem install capistrano
+    - cap production deploy
 
 cleanup:
   stage: cleanup

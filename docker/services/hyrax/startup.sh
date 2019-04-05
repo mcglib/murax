@@ -69,11 +69,24 @@ rm /tmp/stderr.txt
 echo "Writing out the crontask from whenever gem"
 whenever -w
 
+echo "Set the writing permissions on the ${UPLOAD_PATH}  and ${WORKING_PATH}"
+chmod a+rwx -R ${UPLOAD_PATH}
+chmod a+rwx -R ${WORKING_PATH}
+
+echo "Set the writing permissions on the ${DERIVATIVES_PATH} folder"
+chmod a+rwx -R ${DERIVATIVES_PATH}
+
+echo "Set the writing permissions on ${TMP_PATH} folder"
+chmod a+rwx -R ${TMP_PATH}
+
+
 echo "Starting the cron service"
 cron
 cd ${APP_PATH}
 
+
 rm -rf ${APP_PATH}/tmp/pids/server.pid
+
 echo "Precompiling the rake assets"
 RAILS_ENV=${RAILS_ENV} bundle exec rake assets:precompile
 echo "Starting the server on ${RAILS_ENV}"
