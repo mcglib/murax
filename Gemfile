@@ -56,7 +56,6 @@ gem 'webpacker', '~> 3.5'
 
 group :development, :test do
   gem 'bixby'
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capistrano', '3.9.0'
@@ -82,7 +81,6 @@ end
 
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
@@ -98,7 +96,7 @@ gem 'sshkit-sudo'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
 
-gem 'hyrax', '2.4.1'
+gem 'hyrax', '2.5.0'
 gem 'hydra-editor'
 gem 'hydra-role-management'
 gem "rdf-vocab"

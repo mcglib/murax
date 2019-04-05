@@ -2,11 +2,15 @@
 
 [![pipeline status](https://gitlab.ncs.mcgill.ca/lts/murax/badges/master/pipeline.svg)](https://gitlab.ncs.mcgill.ca/lts/murax/commits/master)
 
+Hyrax Version
+v2.5.0
+[changelog](https://github.com/samvera/hyrax/releases/tag/v2.5.0)
+
 
 Docker Configuration 
 
 Fedora path:
-ahttp://132.206.197.166:8888/fcrepo/rest/
+http://132.206.197.166:8888/fcrepo/rest/
 
 Adminer ( TO see database )
 http://132.206.197.166:8090
