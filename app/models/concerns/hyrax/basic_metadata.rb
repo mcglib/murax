@@ -8,6 +8,10 @@ module Hyrax
     extend ActiveSupport::Concern
 
     included do
+      property :label, predicate: ActiveFedora::RDF::Fcrepo::Model.downloadFilename, multiple: false
+      property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
+
+      
       property :alternative_title,  predicate: RDF::Vocab::DC.alternative, multiple: true do | index |
               index.as :stored_searchable
       end
@@ -87,7 +91,6 @@ module Hyrax
               index.as :stored_searchable
       end
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near, class_name: Hyrax::ControlledVocabularies::Location     
-      id_blank = proc { |attributes| attributes[:id].blank? }
 
 
 ####These properties will be removed in the form app/forms/hyrax file.######
@@ -131,6 +134,7 @@ module Hyrax
 
 ####End of properties that will removed #######
 
+      id_blank = proc { |attributes| attributes[:id].blank? }
       
       class_attribute :controlled_properties
       self.controlled_properties = [:based_near]
