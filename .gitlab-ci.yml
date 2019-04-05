@@ -1,15 +1,23 @@
 #image: registry.it.mcgill.ca/docker/rhel7-ansible
 image: ruby:2.3
+services:
+    - redis:latest
+    - postgres:latest
 
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
   GIT_SUBMODULE_STRATEGY: recursive
   ANSIBLE_CONFIG: /builds/lts/LIRAP//ansible.cfg
 
+# Cache gems in between builds
+cache:
+  paths:
+    - vendor/ruby
 
 before_script:
   - ruby -v
   - which ruby
+  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 stages:
   - test
@@ -19,15 +27,12 @@ stages:
   - cleanup
 
 rspec:
-  stage: deploy_dev
   script:
     - bundle exec rspec
-  when: always
 
 rubocop:
   script:
     - bundle exec rubocop
-  when: always
 
 deploy_app:
   stage: deploy_dev

@@ -371,7 +371,7 @@ GEM
       hydra-derivatives (~> 3.0)
       hydra-file_characterization (~> 0.3, >= 0.3.3)
       hydra-pcdm (>= 0.9)
-    hyrax (2.4.1)
+    hyrax (2.5.0)
       active-fedora (~> 11.5, >= 11.5.2)
       almond-rails (~> 0.1)
       awesome_nested_set (~> 3.1)
@@ -390,7 +390,7 @@ GEM
       font-awesome-rails (~> 4.2)
       hydra-derivatives (~> 3.3)
       hydra-editor (>= 3.3, < 5.0)
-      hydra-head (>= 10.5.0)
+      hydra-head (>= 10.6.1)
       hydra-works (>= 0.16, < 2.0)
       iiif_manifest (>= 0.3, < 0.6)
       jquery-datatables-rails (~> 3.4)
@@ -913,7 +913,7 @@ DEPENDENCIES
   ffaker
   hydra-editor
   hydra-role-management
-  hyrax (= 2.4.1)
+  hyrax (= 2.5.0)
   jbuilder
   jquery-rails
   listen (>= 3.0.5, < 3.2)
