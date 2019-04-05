@@ -15,6 +15,12 @@ cache:
     - vendor/ruby
 
 before_script:
+  # Run the ssh-agent
+  - eval $(ssh-agent -s)
+  # Load the SSH key used for GitLab role deploys.
+  - ssh-add <(echo "$ROLE_DEPLOY_KEY")
+  # Configure our Ansible playbooka
+  - printenv | less
   - ruby -v
   - which ruby
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
@@ -27,19 +33,39 @@ stages:
   - cleanup
 
 rspec:
+  stage: test
   script:
     - bundle exec rspec
 
 rubocop:
+  stage: test
   script:
     - bundle exec rubocop
 
-deploy_app:
+develop_deploy:
   stage: deploy_dev
   script:
-    - gem install bundler --no-ri --no-rdoc
+    - gem install capistrano
+    - cap development deploy
+  only:
+    - develop
+
+staging_deploy:
+  stage: deploy_qa
+  script:
     - gem install capistrano
     - cap production deploy
+  only:
+    - master
+
+production_deploy:
+  stage: deploy_qa
+  script:
+    - gem install capistrano
+    - cap production deploy
+  only:
+    - master
+  when: manual
 
 cleanup:
   stage: cleanup
