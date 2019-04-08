@@ -18,6 +18,12 @@ class MigrationHelper
     end
   end
 
+  # Download the file from a give url
+
+  def self.download_file(url, dest)
+
+    dest
+  end
   # Get the collection_uuids
   def self.get_collection_uuids(collection_ids_file)
     collection_uuids = Array.new

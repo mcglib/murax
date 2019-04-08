@@ -4,124 +4,41 @@ module Migrate
     require 'tasks/migrate/services/metadata_parser'
     require 'tasks/migration_helper'
 
+    attr_accessor :pid_list
     class MigrateService
 
-      def initialize(config, object_hash, binary_hash, premis_hash, deposit_record_hash, mapping_file, depositor)
-        @collection_ids_file = config['collection_list']
-        @object_hash = object_hash
-        @binary_hash = binary_hash
-        @premis_hash = premis_hash
-        @deposit_record_hash = deposit_record_hash
+      def initialize(config, depositor)
         @work_type = config['work_type']
-        @child_work_type = config['child_work_type']
-        @mapping_file = mapping_file
         @depositor = depositor
         @tmp_file_location = config['tmp_file_location']
         @config = config
       end
 
-      def ingest_records
-        # Create file and hash mapping new and old ids
-        id_mapper = Migrate::Services::IdMapper.new(@mapping_file)
-        @mappings = Hash.new
-
-        # Store parent-child relationships
-        @parent_hash = Hash.new
-
-        # get array of record uuids
-        collection_uuids = MigrationHelper.get_collection_uuids(@collection_ids_file)
-
-        puts "Object count:  #{collection_uuids.count.to_s}"
-
-        # get metadata for each record
-        collection_uuids.each do |uuid|
-          start_time = Time.now
-          puts "[#{start_time.to_s}] Start migration of #{uuid}"
-          parsed_data = Migrate::Services::MetadataParser.new(@object_hash[uuid],
-                                                              @object_hash,
-                                                              @binary_hash,
-                                                              @deposit_record_hash,
-                                                              collection_uuids,
-                                                              @depositor,
-                                                              @config).parse
-          work_attributes = parsed_data[:work_attributes]
-          @parent_hash[uuid] = parsed_data[:child_works] if !parsed_data[:child_works].blank?
-
-          # Create new work record and save
-          new_work = work_record(work_attributes)
-          new_work.save!
-
-          # Record old and new ids for works
-          id_mapper.add_row([uuid, new_work.class.to_s.underscore+'s/'+new_work.id])
-          @mappings[uuid] = new_work.id
-
-          puts "Number of files: #{work_attributes['contained_files'].count.to_s if !work_attributes['contained_files'].blank?}"
-
-          # Save list of child filesets
-          ordered_members = Array.new
-
-          # Attach premis files
-          if !work_attributes['premis_files'].blank?
-            work_attributes['premis_files'].each_with_index do |file, index|
-              premis_file = @premis_hash[MigrationHelper.get_uuid_from_path(file)]
-              fileset_attrs = { 'title' => ["PREMIS_Events_Metadata_#{index}.txt"],
-                                'visibility' => Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
-              fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: premis_file)
-
-              ordered_members << fileset
-            end
-          end
-
-          # Create children
-          if !work_attributes['cdr_model_type'].blank? &&
-              (work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
-            # attach children as filesets
-            work_attributes['contained_files'].each do |file|
-              metadata_file = @object_hash[MigrationHelper.get_uuid_from_path(file)]
-              parsed_file_data = Migrate::Services::MetadataParser.new(metadata_file,
-                                                                       @object_hash,
-                                                                       @binary_hash,
-                                                                       @deposit_record_hash,
-                                                                       collection_uuids,
-                                                                       @depositor,
-                                                                       @config).parse
-
-              file_work_attributes = (parsed_file_data[:work_attributes].blank? ? {} : parsed_file_data[:work_attributes])
-              fileset_attrs = file_record(work_attributes.merge(file_work_attributes))
-
-              fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: @binary_hash[MigrationHelper.get_uuid_from_path(file)])
-
-              # Record old and new ids for works
-              id_mapper.add_row([MigrationHelper.get_uuid_from_path(file), 'parent/'+new_work.id+'/file_sets/'+fileset.id])
-
-              ordered_members << fileset
-            end
-          else
-            # use same metadata for work and fileset
-            if !work_attributes['contained_files'].blank?
-              work_attributes['contained_files'].each do |file|
-                binary_file = @binary_hash[MigrationHelper.get_uuid_from_path(file)]
-                work_attributes['title'] = work_attributes['dc_title']
-                work_attributes['label'] = work_attributes['dc_title']
-                fileset_attrs = file_record(work_attributes)
-                fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: binary_file)
-
-                # Record old and new ids for works
-                id_mapper.add_row([MigrationHelper.get_uuid_from_path(file), 'parent/'+new_work.id+'/file_sets/'+fileset.id])
-
-                ordered_members << fileset
-              end
-            end
-          end
-
-          new_work.ordered_members = ordered_members
-          end_time = Time.now
-          puts "[#{end_time.to_s}] Completed migration of #{uuid} in #{end_time-start_time} seconds"
+      def import_records(pid_list, log)
+        if pid_list.empty?
+          puts "The pid list is empty."
+          log.info "The pid list is empty"
+          return
         end
 
-        if !@child_work_type.blank?
-          attach_children
+        @pid_list = pid_list
+        pid_count = @pid_list.count
+        log.info "Object count:  #{@pid_list.count.to_s}"
+
+        @pid_list.each.with_index do | pid, index |
+          log.info "#{index}/#{pid_count} - Importing  #{pid}"
+          item = DigitoolItem.new({"pid" => pid})
+          work = create_work(item)
+          #puts "The work has been created for #{title}" if work.present?
+          
+          # Save the work id to the created_works array
+          @created_works << work.id if work.present?
+
+          byebug
         end
+
+        @pid_list
+
       end
 
       def create_fileset(parent: nil, resource: nil, file: nil)
@@ -147,6 +64,10 @@ module Migrate
 
 
       private
+
+        def create_work(item)
+          
+        end
 
         def work_record(work_attributes)
           if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&

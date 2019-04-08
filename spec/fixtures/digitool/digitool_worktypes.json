@@ -1,0 +1,45 @@
+[
+  {"updated": "2016-09-12T14:45:12.02-04:00"},
+  {
+    "slug": "theses",
+    "title": "Theses/Dissertationw",
+    "collection_type": "Admin Set",
+    "blurb": "Contains all theses and dissertations completed at McGill. This wording will need massaging for public use, this is just what Robin wrote as placeholder."
+  },
+  {
+    "slug": "ugrad-reports",
+    "title": "Undergraduate Reports",
+    "collection_type": "Admin Set",
+    "blurb": "Contains all theses and dissertations completed at McGill. This wording will need massaging for public use, this is just what Robin wrote as placeholder."
+  },
+  {
+    "slug": "articles",
+    "title": "Articles (pre/post prints)",
+    "collection_type": "Admin Set",
+    "blurb": "Faculty publications include articles, conference papers, books and working papers by members of the McGill academic community."
+  },
+  {
+    "slug": "presentations",
+    "title": "Presentations",
+    "collection_type": "Admin Set",
+    "blurb": "Research projects coming from a course-based graduate degree. NB. Civil and Mechanical Engineering reports are not full-text searchable."
+  },
+  {
+    "slug": "posters",
+    "title": "Posters",
+    "collection_type": "Admin Set",
+    "blurb": "Undergraduate research contains undergraduate Bioresource Engineering project reports, Honours theses, and Faculty-sponsored papers. Honours undergraduate theses may be included in eScholarship if sponsored by a faculty member. Faculty-sponsored papers are exemplary examples of undergraduate scholarship. Faculty members wishing to sponsor an honours thesis or a paper for deposit should contact escholarship.library@mcgill.ca"
+  },
+  {
+    "slug": "book-chapters",
+    "title": "Book Chapters",
+    "collection_type": "Admin Set",
+    "blurb": "Undergraduate research contains undergraduate Bioresource Engineering project reports, Honours theses, and Faculty-sponsored papers. Honours undergraduate theses may be included in eScholarship if sponsored by a faculty member. Faculty-sponsored papers are exemplary examples of undergraduate scholarship. Faculty members wishing to sponsor an honours thesis or a paper for deposit should contact escholarship.library@mcgill.ca"
+  },
+  {
+    "slug": "books",
+    "title": "Books",
+    "collection_type": "Admin Set",
+    "blurb": "Undergraduate research contains undergraduate Bioresource Engineering project reports, Honours theses, and Faculty-sponsored papers. Honours undergraduate theses may be included in eScholarship if sponsored by a faculty member. Faculty-sponsored papers are exemplary examples of undergraduate scholarship. Faculty members wishing to sponsor an honours thesis or a paper for deposit should contact escholarship.library@mcgill.ca"
+  }
+]

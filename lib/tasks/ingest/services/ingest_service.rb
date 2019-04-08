@@ -183,7 +183,6 @@ module Ingest
             work.member_of_collections << collection
             work.save!
           rescue  StandardError => e
-            print e
             attached = false
           end
 

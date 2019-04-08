@@ -15,7 +15,8 @@ class DigitoolItem
     @added ||= false
     @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
     @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
-    @file_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"?pid=145396&dir_path=
+    @file_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"
+    
 
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
@@ -95,7 +96,6 @@ class DigitoolItem
 
     def fetch_metadata(pid)
     end
-
 
 
 end
