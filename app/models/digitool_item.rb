@@ -5,7 +5,7 @@ require 'nokogiri'
 class DigitoolItem 
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata, :title, :file_info
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
 
@@ -15,12 +15,14 @@ class DigitoolItem
     @added ||= false
     @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
     @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
-    @file_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"
+    @download_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"
     
-
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
+    
+    @file_info = set_file_metadata
 
+    @metadata_hash = set_metadata
 
   end
   
@@ -28,12 +30,13 @@ class DigitoolItem
     @related_pids = fetch_related_pids(@pid) if @pid.present?
   end
 
-  def get_raw_metadata
+  def set_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
-      @metadata = Hash.from_xml(doc.to_s)
+      data = Hash.from_xml(doc.to_s)
+      @metadata_hash = data['record']
   end
 
-  def get_metadata_xml 
+  def get_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
       doc.to_s
   end
@@ -42,7 +45,7 @@ class DigitoolItem
       @raw_xml.at_css('digital_entity control') if @raw_xml.present?
   end
 
-  def get_file_metadata
+  def set_file_metadata
       if @raw_xml.present? && !@file_info.present?
         @file_info = {}
         @file_info['file_name'] = @raw_xml.at_css('digital_entity stream_ref file_name').text
@@ -53,14 +56,6 @@ class DigitoolItem
       @file_info
   end
 
-  def download_pdf_file(pid, dir_path) 
-      if pid.present? && dir_path.present?
-        uri = URI.parse("#{@download_url}?pid=#{pid}&dir_path=#{dir_path}")
-        res = Net::HTTP.get_response(uri)
-        file_path = JSON.parse(res.body) if res.is_a?(Net::HTTPSuccess)
-      end
-      file_path
-  end
 
 
   private 
@@ -76,6 +71,15 @@ class DigitoolItem
 
       related_pids
 
+    end
+  
+    def download_pdf_file(pid, dir_path) 
+      if pid.present? && dir_path.present?
+        uri = URI.parse("#{@download_url}?pid=#{pid}&dir_path=#{dir_path}")
+        res = Net::HTTP.get_response(uri)
+        file_path = JSON.parse(res.body) if res.is_a?(Net::HTTPSuccess)
+      end
+      file_path
     end
 
     def fetch_raw_xml(pid, format="json")
@@ -94,8 +98,6 @@ class DigitoolItem
 
     end
 
-    def fetch_metadata(pid)
-    end
 
 
 end

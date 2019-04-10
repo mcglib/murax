@@ -96,9 +96,9 @@ namespace :migrate do
 
       @depositor = User.where(email: migration_config['depositor_email']).first
       
-      # insert all the metadata and files
       migrate_service = Migrate::Services::MigrateService.new(migration_config,
                                            @depositor)
+      # insert all the metadata and files
       imported_work_ids =  migrate_service.import_records(@pid_list, log)
 
       # add the collections to the last batch of import

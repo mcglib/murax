@@ -4,7 +4,7 @@ module Migrate
     require 'tasks/migrate/services/metadata_parser'
     require 'tasks/migration_helper'
 
-    attr_accessor :pid_list
+    attr_accessor :pid_list, :created_work_ids
     class MigrateService
 
       def initialize(config, depositor)
@@ -29,10 +29,11 @@ module Migrate
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
           work = create_work(item)
-          #puts "The work has been created for #{title}" if work.present?
+          puts "The work has been created for #{work.title} as a #{@work_type}" if work.present?
+          log.info "The work has been created for #{work.title} as a #{@work_type}" if work.present?
           
           # Save the work id to the created_works array
-          @created_works << work.id if work.present?
+          @created_work_ids << work.id if work.present?
 
           byebug
         end
@@ -66,6 +67,16 @@ module Migrate
       private
 
         def create_work(item)
+          # Create new work record and save
+          parsed_data = Migrate::Services::MetadataParser.new(item.metadata_hash,
+                                                              @depositor,
+                                                              @config).parse
+          byebug
+          work_attributes = parsed_data[:work_attributes]
+          new_work = work_record(work_attributes)
+          new_work.save!
+
+          new_work
           
         end
 
