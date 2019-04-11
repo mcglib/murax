@@ -4,7 +4,7 @@ thesis:
   resource_type: "Dissertation"
   admin_set: "User Collection"
   depositor_email: dev.library@mcgill.ca
-  tmp_file_location: spec/fixtures/ingest/files
+  tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   collection: thesis # derived from the digitool_collections.json file under /config
   rights_statement: "http://rightsstatements.org/vocab/UND/1.0/"

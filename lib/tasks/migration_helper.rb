@@ -21,16 +21,16 @@ class MigrationHelper
   # Download the file from a give url
 
   def self.download_file(url, dest)
-
+    
     dest
   end
-  # Get the collection_uuids
-  def self.get_collection_uuids(collection_ids_file)
-    collection_uuids = Array.new
-    File.open(collection_ids_file) do |file|
+  # Get the collection_pids
+  def self.get_collection_pids(pids_file)
+    pids = Array.new
+    File.open(pids_file) do |file|
       file.each do |line|
         if !line.blank? && !get_uuid_from_path(line.strip).blank?
-          collection_uuids.append(get_uuid_from_path(line.strip))
+          pids.append(get_uuid_from_path(line.strip))
         end
       end
     end

@@ -15,6 +15,7 @@ module Migrate
       end
 
       def import_records(pid_list, log)
+        STDOUT.sync = true
         if pid_list.empty?
           puts "The pid list is empty."
           log.info "The pid list is empty"
@@ -25,9 +26,8 @@ module Migrate
         pid_count = @pid_list.count
         log.info "Object count:  #{@pid_list.count.to_s}"
         
-        STDOUT.sync = true
         # get array of record pids
-        collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
+        #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
         @pid_list[0..5].each.with_index do | pid, index |
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
@@ -106,6 +106,7 @@ module Migrate
                                                               @depositor,
                                                               @config).parse
           work_attributes = parsed_data[:work_attributes]
+          file_work_attributes = item.file_info
           new_work = work_record(work_attributes)
           new_work.save!
           
@@ -119,8 +120,12 @@ module Migrate
                                    workflow_state: workflow_state.first)
           end
 
+
+
+          byebug
+          file_path = item.download_main_pdf_file(@tmp_file_location)
           fileset_attrs = file_record(work_attributes.merge(file_work_attributes))
-          fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: @binary_hash[MigrationHelper.get_uuid_from_path(file)])
+          fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
 
           new_work.ordered_members << fileset
 

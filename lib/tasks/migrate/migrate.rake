@@ -52,7 +52,7 @@ namespace :migrate do
       # 3. Import the metadata
       Migrate::Services::MigrateService.new(migration_config,
                                             item,
-                                            @depositor).import
+                                            @depositor, @temp).import
       # 4. Add the collection to the item
       
       # 

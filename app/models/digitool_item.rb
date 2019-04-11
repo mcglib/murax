@@ -2,6 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'nokogiri'
+require 'open-uri'
 class DigitoolItem 
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
@@ -56,6 +57,22 @@ class DigitoolItem
       @file_info
   end
 
+  def download_main_pdf_file(dest=nil)
+      file_path = nil
+      byebug
+      if @pid.present? && @file_info['path'].present?
+
+        # set the dest_folder
+        file_path = "#{dest}/#{@file_info['file_name']}" if @file_info.present?
+        
+        url = "#{@download_url}?pid=#{@pid}&dir_path=#{@file_info['path']}"
+        download = open(url)
+        IO.copy_stream(download, file_path)
+      end
+      # return the file_path
+      file_path
+  end
+
 
 
   private 
@@ -73,14 +90,6 @@ class DigitoolItem
 
     end
   
-    def download_pdf_file(pid, dir_path) 
-      if pid.present? && dir_path.present?
-        uri = URI.parse("#{@download_url}?pid=#{pid}&dir_path=#{dir_path}")
-        res = Net::HTTP.get_response(uri)
-        file_path = JSON.parse(res.body) if res.is_a?(Net::HTTPSuccess)
-      end
-      file_path
-    end
 
     def fetch_raw_xml(pid, format="json")
       xml = nil
