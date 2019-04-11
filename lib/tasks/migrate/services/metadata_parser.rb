@@ -32,17 +32,17 @@ module Migrate
           ## investigate how we can get the visibility from the collection level
           work_attributes['visibility'] = 'open'
           
-          work_attributes['title'] = metadata["title"]
+          work_attributes['title'] = [metadata["title"]]
           work_attributes['label'] = metadata["label"]
           # Set the abstract
-          work_attributes['abstract'] = metadata['abstracts']
+          work_attributes['abstract'] = metadata['abstract']
           # set the description
-          work_attributes['description'] = metadata['abstracts']
+          work_attributes['description'] = metadata['abstract']
           
-          work_attributes['creator'] = metadata["creator"]
-          work_attributes['contributor'] = metadata['contributor']
+          work_attributes['creator'] = [metadata["creator"]]
+          work_attributes['contributor'] = [metadata['contributor']]
           
-          work_attributes['subject'] = metadata['_subject']
+          work_attributes['subject'] = metadata['subject']
           
  
           # Get the date_uploaded
@@ -69,10 +69,10 @@ module Migrate
 
 
           # get the date. copying the modifiedDate
-          work_attributes['date'] = metadata["date"]
+          work_attributes['date'] = [metadata["date"]]
 
           # McGill rights statement
-          work_attributes['rights'] =  metadata['rights']
+          work_attributes['rights'] =  [metadata['rights']]
 
           # Set the depositor
           work_attributes['depositor'] = @depositor.email

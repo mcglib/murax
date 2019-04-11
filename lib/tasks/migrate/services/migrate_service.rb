@@ -24,58 +24,108 @@ module Migrate
         @pid_list = pid_list
         pid_count = @pid_list.count
         log.info "Object count:  #{@pid_list.count.to_s}"
+        
+        STDOUT.sync = true
+        # get array of record pids
+        collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list.each.with_index do | pid, index |
+        @pid_list[0..5].each.with_index do | pid, index |
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
-          work = create_work(item)
-          puts "The work has been created for #{work.title} as a #{@work_type}" if work.present?
-          log.info "The work has been created for #{work.title} as a #{@work_type}" if work.present?
-          
-          # Save the work id to the created_works array
-          @created_work_ids << work.id if work.present?
 
-          byebug
+
+          # Create new work record and save
+          new_work = create_work(item)
+          puts "The work has been created for #{new_work.title} as a #{@work_type}" if new_work.present?
+          log.info "The work has been created for #{new_work.title} as a #{@work_type}" if new_work.present?
+          
+
+          # Save the work id to the created_works array
+          @created_work_ids.push[work.id] if work.present?
         end
 
-        @pid_list
+        @created_work_ids
 
       end
-
       def create_fileset(parent: nil, resource: nil, file: nil)
-        file_set = FileSet.create(resource)
+        file_set = nil
+        MigrationHelper.retry_operation('creating fileset') do
+          file_set = FileSet.create(resource)
+        end
+
         actor = Hyrax::Actors::FileSetActor.new(file_set, @depositor)
         actor.create_metadata(resource)
 
-        if file.match('DATA_FILE')
-          renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['title']).first}"
-          FileUtils.mkpath("#{@tmp_file_location}/#{parent.id}")
-          FileUtils.cp(file, renamed_file)
-        else
-          renamed_file = file
+        renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['title']).first}"
+        FileUtils.mkpath("#{@tmp_file_location}/#{parent.id}")
+        FileUtils.cp(file, renamed_file)
+
+        MigrationHelper.retry_operation('creating fileset') do
+          actor.create_content(Hyrax::UploadedFile.create(file: File.open(renamed_file), user: @depositor))
         end
 
-        actor.create_content(Hyrax::UploadedFile.create(file: File.open(renamed_file), user: @depositor))
-        actor.attach_to_work(parent, resource)
+        MigrationHelper.retry_operation('creating fileset') do
+          actor.attach_to_work(parent, resource)
+        end
 
-        File.delete(renamed_file)
+        File.delete(renamed_file) if File.exist?(renamed_file)
 
         file_set
       end
 
 
       private
+        # FileSets can include any metadata listed in BasicMetadata file
+        def file_record(work_attributes)
+          file_set = FileSet.new
+          file_attributes = Hash.new
+          # Singularize non-enumerable attributes
+          work_attributes.each do |k,v|
+            if file_set.attributes.keys.member?(k.to_s)
+              if !file_set.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
+                file_attributes[k] = v.first
+              else
+                file_attributes[k] = v
+              end
+            end
+          end
+          file_attributes[:date_created] = work_attributes['date_created']
+          file_attributes[:visibility] = work_attributes['visibility']
+          unless work_attributes['embargo_release_date'].blank?
+            file_attributes[:embargo_release_date] = work_attributes['embargo_release_date']
+            file_attributes[:visibility_during_embargo] = work_attributes['visibility_during_embargo']
+            file_attributes[:visibility_after_embargo] = work_attributes['visibility_after_embargo']
+          end
+
+          file_attributes
+        end
 
         def create_work(item)
           # Create new work record and save
           parsed_data = Migrate::Services::MetadataParser.new(item.metadata_hash,
                                                               @depositor,
                                                               @config).parse
-          byebug
           work_attributes = parsed_data[:work_attributes]
           new_work = work_record(work_attributes)
           new_work.save!
+          
+          # Create sipity record
+          workflow = Sipity::Workflow.joins(:permission_template)
+                         .where(permission_templates: { source_id: new_work.admin_set_id }, active: true)
+          workflow_state = Sipity::WorkflowState.where(workflow_id: workflow.first.id, name: 'deposited')
+          MigrationHelper.retry_operation('creating sipity entity for work') do
+            Sipity::Entity.create!(proxy_for_global_id: new_work.to_global_id.to_s,
+                                   workflow: workflow.first,
+                                   workflow_state: workflow_state.first)
+          end
 
+          fileset_attrs = file_record(work_attributes.merge(file_work_attributes))
+          fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: @binary_hash[MigrationHelper.get_uuid_from_path(file)])
+
+          new_work.ordered_members << fileset
+
+          # now we need to get the file set and add it to the file
+          byebug
           new_work
           
         end
@@ -87,7 +137,7 @@ module Migrate
           else
             resource = @work_type.singularize.classify.constantize.new
           end
-          resource.depositor = @depositor.uid
+          resource.depositor = @depositor.id
           resource.save
 
           # Singularize non-enumerable attributes
