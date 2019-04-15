@@ -93,6 +93,30 @@ module Hyrax
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near, class_name: Hyrax::ControlledVocabularies::Location     
 
 
+#### Additional properties added for article worktype.######
+
+      property :pmid,       predicate: ::RDF::Vocab::BIBO.pmid, multiple: true do |index|
+            index.as :stored_searchable
+      end
+
+      property :research_unit,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/ResearchGroup'), multiple: true do |index|
+            index.as :stored_searchable
+      end 
+
+      property :local_affiliated_center,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: true do |index|
+            index.as :stored_searchable
+      end
+
+      property :grant_number,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/hasGrantNumber'), multiple: true do |index|
+            index.as :stored_searchable
+      end
+
+      property :status,     predicate: ::RDF::URI.new('http://purl.org/ontology/bibo/status'), multiple: false do |index|
+            index.as :stored_searchable
+      end
+
+#####End of properties added for Article worktype.######
+
 ####These properties will be removed in the form app/forms/hyrax file.######
 
       property :resource_type, predicate: ::RDF::Vocab::DC.type do |index|
