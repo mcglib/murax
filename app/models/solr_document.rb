@@ -70,4 +70,10 @@ class SolrDocument
     self[Solrizer.solr_name('language')]
   end
 
+  def relation
+    self[Solrizer.solr_name('relation')]
+  end
+
+
+
 end 
