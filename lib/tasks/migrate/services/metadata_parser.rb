@@ -34,10 +34,16 @@ module Migrate
           
           work_attributes['title'] = [metadata["title"]]
           work_attributes['label'] = metadata["label"]
+
           # Set the abstract
-          work_attributes['abstract'] = metadata['abstract']
+          if metadata['abstract'].instance_of? Array
+            work_attributes['abstract'] = metadata['abstract']
+          else
+            work_attributes['abstract'] = [metadata['abstract']]
+          end
+
           # set the description
-          work_attributes['description'] = metadata['abstract']
+          work_attributes['description'] = work_attributes['abstract']
           
           work_attributes['creator'] = [metadata["creator"]]
           work_attributes['contributor'] = [metadata['contributor']]

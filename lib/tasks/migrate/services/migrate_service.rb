@@ -12,6 +12,7 @@ module Migrate
         @depositor = depositor
         @tmp_file_location = config['tmp_file_location']
         @config = config
+        @created_work_ids = []
       end
 
       def import_records(pid_list, log)
@@ -41,7 +42,8 @@ module Migrate
           
 
           # Save the work id to the created_works array
-          @created_work_ids.push[work.id] if work.present?
+          @created_work_ids << new_work.id if new_work.present?
+
         end
 
         @created_work_ids
@@ -56,7 +58,7 @@ module Migrate
         actor = Hyrax::Actors::FileSetActor.new(file_set, @depositor)
         actor.create_metadata(resource)
 
-        renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['title']).first}"
+        renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['label'])}"
         FileUtils.mkpath("#{@tmp_file_location}/#{parent.id}")
         FileUtils.cp(file, renamed_file)
 
@@ -70,6 +72,7 @@ module Migrate
 
         File.delete(renamed_file) if File.exist?(renamed_file)
 
+
         file_set
       end
 
@@ -79,6 +82,8 @@ module Migrate
         def file_record(work_attributes)
           file_set = FileSet.new
           file_attributes = Hash.new
+
+          #file attr
           # Singularize non-enumerable attributes
           work_attributes.each do |k,v|
             if file_set.attributes.keys.member?(k.to_s)
@@ -106,31 +111,33 @@ module Migrate
                                                               @depositor,
                                                               @config).parse
           work_attributes = parsed_data[:work_attributes]
-          file_work_attributes = item.file_info
           new_work = work_record(work_attributes)
-          new_work.save!
-          
-          # Create sipity record
-          workflow = Sipity::Workflow.joins(:permission_template)
-                         .where(permission_templates: { source_id: new_work.admin_set_id }, active: true)
-          workflow_state = Sipity::WorkflowState.where(workflow_id: workflow.first.id, name: 'deposited')
-          MigrationHelper.retry_operation('creating sipity entity for work') do
-            Sipity::Entity.create!(proxy_for_global_id: new_work.to_global_id.to_s,
-                                   workflow: workflow.first,
-                                   workflow_state: workflow_state.first)
+          if new_work.save!
+            # Create sipity record
+            workflow = Sipity::Workflow.joins(:permission_template)
+                           .where(permission_templates: { source_id: new_work.admin_set_id }, active: true)
+            workflow_state = Sipity::WorkflowState.where(workflow_id: workflow.first.id, name: 'deposited')
+            MigrationHelper.retry_operation('creating sipity entity for work') do
+              Sipity::Entity.create!(proxy_for_global_id: new_work.to_global_id.to_s,
+                                     workflow: workflow.first,
+                                     workflow_state: workflow_state.first)
+            end
           end
+          
 
-
-
-          byebug
-          file_path = item.download_main_pdf_file(@tmp_file_location)
-          fileset_attrs = file_record(work_attributes.merge(file_work_attributes))
-          fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
-
-          new_work.ordered_members << fileset
 
           # now we need to get the file set and add it to the file
-          byebug
+          file_path = item.download_main_pdf_file(@tmp_file_location)
+          if (file_path.present?)
+            work_attributes['label'] = item.file_info['file_name']
+            fileset_attrs = file_record(work_attributes)
+            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
+
+            new_work.ordered_members << fileset
+          end
+          puts "The work #{new_work.title} does not have a main file set.Check for errors"  if file_path.nil?
+          log.info "The work #{new_work.title} does not have a file set." if file_path.nil?
+
           new_work
           
         end
@@ -175,30 +182,6 @@ module Migrate
           end
 
           resource
-        end
-
-        # FileSets can include any metadata listed in BasicMetadata file
-        def file_record(work_attributes)
-          file_set = FileSet.new
-          file_attributes = Hash.new
-          # Singularize non-enumerable attributes
-          work_attributes.each do |k,v|
-            if file_set.attributes.keys.member?(k.to_s)
-              if !file_set.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
-                file_attributes[k] = v.first
-              else
-                file_attributes[k] = v
-              end
-            end
-          end
-          file_attributes[:visibility] = work_attributes['visibility']
-          unless work_attributes['embargo_release_date'].blank?
-            file_attributes[:embargo_release_date] = work_attributes['embargo_release_date']
-            file_attributes[:visibility_during_embargo] = work_attributes['visibility_during_embargo']
-            file_attributes[:visibility_after_embargo] = work_attributes['visibility_after_embargo']
-          end
-
-          file_attributes
         end
 
 

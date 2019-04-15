@@ -11,9 +11,6 @@ namespace :migrate do
   require "tasks/migrate/services/id_mapper"
   require 'tasks/migrate/services/metadata_parser'
 
-  # temporary location for file download
-  @temp = 'lib/tasks/migrate/tmp'
-  FileUtils::mkdir_p @temp
 
   # bundle exec rake migrate::digitool_item -- -p 12007 -c 'thesis'
   desc 'Migrate a Digitool object with a PID and its related items'
@@ -79,6 +76,8 @@ namespace :migrate do
       options[:csv_file] = csv_file
     }
     
+    # temporary location for file download
+    
     #return `ARGV` with the intended arguments
     args = o.order!(ARGV) {}
     o.parse!(args)
@@ -91,10 +90,16 @@ namespace :migrate do
 
     # get the migration config
     migration_config = get_migration_config(options[:collect])
+
+    # lets create the tmp file location if it does not exist
+    FileUtils::mkdir_p migration_config['tmp_file_location']
+
+
     if AdminSet.where(title: ENV['DEFAULT_ADMIN_SET']).count != 0 &&
         User.where(email: migration_config['depositor_email']).count > 0
 
       @depositor = User.where(email: migration_config['depositor_email']).first
+
       
       migrate_service = Migrate::Services::MigrateService.new(migration_config,
                                            @depositor)

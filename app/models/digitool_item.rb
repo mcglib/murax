@@ -59,7 +59,6 @@ class DigitoolItem
 
   def download_main_pdf_file(dest=nil)
       file_path = nil
-      byebug
       if @pid.present? && @file_info['path'].present?
 
         # set the dest_folder
