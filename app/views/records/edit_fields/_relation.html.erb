@@ -1,5 +1,6 @@
 <% if f.object.multiple? key %>
-  <%= f.input :relation, as: :multi_value, label: 'Relation',  required: f.object.required?(key) %>
+  <%= f.input :relation, as: :multi_value, label: 'Relation', placeholder: '(OCoLC)XXXXX',  required: f.object.required?(key) %>
+  <%= f.input :relation, as: :multi_value, label: 'Relation', placeholder: 'digitool:XXXXX',  required: f.object.required?(key) %>
 <% else %>
   <%= f.input :relation, as: :text, label: 'Relation', required: f.object.required?(key) %>
 <% end %>
