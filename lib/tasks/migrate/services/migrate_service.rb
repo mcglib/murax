@@ -19,7 +19,7 @@ module Migrate
         STDOUT.sync = true
         if pid_list.empty?
           puts "The pid list is empty."
-          log.info "The pid list is empty"
+          log.info "The pid list is empty. No importing will be done"
           return
         end
 
@@ -30,15 +30,15 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[0..5].each.with_index do | pid, index |
+        @pid_list[0..10].each.with_index do | pid, index |
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
 
 
           # Create new work record and save
           new_work = create_work(item)
-          puts "The work has been created for #{new_work.title} as a #{@work_type}" if new_work.present?
-          log.info "The work has been created for #{new_work.title} as a #{@work_type}" if new_work.present?
+          puts "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
+          log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
           
 
           # Save the work id to the created_works array
@@ -47,8 +47,8 @@ module Migrate
         end
 
         @created_work_ids
-
       end
+
       def create_fileset(parent: nil, resource: nil, file: nil)
         file_set = nil
         MigrationHelper.retry_operation('creating fileset') do
@@ -110,9 +110,18 @@ module Migrate
           parsed_data = Migrate::Services::MetadataParser.new(item.metadata_hash,
                                                               @depositor,
                                                               @config).parse
-          work_attributes = parsed_data[:work_attributes]
-          new_work = work_record(work_attributes)
-          if new_work.save!
+          begin
+            work_attributes = parsed_data[:work_attributes]
+            new_work = work_record(work_attributes)
+            new_work.save!
+            
+
+            # update the identifier and the pid
+            new_work.relation << "pid: #{item.pid}"
+
+            #update the identifier
+            new_work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+
             # Create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)
                            .where(permission_templates: { source_id: new_work.admin_set_id }, active: true)
@@ -122,8 +131,13 @@ module Migrate
                                      workflow: workflow.first,
                                      workflow_state: workflow_state.first)
             end
+            # resave
+            new_work.save!
+          rescue Exception => e
+            puts "The item #{item.title} could not be saved as a work. #{e}"
+            log.info "The item #{item.title} could not be saved as a work. #{e}"
+            log.info "We set up them the bomb."
           end
-          
 
 
           # now we need to get the file set and add it to the file
@@ -135,6 +149,7 @@ module Migrate
 
             new_work.ordered_members << fileset
           end
+
           puts "The work #{new_work.title} does not have a main file set.Check for errors"  if file_path.nil?
           log.info "The work #{new_work.title} does not have a file set." if file_path.nil?
 

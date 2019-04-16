@@ -10,6 +10,7 @@ module Migrate
         @admin_set = config['admin_set']
         @resource_type = config['resource_type']
         @env_default_admin_set = 'Default Admin Set'
+        @rights_statement = config['rights_statement']
       end
 
       def parse
@@ -46,9 +47,13 @@ module Migrate
           work_attributes['description'] = work_attributes['abstract']
           
           work_attributes['creator'] = [metadata["creator"]]
-          work_attributes['contributor'] = [metadata['contributor']]
+          work_attributes['contributor'] = [metadata['contributor']] if metadata['contributor'].present?
           
-          work_attributes['subject'] = metadata['subject']
+          if metadata['subject'].instance_of? Array
+            work_attributes['subject'] = metadata['subject']
+          else
+            work_attributes['subject'] = [metadata['subject']]
+          end
           
  
           # Get the date_uploaded
@@ -78,7 +83,7 @@ module Migrate
           work_attributes['date'] = [metadata["date"]]
 
           # McGill rights statement
-          work_attributes['rights'] =  [metadata['rights']]
+          work_attributes['rights'] =  [@rights_statement]
 
           # Set the depositor
           work_attributes['depositor'] = @depositor.email
@@ -87,7 +92,12 @@ module Migrate
           work_attributes['rtype'] = @resource_type
           
           # set the relation
-          work_attributes['relation'] = [metadata['relations']] if metadata['relations'].present?
+          if metadata['relation'].instance_of? Array
+            work_attributes['relation'] = metadata['relation']
+          else
+            work_attributes['relation'] = [metadata['relation']] if metadata['relation'].present?
+          end
+
           # languages
           languages = [metadata['language']]
           work_attributes['language'] = get_language_uri(languages) if !languages.blank?

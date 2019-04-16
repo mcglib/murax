@@ -7,7 +7,7 @@ thesis:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   collection: thesis # derived from the digitool_collections.json file under /config
-  rights_statement: "http://rightsstatements.org/vocab/UND/1.0/"
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
   keywords_transformation: 
     - 'Schulich School of'
     - 'Department of '

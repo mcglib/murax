@@ -25,8 +25,13 @@ class DigitoolItem
 
     @metadata_hash = set_metadata
 
+    set_title
+
   end
   
+  def set_title
+    @title = @metadata_hash['title']
+  end
   def set_related_pids
     @related_pids = fetch_related_pids(@pid) if @pid.present?
   end
