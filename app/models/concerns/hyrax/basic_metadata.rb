@@ -103,7 +103,7 @@ module Hyrax
             index.as :stored_searchable
       end 
 
-      property :local_affiliated_center,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: true do |index|
+      property :local_affiliated_centre,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: true do |index|
             index.as :stored_searchable
       end
 
@@ -141,11 +141,11 @@ module Hyrax
         index.as :stored_searchable
       end
 
-      property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation do |index|
+      property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation, multiple: true  do |index|
         index.as :stored_searchable
       end
 
-      property :source, predicate: ::RDF::Vocab::DC.source do |index|
+      property :source, predicate: ::RDF::Vocab::DC.source, multiple: true  do |index|
         index.as :stored_searchable
       end
 

@@ -1,0 +1,5 @@
+<% if f.object.multiple? key %>
+  <%= f.input :orcidid, as: :multi_value, label: 'ORCID ID', required: f.object.required?(key) %>
+<% else %>
+  <%= f.input :orcidid, as: :text, label: 'ORCID ID', required: f.object.required?(key) %>
+<% end %>
