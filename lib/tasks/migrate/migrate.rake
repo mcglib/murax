@@ -60,7 +60,7 @@ namespace :migrate do
   end 
 
 
-  # bundle exec rake migrate::digitool -- -c 'thesis' -f spec/fixtures/digitool/ethesis.csv
+  # bundle exec rake migrate::digitool -- -c 'thesis' -f spec/fixtures/digitool/ethesis-pid.csv
   desc 'Batch migrate digitool records from a list of PIDS in a  CSV file'
   task :digitool => :environment do
     options = {
