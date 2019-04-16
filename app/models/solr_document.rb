@@ -74,6 +74,36 @@ class SolrDocument
     self[Solrizer.solr_name('relation')]
   end
 
+  def bibliographic_citation
+    self[Solrizer.solr_name('bibliographic_citation')]
+  end 
 
+  def related_url
+    self[Solrizer.solr_name('related_url')]
+  end
+
+  def alternative_title
+    self[Solrizer.solr_name('alternative_title')]
+  end
+
+  def local_affiliated_center
+    self[Solrizer.solr_name('local_affiliated_center')]
+  end
+
+  def pmid
+    self[Solrizer.solr_name('pmid')]
+  end
+
+  def research_unit
+    self[Solrizer.solr_name('research_unit')]
+  end
+
+  def grant_number
+    self[Solrizer.solr_name('grant_number')]
+  end
+
+  def status
+    self[Solrizer.solr_name('status')]
+  end
 
 end 
