@@ -105,5 +105,8 @@ class SolrDocument
   def status
     self[Solrizer.solr_name('status')]
   end
-
+  
+  def source
+    self[Solrizer.solr_name('source')]
+  end
 end 

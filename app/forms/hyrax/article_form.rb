@@ -12,13 +12,6 @@ module Hyrax
     self.required_fields += [:creator, :date, :rights, :rtype, :bibliographic_citation]
     self.required_fields -= [:keyword, :contact_email, :description]
 
-    def self.multiple?(field)
-      if [:title, :bibliographic_citation].include? field.to_sym
-        false 
-      else 
-        super
-      end
-
 
   end
 end

@@ -141,7 +141,7 @@ module Hyrax
         index.as :stored_searchable
       end
 
-      property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation, multiple: true  do |index|
+      property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation, multiple: false  do |index|
         index.as :stored_searchable
       end
 
