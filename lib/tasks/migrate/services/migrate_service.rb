@@ -57,6 +57,7 @@ module Migrate
 
         actor = Hyrax::Actors::FileSetActor.new(file_set, @depositor)
         actor.create_metadata(resource)
+        byebug
 
         renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['label'])}"
         FileUtils.mkpath("#{@tmp_file_location}/#{parent.id}")
