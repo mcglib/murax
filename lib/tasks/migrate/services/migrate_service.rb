@@ -128,6 +128,7 @@ module Migrate
         file_set = FileSet.create(resource)
         actor = Hyrax::Actors::FileSetActor.new(file_set, @depositor)
         actor.create_metadata(resource)
+        byebug
 
         if file.match('DATA_FILE')
           renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['title']).first}"
