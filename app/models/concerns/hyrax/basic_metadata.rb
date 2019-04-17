@@ -123,9 +123,9 @@ module Hyrax
         index.as :stored_searchable, :facetable
       end
 
-      property :keyword, predicate: ::RDF::Vocab::DC11.relation do |index|
-        index.as :stored_searchable, :facetable
-      end
+      #property :keyword, predicate: ::RDF::Vocab::DC11.relation do |index|
+      #  index.as :stored_searchable, :facetable
+      #end
 
 
       property :description, predicate: ::RDF::Vocab::DC11.description do |index|

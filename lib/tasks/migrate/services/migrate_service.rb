@@ -112,6 +112,7 @@ module Migrate
                                                               @config).parse
           begin
             work_attributes = parsed_data[:work_attributes]
+            byebug
             new_work = work_record(work_attributes)
             new_work.save!
             
