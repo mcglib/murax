@@ -153,7 +153,6 @@ module Hyrax
         index.as :symbol
       end
 
-      property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
 
 
 ####End of properties that will removed #######

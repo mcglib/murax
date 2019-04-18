@@ -73,14 +73,13 @@ module Migrate
           # get the degree
           work_attributes['degree'] = [metadata['localthesisdegreename']]
 
-
           # get the institution
           work_attributes['publisher'] = metadata["publisher"]
           work_attributes['institution'] = metadata['publisher']
 
 
           # get the date. copying the modifiedDate
-          work_attributes['date'] = [metadata["date"]]
+          work_attributes['date'] = [metadata["date"]] if metadata['date'].present?
 
           # McGill rights statement
           work_attributes['rights'] =  [@rights_statement]
@@ -88,7 +87,8 @@ module Migrate
           # Set the depositor
           work_attributes['depositor'] = @depositor.email
 
-          # Set the rtype ( bibo dct:type)
+          # Set the rtype ( bibo dct:type)a
+          # Here we might need to tweak it to fetch the proper type
           work_attributes['rtype'] = @resource_type
           
           # set the relation
@@ -97,6 +97,13 @@ module Migrate
           else
             work_attributes['relation'] = [metadata['relation']] if metadata['relation'].present?
           end
+
+          #Added the isPart of
+          work_attributes['note'] = [metadata["isPartOf"]] if metadata['isPartOf'].present?
+          work_attributes['alternative_title'] = [metadata["alternative"]] if metadata['alternative'].present?
+          work_attributes['source'] = [metadata["source"]] if metadata['source'].present?
+          work_attributes['faculty'] = [metadata['localfacultycode']] if metadata['localfacultycode'].present?
+
 
           # languages
           languages = [metadata['language']]

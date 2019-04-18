@@ -30,14 +30,13 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[0..10].each.with_index do | pid, index |
+        @pid_list[101..106].each.with_index do | pid, index |
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
 
 
           # Create new work record and save
           new_work = create_work(item)
-          puts "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
           
 
@@ -45,6 +44,10 @@ module Migrate
           @created_work_ids << new_work.id if new_work.present?
 
         end
+
+         # Now we need to add the files to the collection
+         byebug
+
 
         @created_work_ids
       end
@@ -57,9 +60,8 @@ module Migrate
 
         actor = Hyrax::Actors::FileSetActor.new(file_set, @depositor)
         actor.create_metadata(resource)
-        byebug
 
-        renamed_file = "#{@tmp_file_location}/#{parent.id}/#{Array(resource['label'])}"
+        renamed_file = "#{@tmp_file_location}/#{parent.id}/#{resource['label']}"
         FileUtils.mkpath("#{@tmp_file_location}/#{parent.id}")
         FileUtils.cp(file, renamed_file)
 
@@ -113,13 +115,13 @@ module Migrate
                                                               @config).parse
           begin
             work_attributes = parsed_data[:work_attributes]
-            byebug
+            work_attributes["relation"] << "pid: #{item.pid}"
+
             new_work = work_record(work_attributes)
             new_work.save!
             
 
             # update the identifier and the pid
-            new_work.relation << "pid: #{item.pid}"
 
             #update the identifier
             new_work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
@@ -145,7 +147,10 @@ module Migrate
           # now we need to get the file set and add it to the file
           file_path = item.download_main_pdf_file(@tmp_file_location)
           if (file_path.present?)
-            work_attributes['label'] = item.file_info['file_name']
+            file_name = item.file_info['file_name']
+
+            #work_attributes['label'] = File.basename(file_name,File.extname(file_name))
+            work_attributes['label'] = file_name
             fileset_attrs = file_record(work_attributes)
             fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
 
