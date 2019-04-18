@@ -16,13 +16,13 @@
 <%= presenter.attribute_to_html(:department, render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:degree, render_as: :faceted,html_dl: true) %>
 <%= presenter.attribute_to_html(:faculty,render_as: :faceted, html_dl: true) %>
-<%= presenter.attribute_to_html(:rtype, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:rtype, render_as: :rtype, html_dl: true) %>
 <%= presenter.attribute_to_html(:date, render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:relation, html_dl: true) %>
 <%= presenter.attribute_to_html(:bibliographic_citation, html_dl: true) %>
 <%= presenter.attribute_to_html(:alternative_title, html_dl: true) %>
-<%= presenter.attribute_to_html(:local_affiliated_center, html_dl: true) %>
-<%= presenter.attribute_to_html(:pmid, html_dl: true) %>
+<%= presenter.attribute_to_html(:local_affiliated_centre, html_dl: true) %>
+<%= presenter.attribute_to_html(:pmid, html_dl: true, render_as: :upcase) %>
 <%= presenter.attribute_to_html(:research_unit, html_dl: true) %>
 <%= presenter.attribute_to_html(:grant_number, html_dl: true) %>
 <%= presenter.attribute_to_html(:status, html_dl: true) %>
