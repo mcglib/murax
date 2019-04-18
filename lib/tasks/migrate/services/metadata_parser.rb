@@ -3,36 +3,24 @@ module Migrate
     class MetadataParser
 
       # Must include the email address of a valid user in order to ingest files
-      @env_default_admin_set = 'default'
 
-      def initialize(metadata_file, ids, depositor, config)
-        @metadata_file = metadata_file
-        @collection_uuids = ids
-        @collection_name = config['collection_name']
+      def initialize(metadata, depositor, config)
+        @metadata = metadata
         @depositor = depositor
         @admin_set = config['admin_set']
+        @resource_type = config['resource_type']
+        @env_default_admin_set = 'Default Admin Set'
+        @rights_statement = config['rights_statement']
       end
 
       def parse
-        metadata = Nokogiri::XML(File.open(@metadata_file))
-
-        work_attributes = get_work_attributes(metadata)
-
+        work_attributes = get_work_attributes(@metadata)
         child_works = Array.new
-
-        # Add work to specified collection
-        work_attributes['member_of_collections'] = Array(Collection.where(title: @collection_name).first)
-        # Create collection if it does not yet exist
-        if !@collection_name.blank? && work_attributes['member_of_collections'].first.blank?
-          user_collection_type = Hyrax::CollectionType.where(title: 'User Collection').first.gid
-          work_attributes['member_of_collections'] = Array(Collection.create(title: [@collection_name],
-                                         depositor: @depositor.uid,
-                                         collection_type_gid: user_collection_type))
-        end
-
+  
         work_attributes['admin_set_id'] = (AdminSet.where(title: @admin_set).first || AdminSet.where(title: @env_default_admin_set).first).id
 
-        { work_attributes: work_attributes.reject!{|k,v| v.blank?}, child_works: child_works }
+        { work_attributes: work_attributes.reject!{|k,v| v.blank?},
+          child_works: child_works }
       end
 
       private
@@ -40,6 +28,89 @@ module Migrate
         def get_work_attributes(metadata)
 
           work_attributes = Hash.new
+          # Set default visibility first
+          #work_attributes['embargo_release_date'] = (Date.try(:edtf, embargo_release_date) || embargo_release_date).to_s
+          ## investigate how we can get the visibility from the collection level
+          work_attributes['visibility'] = 'open'
+          
+          work_attributes['title'] = [metadata["title"]]
+          work_attributes['label'] = metadata["label"]
+
+          # Set the abstract
+          if metadata['abstract'].instance_of? Array
+            work_attributes['abstract'] = metadata['abstract']
+          else
+            work_attributes['abstract'] = [metadata['abstract']]
+          end
+
+          # set the description
+          work_attributes['description'] = work_attributes['abstract']
+          
+          work_attributes['creator'] = [metadata["creator"]]
+          work_attributes['contributor'] = [metadata['contributor']] if metadata['contributor'].present?
+          
+          if metadata['subject'].instance_of? Array
+            work_attributes['subject'] = metadata['subject']
+          else
+            work_attributes['subject'] = [metadata['subject']]
+          end
+          
+ 
+          # Get the date_uploaded
+          date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
+          work_attributes['date_uploaded'] =  [date_uploaded.to_s]
+          
+          # get the modifiedDate
+          date_modified_string = metadata["localdissacceptdate"]
+          date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
+                            .strftime('%Y-%m-%d') unless date_modified_string.nil?
+          work_attributes['date_modified'] =  [date_modified.to_s]
+          work_attributes['date_created'] =  [date_modified.to_s]
+          
+          # get the department
+          work_attributes['department'] = [metadata['localthesisdegreediscipline']]
+          
+          # get the degree
+          work_attributes['degree'] = [metadata['localthesisdegreename']]
+
+          # get the institution
+          work_attributes['publisher'] = metadata["publisher"]
+          work_attributes['institution'] = metadata['publisher']
+
+
+          # get the date. copying the modifiedDate
+          work_attributes['date'] = [metadata["date"]] if metadata['date'].present?
+
+          # McGill rights statement
+          work_attributes['rights'] =  [@rights_statement]
+
+          # Set the depositor
+          work_attributes['depositor'] = @depositor.email
+
+          # Set the rtype ( bibo dct:type)a
+          # Here we might need to tweak it to fetch the proper type
+          work_attributes['rtype'] = @resource_type
+          
+          # set the relation
+          if metadata['relation'].instance_of? Array
+            work_attributes['relation'] = metadata['relation']
+          else
+            work_attributes['relation'] = [metadata['relation']] if metadata['relation'].present?
+          end
+
+          #Added the isPart of
+          work_attributes['note'] = [metadata["isPartOf"]] if metadata['isPartOf'].present?
+          work_attributes['alternative_title'] = [metadata["alternative"]] if metadata['alternative'].present?
+          work_attributes['source'] = [metadata["source"]] if metadata['source'].present?
+          work_attributes['faculty'] = [metadata['localfacultycode']] if metadata['localfacultycode'].present?
+
+
+          # languages
+          languages = [metadata['language']]
+          work_attributes['language'] = get_language_uri(languages) if !languages.blank?
+          work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
+
+          
           work_attributes
         end
 

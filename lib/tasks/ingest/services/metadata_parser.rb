@@ -124,7 +124,7 @@ module Ingest
           work_attributes['rtype'] = @resource_type
 
           # Get the identifier
-          work_attributes['identifier'] = '312'
+          #work_attributes['identifier'] = '312'
 
           work_attributes
         end

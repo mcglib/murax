@@ -7,13 +7,19 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-ENV INSTALL_PATH /usr/src/app
+ENV APP_PATH /storage/www/murax/current
 ENV BACKUP_PATH /root/backup
 ENV MODEL_PATH $BACKUP_PATH/models
 ENV VENDOR_PATH /vendor
+ENV STARTUP_PATH /docker
 
 # Install dependencies
 ENV DEBIAN_FRONTEND noninteractive
+
+ENV GEM_HOME="/usr/local/bundle"
+ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
+ENV BUNDLE_PATH "/storage/www/murax/shared/bundle"
+
 RUN apt-get update
 RUN apt-get install -qq wget unzip build-essential cmake gcc libcunit1-dev libudev-dev git redis-server curl \
 && apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libcurl4-openssl-dev libpq-dev libsqlite3-dev
@@ -114,7 +120,6 @@ RUN cd $FITS_HOME \
 
 
 # Different layer for gems installation
-ENV APP_PATH /usr/src/app
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
@@ -157,9 +162,6 @@ RUN gem install capistrano \
 
 
 #RUN bundle update && bundle install --retry 5
-ENV GEM_HOME="/usr/local/bundle"
-ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
-ENV BUNDLE_PATH "/storage/www/murax/shared/bundle"
 RUN bundle check || bundle install --binstubs="$BUNDLE_BIN" --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
 # # Start various services
@@ -195,7 +197,6 @@ WORKDIR $APP_PATH
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
 
-ENV STARTUP_PATH /docker
 RUN mkdir -p $STARTUP_PATH
 COPY ./docker/services/hyrax/startup.sh $STARTUP_PATH/startup.sh
 RUN chmod 0644 $STARTUP_PATH/startup.sh
