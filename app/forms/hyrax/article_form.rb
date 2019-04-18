@@ -3,7 +3,7 @@
 module Hyrax
   # Generated form for Article
   class ArticleForm < Hyrax::Forms::WorkForm
-    include ::SingleValuedForm
+    include SingleValuedForm
     self.model_class = ::Article
     self.terms += [:title, :faculty, :alternative_title, :rights, :local_affiliated_centre, :department,
                    :creator, :note, :publisher, :abstract, :pmid, :research_unit, :grant_number, :status,
