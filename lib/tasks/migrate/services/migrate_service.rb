@@ -38,6 +38,7 @@ module Migrate
           # Create new work record and save
           new_work = create_work(item)
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
+
           
 
           # Save the work id to the created_works array
@@ -46,10 +47,14 @@ module Migrate
         end
 
          # Now we need to add the files to the collection
-         byebug
+         add_works_to_collection(@created_work_ids, @config['collection'])
+         
+         @created_work_ids
 
+      end
 
-        @created_work_ids
+      def add_works_to_collection(work_ids, collection)
+      
       end
 
       def create_fileset(parent: nil, resource: nil, file: nil)
@@ -153,9 +158,12 @@ module Migrate
             work_attributes['label'] = file_name
             fileset_attrs = file_record(work_attributes)
             fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
-
             new_work.ordered_members << fileset
           end
+
+          # now we fetch the related pid files
+          byebug
+
 
           puts "The work #{new_work.title} does not have a main file set.Check for errors"  if file_path.nil?
           log.info "The work #{new_work.title} does not have a file set." if file_path.nil?
