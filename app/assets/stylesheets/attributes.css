@@ -10,11 +10,11 @@
 }
 #module li.collapse[aria-expanded="false"] {
     display: block;
-    height: 60px !important;
+    height: 40px !important;
     overflow: hidden;
 }
 #module li.collapsing[aria-expanded="false"] {
-    height: 60px !important;
+    height: 40px !important;
 }
 #module a.collapsed:after  {
     content: '+ Show More';
