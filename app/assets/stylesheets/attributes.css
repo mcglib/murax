@@ -1,0 +1,24 @@
+/*
+ * Custom css to style Abstract metadata show field to hide subtract partially on inital display. 
+ *
+ */
+#module {
+  width: 100%;
+}
+.custom-attribute-abstract {
+  text-align: justify;
+}
+#module li.collapse[aria-expanded="false"] {
+    display: block;
+    height: 60px !important;
+    overflow: hidden;
+}
+#module li.collapsing[aria-expanded="false"] {
+    height: 60px !important;
+}
+#module a.collapsed:after  {
+    content: '+ Show More';
+}
+#module a:not(.collapsed):after {
+    content: '- Show Less';
+}
