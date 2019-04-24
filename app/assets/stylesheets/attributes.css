@@ -8,12 +8,12 @@
 .custom-attribute-abstract {
   text-align: justify;
 }
-#module li.collapse[aria-expanded="false"] {
+#module div.collapse[aria-expanded="false"] {
     display: block;
     height: 40px !important;
     overflow: hidden;
 }
-#module li.collapsing[aria-expanded="false"] {
+#module div.collapsing[aria-expanded="false"] {
     height: 40px !important;
 }
 #module a.collapsed:after  {

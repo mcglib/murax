@@ -7,13 +7,14 @@ module Hyrax
         return markup if values.blank? && !options[:include_empty]
         markup << %(<div id="module">)
         markup << %(<dt class="custom-dt custom-dt-#{label}">#{label}</dt>\n<dd class="custom-dd-#{field} custom-field-description"><ul class='tabular custom-tabular-ul'>)
-        attributes = microdata_object_attributes(field).merge(class: "collapse custom-attribute-#{field} attribute attribute-#{field}")
+        attributes = microdata_object_attributes(field).merge(class: "custom-attribute-#{field} attribute attribute-#{field}")
+        markup << %(<div class="collapse" id="collapseAbstract" aria-expanded="false">)
         Array(values).each do |value|
-          markup << "<li#{html_attributes(attributes)}"
-          markup << 'id="collapseAbstract" aria-expanded="false" >'
+          markup << "<li#{html_attributes(attributes)}>"
           markup << "#{attribute_value_to_html(value.to_s)}</li>"
-          markup << '<a role="button" class="collapsed" data-toggle="collapse" href="#collapseAbstract" aria-expanded="false" aria-controls="collapseAbstract"></a>'
         end
+        markup << %(</div>)
+        markup << '<a role="button" class="collapsed" data-toggle="collapse" href="#collapseAbstract" aria-expanded="false" aria-controls="collapseAbstract"></a>'
         markup << %(</div>)
         markup << %(</ul></dd>)
         markup.html_safe
