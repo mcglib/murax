@@ -2,23 +2,34 @@
  * Custom css to style Abstract metadata show field to hide subtract partially on inital display. 
  *
  */
-#module {
-  width: 100%;
-}
 .custom-attribute-abstract {
   text-align: justify;
 }
-#module div.collapse[aria-expanded="false"] {
-    display: block;
-    height: 40px !important;
-    overflow: hidden;
+.only-so-big {
+  height: 100%;
+  max-height: 60px;
+  overflow: hidden;
+  -webkit-transition: max-height .75s;
+  transition: max-height .75s;
 }
-#module div.collapsing[aria-expanded="false"] {
-    height: 40px !important;
+
+.read-more {
+  background: none;
+  border: none;
+  color: #2e74b2;
+  cursor: pointer;
+  font-size: 1em;
+  outline: none; 
 }
-#module a.collapsed:after  {
-    content: '+ Show More';
+.read-more:hover {
+  text-decoration: underline;
 }
-#module a:not(.collapsed):after {
-    content: '- Show Less';
+.read-more:focus {
+  outline: none;
+}
+.read-more::-moz-focus-inner {
+  border: 0;
+}
+.hid {
+  display: none;
 }
