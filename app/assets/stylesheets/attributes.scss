@@ -23,7 +23,7 @@
 .read-more:focus {
   outline: none;
 }
-.read-more:-moz-focus-inner {
+.read-more::-moz-focus-inner {
   border: 0;
 }
 .hid {
