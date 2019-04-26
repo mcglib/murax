@@ -21,19 +21,38 @@ class DigitoolItem
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
     
+    # set usage type
+    set_usage_type
+
+
     @file_info = set_file_metadata
 
     @metadata_hash = set_metadata
 
-    set_title
+    set_title if is_view?
+
+    set_related_pids
 
   end
-  
+ 
+  def is_main_view?
+    @related_pids.has_value?('VIEW_MAIN') if is_view?
+  end
+
+  def is_view?
+    @usage_type.eql? "VIEW" or @usage_type.eql? "VIEW_MAIN"
+  end
+
   def set_title
     @title = @metadata_hash['title']
   end
+
   def set_related_pids
     @related_pids = fetch_related_pids(@pid) if @pid.present?
+  end
+
+  def get_related_pids
+    fetch_related_pids(@pid) if @pid.present?
   end
 
   def set_metadata
@@ -41,6 +60,12 @@ class DigitoolItem
       data = Hash.from_xml(doc.to_s)
       @metadata_hash = data['record']
   end
+
+  def set_usage_type
+    @usage_type = @raw_xml.at_css('digital_entity control usage_type').text if @raw_xml.present?
+    @usage_type
+  end
+
 
   def get_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?

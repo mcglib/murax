@@ -30,19 +30,20 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[101..106].each.with_index do | pid, index |
+        @pid_list[0..6].each.with_index do | pid, index |
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
 
-
-          # Create new work record and save
-          new_work = create_work(item)
-          log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
-
-          
-
-          # Save the work id to the created_works array
-          @created_work_ids << new_work.id if new_work.present?
+          # Check if the main view 
+          if item.is_main_view?
+            log.info "This item has a main work and its not a main view. See #{stringify(item.related_pids)}"
+          else
+            # Create new work record and save
+            new_work = create_work(item)
+            log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
+            # Save the work id to the created_works array
+            @created_work_ids << new_work.id if new_work.present?
+          end
 
         end
 
@@ -54,6 +55,7 @@ module Migrate
       end
 
       def add_works_to_collection(work_ids, collection)
+        byebug
       
       end
 
@@ -115,7 +117,7 @@ module Migrate
 
         def create_work(item)
           # Create new work record and save
-          parsed_data = Migrate::Services::MetadataParser.new(item.metadata_hash,
+          parsed_data = Migrate::Services::MetadataParser.new(item.get_metadata,
                                                               @depositor,
                                                               @config).parse
           begin
@@ -143,13 +145,13 @@ module Migrate
             # resave
             new_work.save!
           rescue Exception => e
-            puts "The item #{item.title} could not be saved as a work. #{e}"
-            log.info "The item #{item.title} could not be saved as a work. #{e}"
+            puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+            log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
             log.info "We set up them the bomb."
           end
 
 
-          # now we need to get the file set and add it to the file
+          # now we need to get the main file set and add it to the file
           file_path = item.download_main_pdf_file(@tmp_file_location)
           if (file_path.present?)
             file_name = item.file_info['file_name']
@@ -162,7 +164,7 @@ module Migrate
           end
 
           # now we fetch the related pid files
-          byebug
+          add_related_files(item)
 
 
           puts "The work #{new_work.title} does not have a main file set.Check for errors"  if file_path.nil?
@@ -170,6 +172,20 @@ module Migrate
 
           new_work
           
+        end
+
+        def add_related_files(item) 
+        
+          suggested_types = ['VIEW', 'VIEW_MAIN']
+          # First batch of pids
+          related_pids = item.get_related_pids
+          related_pids.each do | rel_pid, item_type |
+            byebug
+            if suggested_types.include?(item_type)
+                 print "Get my file"
+                 print item_type
+            end
+          end
         end
 
         def work_record(work_attributes)

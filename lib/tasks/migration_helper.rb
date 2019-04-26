@@ -1,3 +1,8 @@
+require 'net/http'
+require 'uri'
+require 'json'
+require 'nokogiri'
+require 'open-uri'
 class MigrationHelper
 
   # Get the UUID
@@ -20,10 +25,22 @@ class MigrationHelper
 
   # Download the file from a give url
 
-  def self.download_file(url, dest)
-    
-    dest
+  def self.download_file(download_url, dest)
+      file_path = nil
+      if url.present? && dest.present?
+
+        # set the dest_folder
+        file_path = "#{dest}"
+        
+        download = open(download_url)
+        IO.copy_stream(download, file_path)
+      end
+      # return the file_path
+      file_path
   end
+
+
+
   # Get the collection_pids
   def self.get_collection_pids(pids_file)
     pids = Array.new
