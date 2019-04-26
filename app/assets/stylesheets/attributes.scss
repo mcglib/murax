@@ -9,7 +9,6 @@
   -webkit-transition: max-height .75s;
   transition: max-height .75s;
 }
-
 .read-more {
   background: none;
   border: none;
@@ -24,7 +23,7 @@
 .read-more:focus {
   outline: none;
 }
-.read-more::-moz-focus-inner {
+.read-more:-moz-focus-inner {
   border: 0;
 }
 .hid {
