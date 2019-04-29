@@ -16,4 +16,5 @@
  *= require_self
  *
  */
+= require_self
 = require custom_attributes
