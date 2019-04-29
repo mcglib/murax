@@ -14,7 +14,6 @@ module Migrate
         @config = config
         @created_work_ids = []
       end
-
       def import_records(pid_list, log)
         STDOUT.sync = true
         if pid_list.empty?
@@ -142,6 +141,19 @@ module Migrate
                                      workflow: workflow.first,
                                      workflow_state: workflow_state.first)
             end
+
+            # We add the main file to the work
+            add_main_file(item)
+            
+            # now we fetch the related pid files
+            related_file_items = add_related_files(item) if item.has_related_files?
+            related_file_items.each do |fitem|
+              # We add the related files if any
+              puts fitem
+            end
+
+
+
             # resave
             new_work.save!
           rescue Exception => e
@@ -163,9 +175,6 @@ module Migrate
             new_work.ordered_members << fileset
           end
 
-          # now we fetch the related pid files
-          add_related_files(item)
-
 
           puts "The work #{new_work.title} does not have a main file set.Check for errors"  if file_path.nil?
           log.info "The work #{new_work.title} does not have a file set." if file_path.nil?
@@ -176,16 +185,21 @@ module Migrate
 
         def add_related_files(item) 
         
-          suggested_types = ['VIEW', 'VIEW_MAIN']
+          suggested_types = ['VIEW', 'VIEW_MAIN', 'ARCHIVE']
+          file_list = []
           # First batch of pids
-          related_pids = item.get_related_pids
-          related_pids.each do | rel_pid, item_type |
-            byebug
+          item.get_related_pids.each do | rel_pid, item_type |
             if suggested_types.include?(item_type)
-                 print "Get my file"
-                 print item_type
+                 # We downlond the file to a temporary location
+                 FileUtils.mkpath("#{@tmp_file_location}/#{rel_pid}")
+                 download_path = MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
+                 file_list << {pid: rel_pid, type: item_type, file_path: download_path}
+
             end
           end
+          byebug
+
+          file_list
         end
 
         def work_record(work_attributes)

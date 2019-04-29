@@ -36,6 +36,7 @@ module Migrate
 
           xml = Nokogiri::XML.parse(metadata)
           # Set the title
+          byebug
           work_attributes['title'] = []
           xml.xpath("/record/dc:title").each do |title|
             work_attributes['title'] << title.text
@@ -152,7 +153,6 @@ module Migrate
           work_attributes['language'] = get_language_uri(languages) if !languages.blank?
           work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
 
-          byebug
           
           work_attributes
         end

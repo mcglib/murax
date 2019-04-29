@@ -23,7 +23,7 @@ class MigrationHelper
     end
   end
 
-  # Download the file from a give url
+  # download the file from a give url
 
   def self.download_file(download_url, dest)
       file_path = nil
@@ -33,12 +33,24 @@ class MigrationHelper
         file_path = "#{dest}"
         
         download = open(download_url)
-        IO.copy_stream(download, file_path)
+        io.copy_stream(download, file_path)
       end
       # return the file_path
       file_path
   end
 
+
+  def self.download_digitool_file_by_pid(pid, dest)
+      file_path = nil
+      if pid.present? && dest.present?
+
+        byebug
+        file_path = DigitoolItem.new({"pid" => pid}).download_main_pdf_file(dest)
+
+      end
+      # return the file_path
+      file_path
+  end
 
 
   # Get the collection_pids
