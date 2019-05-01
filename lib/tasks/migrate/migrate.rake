@@ -100,7 +100,6 @@ namespace :migrate do
 
       @depositor = User.where(email: migration_config['depositor_email']).first
 
-      
       migrate_service = Migrate::Services::MigrateService.new(migration_config,
                                            @depositor)
       # insert all the metadata and files

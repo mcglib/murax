@@ -36,11 +36,15 @@ class DigitoolItem
   end
  
   def is_main_view?
-    @related_pids.has_value?('VIEW_MAIN') if is_view?
+    !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
   end
 
   def is_view?
     @usage_type.eql? "VIEW" or @usage_type.eql? "VIEW_MAIN"
+  end
+
+  def is_waiver?
+    @usage_type.eql? "ARCHIVE"
   end
 
   def set_title
@@ -55,10 +59,18 @@ class DigitoolItem
     fetch_related_pids(@pid) if @pid.present?
   end
 
+  def has_related_pids?
+    @related_pids.empty?
+  end
+
   def set_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
       data = Hash.from_xml(doc.to_s)
       @metadata_hash = data['record']
+  end
+
+  def has_metadata?
+    !@metadata_hash.nil?
   end
 
   def set_usage_type

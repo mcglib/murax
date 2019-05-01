@@ -36,7 +36,6 @@ module Migrate
 
           xml = Nokogiri::XML.parse(metadata)
           # Set the title
-          byebug
           work_attributes['title'] = []
           xml.xpath("/record/dc:title").each do |title|
             work_attributes['title'] << title.text
