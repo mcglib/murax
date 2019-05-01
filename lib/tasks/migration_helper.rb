@@ -44,8 +44,9 @@ class MigrationHelper
       file_path = nil
       if pid.present? && dest.present?
 
-        byebug
-        file_path = DigitoolItem.new({"pid" => pid}).download_main_pdf_file(dest)
+        item = DigitoolItem.new({"pid"=> pid})
+        file_path = item.download_main_pdf_file(dest)
+        file_name = item.file_name
 
       end
       # return the file_path

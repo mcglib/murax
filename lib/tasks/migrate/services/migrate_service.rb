@@ -29,7 +29,7 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[0..6].each.with_index do | pid, index |
+        @pid_list[0..10].each.with_index do | pid, index |
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
 
@@ -60,7 +60,6 @@ module Migrate
       end
 
       def add_works_to_collection(work_ids, collection_name)
-        byebug
         attached = true
 
         # Get the collection
@@ -68,8 +67,8 @@ module Migrate
         collectionObj = Collection.find(collection_name)
         collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
 
-        work_ids.each do |attach_work|
-           attached = attach_work_to_collection(work_id, collectionObj)
+        work_ids.each do |wkid|
+           attached = attach_work_to_collection(wkid, collectionObj)
         end
 
         attached
@@ -79,13 +78,14 @@ module Migrate
       def attach_work_to_collection(work_id, collection)
           attached = true
           # Get the work
-          work = Thesis.find(work_id)
+          work = (@work_type.singularize.classify.constantize).find(work_id)
+
           begin
             work.member_of_collections << collection
             work.save!
           rescue  StandardError => e
             attached = false
-            puts "The work #{work_id} could not be attached to a collection. See #{e}"
+            puts "The work #{work_id} could not be attached to the collection #{collection.id}. See #{e}"
             
           end
           attached
@@ -183,15 +183,10 @@ module Migrate
             fileset = add_main_file(item, work_attributes, new_work)
             puts "The work #{item.pid} does not have a main file set.Check for errors"  if fileset.nil?
             log.info "The work #{item.pid} does not have a file set." if fileset.nil?
-            new_work.ordered_members << fileset
             
             # now we fetch the related pid files
             if item.has_related_pids?
-              related_file_items = add_related_files(item)
-              related_file_items.each do |fitem|
-                # We add the related files if any
-                puts fitem
-              end
+              add_related_files(item, work_attributes, work) 
             end
 
 
@@ -209,8 +204,9 @@ module Migrate
           
         end
 
-        def add_related_files(item) 
+        def add_related_files(item, work_attributes, work) 
         
+
           suggested_types = ['VIEW', 'VIEW_MAIN', 'ARCHIVE']
           file_list = []
           # First batch of pids
@@ -218,12 +214,23 @@ module Migrate
             if suggested_types.include?(item_type)
                  # We downlond the file to a temporary location
                  FileUtils.mkpath("#{@tmp_file_location}/#{rel_pid}")
-                 download_path = MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
-                 file_list << {pid: rel_pid, type: item_type, file_path: download_path}
+                 downloaded_file = MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
+                 file_list << {pid: rel_pid, type: item_type, file_path: downloaded_file['path'], file_name: downloaded_file['name']}
 
             end
           end
+          attached = false
+          file_list.each do |fitem|
+            # We add the related files if any
+            attached = add_related_file_to_work(fitem[:file_path], work_attributes, new_work, hidden)
+          end
           file_list
+        end
+
+        def add_related_file_to_work(file_path, work_attributes, new_work, hidden)
+            work_attributes['label'] = file_name
+            fileset_attrs = file_record(work_attributes)
+            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
         end
 
         def add_main_file(item, work_attributes, new_work)
