@@ -6,7 +6,7 @@ require 'open-uri'
 class DigitoolItem 
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
 
@@ -112,8 +112,16 @@ class DigitoolItem
       end
       # return the file_path
       file_path
+
   end
 
+  def get_file_name 
+      
+    @file_info = set_file_metadata unless @file_info.present?
+    
+    @file_info['file_name']
+
+  end
 
 
   private 

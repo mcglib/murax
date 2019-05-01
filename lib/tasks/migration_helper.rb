@@ -41,16 +41,17 @@ class MigrationHelper
 
 
   def self.download_digitool_file_by_pid(pid, dest)
-      file_path = nil
+      fileinfo = nil
       if pid.present? && dest.present?
 
         item = DigitoolItem.new({"pid"=> pid})
         file_path = item.download_main_pdf_file(dest)
-        file_name = item.file_name
+        file_name = item.get_file_name
+        fileinfo = {path: file_path, name: file_name}
 
       end
       # return the file_path
-      file_path
+      fileinfo
   end
 
 
