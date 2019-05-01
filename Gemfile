@@ -117,3 +117,6 @@ gem 'sidekiq-status'
 # gem 'twitter-bootstrap-rails'
 
 gem 'riiif', '~> 2.0'
+
+# OAI provider Gem. 
+gem 'blacklight_oai_provider', '~> 6.0'

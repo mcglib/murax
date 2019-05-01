@@ -90,8 +90,8 @@ class SolrDocument
     self[Solrizer.solr_name('alternative_title')]
   end
 
-  def local_affiliated_center
-    self[Solrizer.solr_name('local_affiliated_center')]
+  def local_affiliated_centre
+    self[Solrizer.solr_name('local_affiliated_centre')]
   end
 
   def pmid
@@ -109,5 +109,8 @@ class SolrDocument
   def status
     self[Solrizer.solr_name('status')]
   end
-
+  
+  def source
+    self[Solrizer.solr_name('source')]
+  end
 end 
