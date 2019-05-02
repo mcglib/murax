@@ -60,7 +60,7 @@ class DigitoolItem
   end
 
   def has_related_pids?
-    @related_pids.empty?
+    @related_pids.present?
   end
 
   def set_metadata
@@ -75,6 +75,10 @@ class DigitoolItem
 
   def set_usage_type
     @usage_type = @raw_xml.at_css('digital_entity control usage_type').text if @raw_xml.present?
+    @usage_type
+  end
+
+  def get_usage_type
     @usage_type
   end
 
@@ -118,9 +122,24 @@ class DigitoolItem
   def get_file_name 
       
     @file_info = set_file_metadata unless @file_info.present?
-    
     @file_info['file_name']
 
+  end
+
+  def get_file_visibility
+
+    visible = nil
+    case @usage_type  # was case obj.class
+    when 'ARCHIVE'
+        visible = 'restricted'
+    when 'VIEW', 'VIEW_MAIN'
+        visible = 'open'
+    else
+        visible = 'open'
+    end
+    # check the file names
+
+    visible
   end
 
 

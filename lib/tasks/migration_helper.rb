@@ -45,9 +45,12 @@ class MigrationHelper
       if pid.present? && dest.present?
 
         item = DigitoolItem.new({"pid"=> pid})
-        file_path = item.download_main_pdf_file(dest)
-        file_name = item.get_file_name
-        fileinfo = {path: file_path, name: file_name}
+        
+        fileinfo = {path: item.download_main_pdf_file(dest),
+                    name: item.get_file_name,
+                    visibility: item.get_file_visibility,
+                    pid: pid,
+                    item_type: item.get_usage_type}
 
       end
       # return the file_path

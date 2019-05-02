@@ -29,7 +29,10 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[0..10].each.with_index do | pid, index |
+        @pid_list[31..200].each.with_index do | pid, index |
+
+          start_time = Time.now
+          puts "#{start_time.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
 
@@ -44,7 +47,6 @@ module Migrate
           # check if the item has been added already
           # maybe we can add this check later
           # Create new work record and save
-          puts item.pid
           new_work = create_work(item)
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
           # Save the work id to the created_works array
@@ -186,7 +188,7 @@ module Migrate
             
             # now we fetch the related pid files
             if item.has_related_pids?
-              add_related_files(item, work_attributes, work) 
+              add_related_files(item, work_attributes,new_work) 
             end
 
 
@@ -196,7 +198,6 @@ module Migrate
           rescue Exception => e
             puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
             log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
-            log.info "We set up them the bomb."
           end
 
 
@@ -214,23 +215,26 @@ module Migrate
             if suggested_types.include?(item_type)
                  # We downlond the file to a temporary location
                  FileUtils.mkpath("#{@tmp_file_location}/#{rel_pid}")
-                 downloaded_file = MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
-                 file_list << {pid: rel_pid, type: item_type, file_path: downloaded_file['path'], file_name: downloaded_file['name']}
+                 file_list << MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
 
             end
           end
           attached = false
           file_list.each do |fitem|
             # We add the related files if any
-            attached = add_related_file_to_work(fitem[:file_path], work_attributes, new_work, hidden)
+            attached = add_related_file_to_work(fitem, work_attributes, work)
           end
           file_list
         end
 
-        def add_related_file_to_work(file_path, work_attributes, new_work, hidden)
-            work_attributes['label'] = file_name
+        def add_related_file_to_work(file_info, work_attributes, new_work)
+            work_attributes['label'] = file_info[:name]
+            work_attributes['title'] = [file_info[:name]]
+            work_attributes['visibility'] = file_info[:visibility]
             fileset_attrs = file_record(work_attributes)
-            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
+            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_info[:path])
+            
+            fileset
         end
 
         def add_main_file(item, work_attributes, new_work)
