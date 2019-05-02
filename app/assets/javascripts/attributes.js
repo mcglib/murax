@@ -2,7 +2,8 @@
 var allOSB = [];
 var mxh = '';
 
-window.onload = function() {
+//window.onload = function() {
+document.addEventListener("turbolinks:load", function() {
   allOSB = document.getElementsByClassName("only-so-big");
   
   if (allOSB.length > 0) {
@@ -29,7 +30,7 @@ window.onload = function() {
 
   // Update buttons so only the needed ones show
   updateReadMore();
-}
+})
 // Update on resize
 window.onresize = function() {
   updateReadMore();
@@ -70,6 +71,4 @@ function updateHeight(el) {
 function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
-
-
 
