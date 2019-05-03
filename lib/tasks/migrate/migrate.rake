@@ -103,7 +103,12 @@ namespace :migrate do
       migrate_service = Migrate::Services::MigrateService.new(migration_config,
                                            @depositor)
       # insert all the metadata and files
-      imported_work_ids =  migrate_service.import_records(@pid_list, log)
+      puts "Object count:  #{@pid_list.count.to_s}"
+      # lets chunck the job
+      @pid_list.each_slice(100) do | chunck |
+        puts "Object count:  #{chunck.count.to_s}"
+        migrate_service.import_records(chunck, log)
+      end
 
       # add the collections to the last batch of import
 
