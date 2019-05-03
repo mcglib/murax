@@ -29,7 +29,7 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[211..220].each.with_index do | pid, index |
+        @pid_list[221..230].each.with_index do | pid, index |
 
           start_time = Time.now
           puts "#{start_time.to_s}: Processing the item  #{pid}"
