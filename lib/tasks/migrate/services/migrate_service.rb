@@ -29,7 +29,7 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[31..200].each.with_index do | pid, index |
+        @pid_list[211..220].each.with_index do | pid, index |
 
           start_time = Time.now
           puts "#{start_time.to_s}: Processing the item  #{pid}"
@@ -182,7 +182,7 @@ module Migrate
             end
 
             # We add the main file to the work
-            fileset = add_main_file(item, work_attributes, new_work)
+            fileset = add_main_file(item.pid, work_attributes, new_work)
             puts "The work #{item.pid} does not have a main file set.Check for errors"  if fileset.nil?
             log.info "The work #{item.pid} does not have a file set." if fileset.nil?
             
@@ -219,7 +219,6 @@ module Migrate
 
             end
           end
-          attached = false
           file_list.each do |fitem|
             # We add the related files if any
             attached = add_related_file_to_work(fitem, work_attributes, work)
@@ -228,26 +227,23 @@ module Migrate
         end
 
         def add_related_file_to_work(file_info, work_attributes, new_work)
+          fileset = nil
+          if (file_info[:path].present?)
             work_attributes['label'] = file_info[:name]
             work_attributes['title'] = [file_info[:name]]
             work_attributes['visibility'] = file_info[:visibility]
             fileset_attrs = file_record(work_attributes)
             fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_info[:path])
-            
-            fileset
+          end 
+          fileset
         end
 
-        def add_main_file(item, work_attributes, new_work)
-          # now we need to get the main file set and add it to the file
-          file_path = item.download_main_pdf_file(@tmp_file_location)
-          if (file_path.present?)
-            file_name = item.file_info['file_name']
+        def add_main_file(item_pid, work_attributes, new_work)
 
-            work_attributes['label'] = file_name
-            fileset_attrs = file_record(work_attributes)
-            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
-
-          end
+          fileset = nil
+          FileUtils.mkpath("#{@tmp_file_location}/#{item_pid}")
+          file_info =  MigrationHelper.download_digitool_file_by_pid(item_pid, "#{@tmp_file_location}/#{item_pid}" )
+          fileset = add_related_file_to_work(file_info, work_attributes, new_work)
 
           fileset
         

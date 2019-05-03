@@ -86,6 +86,7 @@ module Migrate
           # Get the date_uploaded
           date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
           work_attributes['date_uploaded'] =  [date_uploaded.to_s]
+          work_attributes['date_modified'] =  [date_uploaded.to_s]
           
           # get the modifiedDate
 
@@ -93,7 +94,6 @@ module Migrate
           unless date_modified_string.empty?
             date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
                             .strftime('%Y-%m-%d')
-            work_attributes['date_modified'] =  [date_modified.to_s]
             work_attributes['date_created'] =  [date_modified.to_s]
           end
           
