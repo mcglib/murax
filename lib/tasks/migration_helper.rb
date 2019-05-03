@@ -1,3 +1,8 @@
+require 'net/http'
+require 'uri'
+require 'json'
+require 'nokogiri'
+require 'open-uri'
 class MigrationHelper
 
   # Get the UUID
@@ -18,12 +23,41 @@ class MigrationHelper
     end
   end
 
-  # Download the file from a give url
+  # download the file from a give url
 
-  def self.download_file(url, dest)
-    
-    dest
+  def self.download_file(download_url, dest)
+      file_path = nil
+      if url.present? && dest.present?
+
+        # set the dest_folder
+        file_path = "#{dest}"
+        
+        download = open(download_url)
+        io.copy_stream(download, file_path)
+      end
+      # return the file_path
+      file_path
   end
+
+
+  def self.download_digitool_file_by_pid(pid, dest)
+      fileinfo = nil
+      if pid.present? && dest.present?
+
+        item = DigitoolItem.new({"pid"=> pid})
+        
+        fileinfo = {path: item.download_main_pdf_file(dest),
+                    name: item.get_file_name,
+                    visibility: item.get_file_visibility,
+                    pid: pid,
+                    item_type: item.get_usage_type}
+
+      end
+      # return the file_path
+      fileinfo
+  end
+
+
   # Get the collection_pids
   def self.get_collection_pids(pids_file)
     pids = Array.new

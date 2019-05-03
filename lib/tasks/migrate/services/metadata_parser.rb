@@ -33,53 +33,78 @@ module Migrate
           ## investigate how we can get the visibility from the collection level
           work_attributes['visibility'] = 'open'
           
-          work_attributes['title'] = [metadata["title"]]
-          work_attributes['label'] = metadata["label"]
+
+          xml = Nokogiri::XML.parse(metadata)
+          # Set the title
+          work_attributes['title'] = []
+          xml.xpath("/record/dc:title").each do |title|
+            work_attributes['title'] << title.text
+          end
 
           # Set the abstract
-          if metadata['abstract'].instance_of? Array
-            work_attributes['abstract'] = metadata['abstract']
-          else
-            work_attributes['abstract'] = [metadata['abstract']]
+          work_attributes['abstract'] = []
+          xml.xpath("/record/dcterms:abstract").each do |abstract|
+            work_attributes['abstract'] << abstract.text if abstract.text.present?
           end
+
 
           # set the description
           work_attributes['description'] = work_attributes['abstract']
           
-          work_attributes['creator'] = [metadata["creator"]]
-          work_attributes['contributor'] = [metadata['contributor']] if metadata['contributor'].present?
-          
-          if metadata['subject'].instance_of? Array
-            work_attributes['subject'] = metadata['subject']
-          else
-            work_attributes['subject'] = [metadata['subject']]
+          # set the creator
+          work_attributes['creator'] = []
+          xml.xpath("/record/dc:creator").each do |term|
+            work_attributes['creator'] << term.text
           end
+
+
+          work_attributes['contributor'] =[]
+          xml.xpath("/record/dc:contributor").each do |term|
+            work_attributes['contributor'] << term.text
+          end
+          
+          work_attributes['subject'] =[]
+          xml.xpath("/record/dc:subject").each do |term|
+            work_attributes['subject'] << term.text
+          end
+          
+          
+          # get the department
+          work_attributes['department'] =[]
+          xml.xpath("/record/dcterms:localthesisdegreediscipline").each do |term|
+            work_attributes['department'] << term.text if term.text.present?
+          end
+          
+          # get the degree
+          work_attributes['degree'] =[]
+          xml.xpath("/record/dcterms:localthesisdegreename").each do |term|
+            work_attributes['degree'] << term.text if term.text.present?
+          end
+
           
  
           # Get the date_uploaded
           date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
           work_attributes['date_uploaded'] =  [date_uploaded.to_s]
+          work_attributes['date_modified'] =  [date_uploaded.to_s]
           
           # get the modifiedDate
-          date_modified_string = metadata["localdissacceptdate"]
-          date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
-                            .strftime('%Y-%m-%d') unless date_modified_string.nil?
-          work_attributes['date_modified'] =  [date_modified.to_s]
-          work_attributes['date_created'] =  [date_modified.to_s]
-          
-          # get the department
-          work_attributes['department'] = [metadata['localthesisdegreediscipline']]
-          
-          # get the degree
-          work_attributes['degree'] = [metadata['localthesisdegreename']]
 
+          date_modified_string = xml.xpath("/record/dc:localdissacceptdate").text
+          unless date_modified_string.empty?
+            date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
+                            .strftime('%Y-%m-%d')
+            work_attributes['date_created'] =  [date_modified.to_s]
+          end
+          
           # get the institution
-          work_attributes['publisher'] = metadata["publisher"]
-          work_attributes['institution'] = metadata['publisher']
+          work_attributes['publisher'] = xml.xpath("/record/dc:publisher").text
+          work_attributes['institution'] = xml.xpath("/record/dc:publisher").text
 
 
           # get the date. copying the modifiedDate
-          work_attributes['date'] = [metadata["date"]] if metadata['date'].present?
+          date = xml.xpath("/record/dc:date").text
+          work_attributes['date'] = [date] if date.present?
 
           # McGill rights statement
           work_attributes['rights'] =  [@rights_statement]
@@ -87,26 +112,43 @@ module Migrate
           # Set the depositor
           work_attributes['depositor'] = @depositor.email
 
-          # Set the rtype ( bibo dct:type)a
+          # Set the rtype ( bibo dct:type)
           # Here we might need to tweak it to fetch the proper type
           work_attributes['rtype'] = @resource_type
           
           # set the relation
-          if metadata['relation'].instance_of? Array
-            work_attributes['relation'] = metadata['relation']
-          else
-            work_attributes['relation'] = [metadata['relation']] if metadata['relation'].present?
+          work_attributes['relation'] = []
+          xml.xpath("/record/dc:relation").each do |term|
+            work_attributes['relation'] << term.text if term.text.present?
           end
 
           #Added the isPart of
-          work_attributes['note'] = [metadata["isPartOf"]] if metadata['isPartOf'].present?
-          work_attributes['alternative_title'] = [metadata["alternative"]] if metadata['alternative'].present?
-          work_attributes['source'] = [metadata["source"]] if metadata['source'].present?
-          work_attributes['faculty'] = [metadata['localfacultycode']] if metadata['localfacultycode'].present?
+          work_attributes['note'] = []
+          xml.xpath("/record/dcterms:isPartOf").each do |term|
+            work_attributes['note'] << term.text if term.text.present?
+          end
+         
+          work_attributes['alternative_title'] = []
+          xml.xpath("/record/dc:alternative_title").each do |term|
+            work_attributes['alternative_title'] << term.text if term.text.present?
+          end
+          
+          work_attributes['source'] = []
+          xml.xpath("/record/dc:source").each do |term|
+            work_attributes['source'] << term.text if term.text.present?
+          end
+          
+          work_attributes['faculty'] = []
+          xml.xpath("/record/dcterms:localfacultycode").each do |term|
+            work_attributes['faculty'] << term.text if term.text.present?
+          end
 
 
           # languages
-          languages = [metadata['language']]
+          languages = []
+          xml.xpath("/record/dc:language").each do |term|
+            languages << term.text if term.text.present?
+          end
           work_attributes['language'] = get_language_uri(languages) if !languages.blank?
           work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
 

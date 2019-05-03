@@ -12,7 +12,7 @@ namespace :migrate do
   require 'tasks/migrate/services/metadata_parser'
 
 
-  # bundle exec rake migrate::digitool_item -- -p 12007 -c 'thesis'
+  # bundle exec rake migrate:digitool_item -- -p 12007 -c 'thesis'
   desc 'Migrate a Digitool object with a PID and its related items'
   task :digitool_item =>:environment do
     options = {
@@ -60,7 +60,7 @@ namespace :migrate do
   end 
 
 
-  # bundle exec rake migrate::digitool -- -c 'thesis' -f spec/fixtures/digitool/ethesis-pid.csv
+  # bundle exec rake migrate:digitool -- -c 'thesis' -f spec/fixtures/digitool/ethesis-pids.csv
   desc 'Batch migrate digitool records from a list of PIDS in a  CSV file'
   task :digitool => :environment do
     options = {
@@ -100,7 +100,6 @@ namespace :migrate do
 
       @depositor = User.where(email: migration_config['depositor_email']).first
 
-      
       migrate_service = Migrate::Services::MigrateService.new(migration_config,
                                            @depositor)
       # insert all the metadata and files

@@ -14,7 +14,6 @@ module Migrate
         @config = config
         @created_work_ids = []
       end
-
       def import_records(pid_list, log)
         STDOUT.sync = true
         if pid_list.empty?
@@ -30,26 +29,68 @@ module Migrate
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
-        @pid_list[101..106].each.with_index do | pid, index |
+        @pid_list[211..220].each.with_index do | pid, index |
+
+          start_time = Time.now
+          puts "#{start_time.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           item = DigitoolItem.new({"pid" => pid})
 
+          log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+          puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+          next unless item.has_metadata?
+          
+          log.info "This item #{item.pid} has a main work and its not a main work." unless item.is_main_view?
+          puts "Skipping adding this item #{item.pid} as its not the main_view." unless item.is_main_view?
+          next unless item.is_main_view?
 
+          # check if the item has been added already
+          # maybe we can add this check later
           # Create new work record and save
           new_work = create_work(item)
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
-          
-
           # Save the work id to the created_works array
           @created_work_ids << new_work.id if new_work.present?
 
         end
 
-         # Now we need to add the files to the collection
-         byebug
+         # Now we need to add the pids to the collection
+         add_works_to_collection(@created_work_ids, @config['collection'])
+         
+         @created_work_ids
 
+      end
 
-        @created_work_ids
+      def add_works_to_collection(work_ids, collection_name)
+        attached = true
+
+        # Get the collection
+        user_collection_type = Hyrax::CollectionType.where(title: 'User Collection').first.gid
+        collectionObj = Collection.find(collection_name)
+        collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
+
+        work_ids.each do |wkid|
+           attached = attach_work_to_collection(wkid, collectionObj)
+        end
+
+        attached
+      
+      end
+
+      def attach_work_to_collection(work_id, collection)
+          attached = true
+          # Get the work
+          work = (@work_type.singularize.classify.constantize).find(work_id)
+
+          begin
+            work.member_of_collections << collection
+            work.save!
+          rescue  StandardError => e
+            attached = false
+            puts "The work #{work_id} could not be attached to the collection #{collection.id}. See #{e}"
+            
+          end
+          attached
       end
 
       def create_fileset(parent: nil, resource: nil, file: nil)
@@ -74,7 +115,6 @@ module Migrate
         end
 
         File.delete(renamed_file) if File.exist?(renamed_file)
-
 
         file_set
       end
@@ -109,8 +149,13 @@ module Migrate
         end
 
         def create_work(item)
-          # Create new work record and save
-          parsed_data = Migrate::Services::MetadataParser.new(item.metadata_hash,
+          
+
+          log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+          puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+          return unless item.has_metadata?
+          
+          parsed_data = Migrate::Services::MetadataParser.new(item.get_metadata,
                                                               @depositor,
                                                               @config).parse
           begin
@@ -135,33 +180,73 @@ module Migrate
                                      workflow: workflow.first,
                                      workflow_state: workflow_state.first)
             end
+
+            # We add the main file to the work
+            fileset = add_main_file(item.pid, work_attributes, new_work)
+            puts "The work #{item.pid} does not have a main file set.Check for errors"  if fileset.nil?
+            log.info "The work #{item.pid} does not have a file set." if fileset.nil?
+            
+            # now we fetch the related pid files
+            if item.has_related_pids?
+              add_related_files(item, work_attributes,new_work) 
+            end
+
+
+
             # resave
             new_work.save!
           rescue Exception => e
-            puts "The item #{item.title} could not be saved as a work. #{e}"
-            log.info "The item #{item.title} could not be saved as a work. #{e}"
-            log.info "We set up them the bomb."
+            puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+            log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
           end
 
-
-          # now we need to get the file set and add it to the file
-          file_path = item.download_main_pdf_file(@tmp_file_location)
-          if (file_path.present?)
-            file_name = item.file_info['file_name']
-
-            #work_attributes['label'] = File.basename(file_name,File.extname(file_name))
-            work_attributes['label'] = file_name
-            fileset_attrs = file_record(work_attributes)
-            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_path)
-
-            new_work.ordered_members << fileset
-          end
-
-          puts "The work #{new_work.title} does not have a main file set.Check for errors"  if file_path.nil?
-          log.info "The work #{new_work.title} does not have a file set." if file_path.nil?
 
           new_work
           
+        end
+
+        def add_related_files(item, work_attributes, work) 
+        
+
+          suggested_types = ['VIEW', 'VIEW_MAIN', 'ARCHIVE']
+          file_list = []
+          # First batch of pids
+          item.get_related_pids.each do | rel_pid, item_type |
+            if suggested_types.include?(item_type)
+                 # We downlond the file to a temporary location
+                 FileUtils.mkpath("#{@tmp_file_location}/#{rel_pid}")
+                 file_list << MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
+
+            end
+          end
+          file_list.each do |fitem|
+            # We add the related files if any
+            attached = add_related_file_to_work(fitem, work_attributes, work)
+          end
+          file_list
+        end
+
+        def add_related_file_to_work(file_info, work_attributes, new_work)
+          fileset = nil
+          if (file_info[:path].present?)
+            work_attributes['label'] = file_info[:name]
+            work_attributes['title'] = [file_info[:name]]
+            work_attributes['visibility'] = file_info[:visibility]
+            fileset_attrs = file_record(work_attributes)
+            fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_info[:path])
+          end 
+          fileset
+        end
+
+        def add_main_file(item_pid, work_attributes, new_work)
+
+          fileset = nil
+          FileUtils.mkpath("#{@tmp_file_location}/#{item_pid}")
+          file_info =  MigrationHelper.download_digitool_file_by_pid(item_pid, "#{@tmp_file_location}/#{item_pid}" )
+          fileset = add_related_file_to_work(file_info, work_attributes, new_work)
+
+          fileset
+        
         end
 
         def work_record(work_attributes)

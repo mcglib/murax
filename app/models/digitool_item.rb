@@ -6,7 +6,7 @@ require 'open-uri'
 class DigitoolItem 
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
 
@@ -21,19 +21,46 @@ class DigitoolItem
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
     
+    # set usage type
+    set_usage_type
+
+
     @file_info = set_file_metadata
 
     @metadata_hash = set_metadata
 
-    set_title
+    set_title if is_view?
+
+    set_related_pids
 
   end
-  
+ 
+  def is_main_view?
+    !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
+  end
+
+  def is_view?
+    @usage_type.eql? "VIEW" or @usage_type.eql? "VIEW_MAIN"
+  end
+
+  def is_waiver?
+    @usage_type.eql? "ARCHIVE"
+  end
+
   def set_title
     @title = @metadata_hash['title']
   end
+
   def set_related_pids
     @related_pids = fetch_related_pids(@pid) if @pid.present?
+  end
+
+  def get_related_pids
+    fetch_related_pids(@pid) if @pid.present?
+  end
+
+  def has_related_pids?
+    @related_pids.present?
   end
 
   def set_metadata
@@ -41,6 +68,20 @@ class DigitoolItem
       data = Hash.from_xml(doc.to_s)
       @metadata_hash = data['record']
   end
+
+  def has_metadata?
+    !@metadata_hash.nil?
+  end
+
+  def set_usage_type
+    @usage_type = @raw_xml.at_css('digital_entity control usage_type').text if @raw_xml.present?
+    @usage_type
+  end
+
+  def get_usage_type
+    @usage_type
+  end
+
 
   def get_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
@@ -75,8 +116,31 @@ class DigitoolItem
       end
       # return the file_path
       file_path
+
   end
 
+  def get_file_name 
+      
+    @file_info = set_file_metadata unless @file_info.present?
+    @file_info['file_name']
+
+  end
+
+  def get_file_visibility
+
+    visible = nil
+    case @usage_type  # was case obj.class
+    when 'ARCHIVE'
+        visible = 'restricted'
+    when 'VIEW', 'VIEW_MAIN'
+        visible = 'open'
+    else
+        visible = 'open'
+    end
+    # check the file names
+
+    visible
+  end
 
 
   private 
