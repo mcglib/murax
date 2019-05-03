@@ -12,7 +12,6 @@
 //
 //= 
 //= require turbolinks
-//
 // Required by Blacklight
 //= require jquery
 //= require jquery_ujs
@@ -21,4 +20,4 @@
 //= require blacklight/blacklight
 //= require_tree .
 //= require hyrax
-//= require attributes.js
+//= attributes.js
