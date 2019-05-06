@@ -66,12 +66,12 @@ class SolrDocument
     self[Solrizer.solr_name('orcidid')]
   end
 
-  def language
-    self[Solrizer.solr_name('language')]
-  end
+  #def language
+  #  self[Solrizer.solr_name('language_label')]
+  #end
   
   def language_label
-    self[Solrizer.solr_name('language')]
+    self[Solrizer.solr_name('language_label')]
   end
 
   def relation

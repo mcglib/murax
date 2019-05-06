@@ -21,3 +21,4 @@
 //= require_tree .
 //= require hyrax
 //= attributes.js
+//= require xray

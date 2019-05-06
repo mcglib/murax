@@ -14,12 +14,14 @@ module Hyrax
           rescue URI::InvalidURIError
             nil
           end
+
           if parsed_uri.nil?
             ERB::Util.h(value)
           else
             label = LanguageService.new.label(value) { value }
             %(<a href=#{ERB::Util.h(value)} target="_blank">#{label}</a>)
           end
+
         end
     end
   end
