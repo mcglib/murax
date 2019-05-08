@@ -5,14 +5,14 @@ Hyrax.config do |config|
   config.register_curation_concern :image
   # Injected via `rails g hyrax:work Work`
   config.register_curation_concern :work
-  # Injected via `rails g hyrax:work Ethesis`
-  config.register_curation_concern :ethesis
   # Injected via `rails g hyrax:work Article`
   config.register_curation_concern :article
   # Injected via `rails g hyrax:work Poster`
   config.register_curation_concern :poster
   # Injected via `rails g hyrax:work Book`
   config.register_curation_concern :book
+  # Injected via `rails g hyrax:work Thesis`
+  config.register_curation_concern :thesis
   # Register roles that are expected by your implementation.
   # @see Hyrax::RoleRegistry for additional details.
   # @note there are magical roles as defined in Hyrax::RoleRegistry::MAGIC_ROLES
@@ -41,7 +41,7 @@ Hyrax.config do |config|
   # config.uploader = {
   #   limitConcurrentUploads: 6,
   #   maxNumberOfFiles: 100,
-  #   maxFileSize: 500.megabytes
+  #   maxFileSize: 1500.megabytes
   # }
 
   # Enable displaying usage statistics in the UI
@@ -50,8 +50,7 @@ Hyrax.config do |config|
   config.analytics = true
 
   # Google Analytics tracking ID to gather usage statistics
-  #config.google_analytics_id = 'UA-106138142-1'
-  config.google_analytics_id = ''
+  config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
 
   # Date you wish to start collecting Google Analytic statistics for
   # Leaving it blank will set the start date to when ever the file was uploaded by
@@ -63,7 +62,7 @@ Hyrax.config do |config|
   config.citations = true
 
   # Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
-  # config.temp_file_base = '/home/developer1'
+  config.temp_file_base = ENV['TMP_PATH'] || '/tmp'
 
   # Hostpath to be used in Endnote exports
   # config.persistent_hostpath = 'http://localhost/files/'
@@ -73,7 +72,7 @@ Hyrax.config do |config|
 
   # Hyrax uses NOIDs for files and collections instead of Fedora UUIDs
   # where NOID = 10-character string and UUID = 32-character string w/ hyphens
-  # config.enable_noids = true
+  config.enable_noids = true
 
   # Template for your repository's NOID IDs
   # config.noid_template = ".reeddeeddk"
@@ -88,10 +87,10 @@ Hyrax.config do |config|
   # config.redis_namespace = "hyrax"
 
   # Path to the file characterization tool
-  # config.fits_path = "fits.sh"
+  config.fits_path = ENV['FITS_LOCATION']
 
   # Path to the file derivatives creation tool
-  # config.libreoffice_path = "soffice"
+  config.libreoffice_path = "soffice"
 
   # Option to enable/disable full text extraction from PDFs
   # Default is true, set to false to disable full text extraction
@@ -173,12 +172,15 @@ Hyrax.config do |config|
   # config.audit_user_key = 'audituser@example.com'
   #
   # The banner image. Should be 5000px wide by 1000px tall
-  config.banner_image = 'https://digitool.library.mcgill.ca/icon/library_en.jpg'
+  #config.banner_image = 'https://digitool.library.mcgill.ca/icon/library_en.jpg'
+  config.banner_image = Rails.root.join('app','assets', 'images', 'banner-small.jpg')
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately
-  config.upload_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads') }
-  config.cache_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads', 'cache') }
+  #config.upload_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads') }
+  config.upload_path = ->() { Pathname.new ENV['UPLOAD_PATH'] }
+  #config.cache_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads', 'cache') }
+  config.cache_path = ->() { Pathname.new ENV['UPLOAD_PATH'] + '/cache' }
 
   # Location on local file system where derivatives will be stored
   # If you use a multi-server architecture, this MUST be a shared volume
@@ -194,7 +196,8 @@ Hyrax.config do |config|
   # Location on local file system where uploaded files will be staged
   # prior to being ingested into the repository or having derivatives generated.
   # If you use a multi-server architecture, this MUST be a shared volume.
-  config.working_path = Rails.root.join('..', '..', 'shared', 'uploads')
+  #config.working_path = Rails.root.join('..', '..', 'shared', 'uploads')
+  config.working_path = ENV['WORKING_PATH']
 
   # Should the media display partial render a download link?
   # config.display_media_download_link = true
@@ -202,6 +205,7 @@ Hyrax.config do |config|
   # A configuration point for changing the behavior of the license service
   #   @see Hyrax::LicenseService for implementation details
   # config.license_service_class = Hyrax::LicenseService
+  
 
   # Labels for display of permission levels
   # config.permission_levels = { "View/Download" => "read", "Edit access" => "edit" }
@@ -255,8 +259,8 @@ Hyrax.config do |config|
   end
 end
 
-Date::DATE_FORMATS[:standard] = "%m/%d/%Y"
+Date::DATE_FORMATS[:standard] = "%Y-%m-%d"
 
 Qa::Authorities::Local.register_subauthority('subjects', 'Qa::Authorities::Local::TableBasedAuthority')
-Qa::Authorities::Local.register_subauthority('languages', 'Qa::Authorities::Local::TableBasedAuthority')
+#Qa::Authorities::Local.register_subauthority('languages', 'Qa::Authorities::Local::TableBasedAuthority')
 Qa::Authorities::Local.register_subauthority('genres', 'Qa::Authorities::Local::TableBasedAuthority')

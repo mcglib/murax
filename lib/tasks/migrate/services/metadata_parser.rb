@@ -3,36 +3,24 @@ module Migrate
     class MetadataParser
 
       # Must include the email address of a valid user in order to ingest files
-      @env_default_admin_set = 'default'
 
-      def initialize(metadata_file, ids, depositor, config)
-        @metadata_file = metadata_file
-        @collection_uuids = ids
-        @collection_name = config['collection_name']
+      def initialize(metadata, depositor, config)
+        @metadata = metadata
         @depositor = depositor
         @admin_set = config['admin_set']
+        @resource_type = config['resource_type']
+        @env_default_admin_set = 'Default Admin Set'
+        @rights_statement = config['rights_statement']
       end
 
       def parse
-        metadata = Nokogiri::XML(File.open(@metadata_file))
-
-        work_attributes = get_work_attributes(metadata)
-
+        work_attributes = get_work_attributes(@metadata)
         child_works = Array.new
-
-        # Add work to specified collection
-        work_attributes['member_of_collections'] = Array(Collection.where(title: @collection_name).first)
-        # Create collection if it does not yet exist
-        if !@collection_name.blank? && work_attributes['member_of_collections'].first.blank?
-          user_collection_type = Hyrax::CollectionType.where(title: 'User Collection').first.gid
-          work_attributes['member_of_collections'] = Array(Collection.create(title: [@collection_name],
-                                         depositor: @depositor.uid,
-                                         collection_type_gid: user_collection_type))
-        end
-
+  
         work_attributes['admin_set_id'] = (AdminSet.where(title: @admin_set).first || AdminSet.where(title: @env_default_admin_set).first).id
 
-        { work_attributes: work_attributes.reject!{|k,v| v.blank?}, child_works: child_works }
+        { work_attributes: work_attributes.reject!{|k,v| v.blank?},
+          child_works: child_works }
       end
 
       private
@@ -40,11 +28,137 @@ module Migrate
         def get_work_attributes(metadata)
 
           work_attributes = Hash.new
+          # Set default visibility first
+          #work_attributes['embargo_release_date'] = (Date.try(:edtf, embargo_release_date) || embargo_release_date).to_s
+          ## investigate how we can get the visibility from the collection level
+          work_attributes['visibility'] = 'open'
+          
+
+          xml = Nokogiri::XML.parse(metadata)
+          # Set the title
+          work_attributes['title'] = []
+          xml.xpath("/record/dc:title").each do |title|
+            work_attributes['title'] << title.text
+          end
+
+          # Set the abstract
+          work_attributes['abstract'] = []
+          xml.xpath("/record/dcterms:abstract").each do |abstract|
+            work_attributes['abstract'] << abstract.text if abstract.text.present?
+          end
+
+
+          # set the description
+          work_attributes['description'] = work_attributes['abstract']
+          
+          # set the creator
+          work_attributes['creator'] = []
+          xml.xpath("/record/dc:creator").each do |term|
+            work_attributes['creator'] << term.text
+          end
+
+
+          work_attributes['contributor'] =[]
+          xml.xpath("/record/dc:contributor").each do |term|
+            work_attributes['contributor'] << term.text
+          end
+          
+          work_attributes['subject'] =[]
+          xml.xpath("/record/dc:subject").each do |term|
+            work_attributes['subject'] << term.text
+          end
+          
+          
+          # get the department
+          work_attributes['department'] =[]
+          xml.xpath("/record/dcterms:localthesisdegreediscipline").each do |term|
+            work_attributes['department'] << term.text if term.text.present?
+          end
+          
+          # get the degree
+          work_attributes['degree'] =[]
+          xml.xpath("/record/dcterms:localthesisdegreename").each do |term|
+            work_attributes['degree'] << term.text if term.text.present?
+          end
+
+          
+ 
+          # Get the date_uploaded
+          date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
+          work_attributes['date_uploaded'] =  [date_uploaded.to_s]
+          work_attributes['date_modified'] =  [date_uploaded.to_s]
+          
+          # get the modifiedDate
+
+          date_modified_string = xml.xpath("/record/dc:localdissacceptdate").text
+          unless date_modified_string.empty?
+            date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
+                            .strftime('%Y-%m-%d')
+            work_attributes['date_created'] =  [date_modified.to_s]
+          end
+          
+          # get the institution
+          work_attributes['publisher'] = xml.xpath("/record/dc:publisher").text
+          work_attributes['institution'] = xml.xpath("/record/dc:publisher").text
+
+
+          # get the date. copying the modifiedDate
+          date = xml.xpath("/record/dc:date").text
+          work_attributes['date'] = [date] if date.present?
+
+          # McGill rights statement
+          work_attributes['rights'] =  [@rights_statement]
+
+          # Set the depositor
+          work_attributes['depositor'] = @depositor.email
+
+          # Set the rtype ( bibo dct:type)
+          # Here we might need to tweak it to fetch the proper type
+          work_attributes['rtype'] = @resource_type
+          
+          # set the relation
+          work_attributes['relation'] = []
+          xml.xpath("/record/dc:relation").each do |term|
+            work_attributes['relation'] << term.text if term.text.present?
+          end
+
+          #Added the isPart of
+          work_attributes['note'] = []
+          xml.xpath("/record/dcterms:isPartOf").each do |term|
+            work_attributes['note'] << term.text if term.text.present?
+          end
+         
+          work_attributes['alternative_title'] = []
+          xml.xpath("/record/dc:alternative_title").each do |term|
+            work_attributes['alternative_title'] << term.text if term.text.present?
+          end
+          
+          work_attributes['source'] = []
+          xml.xpath("/record/dc:source").each do |term|
+            work_attributes['source'] << term.text if term.text.present?
+          end
+          
+          work_attributes['faculty'] = []
+          xml.xpath("/record/dcterms:localfacultycode").each do |term|
+            work_attributes['faculty'] << term.text if term.text.present?
+          end
+
+
+          # languages
+          languages = []
+          xml.xpath("/record/dc:language").each do |term|
+            languages << term.text if term.text.present?
+          end
+          work_attributes['language'] = get_language_uri(languages) if !languages.blank?
+          work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
+
+          
           work_attributes
         end
 
         # Use language code to get iso639-2 uri from service
         def get_language_uri(language_codes)
+          byebug
           language_codes.map{|e| LanguagesService.label("http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}") ?
                                 "http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}" : e}
         end

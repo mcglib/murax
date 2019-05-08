@@ -1,0 +1,8 @@
+en:
+  hyrax:
+    icons:
+      thesis:     'fa fa-file-pdf-o'
+    select_type:
+      thesis:
+        description:        "Thesis"
+        name:               "Thesis/Dissertation"

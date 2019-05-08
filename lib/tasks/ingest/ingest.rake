@@ -16,11 +16,12 @@ namespace :ingest do
   FileUtils::mkdir_p @temp
 
 
+  # bundle exec rake ingest::create_collections -- -f spec/fixtures/ingest/collection_config.yml
   desc 'Create collections'
   task :create_collections => :environment do
     options = {
           config_file: 'spec/fixtures/ingest/collection_config.yml',
-          collection: 'ethesis'
+          collection: 'thesis'
     }
     o = OptionParser.new
     o.banner = "Usage: rake ingest:ethesis [options]"
@@ -33,19 +34,19 @@ namespace :ingest do
     #return `ARGV` with the intended arguments
     args = o.order!(ARGV) {}
     o.parse!(args)
-
   end
 
 
+  # bundle exec rake ingest::ethesis -- -f spec/fixtures/ingest/j97202784.xml
   desc 'Ingest  the Ethesis records from the GPSO team'
-  task :ethesis =>:environment do
+  task :thesis =>:environment do
     options = {
           xmlfile: 'spec/fixtures/ingest/ingest.xml',
           config_file: 'spec/fixtures/ingest/config.yml',
-          collection: 'ethesis'
+          collection: 'thesis'
     }
     o = OptionParser.new
-    o.banner = "Usage: rake ingest:ethesis [options]"
+    o.banner = "Usage: rake ingest:thesis [options]"
     o.on('-f FILENAME', '--xmlfile FILENAME') { |xmlfile|
       options[:xmlfile] = xmlfile
     }
@@ -55,12 +56,11 @@ namespace :ingest do
     #return `ARGV` with the intended arguments
     args = o.order!(ARGV) {}
     o.parse!(args)
-    puts "hello #{options.inspect}"
     start_time = Time.now
 
     @metadata_file = File.join(Rails.root, options[:xmlfile]) if options[:xmlfile].present?
     start_time = Time.now
-    puts "[#{start_time.to_s}] Start ingest of ethesis"
+    puts "[#{start_time.to_s}] Start ingest of thesis"
 
     config = YAML.load_file(File.join(Rails.root, options[:config_file]))
     collection_config = config[options[:collection]]
@@ -72,6 +72,7 @@ namespace :ingest do
     if @depositor.present?
 
       @collection = FindOrCreateCollection.create(collection_config['collection'], depositor_email)
+      # start ingesting the records
       Ingest::Services::IngestService.new(collection_config,
                                           @metadata_file,
                                            @depositor, @collection).ingest_records

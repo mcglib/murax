@@ -4,6 +4,9 @@ module Ingest
     require 'tasks/ingest/services/metadata_parser'
     require 'tasks/migration_helper'
     require 'importer/record'
+    
+    #@private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    #@public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
     class IngestService
 
@@ -13,8 +16,7 @@ module Ingest
         @depositor = depositor
         @config = config
         @collection = collection
-        #@private_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-        #@public_visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+        @created_works = Array.new
       end
 
       def ingest_records
@@ -24,21 +26,30 @@ module Ingest
         # Remove the namespaces
         xml = metadata.remove_namespaces!
 
+        Thesis.all.each do | thesis |
+          if  attach_work_to_collection(thesis, @collection) 
+            puts "The work has been attached to the collection"
+          end
+        end
         # Create the records
         xml.xpath("//record").each do  |record|
           start_time = Time.now
           title = record.css('title').text
-          puts "[#{start_time.to_s}] Start migration of #{title}"
-          work = create_work(record)
-          puts "The work has been created" if work.present?
+          puts "[#{start_time.to_s}]: #{title}"
+
+          #work = create_work(record)
+          #puts "The work has been created for #{title}" if work.present?
+          
+          # Save the work id to the created_works array
+          #@created_works << work.id if work.present?
+
         end
 
-
-
+        # Update the works with the collection
 
         # Create file and hash mapping new and old ids
-        id_mapper = Migrate::Services::IdMapper.new(@mapping_file)
-        @mappings = Hash.new
+        #id_mapper = Migrate::Services::IdMapper.new(@mapping_file)
+        #@mappings = Hash.new
 
         # Store parent-child relationships
         @parent_hash = Hash.new
@@ -163,51 +174,24 @@ module Ingest
 
       private
 
-        def work_record(work_attributes)
-          if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&
-              !(work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
-            resource = @child_work_type.singularize.classify.constantize.new
-          else
-            resource = @work_type.singularize.classify.constantize.new
-          end
-          resource.depositor = @depositor.uid
-          resource.save
-
-          # Singularize non-enumerable attributes
-          work_attributes.each do |k,v|
-            if resource.attributes.keys.member?(k.to_s) && !resource.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
-              work_attributes[k] = v.first
-            else
-              work_attributes[k] = v
-            end
+        # Attach the work to a collection
+        def attach_work_to_collection(work,collection)
+          
+          attached = true
+          collection.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
+          begin
+            work.member_of_collections << collection
+            work.save!
+          rescue  StandardError => e
+            attached = false
           end
 
-          # Only keep attributes which apply to the given work type
-          work_attributes.select {|k,v| k.ends_with? '_attributes'}.each do |k,v|
-            if !resource.respond_to?(k.to_s+'=')
-              work_attributes.delete(k.split('s_')[0]+'_display')
-              work_attributes.delete(k)
-            end
-          end
-          resource.attributes = work_attributes.reject{|k,v| !resource.attributes.keys.member?(k.to_s) unless k.ends_with? '_attributes'}
-
-          resource.visibility = work_attributes['visibility']
-          unless work_attributes['embargo_release_date'].blank?
-            resource.embargo_release_date = work_attributes['embargo_release_date']
-            resource.visibility_during_embargo = work_attributes['visibility_during_embargo']
-            resource.visibility_after_embargo = work_attributes['visibility_after_embargo']
-          end
-          resource.admin_set_id = work_attributes['admin_set_id']
-          if !@collection_name.blank? && !work_attributes['member_of_collections'].first.blank?
-            resource.member_of_collections = work_attributes['member_of_collections']
-          end
-
-          resource
+          attached
         end
+
 
         # Create a work using the xml parsed
         def create_work(xml_metadata)
-          byebug
           parsed_data = Ingest::Services::MetadataParser.new(xml_metadata,
                                                               @depositor,
                                                               @collection,
@@ -217,8 +201,54 @@ module Ingest
           new_work = work_record(work_attributes)
           new_work.save!
 
+          new_work
 
         end
+
+        def work_record(work_attributes)
+          if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&
+              !(work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
+            resource = @child_work_type.singularize.classify.constantize.new
+          else
+            resource = @work_type.singularize.classify.constantize.new
+          end
+
+          resource.depositor = @depositor.id
+          resource.visibility = work_attributes['visibility']
+          resource.title = work_attributes['title']
+          resource.save
+          #  Singularize non-enumerable attributes
+          work_attributes.each do |k,v|
+            if resource.attributes.keys.member?(k.to_s) && !resource.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
+              work_attributes[k] = v.first
+            else
+              work_attributes[k] = v
+            end
+          end
+          resource.attributes = work_attributes.reject{|k,v| !resource.attributes.keys.member?(k.to_s) unless k.ends_with? '_attributes'}
+
+
+          # Singularize non-enumerable attributes
+          unless work_attributes['embargo_release_date'].blank?
+            resource.embargo_release_date = work_attributes['embargo_release_date']
+            resource.visibility_during_embargo = work_attributes['visibility_during_embargo']
+            resource.visibility_after_embargo = work_attributes['visibility_after_embargo']
+          end
+
+          unless work_attributes['admin_set_id'].blank?
+            resource.admin_set_id = work_attributes['admin_set_id']
+          end
+          
+          ## For perfomance reasons
+          # we will load the association of
+          # the works and collections after
+          #
+          #resource.member_of_collections = work_attributes['member_of_collections']
+
+          resource.admin_set_id = AdminSet.find_or_create_default_admin_set_id
+          resource
+        end
+
         def get_work_attributes(metadata)
 
         end

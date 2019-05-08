@@ -13,20 +13,20 @@ gem 'rails', '~> 5.1.6'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use postgresql on the sandbox
-gem 'pg', '~> 0.18'
+gem 'pg', '~> 0.21.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '>= 3.2.0'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -37,14 +37,11 @@ gem 'redis', '~> 4.0'
 
 gem 'curb', '~> 0.9.4'
 
-gem 'awesome_print'
-
 gem 'whenever', require: false
 gem 'xray-rails'
 
 gem 'capistrano-locally', require: false
 
-gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 
 gem 'tinymce-rails'
@@ -59,7 +56,6 @@ gem 'webpacker', '~> 3.5'
 
 group :development, :test do
   gem 'bixby'
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capistrano', '3.9.0'
@@ -68,22 +64,23 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'
   gem 'capistrano-rbenv', '~> 2.1'
-  gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'solr_wrapper', '>= 0.3'
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'awesome_print'
+  gem 'capybara', '~> 2.17.0'
 end
 
 group :test do
-  gem 'database_cleaner'
+  gem 'rspec-mocks'
+  gem 'webmock'
 end
 
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
@@ -98,18 +95,28 @@ gem 'sshkit-sudo'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
-gem 'hyrax', '2.4.1'
+
+gem 'hyrax', '2.5.0'
+gem 'hydra-editor'
+gem 'hydra-role-management'
+gem "rdf-vocab"
+
+
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
-gem 'rsolr', '>= 1.0'
+gem 'rsolr'
 gem 'jquery-rails'
-gem 'hydra-role-management'
 gem 'sidekiq'
+gem 'sidekiq-limit_fetch'
+gem 'sidekiq-status'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # gem 'turbolinks', '~> 5'
 # gem 'twitter-bootstrap-rails'
 
-gem 'riiif', '~> 1.1'
+gem 'riiif', '~> 2.0'
+
+# OAI provider Gem. 
+gem 'blacklight_oai_provider', '~> 6.0'

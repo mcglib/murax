@@ -26,8 +26,9 @@
 .byebug_history
 /public/packs
 /public/packs-test
-/public/assests
+/public/assets
 /node_modules
 yarn-debug.log*
 .yarn-integrity
-/*.env.*
+/*.env
+/.env.local

@@ -38,10 +38,6 @@ services:
       - 8983:8983
     volumes:
       - ./solr/config/:/myconfig
-    #entrypoint:
-    #  - docker-entrypoint.sh
-    #  - solr-precreate
-    #  - murax
     command: solr-create -c murax -d /myconfig
     networks:
       appnetwork:
@@ -70,7 +66,7 @@ services:
     stdin_open: true
     build: .
     volumes:
-      - .:/usr/src/app
+      - .:/storage/www/murax/current
       - data:/storage/www/murax/shared/bundle
     command: bash /docker/startup.sh
     depends_on:

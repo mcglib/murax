@@ -2,7 +2,7 @@ module Migrate
   module Services
     require 'tasks/migrate/services/metadata_parser'
     require 'tasks/migration_helper'
-    class EthesisImport
+    class ThesisImport
 
       def initialize(depositor)
         @depositor = depositor

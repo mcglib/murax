@@ -1,0 +1,18 @@
+# Example configuration for ingest script
+thesis:
+  work_type: Thesis
+  resource_type: "Dissertation"
+  admin_set: "User Collection"
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  collection: ethesis # derived from the digitool_collections.json file under /config
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  keywords_transformation: 
+    - 'Schulich School of'
+    - 'Department of '
+    - 'Faculty of '
+    - 'School of '
+    - 'Institute of '
+    - 'Program in '
+    - 'Desautels Faculty of'

@@ -1,18 +1,29 @@
-image: registry.it.mcgill.ca/docker/rhel7-ansible
+#image: registry.it.mcgill.ca/docker/rhel7-ansible
+image: ruby:2.3
+services:
+    - redis:latest
+    - postgres:latest
 
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
   GIT_SUBMODULE_STRATEGY: recursive
   ANSIBLE_CONFIG: /builds/lts/LIRAP//ansible.cfg
 
+# Cache gems in between builds
+cache:
+  paths:
+    - vendor/ruby
 
 before_script:
-  -  subscription-manager repos --list-enabled | grep "Repo ID" | tr -s " " | perl -l -a -n -e 'print $F[2]'
-  - yum install rh-ruby25-ruby rh-ruby25-ruby-devel
+  # Run the ssh-agent
+  - eval $(ssh-agent -s)
+  # Load the SSH key used for GitLab role deploys.
+  - ssh-add <(echo "$ROLE_DEPLOY_KEY")
+  # Configure our Ansible playbooka
+  - printenv | less
   - ruby -v
   - which ruby
-  - gem install bundler --no-ri --no-rdoc
-  - bundle install --jobs $(nproc) "${FLAGS[@]}"
+  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 stages:
   - test
@@ -22,15 +33,39 @@ stages:
   - cleanup
 
 rspec:
-  stage: deploy_dev
+  stage: test
   script:
     - bundle exec rspec
-  when: always
 
 rubocop:
+  stage: test
   script:
     - bundle exec rubocop
-  when: always
+
+develop_deploy:
+  stage: deploy_dev
+  script:
+    - gem install capistrano
+    - cap development deploy
+  only:
+    - develop
+
+staging_deploy:
+  stage: deploy_qa
+  script:
+    - gem install capistrano
+    - cap production deploy
+  only:
+    - master
+
+production_deploy:
+  stage: deploy_qa
+  script:
+    - gem install capistrano
+    - cap production deploy
+  only:
+    - master
+  when: manual
 
 cleanup:
   stage: cleanup

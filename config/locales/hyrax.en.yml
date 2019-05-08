@@ -47,6 +47,7 @@ en:
           title_tesim: Title
   hyrax:
     account_name: My Institution Account Id
+    short_about: "eScholarship is McGill University’s institutional digital repository featuring electronic, open access, outputs of McGill researchers and students."
     directory:
       suffix: "@example.org"
     footer:
@@ -56,3 +57,29 @@ en:
     institution_name_full: McGill University Library
     product_name: "eScholarship@McGill"
     product_twitter_handle: "@mcgill_library"
+    base:
+      show:
+        rtype: Type
+
+    search:
+      button:
+        html: <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Go
+        text: Search
+      form:
+        option:
+          all:
+            label_long: All of %{application_name}
+            label_short: All
+          my_collections:
+            label_long: My Collections
+            label_short: My Collections
+          my_shares:
+            label_long: My Shares
+            label_short: My Shares
+          my_works:
+            label_long: My Works
+            label_short: My Works
+        q:
+          label: Search %{application_name}
+          placeholder: Enter search terms or select "Go" to browse.  
+

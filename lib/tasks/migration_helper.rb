@@ -1,3 +1,8 @@
+require 'net/http'
+require 'uri'
+require 'json'
+require 'nokogiri'
+require 'open-uri'
 class MigrationHelper
 
   # Get the UUID
@@ -18,17 +23,66 @@ class MigrationHelper
     end
   end
 
-  # Get the collection_uuids
-  def self.get_collection_uuids(collection_ids_file)
-    collection_uuids = Array.new
-    File.open(collection_ids_file) do |file|
+  # download the file from a give url
+
+  def self.download_file(download_url, dest)
+      file_path = nil
+      if url.present? && dest.present?
+
+        # set the dest_folder
+        file_path = "#{dest}"
+        
+        download = open(download_url)
+        io.copy_stream(download, file_path)
+      end
+      # return the file_path
+      file_path
+  end
+
+
+  def self.download_digitool_file_by_pid(pid, dest)
+      fileinfo = nil
+      if pid.present? && dest.present?
+
+        item = DigitoolItem.new({"pid"=> pid})
+        
+        fileinfo = {path: item.download_main_pdf_file(dest),
+                    name: item.get_file_name,
+                    visibility: item.get_file_visibility,
+                    pid: pid,
+                    item_type: item.get_usage_type}
+
+      end
+      # return the file_path
+      fileinfo
+  end
+
+
+  # Get the collection_pids
+  def self.get_collection_pids(pids_file)
+    pids = Array.new
+    File.open(pids_file) do |file|
       file.each do |line|
         if !line.blank? && !get_uuid_from_path(line.strip).blank?
-          collection_uuids.append(get_uuid_from_path(line.strip))
+          pids.append(get_uuid_from_path(line.strip))
         end
       end
     end
 
     collection_uuids
+  end
+  
+  def self.retry_operation(message = nil)
+    begin
+      retries ||= 0
+      yield
+    rescue Exception => e
+      puts "[#{Time.now.to_s}] #{e}"
+      puts e.backtrace.map{ |x| x.match(/^\/net\/deploy\/ir\/test\/releases.*/)}.compact
+      puts message unless message.nil?
+      sleep(10)
+      retry if (retries += 1) < 5
+      abort("[#{Time.now}] could not recover; aborting migration")
+    end
   end
 end
