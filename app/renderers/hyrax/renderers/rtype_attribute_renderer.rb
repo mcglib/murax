@@ -26,7 +26,7 @@ module Hyrax
           markup << %(</ul></dd>)
           markup.html_safe
         end
-
+       
 
         # make it faceted.
         def li_value(value)
