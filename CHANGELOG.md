@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.5] - 2018-10-2
+## [1.0.5] - 2019-05-08
 ### Added
 - Upgraded to v2.5.0 of hyrax
 - New UI for the homepage
