@@ -1,12 +1,12 @@
 <% if f.object.multiple? key %>
   <%= f.input :status,
-     collection: [['Preprint','http://purl.org/spar/fabio/Preprint'],['Postprint','http://purl.org/spar/fabio/Postprint'],['Published','http://bibliographic-ontology.org/bibo/bibo.php#status/published']],
+     collection: [['Preprint','Preprint'],['Postprint','Postprint'],['Published','Published']],
      include_blank: true,
      required: f.object.required?(key) 
   %>
 <% else %>
   <%= f.input :status,
-     collection: [['Preprint','http://purl.org/spar/fabio/Preprint'],['Postprint','http://purl.org/spar/fabio/Postprint'],['Published','http://bibliographic-ontology.org/bibo/bibo.php#status/published']],
+     collection: [['Preprint','Preprint'],['Postprint','Postprint'],['Published','Published']],
      include_blank: true,
      required: f.object.required?(key) 
   %>
