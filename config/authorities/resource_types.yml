@@ -1,19 +1,19 @@
 terms:
-  - id: http://bibliographic-ontology.org/bibo/bibo.php#Article
+  - id: Article
     term: Article
-  - id: http://bibliographic-ontology.org/bibo/bibo.php#Book
+  - id: Book
     term: Book
-  - id: http://bibliographic-ontology.org/bibo/bibo.php#Thesis
+  - id: Thesis
     term: Thesis
-  - id: http://bibliographic-ontology.org/bibo/bibo.php#Chapter
+  - id: Chapter
     term: Chapter
-  - id: http://bibliographic-ontology.org/bibo/bibo.php#Report
+  - id: Report
     term: Report
-  - id: https://duraspace.org/archive/vivo/vivo.owl#ConferencePaper
+  - id: Conference Paper
     term: Conference Paper
-  - id: https://duraspace.org/archive/vivo/vivo.owl#ConferencePoster
+  - id: Conference Poster
     term: Conference Poster
-  - id: http://data.semanticweb.org/ns/swc/ontology#Paper
+  - id: Paper
     term: Paper
-  - id: https://duraspace.org/archive/vivo/vivo.owl#Presentation
+  - id: Presentation
     term: Presentation

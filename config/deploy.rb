@@ -8,12 +8,13 @@ set :application, "murax"
 set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
-set :rails_env, 'production'
+set :rails_env, ENV['RAILS_ENV']
 set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 set :migration_role, :app
 
+before "deploy:assets:precompile", "deploy:npm_install"
 
 set :log_level, :debug
 set :bundle_flags, '--deployment'
@@ -25,17 +26,16 @@ set :branch, ENV['REVISION'] || ENV['BRANCH'] || ENV['BRANCH_NAME'] || 'master'
 
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
-
 # Skip migration if files in db/migrate were not modified
 set :conditionally_migrate, true
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
 
-# Default value for :format is :airbrussh.
+# Default value for :format is :airbrush.
 # set :format, :airbrussh
 
-# You can configure the Airbrussh format using :format_options.
+# You can configure the Airbrush format using :format_options.
 # These are the defaults.
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
@@ -97,14 +97,14 @@ end
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
 namespace :deploy do
-# @example
-# # bundle exec cap staging deploy:invoke task=salesforce:sync_accounts
+  # @example
+  # # bundle exec cap staging deploy:invoke task=salesforce:sync_accounts
   desc "Invoke rake task"
   task :invoke do
     fail 'no task provided' unless ENV['task']
     on roles(:app) do
       within release_path do
-          with rails_env: fetch(:rails_env) do
+          with rails_env: "#{fetch(:stage)}" do
               execute :rake, ENV['task']
           end
       end
