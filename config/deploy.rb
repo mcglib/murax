@@ -8,7 +8,7 @@ set :application, "murax"
 set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
-set :rails_env, 'production'
+set :rails_env, ENV['RAILS_ENV']
 set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
@@ -32,7 +32,7 @@ set :conditionally_migrate, true
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
 
-# Default value for :format is :airbrussh.
+# Default value for :format is :airbrush.
 # set :format, :airbrussh
 
 # You can configure the Airbrussh format using :format_options.
