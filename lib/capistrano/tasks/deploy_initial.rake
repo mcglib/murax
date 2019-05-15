@@ -4,12 +4,42 @@ namespace :deploy do
   task :initial do
     before "deploy:migrate", "deploy:clear_db"
     before "deploy:migrate", "deploy:clear_fedora"
-    after "deploy:migrate", "deploy:create_collections"
-    after "deploy:migrate", "deploy:create_admin_set"
-    after "deploy:migrate", "db:seed"
+    after  "deploy:migrate", "deploy:create_collections"
+    after  "deploy:migrate", "deploy:create_admin_set"
+    after  "deploy:migrate", "db:seed"
     invoke "deploy"
   end
   
+  task :reset do
+    before "deploy:migrate", "deploy:clear_db"
+    before "deploy:migrate", "deploy:clear_fedora"
+    after  "deploy:migrate", "deploy:create_collections"
+    after  "deploy:migrate", "deploy:create_admin_set"
+    after  "deploy:migrate", "db:seed"
+    invoke "deploy"
+  end
+  
+  task :yarn_install do
+    on roles(:app) do
+      within release_path do
+          with rails_env: "#{fetch(:stage)}" do
+              execute("cd #{release_path} && yarn install")
+          end
+      end
+    end
+  end
+
+  task :npm_install do
+    on roles(:app) do
+      within release_path do
+          with rails_env: "#{fetch(:stage)}" do
+              execute("cd #{release_path} && npm install")
+          end
+      end
+    end
+  end
+
+
   desc "Erase all DB tables"
   task :clear_db do
     on roles(:app) do
