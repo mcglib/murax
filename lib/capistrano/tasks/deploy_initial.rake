@@ -29,11 +29,14 @@ namespace :deploy do
     end
   end
 
+  desc "Run the npm install with proxy enabled"
   task :npm_install do
     on roles(:app) do
       within release_path do
           with rails_env: "#{fetch(:stage)}" do
-              execute("cd #{release_path} && npm install")
+              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' &&
+                       export https_proxy='http://mirage.ncs.mcgill.ca:3128' && 
+                      npm install")
           end
       end
     end
