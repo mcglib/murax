@@ -54,7 +54,7 @@ gem 'webpacker', '~> 3.5'
 
 #gem 'clamav'
 
-group :development, :test do
+group :development, :test, :production do
   gem 'bixby'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
@@ -80,7 +80,7 @@ group :test do
 end
 
 
-group :development do
+group :development, :production do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
