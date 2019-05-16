@@ -1,7 +1,7 @@
 class CatalogController < ApplicationController
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
-
+  include BlacklightOaiProvider::Controller
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
@@ -14,6 +14,25 @@ class CatalogController < ApplicationController
   end
 
   configure_blacklight do |config|
+   
+    # Blacklight OAI configurations.
+    config.oai = {
+      provider: {
+        repository_name: 'eScholarship',
+        repository_url: 'http://dev-dawg1.library.mcgill.ca:3000/catalog/oai',
+        record_prefix: 'oai',
+        admin_email: 'dev.library@mcgill.ca',
+        sample_id: '109660'
+      },
+      document: {
+        limit: 25,
+        set_fields: [
+           # { label: 'language', solr_field: 'language_tesim' },
+           # { collection: 'collection', solr_field: 'member_of_collection_ids'}
+        ]
+      }
+    }
+
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
     config.view.slideshow.partials = [:index]
