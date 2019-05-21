@@ -27,7 +27,7 @@ class CatalogController < ApplicationController
       document: {
         limit: 25,
         set_fields: [
-           # { label: 'language', solr_field: 'language_tesim' },
+           # {  solr_field: 'language_label_tesim' },
            # { collection: 'collection', solr_field: 'member_of_collection_ids'}
         ]
       }
