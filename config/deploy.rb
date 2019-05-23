@@ -1,10 +1,13 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
+
+
 set :rbenv_ruby, '2.5.3'
 set :rbenv_type, :user
 
 set :application, "murax"
+
 set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
@@ -14,7 +17,8 @@ set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 set :migration_role, :app
 
-before "deploy:assets:precompile", "deploy:npm_install"
+set :stages, ["development", "staging", "production"]
+set :default_stage, "development"
 
 set :log_level, :debug
 set :bundle_flags, '--deployment'
@@ -70,9 +74,9 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
 # tasks before re-defining them.
-#Rake::Task["sidekiq:stop"].clear_actions
-#Rake::Task["sidekiq:start"].clear_actions
-#Rake::Task["sidekiq:restart"].clear_actions
+Rake::Task["sidekiq:stop"].clear_actions
+Rake::Task["sidekiq:start"].clear_actions
+Rake::Task["sidekiq:restart"].clear_actions
 namespace :sidekiq do
   task :stop do
     on roles(:app) do
@@ -116,4 +120,9 @@ namespace :deploy do
       sudo :systemctl, :reload, :httpd
     end
   end
+  
+  before "deploy:assets:precompile", "deploy:npm_install"
+
+
+
 end

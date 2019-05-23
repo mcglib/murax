@@ -1,3 +1,6 @@
+# Enable multistage
+require 'capistrano/ext/multistage'
+
 # Require capistrano locally
 require 'capistrano/locally'
 # Load DSL and set up stages
