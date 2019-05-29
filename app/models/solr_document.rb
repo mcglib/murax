@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 class SolrDocument
   include Blacklight::Solr::Document
+  include BlacklightOaiProvider::SolrDocument
+
   include Blacklight::Gallery::OpenseadragonSolrDocument
 
   # Adds Hyrax behaviors to the SolrDocument.
   include Hyrax::SolrDocumentBehavior
-
 
   # self.unique_key = 'id'
 
@@ -25,7 +26,22 @@ class SolrDocument
   # Do content negotiation for AF models. 
 
   use_extension( Hydra::ContentNegotiation )
-  
+
+  field_semantics.merge!(
+    description: "description_tesim",
+    creator: "creator_tesim",
+    contributor: "contributor_tesim",
+    date: "date_tesim",
+    subject: "subject_tesim",
+    title: "title_tesim",
+    language: "language_label_tesim",
+    source: "source",
+    type: "rtype_tesim",
+    rights: 'rights_tesim',
+    identifier: "identifier_tesim"
+  )
+
+
   def title
     self[Solrizer.solr_name('title')]
   end

@@ -1,0 +1,5 @@
+<% if f.object.multiple? key %>
+  <%= f.input :institution, hint: 'Enter as McGill University', required: f.object.required?(key) %>
+<% else %>
+  <%= f.input :institution, hint: 'Enter as McGill University' , required: f.object.required?(key) %>
+<% end %>
