@@ -1,5 +1,4 @@
 # Enable multistage
-require 'capistrano/ext/multistage'
 
 # Require capistrano locally
 require 'capistrano/locally'
@@ -32,9 +31,9 @@ require "capistrano/bundler"
 require "capistrano/rails/migrations"
 require "capistrano/rails/assets"
 require 'sshkit/sudo'
+require "whenever/capistrano"
 #require "capistrano/sidekiq"
 #require "capistrano/passenger"
-require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
 

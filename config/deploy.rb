@@ -74,9 +74,9 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
 # tasks before re-defining them.
-Rake::Task["sidekiq:stop"].clear_actions
-Rake::Task["sidekiq:start"].clear_actions
-Rake::Task["sidekiq:restart"].clear_actions
+#Rake::Task["sidekiq:stop"].clear_actions
+#Rake::Task["sidekiq:start"].clear_actions
+#Rake::Task["sidekiq:restart"].clear_actions
 namespace :sidekiq do
   task :stop do
     on roles(:app) do
