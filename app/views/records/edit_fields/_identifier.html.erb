@@ -1,0 +1,5 @@
+<% if f.object.multiple? key %>
+  <%= f.input :identidier, hint: 'Format as DOI without a prefix (e.g. 10.1139/cgj-2018-0283)', required: f.object.required?(key) %>
+<% else %>
+  <%= f.input :identifier, hint: 'Format as DOI without a prefix (e.g. 10.1139/cgj-2018-0283)' , required: f.object.required?(key) %>
+<% end %>
