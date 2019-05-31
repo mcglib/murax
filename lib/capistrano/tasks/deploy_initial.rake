@@ -46,7 +46,7 @@ namespace :deploy do
         on roles(:app) do
            within release_path do
              with rails_env: "#{fetch(:stage)}" do
-              run %Q{cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128'&& #{rake} RAILS_ENV=#{rails_env} assets:precompile}
+              run %Q{cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128'&& bundle exec rake assets:precompile}
              end
            end
         end
