@@ -122,6 +122,7 @@ namespace :deploy do
   end
   
   before "deploy:assets:precompile", "deploy:npm_install"
+  after  "deploy:npm_install", "deploy:yarn_install"
 
 
 

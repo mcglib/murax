@@ -23,7 +23,7 @@ namespace :deploy do
     on roles(:app) do
       within release_path do
           with rails_env: "#{fetch(:stage)}" do
-              execute("cd #{release_path} && yarn install")
+              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && yarn install")
           end
       end
     end
@@ -39,7 +39,16 @@ namespace :deploy do
       end
     end
   end
-
+  
+  namespace :assets do
+    desc "Precompile assets only if it is needed"
+      task :precompile, :roles => :app, :except => { :no_release => true } do
+          with rails_env: "#{fetch(:stage)}" do
+              execute ("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128'")
+              run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile}
+          end
+      end
+  end
 
   desc "Erase all DB tables"
   task :clear_db do
