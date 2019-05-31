@@ -41,12 +41,16 @@ namespace :deploy do
   end
   
   namespace :assets do
-    desc "Precompile assets only if it is needed"
-      task :precompile, :roles => :app, :except => { :no_release => true } do
-          with rails_env: "#{fetch(:stage)}" do
+      desc "Precompile assets only if it is needed"
+      task :precompile do
+        on roles(:app) do
+           within release_path do
+             with rails_env: "#{fetch(:stage)}" do
               execute ("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128'")
               run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile}
-          end
+             end
+           end
+        end
       end
   end
 
