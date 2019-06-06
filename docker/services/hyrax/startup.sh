@@ -59,6 +59,9 @@ else
 fi
 echo "------END OF DB SETUP-------------------"
 
+echo "Run yarn install so that we can make sure we can compile assets"
+yarn install
+
 #echo "Running any migrations first to be sure we are upto date"
 #echo "bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}"
 #bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
