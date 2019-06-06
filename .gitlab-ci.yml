@@ -7,7 +7,7 @@ services:
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
   GIT_SUBMODULE_STRATEGY: recursive
-  ANSIBLE_CONFIG: /builds/lts/LIRAP//ansible.cfg
+  ANSIBLE_CONFIG: /builds/lts/murax/ansible.cfg
 
 # Cache gems in between builds
 cache:
@@ -18,12 +18,13 @@ before_script:
   # Run the ssh-agent
   - eval $(ssh-agent -s)
   # Load the SSH key used for GitLab role deploys.
-  - ssh-add <(echo "$ROLE_DEPLOY_KEY")
+  #- ssh-add <(echo "$ROLE_DEPLOY_KEY")
   # Configure our Ansible playbooka
   - printenv | less
   - ruby -v
   - which ruby
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
+  - gem install capistrano
 
 stages:
   - test
