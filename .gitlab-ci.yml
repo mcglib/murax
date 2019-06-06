@@ -20,7 +20,7 @@ before_script:
   # Load the SSH key used for GitLab role deploys.
   #- ssh-add <(echo "$ROLE_DEPLOY_KEY")
   # Configure our Ansible playbooka
-  - printenv | less
+  - printenv
   - ruby -v
   - which ruby
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
