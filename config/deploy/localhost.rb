@@ -1,5 +1,5 @@
 # For use in localhost
-set :stage, :production
+set :stage, :development
 set :rails_env, 'development'
 set :deploy_to, '/storage/www/murax'
 set :repository_cache, "git_cache"
