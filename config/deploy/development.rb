@@ -1,6 +1,6 @@
 # For development
 set :stage, :development
-set :rails_env, ENV['RAILS_ENV']
+set :rails_env, 'production'
 set :deploy_to, '/storage/www/murax'
 set :repository_cache, "git_cache"
 set :branch, "develop"
