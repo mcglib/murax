@@ -22,7 +22,7 @@ namespace :deploy do
   task :yarn_install do
     on roles(:app) do
       within release_path do
-          with rails_env: "#{fetch(:stage)}" do
+          with rails_env: "#{fetch(:rails_env)}" do
               execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && yarn install")
           end
       end
@@ -33,7 +33,7 @@ namespace :deploy do
   task :npm_install do
     on roles(:app) do
       within release_path do
-          with rails_env: "#{fetch(:stage)}" do
+          with rails_env: "#{fetch(:rails_env)}" do
               execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && npm install --quiet")
           end
       end
@@ -45,8 +45,7 @@ namespace :deploy do
       task :precompile do
         on roles(:app) do
            within release_path do
-             with rails_env: "#{fetch(:stage)}" do
-              #execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128'"" && bundle exec #{} rake assets:precompile")
+             with rails_env: "#{fetch(:rails_env)}" do
               execute :rake, 'assets:precompile'
              end
            end
