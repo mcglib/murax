@@ -41,6 +41,9 @@ class SolrDocument
     identifier: "identifier_tesim"
   )
 
+  def sets
+    fetch('isPartOf', []).map { |m| BlacklightOaiProvider::Set.new("isPartOf_ssim:#{m}") }
+  end
 
   def title
     self[Solrizer.solr_name('title')]
