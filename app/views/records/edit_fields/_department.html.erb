@@ -1,5 +1,0 @@
-<% if f.object.multiple? key %>
-  <%= f.input :department, hint: 'Enter what is listed on the item.', required: f.object.required?(key) %>
-<% else %>
-  <%= f.input :department, hint: 'Enter what is listed on the item.' , required: f.object.required?(key) %>
-<% end %>
