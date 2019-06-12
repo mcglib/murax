@@ -34,8 +34,10 @@ class SolrDocument
     date: "date_tesim",
     subject: "subject_tesim",
     title: "title_tesim",
-    language: "language_label_tesim",
-    source: "source",
+    language: "language_tesim",
+    source: "source_tesim",
+    relation: "relation_tesim",
+    institution: "institution_tesim",
     type: "rtype_tesim",
     rights: 'rights_tesim',
     identifier: "identifier_tesim"
