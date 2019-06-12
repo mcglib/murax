@@ -31,7 +31,7 @@ class SolrDocument
     description: "description_tesim",
     creator: "creator_tesim",
     contributor: "contributor_tesim",
-    date: "date_tesim",
+    date: "date_sim",
     subject: "subject_tesim",
     title: "title_tesim",
     language: "language_tesim",
