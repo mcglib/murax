@@ -69,7 +69,7 @@ module Hyrax
               index.as :stored_searchable
       end
 
-      property :license,      predicate: ::RDF::URI.new('http://schema.org/license'), multiple: false do | index |
+      property :license,      predicate: ::RDF::URI.new('http://schema.org/license'), multiple: true do | index |
               index.as :stored_searchable
       end
 
