@@ -12,6 +12,6 @@ module Hyrax
     self.required_fields += [:creator, :date, :rights, :rtype]
     self.single_valued_fields = [:alternative_title, :creator, :contributor, :description, :abstract, :note, 
                                  :publisher, :date, :report_number, :source, :department,
-                                 :faculty, :rights, :orcidid, :related_url, :relation]
+                                 :faculty, :rights, :orcidid, :related_url]
   end
 end
