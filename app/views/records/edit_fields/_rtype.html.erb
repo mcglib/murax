@@ -1,6 +1,6 @@
 <% if f.object.multiple? key %>
   <% resource_type_authorities = Hyrax::ResourceTypeAuthorities.new %> 
-  <%= f.input :rtype,
+  <%= f.input :rtype, as: :multi_value_select,
      collection: resource_type_authorities.select_active_options,
      include_blank: true,
      label: 'Type',
