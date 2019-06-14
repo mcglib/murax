@@ -63,7 +63,7 @@ en:
             bibliographic_citation: Use citation obtained from publisher website.
             report_number: Enter alpha-numeric value only (e.g. G19-06)
             source: Enter link to journal website.
-            orcid_id: Format as full URL, e.g.  https://orcid.org/0000-0002-4733-8565
+            orcidid: Format as full URL, e.g.  https://orcid.org/0000-0002-4733-8565
             pmid: Enter as number only (e.g.18163481)
             note: Any unique attributes of item (e.g. missing pages)
             institution: Enter as McGill University
@@ -104,6 +104,8 @@ en:
             rights_notes: Rights notes
             rights_statement: Rights statement
             title: Title
+            orcidid: ORCID iD
+            pmid: PMID
             visibility_after_embargo: then open it up to
             visibility_after_lease: then restrict it to
             visibility_during_embargo: Restricted to
