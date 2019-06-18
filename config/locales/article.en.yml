@@ -57,7 +57,7 @@ en:
             subject: Headings or index terms describing what the work is about; these do need to conform to an existing vocabulary.
             title: Enter title as listed on front matter. Capitalise the first non-article only.
             alternative_title: Enter title as listed on front matter. Capitalise the first non-article only. 
-            date: Enter as YYYY/MM/DD
+            date: Enter as YYYY-MM-DD
             faculty: Enter as full name (e.g. Faculty of Arts)
             department: Enter what is listed on the item.
             bibliographic_citation: Use citation obtained from publisher website.
