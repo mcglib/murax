@@ -18,7 +18,7 @@ class CatalogController < ApplicationController
     # Blacklight OAI configurations.
     config.oai = {
       provider: {
-        repository_name: 'eScholarship',
+        repository_name: 'eScholarship@McGill',
         repository_url: 'http://dev-dawg1.library.mcgill.ca:3000/catalog/oai',
         record_prefix: 'oai',
         admin_email: 'dev.library@mcgill.ca',
@@ -26,10 +26,8 @@ class CatalogController < ApplicationController
       },
       document: {
         limit: 25,
-        set_fields: [
-           # {  solr_field: 'language_label_tesim' },
-           # { collection: 'collection', solr_field: 'member_of_collection_ids'}
-        ]
+        set_fields: [{ solr_field: 'isPartOf_ssim' }],
+        set_class: '::OaiSet'
       }
     }
 

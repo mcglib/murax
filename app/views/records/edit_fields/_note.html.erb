@@ -1,5 +1,0 @@
-<% if f.object.multiple? key %>
-  <%= f.input :note, hint: 'Any unique attributes of item (e.g. missing pages)', required: f.object.required?(key) %>
-<% else %>
-  <%= f.input :note, hint: 'Any unique attributes of item (e.g. missing pages)' , required: f.object.required?(key) %>
-<% end %>

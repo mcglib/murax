@@ -41,11 +41,11 @@ module Hyrax
               index.as :stored_searchable, :facetable
       end
 
-      property :subject,      predicate: RDF::Vocab::DC11.subject, multiple: true do | index |
+      property :subject,      predicate: RDF::Vocab::DC11.subject, multiple: false do | index |
               index.as :stored_searchable, :facetable
       end
 
-      property :language,      predicate: RDF::Vocab::DC11.language, multiple: true do | index |
+      property :language,      predicate: RDF::Vocab::DC11.language, multiple: false do | index |
               index.as :stored_searchable, :facetable
       end
 
@@ -73,7 +73,7 @@ module Hyrax
               index.as :stored_searchable
       end
 
-      property :rtype,      predicate:  ::RDF::Vocab::DC.type, multiple: false do | index |
+      property :rtype,      predicate:  ::RDF::Vocab::DC.type, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end
 
@@ -99,15 +99,15 @@ module Hyrax
             index.as :stored_searchable
       end
 
-      property :research_unit,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/ResearchGroup'), multiple: true do |index|
+      property :research_unit,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/ResearchGroup'), multiple: false do |index|
             index.as :stored_searchable
       end 
 
-      property :local_affiliated_centre,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: true do |index|
+      property :local_affiliated_centre,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: false do |index|
             index.as :stored_searchable
       end
 
-      property :grant_number,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/hasGrantNumber'), multiple: true do |index|
+      property :grant_number,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/hasGrantNumber'), multiple: false do |index|
             index.as :stored_searchable
       end
 
@@ -115,7 +115,17 @@ module Hyrax
             index.as :stored_searchable
       end
 
-#####End of properties added for Article worktype.######
+##### End of properties added for Article worktype.######
+
+####  Additional properties added for Report worktype.######
+
+      property :report_number,       predicate: ::RDF::URI.new('https://schema.org/reportNumber'), multiple: false do |index|
+            index.as :stored_searchable
+      end
+
+
+##### End of properties added for Report worktype.######
+
 
 ####These properties will be removed in the form app/forms/hyrax file.######
 
