@@ -31,7 +31,7 @@ module Hyrax
       property :note,      predicate: RDF::Vocab::BF2.note, multiple: true
 
 
-      property :publisher,      predicate: RDF::Vocab::DC11.publisher, multiple: false do |index|
+      property :publisher,      predicate: RDF::Vocab::DC11.publisher, multiple: true do |index|
               index.as :stored_searchable, :facetable
       end
 
@@ -41,11 +41,11 @@ module Hyrax
               index.as :stored_searchable, :facetable
       end
 
-      property :subject,      predicate: RDF::Vocab::DC11.subject, multiple: false do | index |
+      property :subject,      predicate: RDF::Vocab::DC11.subject, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end
 
-      property :language,      predicate: RDF::Vocab::DC11.language, multiple: false do | index |
+      property :language,      predicate: RDF::Vocab::DC11.language, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end
 
@@ -119,7 +119,7 @@ module Hyrax
 
 ####  Additional properties added for Report worktype.######
 
-      property :report_number,       predicate: ::RDF::URI.new('https://schema.org/reportNumber'), multiple: false do |index|
+      property :report_number,       predicate: ::RDF::URI.new('https://schema.org/reportNumber'), multiple: true do |index|
             index.as :stored_searchable
       end
 
