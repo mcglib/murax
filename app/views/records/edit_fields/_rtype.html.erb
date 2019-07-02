@@ -1,14 +1,15 @@
 <% resource_type_authorities = Hyrax::ResourceTypeAuthorities.new
   item_types = resource_type_authorities.select_all_options.to_h
-  if current_page?('/concern/reports/new?locale=en')
+  if request.path.starts_with?('/concern/reports')
     item_type = item_types["Report"]
-  elsif current_page?('/concern/articles/new?locale=en') 
+  elsif request.path.starts_with?('/concern/articles') 
     item_type = item_types["Article"]
-  elsif current_page?('/concern/theses/new?locale=en')
+  elsif request.path.starts_with?('/concern/theses')
     item_type = item_types["Thesis"]
   else 
     item_type = item_types["Thesis"]
   end
+
 %> 
 <%= f.input :rtype, 
   collection: resource_type_authorities.select_all_options,
