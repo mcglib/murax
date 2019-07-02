@@ -99,15 +99,15 @@ module Hyrax
             index.as :stored_searchable
       end
 
-      property :research_unit,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/ResearchGroup'), multiple: false do |index|
+      property :research_unit,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/ResearchGroup'), multiple: true do |index|
             index.as :stored_searchable
       end 
 
-      property :local_affiliated_centre,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: false do |index|
+      property :local_affiliated_centre,     predicate: ::RDF::URI.new('http://vivoweb.org/ontology/core#Center'), multiple: true do |index|
             index.as :stored_searchable
       end
 
-      property :grant_number,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/hasGrantNumber'), multiple: false do |index|
+      property :grant_number,     predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/hasGrantNumber'), multiple: true do |index|
             index.as :stored_searchable
       end
 
