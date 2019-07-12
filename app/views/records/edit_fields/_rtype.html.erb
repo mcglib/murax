@@ -1,17 +1,19 @@
-<% if f.object.multiple? key %>
-  <% resource_type_authorities = Hyrax::ResourceTypeAuthorities.new %> 
-  <%= f.input :rtype, as: :multi_value_select,
-     collection: resource_type_authorities.select_active_options,
-     include_blank: true,
-     label: 'Type',
-     required: f.object.required?(key) 
-  %>
-<% else %>
-  <% resource_type_authorities = Hyrax::ResourceTypeAuthorities.new %>
-  <%= f.input :rtype,
-     collection: resource_type_authorities.select_active_options,
-     include_blank: true,
-     label: 'Type', 
-     required: f.object.required?(key) 
-  %>
-<% end %>
+<% resource_type_authorities = Hyrax::ResourceTypeAuthorities.new
+  item_types = resource_type_authorities.select_all_options.to_h
+  if request.path.starts_with?('/concern/reports')
+    item_type = item_types["Report"]
+  elsif request.path.starts_with?('/concern/articles') 
+    item_type = item_types["Article"]
+  elsif request.path.starts_with?('/concern/theses')
+    item_type = item_types["Thesis"]
+  else 
+    item_type = item_types["Thesis"]
+  end
+
+%> 
+<%= f.input :rtype, 
+  collection: resource_type_authorities.select_all_options,
+  label: 'Item type',
+  selected: item_type,
+  required: f.object.required?(key) 
+%>
