@@ -61,7 +61,7 @@ def cleanTitleField(myTitleString):
             cleanedTitle = firstWord + " ".join(splitString[1:])
         else:
             cleanedTitle = firstWord + " " + " ".join(splitString[1:])
-    
+
     # If there is a single []
     elif firstChar == "[":
         cleanedTitle = myTitleString[1:]
@@ -75,8 +75,8 @@ def cleanTitleField(myTitleString):
     # If there are no []
     else:
         cleanedTitle = myTitleString
-    
-    return cleanedTitle  
+
+    return cleanedTitle
 
 def removePunctuationDateField(myDateString):
     """ Remove final punctuation from the date field
@@ -106,11 +106,11 @@ def dateToRightFormat(dateArray):
             year = int(dateArray[2])
             month = int(dateArray[1])
             day = int(dateArray[0])
-        
-        if day != 0 and day != 00: 
+
+        if day != 0 and day != 00:
             formatDate = datetime.date(year, month, day)
             formatDate = formatDate.strftime("%Y-%m-%d")
-        
+
         else:
              formatDate = str(year) + "-" + str(month)
 
@@ -122,9 +122,9 @@ def dateToRightFormat(dateArray):
         elif len(dateArray[1]) == 4:
             year = dateArray[1]
             month = dateArray[0]
-        
+
         formatDate = year + "-" + month
-    
+
     return formatDate
 
 
@@ -168,7 +168,7 @@ def replaceAlphaNotationFromDate(myDateString):
             else:
                 print(dateArray)
                 cleanDate = myDateString
-              
+
     #reformat date
     cleanDate = dateToRightFormat(dateArray)
 
@@ -177,9 +177,9 @@ def replaceAlphaNotationFromDate(myDateString):
 def cleanDateField(myDateString):
     """ This function sends different problematic dates (wrong format, wrong punctuation, has words, ...) to different cleaning up functions.
     """
-    
+
     #print(myDateString)
-    
+
     #See if there are any letters
     charFound = False
     i = 0
@@ -187,7 +187,7 @@ def cleanDateField(myDateString):
         if myDateString[i].isalpha():
             charFound = True
         i = i + 1
-        
+
     if charFound == True:
         formattedDate = replaceAlphaNotationFromDate(myDateString)
 
@@ -198,12 +198,12 @@ def cleanDateField(myDateString):
     elif "/" in myDateString:
         dateArray = myDateString.split("/")
         formattedDate = dateToRightFormat(dateArray)
-    
+
     else:
         formattedDate = myDateString
 
     #print(formattedDate)
-    
+
     return formattedDate
 
 def mapToRightLanguageCode(languageField):
@@ -212,16 +212,16 @@ def mapToRightLanguageCode(languageField):
         langIso = "eng"
     elif languageField == "fr":
         langIso = "fre"
-    
+
     return langIso
 
 
 
 ###################
-#    Main Code   
+#    Main Code
 ###################
-reload(sys)  
-sys.setdefaultencoding('utf8')
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 
 
 pidArray = sys.argv[1:]
@@ -249,7 +249,7 @@ if len(pidArray) > 0:
                 for title in recordRoot.findall("dc:title", namespaces= nSpaces):
                     cleanedTitle = cleanTitleField(title.text)
                     title.text = cleanedTitle
-                # Clean up Date Field    
+                # Clean up Date Field
                 for date in recordRoot.findall("dc:date", namespaces= nSpaces):
                     cleanedDate = removePunctuationDateField(date.text)
                     formattedDate = cleanDateField(cleanedDate)
@@ -275,7 +275,7 @@ if len(pidArray) > 0:
                 if recordRoot.find("dc:relation", namespaces= nSpaces) is None:
                     relationField = ET.SubElement(recordRoot, "dc:relation")
                     relationField.text = "Pid:" + currentPid
-                  
+
                 ET.dump(recordRoot)
 
 else:
