@@ -45,19 +45,18 @@ en:
             contributor: Enter as Last, First. (enter multiple Supervisors on separate lines).
             creator: Enter as Last, First (enter multiple authors on separate lines, in order of appearance)
             date_created: The date on which the work was created.
-            description: Free-text notes about the work. Examples include abstracts of a paper or citation information for a journal article.
+            description: Describe here any unique characteristics of the item (e.g. issues with pagination, inserts, etc.).
             identifier: Format as DOI without a prefix (e.g.   10.1139/cgj-2018-0283)
             keyword: Words or phrases you select to describe what the work is about. These are used to search for content.
             language: The language of the work's content.
-            license: Licensing and distribution information governing access to the work. Select from the provided drop-down list.
+            license: Licensing and distribution information governing access to the work. Select from drop-down list if license is provided for item.
             publisher: The person or group making the work available. Generally this is the institution.
             related_url: A link to a website or other specific content (audio, video, PDF document) related to the work. An example is the URL of a research project from which the work was derived.
             resource_type: Pre-defined categories to describe the type of content being uploaded, such as &quot;article&quot; or &quot;dataset.&quot;  More than one type may be selected.
             rights_notes: Contains information about rights held in and over the resource.
-            subject: Headings or index terms describing what the work is about; these do need to conform to an existing vocabulary.
+            subject: Please enter subjects (LCSH/MESH) or keywords as available.
             title: Enter title as listed on front matter. Capitalise the first non-article only.
-            alternative_title: Enter title as listed on front matter. Capitalise the first non-article only. 
-            date: Enter as YYYY-MM-DD
+            date: Enter as YYYY-MM-DD. Where no full date available enter YYYY. In cases of approximate decade use ? (e.g. 198?). 
             faculty: Enter as full name (e.g. Faculty of Arts)
             department: Enter what is listed on the item.
             bibliographic_citation: Use citation obtained from publisher website.
@@ -65,7 +64,6 @@ en:
             source: Enter link to journal website.
             orcidid: Format as full URL, e.g.  https://orcid.org/0000-0002-4733-8565
             pmid: Enter as number only (e.g.18163481)
-            note: Any unique attributes of item (e.g. missing pages)
             institution: Enter as McGill University
             grant_number: Unless otherwise specified, enter granting agency AND number (e.g. SSHRC 430-2014-00168 )
             local_affiliated_centre: Use Centre name as listed on the publication.          
