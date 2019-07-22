@@ -1,0 +1,540 @@
+00001  Principal and Vice-Chancellor
+00002  Provost & Vice-Principal (Academic)
+00020  Agricultural and Environmental Sciences
+00065  Agricultural Economics
+00068  Animal Science
+00066  Bioresource Engineering
+00071  Dietetics and Human Nutrition
+00384  Indigenous Peoples' Nutrition and Environment
+00578  Faculty Office of Graduate Studies
+00072  Farm Management and Technology Program
+00075  Food Science and Agricultural Chemistry
+00090  Macdonald Campus Development Office
+00081  Macdonald Campus Farm
+00507  Dairy Unit - Mac Farm
+00508  Field Unit - Mac Farm
+00070  Poultry Unit
+00506  Swine Unit- Mac Farm
+00567  McGill Institute of Global Food Security
+00408  McGill School of Environment
+00078  Natural Resource Sciences
+00080  Avian Science and Conservation Centre
+00074  Lyman Entomological Museum and Research Lab.
+00175  Parasitology
+00076  Plant Science
+00077  McGill University Herbarium
+00021  Arts
+00094  Anthropology
+00118  Society, Technology and Development
+00115  Anthropology of Development Program
+00581  Anthropology, History & Classical Studies, Jewish Studies,and Sociology Administrative Services Cent
+00582  Art History & Communication Studies, English, French Language Center, and French Language & Literatu
+00095  Art History and Communications Studies
+00385  Arts and Science Administrative Services (shared)
+00099  East Asian Studies
+00583  East Asian Studies, Interdisciplinary Studies, and Languages, Literatures & Cultures Administrative
+00101  Economics
+00580  Economics, Philosophy, and Political Science Administrative Services Centre
+00102  English
+00123  Faculty of Arts Computer Services
+00119  French Language Centre
+00122  Arts Multi-Media Language Facilities
+00104  French Language and Literature
+00037  Gender, Sexuality and Feminist Studies
+00107  History and Classical Studies
+00174  Information Studies
+00517  Interdisciplinary Studies
+00173  Islamic Studies
+00109  Jewish Studies
+00519  Languages, Literatures, and Cultures
+00105  German Studies
+00106  Hispanic Studies
+00108  Italian Studies
+00113  Russian & Slavic Studies
+00110  Linguistics
+00389  McGill Institute for the Study of Canada
+00111  Philosophy
+00112  Political Science
+00559  Public Life of Arts and Ideas
+00103  Quebec Studies Program
+00031  Religious Studies
+00576  Research Centre on Population Dynamics
+00176  Social Work
+00406  Montreal Consortium for Human Rights Advocacy Training
+00177  Research on Children and Families
+00114  Sociology
+00184  Study of International Development
+00011  Associate Provost (Budget and Resources)
+00059  Associate Provosts
+00573  Associate Provosts (Policies, Procedures and Equity)
+00007  Associate Vice-Principal (Macdonald Campus)
+00085  Academic & Administrative Services
+00087  Duplicating Service - Macdonald
+00086  Macdonald Campus Recruiting
+00067  Macdonald Computing Centre
+00088  Post Office - Macdonald Campus
+00084  Registrar's Office - Mac
+00093  Macdonald Faculty Club
+00022  Continuing Studies
+00124  Career & Professional Development
+00134  Client Services
+00042  Faculty Partnerships and Summer Studies
+00133  Instructor Services & Educational Technologies
+00127  Language & Intercultural Communication
+00572  Personal and Cultural Enrichment
+00528  Translation & Written Communication
+00571  McGill Writing Centre
+00023  Dentistry
+00579  Alan Edwards Centre for Research on Pain
+00135  Clinical Dentistry
+00010  Deputy Provost (Student Life and Learning)
+00303  Athletics - Downtown Campus
+00433  Athletics - Administrative Services
+00434  Athletics - Campus Recreation
+00435  Athletics Facilities and Equipment
+00437  Athletics Marketing and Promotions Area
+00436  Intercollegiate Athletics Office
+00315  Macdonald Campus Dept of Athletics
+00438  Sports Medicine Clinic
+00040  Dean of Students
+00035  Enrolment Services
+00514  ARR - Communications and Publications Unit
+00036  Admissions
+00404  Recruitment and Liaison Office
+00541  Food and Dining Services
+00516  Food Services
+00403  Residence Food Services
+00309  Residences & Student Housing
+00089  Campus Housing - Mac
+00533  New Residence Hall (NRH)
+00372  Real Estate Office
+00380  Residence Business Operations
+00033  Student Services
+00305  Counselling Service
+00308  Tutorial Services
+00454  First Peoples' House at McGill
+00409  First Year (Orientation Office)
+00410  International Student Advisor
+00314  Macdonald Campus Student Services
+00313  McGill Career Planning Service (CaPS)
+00304  McGill Office of Religious & Spiritual Life (MORSL)
+00312  Mental Health Service
+00307  Off-Campus Housing
+00310  Scholarships and Student Aid
+00445  ARR - Scholarships
+00311  Student Health Service- McGill
+00306  Students With Disabilities
+00038  Teaching and Learning Services
+00028  Desautels Faculty of Management
+00419  Business and Management Research
+00205  Dobson Centre for Entrepreneurial Studies
+00417  Finance Research
+00208  International Executive Institute
+00206  International Management Studies
+00416  Management Career Centre
+00204  Management Science Research
+00570  Marcel Desautels Institute for Integrated Management
+00418  McGill Institute of Marketing (MIM)
+00207  Strategy Studies in Organizations (CSSO)
+00024  Education
+00143  Educational and Counselling Psychology
+00518  Integrated Studies in Education
+00391  First Nations and Inuit Education
+00144  Kinesiology and Physical Education
+00398  Leadership in Community and International Initiatives
+00147  Learning and Information Technologies
+00458  Media Services (Education)
+00148  Student Teaching Office
+00025  Engineering
+00150  Architecture
+00577  Bioengineering
+00163  Brace Centre for Water Resouce Management
+00152  Chemical Engineering
+00415  Chemical/Metallurgical Machine Shop and Stores
+00153  Civil Engineering & Applied Mechanics
+00156  Electrical and Computer Engineering
+00165  Intelligent Machines (CIM)
+00568  McGill Institute for Aerospace Engineering
+00575  McGill Institute of Advanced Materials
+00157  Mechanical Engineering
+00158  Mining and Materials
+00159  McGill Metals Processing Centre
+00166  Plasma Quebec
+00167  Polymer McGill
+00569  Trottier Institute for Sustainability in Engineering and Design (TISED)
+00161  Urban Planning
+00026  Graduate & Postdoctoral Studies (Dean)
+00169  Graduate and Postdoctoral Studies Office
+00171  Fellowships and Awards
+00584  Interfaculty Studies
+00585  Biological & Biomedical Engineering
+00997  Integrated Program in Neuroscience
+00594  Quantitative Life Sciences
+00027  Law
+00198  Air and Space Law
+00199  Comparative Law
+00270  Medicine, Ethics and Law
+00200  Private & Comparative Law (Quebec Research Centre of)
+00117  Regulated Industries Studies
+00034  McGill University Libraries (Administration)
+00055  Archives
+00338  Collection Services
+00535  Government Documents & Information
+00332  Health Sciences Area Administration
+00335  Life Sciences Library
+00334  Osler Library of the History of Medicine
+00316  Humanities and Social Sciences Library
+00317  Humanities & Social Sciences Library - Collections
+00329  Humanities & Social Sciences Library Access Services
+00322  Birks Reading Room
+00327  Humanities & Social Sciences Library Serials & Microforms
+00325  McLennan Library Reference Department
+00414  Interlibrary Loans and Document Delivery
+00324  Library Serials Unit
+00397  Library Technology Services
+00331  Nahum Gelber Law Library
+00337  Physical Sciences and Engineering Area (Administration)
+00395  Mathematics and Statistics Library(Edward Rosenthall)
+00396  Schulich Library of Science and Engineering
+00328  Rare Books and Special Collections
+00321  Special Libraries Administration
+00330  Blackader-Lauterman Collection of Architecture and Art
+00336  Blacker-Wood Library of Biology
+00319  Education Library and Curriculum Resources Centre
+00323  Howard Ross Library of Management
+00318  Islamic Studies Library
+00521  Library Data Services
+00392  Walter Hitschfeld Geographic Information Centre
+00333  Macdonald Campus Library
+00320  Marvin Duchow Music Library
+00029  Medicine
+00212  Anatomy and Cell Biology
+00531  Major Research Facility for Electron Microscopy
+00214  Anesthesia
+00278  Animal Resources Centre(formerlyMcIntyre Animal Centre)
+00216  Biochemistry
+00217  Biomedical Engineering
+00405  Biomedical Ethics Unit
+00221  Communications Sciences & Disorders
+00218  Diagnostic Radiology
+00546  Educational Services (Faculty of Medicine)
+00551  Admissions Office (Faculty of Medicine)
+00279  Continuing Medical Education
+00553  Distributed Medical Education
+00525  Faculty Development (Faculty of Medicine)
+00554  McGill Medical Simulation Centre
+00211  Medical Informatics
+00552  Postgraduate Medical Education, Professional and Inter-Hospital Affairs
+00550  Under Graduate Medical Education & Student Affairs
+00219  Epidemiology and Biostatistics
+00547  Faculty Affairs (Faculty of Medicine)
+00220  Family Medicine
+00240  Gerald Bronfman Department of Oncology
+00246  Clinical Trials Operations - Oncology
+00248  Palliative Care Medicine - McGill
+00241  Radiation Oncology - M.G.H. & R.V.H.
+00224  Medical Physics Unit
+00548  Health Affairs (Faculty of Medicine)
+00537  Health and Social Policy
+00222  Human Genetics
+00237  Ingram School of Nursing
+00598  Maude Abbott Medical Museum
+00268  McGill AIDS Centre
+00267  McGill Centre for Studies in Aging
+00590  McGill Global Health Programs
+00586  McGill University and Genome Quebec Innovation Centre
+00522  McIntyre Business Operations
+00280  Medical Education
+00225  Medicine
+00229  Medicine-Experimental Medicine
+00226  Medicine-Jewish General Hospital
+00227  Medicine-Montreal General Hospital
+00228  Medicine-Royal Victoria Hospital
+00231  Res. on Endocrine Mechanisms (R.V.H.)
+00232  Microbiology & Immunology
+00234  Neurology and Neurosurgery
+00233  Montreal Neurological Institute
+00472  MNI Animal Facility
+00464  MNI Brain Imaging Center
+00469  MNI Brain Tumour Research Centre
+00463  MNI Cell Biology of Excitable Tissue Unit
+00468  MNI Clinical Research Group
+00465  MNI Cognitive Neuroscience Unit
+00473  MNI Communications and Development Office
+00467  MNI Complex Neural System Research Group
+00477  MNI Epilepsy Unit
+00474  MNI Media Services
+00476  MNI Neuroanaesthesia Research Group
+00599  MNI Neurodevelopmental Disorders
+00461  MNI Neuroimmunology Unit
+00470  MNI Neurological Library
+00460  MNI Neuromuscular Unit
+00462  MNI Neuronal Survival
+00471  MNI Neuropathology Research Unit
+00475  MNI Neuroradiology Research Group
+00466  MNI Neurosurgery Research Group
+00478  MNI Nursing Research Group
+00236  Neurosurgery
+00235  Research in Neuroscience
+00273  Nutrition & Food Science Centre
+00238  Obstetrics & Gynecology
+00239  Occupational Health
+00249  Ophthalmology
+00383  McGill Vision Research Unit
+00250  Otolaryngology - Head and Neck Surgery
+00251  Pathology
+00261  Pediatric Surgery (MCH)
+00252  Pediatrics
+00253  Pharmacology & Therapeutics
+00254  Physical & Occupational Therapy
+00256  Physiology
+00258  Aerospace Medical Research Unit
+00215  Anesthesia Research Unit
+00257  Artificial Cells and Organs Research Centre
+00271  Nonlinear Dynamics in Physiology & Medicine
+00259  Psychiatry
+00591  Research on Brain, Language and Music
+00242  Rosalind and Morris Goodman Cancer Centre
+00243  Molecular Oncology Group
+00587  Rossy Cancer Network
+00530  Réseau Protéomique Montreal Proteomic Network
+00549  Science & Strategic Initiatives (Faculty of Medicine)
+00556  Graduate Studies (Faculty of Medicine)
+00557  Institutional Review Board (Faculty of Medicine)
+00555  Research (Faculty of Medicine)
+00223  Social Studies of Medicine
+00260  Surgery
+00387  Cardiothoracic Surgery
+00265  Experimental Surgery
+00263  General Surgery
+00386  Orthopaedic Surgery
+00388  Plastic Surgery
+00264  Urology
+00262  Vascular Surgery
+00041  Ombudsperson for students
+00045  Planning and Institutional Analysis
+00030  Schulich School of Music
+00283  Communications & Production
+00524  Interdisciplinary Research in Music Media and Technology
+00284  McGill Conservatory of Music
+00282  Music Research
+00281  Performance
+00032  Science
+00291  Atmospheric and Oceanic Sciences
+00292  Weather Radar Observatory
+00178  Bellairs Research Institute
+00286  Biology
+00287  Chemistry
+00155  Computer Science
+00289  Earth and Planetary Sciences
+00520  Faculty of Science Information Systems and Technologies
+00343  Gault Nature Reserve
+00288  Geography
+00297  Climate and Global Change Research
+00290  Mathematics and Statistics
+00298  McGill Biodiversity Research Centre (MBRC)
+00186  McGill Sub-Arctic Research Station
+00293  Physics
+00295  High Energy Physics (CHEP)
+00301  Physics of Materials
+00296  Psychology
+00187  Pulp and Paper Research Centre
+00054  Redpath Museum
+00299  Research in Mesometeorology
+00302  Rutherford Museum
+00532  Social Equity & Diversity Education
+00004  Vice-Principal (Administration and Finance)
+00012  Associate Vice-Principal (Facilities Management & Ancillary Services)
+00053  Ancillary Operations
+00534  Copyright & Course Pack Operations
+00382  Faculty Club
+00368  Mail Service
+00377  McGill Bookstore
+00339  McGill Computer Store
+00412  Parking Services
+00379  Printing Services
+00378  Special Events and Room Bookings
+00544  Campus and Space Planning
+00413  Facilities Operations and Development
+00369  Building Operations
+00427  A/C Operations - Zone 5 W
+00509  A/C Operations - Zone 6 E
+00428  Maintenance Operations - Zone 1 NW
+00479  Maintenance Operations - Zone 2 SW
+00480  Maintenance Operations - Zone 3 SE
+00503  Maintenance Operations - Zone 4 NE
+00426  Operations Centre
+00364  Building Services
+00422  Custodial Services
+00492  Garage
+00491  Grounds
+00423  Special Events
+00560  Design Services
+00363  Facilities Administration Downtown
+00370  Logistics and Macdonald Campus Operations
+00565  Administration - Mac
+00486  Campus Care - Mac
+00484  Carpentry & Locks - Mac
+00504  Custodial Services - Mac
+00483  Electrical - Mac
+00564  FCC - Downtown
+00482  HVAC - Mac
+00485  Painting - Mac
+00481  Plumbing - Mac
+00371  Project Management
+00561  Utilities & Energy Management
+00562  Electrical Infrastructure
+00490  Elevator Maintenance
+00431  Energy/Power House - Downtown
+00430  Energy/Power House - Mac
+00487  Locksmith
+00489  Roofing
+00588  RVH Project
+00593  Sustainability
+00563  University Safety
+00543  Emergency Management and Preparedness
+00373  Environmental Health and Safety
+00542  Fire Prevention
+00374  Hazardous Waste Management
+00375  Security - Downtown
+00376  Security Services - Mac
+00595  Campus Planning and Development
+00346  Financial Services
+00356  Procurement Services
+00381  Travel Services Office
+00348  Research Financial Management Services
+00351  Student Accounts and Accounts Receivable
+00049  Human Resources
+00360  Benefits (Human Resources)
+00359  Employee Relations (Human Resources)
+00361  Organizational development (Human Resources)
+00353  Payroll Office
+00051  Pension Management
+00358  Records and systems (Human Resources)
+00393  Staffing
+00003  Information Technology Services
+00540  Content and Collaboration Solutions
+00044  Enterprise Applications Services
+00526  Information Technology Customer Services
+00596  Information Technology Services Architecture and Strategy
+00597  Information Technology Services Communications
+00043  Network and Communications Services
+00453  Information Security
+00342  NCS - Voice Technologies
+00513  NCS - Residence Communications Services
+00440  uPrint Services
+00539  Project Management Office
+00050  Internal Audit Department
+00047  Investments
+00523  Investments - Pensions
+00589  James Shared Services Team
+00345  Risk Management and Insurance
+00005  Vice-Principal (Research and Innovation)
+00592  Innovation & Partnerships
+00179  Sheldon Biotechnology Centre
+00192  Sponsored Research
+00006  University Secretariat
+00008  Vice-Principal, University Advancement
+00062  Advancement Services
+00061  Development & Alumni Relations Services
+00505  Development Research
+00063  Alumni Relations
+00538  Development
+00064  Annual Giving
+00499  Student Phonathon Office
+00495  Major Gifts
+00496  Planned Gifts (McG Development
+00515  Donor Relations & Stewardship
+00566  Marketing and Communications
+00009  Communications and External Relations
+00056  Communications
+00057  Governmental and Institutional Affairs
+00558  Graphics, Multimedia and Advertising
+00060  Legal Services
+00906  Aylmer/Sherbrooke Inc.
+00921  Canada Health Infoway Inc
+00912  Macdonald Campus Student Society
+00902  McCord Museum
+00914  McGill Association of University Teachers
+00913  McGill Community Infant-Toddler Family Centre
+00903  McGill Student Society
+00916  McGill University Non-Academic Certified Association
+00915  McGill University Non-Academic Staff Association
+00920  McGill Women's Networking Group
+00907  McGill-MCH Learning Centre (The Learning Centre of Quebec)
+00904  McGill-Queens University Press
+00918  Medical Students' Society
+00905  Mont St. Hilaire Nature Conservation Centre
+00911  Morgan Arboretum Association
+00917  Post-Graduate Students' Society
+00910  Pulp and Paper Research Institute - Canada
+00919  Student Organizations - Other
+00901  Valacta
+00923  AMURE Association of McGill University Research Employees
+00924  AMUSE (casual employees)
+08020  Animal Facilities
+08014  Association of Graduate Students employed at McGill
+08022  AstraZeneca Canada
+08003  Automated Bank Cash Machine
+08002  Ayrshire Breeders Association
+08037  Bell
+08019  Bio-Business Incubators
+08004  Bios Agriculture Incorporated
+08017  Bone & Periodontal Research
+08035  Calcul Québec
+08023  Canadian Aviation Museum
+08033  Concordia University
+08016  DiaTech Oncology Corp.
+08025  Diocesan College - Rental Space
+08018  Genome Quebec
+08015  Hydro Quebec
+08012  Industrielle Alliance Ltee
+08001  John Abbott College
+08005  Macdonald Campus Daycare
+08006  MACES
+08031  MUHC & Cytology
+08028  MUHC & Molecular Oncology
+08029  MUHC - BCG Group
+08030  MUHC - Cytology: Hospital Unit
+08032  MUHC - Nephrology
+08027  MUHC - Ophthalmology
+08026  MUHC - Pathology
+08013  Newmerical Technologies Inc.
+08021  Pharmaco-Proteomics & Structural Genomics Centre
+08007  Polish Library (Non-McGill)
+08024  Presse Café - Space
+08008  Quebec Communication Newspaper
+08009  Quebec Farmers Association
+08010  Resource Efficient Agricultural Production
+08011  Royal Astronomical Society of Canada Observatory
+00922  SSMU Infant Daycare Inc
+08036  Telus
+08034  Université de Montréal
+08038  Videotron
+00996  Constance Lethbridge Readaptation Centre
+00985  Douglas Hospital
+00984  Jewish General Hospital
+00989  Jewish Rehabilitation Hospital
+00990  Lakeshore General Hospital
+00991  LaSalle General Hospital
+00992  Maimonides Hospital Geriatric Centre
+00995  McGill University Health Centre
+00986  Montreal Chest Hospital Centre
+00982  Montreal Children's Hospital
+00981  Montreal General Hospital
+00983  Montreal Neurological Hospital
+00980  Royal Victoria Hospital
+00994  Shriner's Hospital for Crippled Children
+00988  St.Mary's Hospital Centre
+00955  Building Service Space
+00950  Centrally Scheduled Classrooms
+00961  Dummy course - on RECU/GDEU
+00960  Dummy course-not for RECU/GDEU
+00958  Graduate and Postdoctoral Fellowships and Awards
+00953  Long-term Disability
+00959  Not a McGill course/program
+00951  Placement Transition
+00952  Salary Continuance
+00956  Unassigned Administrative Space
+00954  Unassigned Space
+00957  University Pooled Positions
