@@ -6,10 +6,11 @@
     item_type = item_types["Article"]
   elsif request.path.starts_with?('/concern/theses')
     item_type = item_types["Thesis"]
+  elsif request.path.starts_with?('/concern/books')
+    item_type = item_types["Book"]
   else 
     item_type = item_types["Thesis"]
   end
-
 %> 
 <%= f.input :rtype, 
   collection: resource_type_authorities.select_all_options,
