@@ -95,8 +95,6 @@ RUN apt-get install -y libxml2-dev libxslt1-dev
 #RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
 
 
-
-
 # Install YARN
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -123,6 +121,11 @@ RUN cd $FITS_HOME \
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
+
+# install pip and some of the requirements for Clara's script
+RUN apt-get install -y --no-install-recommends python-pip
+# Install pip packages
+RUN pip install requests
 
 # install global gems
 RUN gem install capistrano \
