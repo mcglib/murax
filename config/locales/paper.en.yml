@@ -1,0 +1,120 @@
+en:
+  hyrax:
+    icons:
+      paper:     'fa fa-file-text-o'
+    select_type:
+      paper:
+        description:        "Paper works"
+        name:               "Paper"
+      simple_form:
+        hints:
+          admin_set:
+            description: A brief overarching description that applies to all works collected in this set. For example, "Theses and supplementary files created by the School of Earth Sciences graduate students."
+            title: A name to aid in identifying the Administrative Set and to distinguish it from other Administrative Sets in the repository.
+          collection:
+            based_near: A place name related to the collection, such as its site of publication, or the city, state, or country the collection contents are about. Calls upon the <a href='http://www.geonames.org'>GeoNames web service</a>.
+            contributor: A person or group you want to recognize for playing a role in the creation of the collection, but not the primary role.
+            creator: 'The person or group responsible for the collection. Usually this is the author of the content. Personal names should be entered with the last name first: Smith, John'
+            date_created: The date on which the collection was created.
+            description: Free-text notes about the collection. Examples include abstracts of a paper or citation information for a journal article.
+            identifier: A unique handle identifying the collection. An example would be a DOI for a journal article, or an ISBN or OCLC number for a book.
+            keyword: Words or phrases you select to describe what the collection is about. These are used to search for content.
+            language: The language of the collection's content.
+            license: Licensing and distribution information governing access to the collection. Select from the provided drop-down list.
+            publisher: The person or group making the collection available. Generally this is the institution.
+            related_url: A link to a website or other specific content (audio, video, PDF document) related to the collection. An example is the URL of a research project from which the collection was derived.
+            resource_type: Pre-defined categories to describe the type of content being uploaded, such as &quot;article&quot; or &quot;dataset.&quot;  More than one type may be selected.
+            subject: Headings or index terms describing what the collection is about; these do need to conform to an existing vocabulary.
+            title: A name to aid in identifying a collection.
+          collection_type:
+            allow_multiple_membership: Allow works to belong to multiple collections of this type
+            assigns_visibility: Allow collections of this type to assign initial visibility settings to a new work
+            assigns_workflow: Allow collections of this type to assign workflow to a new work
+            brandable: Allow collections of this type to be branded
+            description: A brief statement of the general purpose of this collection type.  Users will see this if they have more than one collection type to choose from when creating a new collection.
+            discoverable: Allow collections of this type to be discoverable
+            nestable: Allow collections of this type to be nested (a collection can contain other collections)
+            require_membership: A work must belong to at least one collection of this type
+            sharable: Allow users to assign collection managers, depositors, and viewers for collections they manage
+            share_applies_to_new_works: When new works are created directly in the collection, grant sharing users and groups permissions for the new work according to their collection roles.
+            title: ''
+          defaults:
+            abstract: A brief summary of a research article, thesis, review, conference proceeding, or any in-depth analysis of a particular subject.
+            access_right: Contains information about who can access the resource or an indication of its security status.
+            based_near: A place name related to the work, such as its site of publication, or the city, state, or country the work contents are about. Calls upon the <a href='http://www.geonames.org'>GeoNames web service</a>.
+            contributor: Enter as Last, First. (enter multiple Supervisors on separate lines).
+            creator: Enter as Last, First (enter multiple authors on separate lines, in order of appearance)
+            date_created: The date on which the work was created.
+            description: Describe here any unique characteristics of the item (e.g. issues with pagination, inserts, etc.).
+            identifier: Format as DOI without a prefix (e.g.   10.1139/cgj-2018-0283)
+            keyword: Words or phrases you select to describe what the work is about. These are used to search for content.
+            language: The language of the work's content.
+            license: Licensing and distribution information governing access to the work. Select from drop-down list if license is provided for item.
+            publisher: The person or group making the work available. Generally this is the institution.
+            related_url: A link to a website or other specific content (audio, video, PDF document) related to the work. An example is the URL of a research project from which the work was derived.
+            resource_type: Pre-defined categories to describe the type of content being uploaded, such as &quot;article&quot; or &quot;dataset.&quot;  More than one type may be selected.
+            rights_notes: Contains information about rights held in and over the resource.
+            subject: Please enter subjects (LCSH/MESH) or keywords as available.
+            title: Enter title as listed on front matter. Capitalise the first non-article only.
+            date: Enter as YYYY-MM-DD. Where no full date available enter YYYY. In cases of approximate decade use ? (e.g. 198?). 
+            faculty: Enter as full name (e.g. Faculty of Arts)
+            department: Enter what is listed on the item.
+            bibliographic_citation: Use citation obtained from publisher website.
+            report_number: Enter alpha-numeric value only (e.g. G19-06)
+            source: Enter link to journal website.
+            orcidid: Format as full URL, e.g.  https://orcid.org/0000-0002-4733-8565
+            pmid: Enter as number only (e.g.18163481)
+            institution: Enter as McGill University
+            grant_number: Unless otherwise specified, enter granting agency AND number (e.g. SSHRC 430-2014-00168 )
+            local_affiliated_centre: Use Centre name as listed on the publication.          
+        labels:
+          collection:
+            size: Size
+            total_items: Total items
+          collection_type:
+            allow_multiple_membership: MULTIPLE MEMBERSHIP
+            assigns_visibility: VISIBILITY
+            assigns_workflow: WORKFLOW
+            badge_color: Badge Color
+            brandable: BRANDING
+            description: Type description
+            discoverable: DISCOVERY
+            nestable: NESTING
+            require_membership: REQUIRE MEMBERSHIP
+            sharable: SHARING
+            share_applies_to_new_works: APPLY TO NEW WORKS
+            title: Type name
+          defaults:
+            abstract: Abstract
+            access_right: Access Rights
+            admin_set_id: Administrative Set
+            based_near: Location
+            creator: Creator
+            date_created: Date Created
+            description: Description
+            embargo_release_date: until
+            files: Upload a file
+            keyword: Keyword
+            lease_expiration_date: until
+            license: License
+            member_of_collection_ids: Add to collection
+            related_url: Related URL
+            rights_notes: Rights notes
+            rights_statement: Rights statement
+            title: Title
+            orcidid: ORCID iD
+            pmid: PMID
+            visibility_after_embargo: then open it up to
+            visibility_after_lease: then restrict it to
+            visibility_during_embargo: Restricted to
+            visibility_during_lease: Is available to
+          proxy_deposit_request:
+            sender_comment: Comments
+            transfer_to: User
+        placeholders:
+          defaults:
+            find_child_work: Search for a work…
+            member_of_collection_ids: Select a collection…
+        required:
+          html: <span class="label label-info required-tag">required</span>
+
