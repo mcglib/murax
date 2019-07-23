@@ -125,15 +125,18 @@ namespace :deploy do
       sudo :systemctl, :reload, :httpd
     end
   end
-  after :finishing, :restart_sidekiq do
+  after :finishing, :stop_sidekiq do
     on roles(:app) do
-      sudo :systemctl, :restart, :sidekiq
+      sudo :systemctl, :stop, :sidekiq
+    end
+  end
+  after :finishing, :start_sidekiq do
+    on roles(:app) do
+      sudo :systemctl, :start, :sidekiq
     end
   end
 
   before "deploy:assets:precompile", "deploy:npm_install"
   after  "deploy:npm_install", "deploy:yarn_install"
-
-
 
 end
