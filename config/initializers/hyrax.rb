@@ -17,6 +17,8 @@ Hyrax.config do |config|
   config.register_curation_concern :report
   # Injected via `rails g hyrax:work Paper`
   config.register_curation_concern :paper
+  # Injected via `rails g hyrax:work Presentation`
+  config.register_curation_concern :presentation
   # Register roles that are expected by your implementation.
   # @see Hyrax::RoleRegistry for additional details.
   # @note there are magical roles as defined in Hyrax::RoleRegistry::MAGIC_ROLES
