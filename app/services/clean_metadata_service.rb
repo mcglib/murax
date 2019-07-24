@@ -19,8 +19,9 @@ class CleanMetadataService
               return false
             end
         rescue => e
-            puts "Error occured cleaning the pid #{@pid}: Error: #{stderr}"
-            false
+            raise StandardError, "Error occured cleaning the metadata for pid #{@pid}: Error: #{stderr} #{e}"
+            Rails.logger.warn "CleanMetadataService : Error occured cleaning the metadata for pid #{@pid}: Error: #{stderr} #{e}"
+            nil
         end
   
         return false unless @metadata
