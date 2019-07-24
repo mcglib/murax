@@ -52,6 +52,8 @@ gem 'yard'
 gem 'webpacker', '~> 3.5'
 #gem 'webpacker', '>= 4.0.x'
 
+gem 'rubysl-open3'
+
 #gem 'clamav'
 
 group :development, :test do
