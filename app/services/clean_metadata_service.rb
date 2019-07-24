@@ -10,7 +10,7 @@ class CleanMetadataService
         else
             python_bin = "python"
         end
-  
+
         begin
             stdout, stderr, status = Open3.capture3("cd ./lib/python && #{python_bin} #{script_name} #{@pid.to_s}")
             if status.success?
@@ -23,7 +23,6 @@ class CleanMetadataService
             Rails.logger.warn "CleanMetadataService : Error occured cleaning the metadata for pid #{@pid}: Error: #{stderr} #{e}"
             nil
         end
-  
         return false unless @metadata
         @metadata
     end
