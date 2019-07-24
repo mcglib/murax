@@ -1,0 +1,8 @@
+de:
+  hyrax:
+    icons:
+      paper:     'fa fa-file-text-o'
+    select_type:
+      paper:
+        description:        "Paper Werke"
+        name:               "Paper"

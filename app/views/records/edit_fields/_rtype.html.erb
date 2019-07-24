@@ -8,6 +8,10 @@
     item_type = item_types["Thesis"]
   elsif request.path.starts_with?('/concern/books')
     item_type = item_types["Book"]
+  elsif request.path.starts_with?('/concern/papers')
+    item_type = item_types["Paper"]
+  elsif request.path.starts_with?('/concern/presentations')
+    item_type = item_types["Presentation"]
   else 
     item_type = item_types["Thesis"]
   end
