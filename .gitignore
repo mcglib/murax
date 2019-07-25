@@ -38,3 +38,5 @@ yarn-debug.log*
 yarn-debug.log*
 .yarn-integrity
 app/assets/stylesheets/.login_signup.scss.swp
+spf13-vim.sh
+.vscode/launch.json
