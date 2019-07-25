@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.7.1] - 2019-07-25
+### Changed
+- Merging changes from develop
+
 ## [1.0.7] - 2019-07-25
 ### Added
 - Added open3 gem 
