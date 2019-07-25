@@ -1,24 +1,24 @@
 Hyrax.config do |config|
-  # Injected via `rails g hyrax:work GenericWork`
-  config.register_curation_concern :generic_work
-  # Injected via `rails g hyrax:work Image`
-  config.register_curation_concern :image
-  # Injected via `rails g hyrax:work Work`
-  config.register_curation_concern :work
   # Injected via `rails g hyrax:work Article`
   config.register_curation_concern :article
-  # Injected via `rails g hyrax:work Poster`
-  config.register_curation_concern :poster
   # Injected via `rails g hyrax:work Book`
   config.register_curation_concern :book
-  # Injected via `rails g hyrax:work Thesis`
-  config.register_curation_concern :thesis
-  # Injected via `rails g hyrax:work Report`
-  config.register_curation_concern :report
   # Injected via `rails g hyrax:work Paper`
   config.register_curation_concern :paper
   # Injected via `rails g hyrax:work Presentation`
   config.register_curation_concern :presentation
+  # Injected via `rails g hyrax:work Report`
+  config.register_curation_concern :report
+  # Injected via `rails g hyrax:work Thesis`
+  config.register_curation_concern :thesis
+  # Injected via `rails g hyrax:work GenericWork`
+  config.register_curation_concern :generic_work
+  ## # Injected via `rails g hyrax:work Image`
+  ## # config.register_curation_concern :image
+  ## # Injected via `rails g hyrax:work Work`
+  ## # config.register_curation_concern :work
+  ## # Injected via `rails g hyrax:work Poster`
+  ## # config.register_curation_concern :poster
   # Register roles that are expected by your implementation.
   # @see Hyrax::RoleRegistry for additional details.
   # @note there are magical roles as defined in Hyrax::RoleRegistry::MAGIC_ROLES
