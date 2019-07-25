@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  concern :oai_provider, BlacklightOaiProvider::Routes.new
+
   mount BrowseEverything::Engine => '/browse'
   
   mount Riiif::Engine => 'images', as: :riiif if Hyrax.config.iiif_image_server?
@@ -8,6 +10,8 @@ Rails.application.routes.draw do
   match "/500", :to => "errors#internal_server_error", :via => :all
 
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
+    concerns :oai_provider
+
     concerns :searchable
   end
 

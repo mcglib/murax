@@ -6,6 +6,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.7] - 2019-07-25
+### Added
+- Added open3 gem 
+- Integrated python scripts from Clara
+- Added reports.py
+- Added new PAPER work type as mentioned in ADIR-428
+- Added open3
+- added a new worktype PRESENTATION as mentioned in ADIR-429
+- Added a method to show for work item type alreay selected
+- Added Clara's bioReport py script
+- Added python libs
+- Added a new worktype BOOK as mentioned in ADIR-427
+
+### Changed
+- changed the langauge and date fields
+- Created the workptype Report
+- fixed relation error
+- checked the license issue
+- changed some config for license
+- license fixed
+- changing help text for date in all worktype local/config files as it was mistyped by stakeholders
+- Modified item type property
+- changed multiple and single properties back
+- more requested changes to report worktype
+- changed work type report one more time.
+- removed the brwose everything as requested in the ticket ADIR-390
+- some ui changes
+- updated bioreport py file
+- UI help text updated according to ADIR-420
+- Updated the deploy command for sidekiq
+- Updated the docker file to install python packages via pip to run Clara's script
+- Removing worktypes IMAGE and POSTER
+- Changed the proprty fields as requested again in ADIR-426
+- Changed the proprty fields as requested again in ADIR-433
+- Cleanup code for cleanup services
+- Updated the generic report script
+- removed the work type WORK
+- tried reordering of work types
+- ADIR-425: Intergrated the python scripts. Added env variable for PYTHON_BIN
+
+
 ## [1.0.6] - 2019-05-15
 ### Changed
 - Fixing bugs with the deploy script

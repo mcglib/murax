@@ -1,20 +1,31 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
+
+
 set :rbenv_ruby, '2.5.3'
 set :rbenv_type, :user
 
 set :application, "murax"
+
 set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :deploy_to, '/storage/www/murax'
-set :rails_env, ENV['RAILS_ENV']
+set :rails_env, fetch(:stage).to_s
 set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
 set :ssh_options, { :forward_agent => true }
 set :tmp_dir, '/storage/www/tmp'
 set :migration_role, :app
 
-before "deploy:assets:precompile", "deploy:npm_install"
+set :stages, ["development", "testing", "production"]
+set :default_stage, "development"
+
+# Default value for default_env is {}
+set :default_env, {
+   'http_proxy' => 'http://mirage.ncs.mcgill.ca:3128',
+   'https_proxy' => 'http://mirage.ncs.mcgill.ca:3128',
+   'HTTPS_PROXY_REQUEST_FULLURI' => 'false',
+}
 
 set :log_level, :debug
 set :bundle_flags, '--deployment'
@@ -30,7 +41,7 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 set :conditionally_migrate, true
 
 # Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, "/var/www/my_app_name"
+set :deploy_to, '/storage/www/murax'
 
 # Default value for :format is :airbrush.
 # set :format, :airbrussh
@@ -55,8 +66,6 @@ append :linked_dirs, "public/assets"
 append :linked_dirs, "tmp/sockets"
 
 
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
@@ -116,4 +125,18 @@ namespace :deploy do
       sudo :systemctl, :reload, :httpd
     end
   end
+  after :finishing, :stop_sidekiq do
+    on roles(:app) do
+      sudo :systemctl, :stop, :sidekiq
+    end
+  end
+  after :finishing, :start_sidekiq do
+    on roles(:app) do
+      sudo :systemctl, :start, :sidekiq
+    end
+  end
+
+  before "deploy:assets:precompile", "deploy:npm_install"
+  after  "deploy:npm_install", "deploy:yarn_install"
+
 end

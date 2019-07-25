@@ -1,7 +1,7 @@
 class CatalogController < ApplicationController
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
-
+  include BlacklightOaiProvider::Controller
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
@@ -14,6 +14,23 @@ class CatalogController < ApplicationController
   end
 
   configure_blacklight do |config|
+   
+    # Blacklight OAI configurations.
+    config.oai = {
+      provider: {
+        repository_name: 'eScholarship@McGill',
+        repository_url: 'http://dev-dawg1.library.mcgill.ca:3000/catalog/oai',
+        record_prefix: 'oai',
+        admin_email: 'dev.library@mcgill.ca',
+        sample_id: '109660'
+      },
+      document: {
+        limit: 25,
+        set_fields: [{ solr_field: 'isPartOf_ssim' }],
+        set_class: '::OaiSet'
+      }
+    }
+
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
     config.view.slideshow.partials = [:index]
@@ -77,10 +94,10 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
     config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
     config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link
-    config.add_index_field solr_name("relation", :stored_searchable), itemprop: 'relation', link_to_search: solr_name("relation", :facetable), label: "Relation"
+   # config.add_index_field solr_name("relation", :stored_searchable), itemprop: 'relation', link_to_search: solr_name("relation", :facetable), label: "Relation"
     config.add_index_field solr_name("subject", :stored_searchable), itemprop: 'about', link_to_search: solr_name("subject", :facetable)
     config.add_index_field solr_name("proxy_depositor", :symbol), label: "Depositor", helper_method: :link_to_profile
-    config.add_index_field solr_name("depositor"), label: "Owner", helper_method: :link_to_profile
+   # config.add_index_field solr_name("depositor"), label: "Owner", helper_method: :link_to_profile
     config.add_index_field solr_name("publisher", :stored_searchable), itemprop: 'publisher', link_to_search: solr_name("publisher", :facetable)
     config.add_index_field solr_name("based_near_label", :stored_searchable), itemprop: 'contentLocation', link_to_search: solr_name("based_near_label", :facetable)
     config.add_index_field solr_name("language", :stored_searchable), itemprop: 'inLanguage', link_to_search: solr_name("language", :facetable), helper_method: :language_links
@@ -89,6 +106,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("date_created", :stored_searchable), itemprop: 'dateCreated'
     config.add_index_field solr_name("date", :stored_searchable), label: "Year"
     config.add_index_field solr_name("rights_statement", :stored_searchable), helper_method: :rights_statement_links
+    config.add_index_field solr_name("rights", :stored_searchable), link_to_search: solr_name("rights"), label: "Rights"
     config.add_index_field solr_name("license", :stored_searchable), helper_method: :license_links
     config.add_index_field solr_name("rtype", :stored_searchable), label: "Type", link_to_search: solr_name("rtype", :facetable)
    # config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type", link_to_search: solr_name("resource_type", :facetable) -- removing to replace it with rtype.

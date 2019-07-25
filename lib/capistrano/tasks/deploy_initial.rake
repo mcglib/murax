@@ -22,8 +22,8 @@ namespace :deploy do
   task :yarn_install do
     on roles(:app) do
       within release_path do
-          with rails_env: "#{fetch(:stage)}" do
-              execute("cd #{release_path} && yarn install")
+          with rails_env: "#{fetch(:rails_env)}" do
+              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && yarn install")
           end
       end
     end
@@ -33,13 +33,25 @@ namespace :deploy do
   task :npm_install do
     on roles(:app) do
       within release_path do
-          with rails_env: "#{fetch(:stage)}" do
-              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && npm install")
+          with rails_env: "#{fetch(:rails_env)}" do
+              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && npm install --quiet")
           end
       end
     end
   end
-
+  
+  namespace :assets do
+      desc "Precompile assets only if it is needed"
+      task :precompile do
+        on roles(:app) do
+           within release_path do
+             with rails_env: "#{fetch(:rails_env)}" do
+              execute :rake, 'assets:precompile'
+             end
+           end
+        end
+      end
+  end
 
   desc "Erase all DB tables"
   task :clear_db do

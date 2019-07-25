@@ -19,6 +19,9 @@ sleep 10
 waitforit -address=tcp://${DATABASE_HOST}:${DATABASE_PORT} -timeout=30 -debug -- printf "The Database is up!"
 export  PGPASSWORD=${DATABASE_PASSWORD}
 
+echo "Run yarn install so that we can make sure we can compile assets"
+yarn install
+
 echo "Checking if the database has been initialized"
 echo "bundle exec rake db:exists RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt"
 bundle exec rake db:exists RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt

@@ -1,3 +1,5 @@
+# Enable multistage
+
 # Require capistrano locally
 require 'capistrano/locally'
 # Load DSL and set up stages
@@ -29,9 +31,9 @@ require "capistrano/bundler"
 require "capistrano/rails/migrations"
 require "capistrano/rails/assets"
 require 'sshkit/sudo'
+require "whenever/capistrano"
 #require "capistrano/sidekiq"
 #require "capistrano/passenger"
-require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
 
