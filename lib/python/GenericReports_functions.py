@@ -81,6 +81,14 @@ def removePunctuationField(myString):
         cleanedString = myString
     return cleanedString
 
+def isFieldEmpty(anyField, currentPid):
+    if anyField is None:
+        return True
+    else: 
+        return False
+
+
+
 # Functions that query digitool
 def queryBuilder(currentPid):
     coreUrl = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php?pid="
