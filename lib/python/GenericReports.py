@@ -38,6 +38,7 @@ transfertoDegreeDisciplineDictionary(degreeDictionary, "degree_Dictionary.txt")
 disciplineDictionary= {}
 transfertoDegreeDisciplineDictionary(disciplineDictionary, "discipline_Dictionary.txt")
 
+
 if len(pidArray) > 0:
 
     nSpaces = {"dc": "http://purl.org/dc/elements/1.1/", "dcterms": "http://purl.org/dc/terms/"}
@@ -48,30 +49,37 @@ if len(pidArray) > 0:
         currentUrl = queryBuilder(currentPid)
         queryOutput = callQuery(currentUrl)
         root = ET.fromstring(queryOutput)
-
+       
         for field in root.findall("mds/md[name='descriptive']") :
             for valueField in field.findall("value"):
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
                 recordRoot = ET.fromstring(valueField.text)
 
             # All required fields (Alphabetical order):    
-                # Clean up Date Field    
-                for date in recordRoot.findall("dc:date", namespaces= nSpaces):
-                    if date.text not in [None, "YYYY"]:
-                        cleanedDate = removePunctuationField(date.text)
-                        formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
-                        date.text = formattedDate
+
+
+                # Clean up Date Field
+                if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid) is False:
+                    for date in recordRoot.findall("dc:date", namespaces= nSpaces):
+                        if date.text not in [None, "YYYY"]:
+                            cleanedDate = removePunctuationField(date.text)
+                            formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
+                            date.text = formattedDate
 
                 # Clean up Title Field
-                for title in recordRoot.findall("dc:title", namespaces= nSpaces):
-                    if title.text is not None:
-                        cleanedTitle = cleanTitleField(title.text)
-                        title.text = cleanedTitle
-
+                if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid) is False:
+                    for title in recordRoot.findall("dc:title", namespaces= nSpaces):
+                        if title.text is not None:
+                            cleanedTitle = cleanTitleField(title.text)
+                            title.text = cleanedTitle
 
                 # Clean up Type Field
-                for type in recordRoot.findall("dc:type", namespaces= nSpaces):
-                    type.text = "Report"
+                if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces), currentPid) is False:
+                    for type in recordRoot.findall("dc:type", namespaces= nSpaces):
+                        type.text = "Report"
+                else:
+                    typeField = ET.SubElement(recordRoot, "dc:type")
+                    typeField.text = "Report"
                 
             
             # Other Fields (Alphabetical Order) 
@@ -128,7 +136,7 @@ if len(pidArray) > 0:
                             addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
                 # Clean up Relation Field
-                if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
+                if isFieldEmpty(recordRoot.find("dc:relation", namespaces= nSpaces), currentPid) is True:
                     relationField = ET.SubElement(recordRoot, "dc:relation")
                     relationField.text = "Pid: " + currentPid
                 else:
