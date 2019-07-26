@@ -128,11 +128,11 @@ if len(pidArray) > 0:
                             addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
                 # Clean up Relation Field
-                for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
-                    if relationField.text is None:
-                        relationField = ET.SubElement(recordRoot, "dc:relation")
-                        relationField.text = "Pid: " + currentPid
-                    else:
+                if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
+                    relationField = ET.SubElement(recordRoot, "dc:relation")
+                    relationField.text = "Pid: " + currentPid
+                else:
+                    for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
                         currentId = cleanUpCurrentID(relationField.text)
                         relationField.text = "Pid: " + currentPid + " " + currentId
                 
