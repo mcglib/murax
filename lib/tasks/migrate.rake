@@ -11,9 +11,54 @@ namespace :migrate do
   require "tasks/migrate/services/id_mapper"
   require 'tasks/migrate/services/metadata_parser'
 
+  ####Reports migration (bundle exec rake migrate:reports -- -c 'thesis' -f spec/fixtures/digitool/ethesis-pids.csv) ######
+  desc 'batch migrate reports from CSV file with PIDs containing all reports'
+  task :reports, [:collection, :configuration_file, :mapping_file] => :environment do |t, args|
+
+    require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
+
+    start_time = Time.now
+    puts "[#{start_time.to_s}] Start migration of #{args[:collection]}"
+
+    config = YAML.load_file(args[:configuration_file])
+    collection_config = config[args[:collection]]
+
+
+    # The default admin set and designated depositor must exist before running this script
+    if AdminSet.where(title: ENV['DEFAULT_ADMIN_SET']).count != 0 &&
+        User.where(email: collection_config['depositor_email']).count > 0
+      @depositor = User.where(email: collection_config['depositor_email']).first
+
+      # Hash of all binaries in storage directory
+      @binary_hash = Hash.new
+      create_filepath_hash(collection_config['binaries'], @binary_hash)
+
+      # Hash of all .xml objects in storage directory
+      @object_hash = Hash.new
+      create_filepath_hash(collection_config['objects'], @object_hash)
+
+      # Hash of all waivers files in storage directory
+      @premis_hash = Hash.new
+      create_filepath_hash(collection_config['premis'], @premis_hash)
+
+      Migrate::Services::IngestService.new(collection_config,
+                                           @object_hash,
+                                           @binary_hash,
+                                           @premis_hash,
+                                           args[:mapping_file],
+                                           @depositor).ingest_records
+    else
+      puts 'The default admin set or specified depositor does not exist'
+    end
+
+    end_time = Time.now
+    puts "[#{end_time.to_s}] Completed migration of #{args[:collection]} in #{end_time-start_time} seconds"
+  end
+
+
 
   # bundle exec rake migrate:digitool_item -- -p 12007 -c 'thesis'
-  desc 'Migrate a Digitool object with a PID and its related items'
+  desc 'Migrate a Digitool object with a PID and its related items eg: bundle exec rake migrate:digitool_item -- -p 12007 -c "thesis"'
   task :digitool_item =>:environment do
     options = {
           pid: 'spec/fixtures/digitool/ethesis.csv',
@@ -52,7 +97,6 @@ namespace :migrate do
                                             @depositor, @temp).import
       # 4. Add the collection to the item
       
-      # 
     else
       puts 'The default admin set or specified depositor does not exist'
     end
