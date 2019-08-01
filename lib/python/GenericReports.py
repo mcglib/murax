@@ -57,7 +57,6 @@ if len(pidArray) > 0:
 
             # All required fields (Alphabetical order):    
 
-
                 # Clean up Date Field
                 if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid) is False:
                     for date in recordRoot.findall("dc:date", namespaces= nSpaces):
@@ -91,8 +90,9 @@ if len(pidArray) > 0:
                 for department in recordRoot.findall("dcterms:localdepartmentcode", namespaces= nSpaces):
                     if department.text is not None:
                         departmentCode = department.text
-                        departmentLabel = facultyDepartmentCodesDictionary[departmentCode]
-                        department.text = departmentLabel
+                        if departmentCode in facultyDepartmentCodesDictionary:
+                            departmentLabel = facultyDepartmentCodesDictionary[departmentCode]
+                            department.text = departmentLabel
                 #Clean up Discipline Field
                 for discipline in recordRoot.findall("dcterms:localthesisdegreediscipline", namespaces= nSpaces):
                     if discipline.text is not None:
@@ -118,8 +118,9 @@ if len(pidArray) > 0:
                 for faculty in recordRoot.findall("dcterms:localfacultycode", namespaces= nSpaces):
                     if faculty.text is not None:
                         facultyCode = faculty.text
-                        facultyLabel = facultyDepartmentCodesDictionary[facultyCode]
-                        faculty.text = facultyLabel
+                        if facultyCode in facultyDepartmentCodesDictionary:
+                            facultyLabel = facultyDepartmentCodesDictionary[facultyCode]
+                            faculty.text = facultyLabel
                 # Clean up Language Field
                 for language in recordRoot.findall("dc:language", namespaces= nSpaces):
                     if language.text is not None:
@@ -136,13 +137,16 @@ if len(pidArray) > 0:
                             addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
                 # Clean up Relation Field
-                if isFieldEmpty(recordRoot.find("dc:relation", namespaces= nSpaces), currentPid) is True:
+                if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
                     relationField = ET.SubElement(recordRoot, "dc:relation")
                     relationField.text = "Pid: " + currentPid
                 else:
                     for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
                         currentId = cleanUpCurrentID(relationField.text)
-                        relationField.text = "Pid: " + currentPid + " " + currentId
+                        if currentId != "":
+                            relationField.text = "Pid: " + currentPid + " " + currentId
+                        else:
+                            recordRoot.remove(relationField) 
                 
                 ET.dump(recordRoot)
 
