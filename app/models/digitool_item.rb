@@ -3,24 +3,25 @@ require 'uri'
 require 'json'
 require 'nokogiri'
 require 'open-uri'
-class DigitoolItem 
+class DigitoolItem
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name, :work_type
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
+  validates :work_type, presence: { message: 'Your digitoolitem  must have a worktype.' }
 
   def initialize(attributes={})
     super
-    
+
     @added ||= false
     @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
     @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
     @download_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"
-    
+
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
-    
+
     # set usage type
     set_usage_type
 
