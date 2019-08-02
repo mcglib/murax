@@ -35,4 +35,3 @@ namespace :murax do
   end
 
 end
-
