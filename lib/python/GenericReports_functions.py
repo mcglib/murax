@@ -264,11 +264,11 @@ def cleanUpCurrentID(currentIdentifier):
 
     if currentIdentifier.isdigit():
         cleanedIdentifier = ""
-        #cleanedIdentifier = "Aleph: " + currentIdentifier
+
     else:
         if "nnnn" in currentIdentifier.lower():
             cleanedIdentifier = ""
-        elif currentIdentifier == "alephsysno:":
+        elif "alephsysno:" in currentIdentifier.lower():
             cleanedIdentifier = ""
         else:
             identifierArray = currentIdentifier.split(" ")
