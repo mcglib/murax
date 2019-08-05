@@ -141,12 +141,17 @@ if len(pidArray) > 0:
                     relationField = ET.SubElement(recordRoot, "dc:relation")
                     relationField.text = "Pid: " + currentPid
                 else:
+                    pidAdded = False
                     for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
                         currentId = cleanUpCurrentID(relationField.text)
                         if currentId != "":
                             relationField.text = "Pid: " + currentPid + " " + currentId
+                            pidAdded = True
                         else:
                             recordRoot.remove(relationField) 
+                    if pidAdded == False:
+                        relationField = ET.SubElement(recordRoot, "dc:relation")
+                        relationField.text = "Pid: " + currentPid  
                 
                 ET.dump(recordRoot)
 
