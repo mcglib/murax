@@ -20,5 +20,8 @@ class Ability
     if current_user.admin?
       can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     end
+    if user_groups.include? 'repository_managers'
+      can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
+    end
   end
 end
