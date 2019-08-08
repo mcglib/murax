@@ -34,10 +34,10 @@ module Migration
           puts "#{start_time.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
 
-          # inistanciate the class_name based on the worktype passed
           byebug
-          class_name = @work_type
-          item = class_name.constantize.new({"pid" => pid})
+          # inistanciate the class_name based on the worktype passed
+          class_name = "Digitool::" + @work_type + "Item"
+          item = class_name.constantize.new({"pid" => pid, "work_type" => @work_type})
 
           #item = DigitoolItem.new({"pid" => pid, "work_type" => @work_type})
 

@@ -6,7 +6,9 @@ require 'open-uri'
 class DigitoolItem
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name, :work_type, :metadata_xml
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name, :work_type, :metadata_xml, :digitool_colcode
+
+  # validates
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
   validates :work_type, presence: { message: 'Your digitoolitem  must have a worktype.' }
@@ -23,7 +25,8 @@ class DigitoolItem
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
 
     # get the clean metadata xml
-    @meta_xml = fet
+    #@meta_xml = clean_metadata_xml(@pid, @work_type,@digitool_colcode)
+
     # set usage type
     set_usage_type
 
@@ -85,12 +88,6 @@ class DigitoolItem
     @usage_type
   end
 
-
-  def get_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
-      doc.to_s
-  end
-
   def get_technical_xml
       @raw_xml.at_css('digital_entity control') if @raw_xml.present?
   end
@@ -112,7 +109,7 @@ class DigitoolItem
 
         # set the dest_folder
         file_path = "#{dest}/#{@file_info['file_name']}" if @file_info.present?
-        
+
         url = "#{@download_url}?pid=#{@pid}&dir_path=#{@file_info['path']}"
         download = open(url)
         IO.copy_stream(download, file_path)
@@ -123,7 +120,7 @@ class DigitoolItem
   end
 
   def get_file_name 
-      
+
     @file_info = set_file_metadata unless @file_info.present?
     @file_info['file_name']
 
@@ -161,16 +158,6 @@ class DigitoolItem
 
     end
 
-    def fetch_cleanmetadata_xml(pid, worktype, digitool_colcode)
-      xml = nil
-      if pid.present? and worktype.present? and digitool_colcode.present?
-        #Here we call the python bindings
-        report_class = digitool_colcode + "Report";
-        service_instance = report_class.constanize
-         xml = service_instance.new(pid, worktype).clean
-      end
-      xml
-    end
 
     def fetch_raw_xml(pid, format="json")
       xml = nil
@@ -187,7 +174,5 @@ class DigitoolItem
       xml
 
     end
-
-
 
 end

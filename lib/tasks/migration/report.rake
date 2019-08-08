@@ -31,6 +31,8 @@ namespace :migration do
     # get the migration config
     migration_config = MigrationHelper::get_migration_config(args[:collection])
 
+    puts "Could not find the migration config for #{args[:collection]} collection" if migration_config.nil?
+
     # lets create the tmp file location if it does not exist
     FileUtils::mkdir_p migration_config['tmp_file_location']
 
