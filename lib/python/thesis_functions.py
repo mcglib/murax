@@ -81,21 +81,13 @@ def removePunctuationField(myString):
         cleanedString = myString
     return cleanedString
 
-def isFieldEmpty(anyField, currentPid, myErrorFile):
-    """ Indicates if the field is empty in the error file
+def isFieldEmpty(anyField, currentPid):
+    """ Indicates if the field is empty
     """
     if anyField is None:
-        myErrorFile.write(currentPid + " Empty required field ")
-        print(anyField)
         return True
     else: 
         return False
-
-def addEmptyFieldsToErrorFile(anyField, currentPid, myErrorFile):
-    """ Indicates if the field is empty in the error file
-    """
-    if anyField is None:
-        myErrorFile.write(currentPid + " Empty required field ")
 
 
 # Functions that query digitool
@@ -189,7 +181,7 @@ def dateToRightFormat(dateArray):
     
     return formatDate
 
-def replaceAlphaNotationFromDate(myDateString, monthDict, currentPid, myErrorFile):
+def replaceAlphaNotationFromDate(myDateString, monthDict, currentPid):
     """ Replace alphabetical notation of date (January) with a numeric notation
     """
 
@@ -211,11 +203,10 @@ def replaceAlphaNotationFromDate(myDateString, monthDict, currentPid, myErrorFil
             cleanDate = dateArray[i]   
         elif "u" in dateArray[i] :
             cleanDate = dateArray[i]
-            myErrorFile.write(currentPid +" uu in date ")    
 
     return cleanDate
 
-def cleanDateField(myDateString, monthsDictionary, currentPid, myErrorFile):
+def cleanDateField(myDateString, monthsDictionary, currentPid):
     """ This function sends different problematic dates (wrong format, wrong punctuation, has words, ...) to different cleaning up functions.
     """
     
@@ -228,7 +219,7 @@ def cleanDateField(myDateString, monthsDictionary, currentPid, myErrorFile):
         i = i + 1
         
     if charFound == True:
-        formattedDate = replaceAlphaNotationFromDate(myDateString, monthsDictionary, currentPid, myErrorFile)
+        formattedDate = replaceAlphaNotationFromDate(myDateString, monthsDictionary, currentPid)
 
     elif "-" in myDateString:
         dateArray = myDateString.split("-")

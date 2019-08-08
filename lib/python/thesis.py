@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 import requests
 
-from samveraCleanUp_27_functions import *
+from thesis_functions import *
 
 
 ###################
@@ -37,8 +37,6 @@ transfertoDegreeDisciplineDictionary(degreeDictionary, "degree_Dictionary.txt")
 disciplineDictionary= {}
 transfertoDegreeDisciplineDictionary(disciplineDictionary, "discipline_Dictionary.txt")
 
-myErrorFile = open("errorFile.txt", "w")
-
 if len(pidArray) > 0:
 
     nSpaces = {"dc": "http://purl.org/dc/elements/1.1/", "dcterms": "http://purl.org/dc/terms/"}
@@ -50,50 +48,34 @@ if len(pidArray) > 0:
         queryOutput = callQuery(currentUrl)
         root = ET.fromstring(queryOutput)
 
-        # Check if the Pid has multiple set of descriptive metadata
-       
-        array = root.findall("mds/md[name='descriptive']")
-        if len(array) > 1:
-            myErrorFile.write(currentPid + " multipleRecord ")
-
         for field in root.findall("mds/md[name='descriptive']") :
             for valueField in field.findall("value"):
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
                 recordRoot = ET.fromstring(valueField.text)
-                #ET.dump(recordRoot)
 
-            # All required fields (Alphabetical order):
-
-                addEmptyFieldsToErrorFile(recordRoot.find("dc:creator", namespaces= nSpaces), currentPid, myErrorFile)
-                addEmptyFieldsToErrorFile(recordRoot.find("dc:subject", namespaces= nSpaces), currentPid, myErrorFile)
-                addEmptyFieldsToErrorFile(recordRoot.find("dcterms:localthesisdegreename", namespaces= nSpaces), currentPid, myErrorFile)
-
+                # All required fields (Alphabetical order):
                 # Clean up Date Field
-                if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid, myErrorFile) is False:
+                if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid) is False:
                     for date in recordRoot.findall("dc:date", namespaces= nSpaces):
                         if date.text not in [None, "YYYY"]:
                             cleanedDate = removePunctuationField(date.text)
-                            formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid, myErrorFile)
+                            formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
                             date.text = formattedDate
-                        else:
-                            myErrorFile.write(currentPid + " Empty required field " + "empty .text")
 
                 # Clean up Title Field
-                if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid, myErrorFile) is False:
+                if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid) is False:
                     for title in recordRoot.findall("dc:title", namespaces= nSpaces):
                         if title.text is not None:
                             cleanedTitle = cleanTitleField(title.text)
                             title.text = cleanedTitle
-                        else:
-                            myErrorFile.write(currentPid + " Empty required field " + "empty .text")
 
                 # Clean up Rights Field
-                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces), currentPid, myErrorFile) is False:
+                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces), currentPid) is False:
                     # Cleans and adds the generic rights statement.
                     cleanRightsField(recordRoot, nSpaces)
 
                 # Clean up Type Field
-                if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces), currentPid, myErrorFile) is False:
+                if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces), currentPid) is False:
                     for type in recordRoot.findall("dc:type", namespaces= nSpaces):
                         type.text = "Thesis"
                 else:
