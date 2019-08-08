@@ -6,7 +6,7 @@ require 'open-uri'
 class DigitoolItem
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name, :work_type
+  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name, :work_type, :metadata_xml
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
   validates :work_type, presence: { message: 'Your digitoolitem  must have a worktype.' }
@@ -22,6 +22,8 @@ class DigitoolItem
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
 
+    # get the clean metadata xml
+    @meta_xml = fet
     # set usage type
     set_usage_type
 
@@ -158,7 +160,14 @@ class DigitoolItem
       related_pids
 
     end
-  
+
+    def fetch_cleanmetadata_xml(pid, worktype, digitool_colcode)
+      xml = nil
+      if pid.present? and worktype.present? and digitool_colcode.present?
+        #Here we call the python bindings
+      end
+      xml
+    end
 
     def fetch_raw_xml(pid, format="json")
       xml = nil
