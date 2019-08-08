@@ -10,13 +10,12 @@ class Digitool::ReportItem < DigitoolItem
   end
 
   def clean_metadata
-    byebug
     xml = nil
       if @pid.present? and @work_type.present?
         #Here we call the python services
         report_class = "CleanMetadata::BioResourceReport";
         service_instance = report_class.constantize
-         xml = service_instance.new(pid, worktype).clean
+         xml = service_instance.new(@pid, @work_type).clean
       end
     xml
   end

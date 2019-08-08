@@ -12,6 +12,7 @@ class CleanMetadataService
         end
 
         begin
+            byebug
             stdout, stderr, status = Open3.capture3("cd ./lib/python && #{python_bin} #{script_name} #{@pid.to_s}")
             if status.success?
               @metadata = stdout
