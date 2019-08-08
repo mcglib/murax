@@ -22,7 +22,7 @@ namespace :migration do
     puts "[#{start_time.to_s}] Start migration of #{args[:collection]}"
 
 
-    log = ActiveSupport::Logger.new('log/digitool-import.log')
+    log = ActiveSupport::Logger.new('log/digitool-import-reports.log')
     start_time = Time.now
     log.info "Task started at #{start_time}"
 
@@ -44,11 +44,13 @@ namespace :migration do
 
       migrate_service = Migration::Services::MigrateService.new(migration_config,
                                            @depositor)
+
       # insert all the metadata and files
       puts "Object count:  #{@pid_list.count.to_s}"
 
       # Lets clean the csv file because of the quotes
       @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
+
       # lets chunck the job
       @pids.each_slice(100) do | chunck |
         puts "Object count:  #{chunck.count.to_s}"
@@ -63,18 +65,12 @@ namespace :migration do
 
     end_time = Time.now
     duration = (end_time - start_time) / 1.minute
-    puts "[#{end_time.to_s}] Finished the  migration of #{args[:collection]} in #{duration}"
+    puts "[#{end_time.to_s}] Finished the  migration of #{args[:collection]} in #{duration} minutes"
     log.info "Task finished at #{end_time} and lasted #{duration} minutes."
     log.close
 
-
-
-
-
     end_time = Time.now
-    puts "[#{end_time.to_s}] Completed migration of #{args[:collection]} in #{end_time-start_time} seconds"
+    puts "[#{end_time.to_s}] Completed migration of #{args[:collection]} in #{duration} seconds"
   end
-
-
 end
 

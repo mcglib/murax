@@ -33,11 +33,18 @@ module Migration
           start_time = Time.now
           puts "#{start_time.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
-          item = DigitoolItem.new({"pid" => pid, "work_type" => @work_type})
+
+          # inistanciate the class_name based on the worktype passed
+          byebug
+          class_name = @work_type
+          item = class_name.constantize.new({"pid" => pid})
+
+          #item = DigitoolItem.new({"pid" => pid, "work_type" => @work_type})
 
           log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
           puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
           next unless item.has_metadata?
+
           log.info "This item #{item.pid} has a main work and its not a main work." unless item.is_main_view?
           puts "Skipping adding this item #{item.pid} as its not the main_view." unless item.is_main_view?
           next unless item.is_main_view?

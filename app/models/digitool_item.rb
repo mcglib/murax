@@ -165,6 +165,9 @@ class DigitoolItem
       xml = nil
       if pid.present? and worktype.present? and digitool_colcode.present?
         #Here we call the python bindings
+        report_class = digitool_colcode + "Report";
+        service_instance = report_class.constanize
+         xml = service_instance.new(pid, worktype).clean
       end
       xml
     end
