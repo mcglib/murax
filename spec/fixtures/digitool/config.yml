@@ -3,12 +3,15 @@ thesis:
   work_type: Thesis
   resource_type: "Dissertation"
   admin_set: "User Collection"
+  parent_set: none
+  collection_name: "Theses"
+  collection_id: ethesis
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   collection: ethesis # derived from the digitool_collections.json file under /config
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
-  keywords_transformation: 
+  keywords_transformation:
     - 'Schulich School of'
     - 'Department of '
     - 'Faculty of '
@@ -20,6 +23,21 @@ bioresource-reports:
   work_type: Report
   resource_type: "Report"
   admin_set: "User Collection"
+  parent_set: "Undergraduate Research"
+  collection_id: bioresource-reports
+  digitool_collectioncode: BREPR
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  collection: bioresource-reports # derived from the digitool_collections.json file under /config
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+mech-civil-reports:
+  work_type: Report
+  resource_type: "Report"
+  admin_set: "User Collection"
+  parent_set: none
+  digitool_collectioncode: GRADRES
+  collection_id: technical-reports
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml

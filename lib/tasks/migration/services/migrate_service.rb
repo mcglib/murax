@@ -154,12 +154,10 @@ module Migration
         end
 
         def create_work(item)
-          
 
           log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
           puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
           return unless item.has_metadata?
-          
           parsed_data = Migrate::Services::MetadataParser.new(item.get_metadata,
                                                               @depositor,
                                                               @config).parse
@@ -169,7 +167,6 @@ module Migration
 
             new_work = work_record(work_attributes)
             new_work.save!
-            
 
             # update the identifier and the pid
 
@@ -190,7 +187,6 @@ module Migration
             fileset = add_main_file(item.pid, work_attributes, new_work)
             puts "The work #{item.pid} does not have a main file set.Check for errors"  if fileset.nil?
             log.info "The work #{item.pid} does not have a file set." if fileset.nil?
-            
             # now we fetch the related pid files
             if item.has_related_pids?
               add_related_files(item, work_attributes,new_work) 
