@@ -24,9 +24,9 @@ class SolrDocument
   use_extension(Blacklight::Document::DublinCore)
 
   # Do content negotiation for AF models. 
-
   use_extension( Hydra::ContentNegotiation )
-  
+
+ 
   field_semantics.merge!(
     description: "description_tesim",
     creator: "creator_tesim",
@@ -40,7 +40,7 @@ class SolrDocument
     institution: "institution_tesim",
     type: "rtype_tesim",
     rights: 'rights_tesim',
-    identifier: "identifier_tesim"
+    identifier:  "id"
   )
 
   def sets
