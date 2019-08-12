@@ -26,7 +26,7 @@ class SolrDocument
   # Do content negotiation for AF models. 
 
   use_extension( Hydra::ContentNegotiation )
-
+  
   field_semantics.merge!(
     description: "description_tesim",
     creator: "creator_tesim",
