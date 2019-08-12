@@ -3,13 +3,11 @@ thesis:
   work_type: Thesis
   resource_type: "Dissertation"
   admin_set: "User Collection"
-  parent_set: none
-  collection_name: "Theses"
-  collection_id: ethesis
+  samvera_collection_id: thesis
+  local_collection_code: ETHESIS
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
-  collection: ethesis # derived from the digitool_collections.json file under /config
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
   keywords_transformation:
     - 'Schulich School of'
@@ -23,23 +21,89 @@ bioresource-reports:
   work_type: Report
   resource_type: "Report"
   admin_set: "User Collection"
-  parent_set: "Undergraduate Research"
-  collection_id: bioresource-reports
-  digitool_collectioncode: BREPR
+  samvera_collection_id: bioresource-reports
+  local_collection_code: BREPR
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
-  collection: bioresource-reports # derived from the digitool_collections.json file under /config
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
-mech-civil-reports:
+technical-reports:
   work_type: Report
   resource_type: "Report"
   admin_set: "User Collection"
-  parent_set: none
-  digitool_collectioncode: GRADRES
-  collection_id: technical-reports
+  local_collection_code: GRADRES
+  samvera_collection_id: technical-reports
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
-  collection: bioresource-reports # derived from the digitool_collections.json file under /config
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+living-lab:
+  work_type: Paper
+  resource_type: "Paper"
+  admin_set: "User Collection"
+  samvera_collection_id: living-lab
+  local_collection_code: LIVLAB
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+faculty-pubs-article:
+  work_type: Article
+  resource_type: "Article"
+  admin_set: "User Collection"
+  local_collection_code: ESHIP
+  samvera_collection_id: faculty-pubs
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+faculty-pubs-book:
+  work_type: Book
+  resource_type: "Book"
+  admin_set: "User Collection"
+  local_collection_code: ESHIP
+  samvera_collection_id: faculty-pubs
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+faculty-pubs-presentation:
+  work_type: Presentation
+  resource_type: "Presentation"
+  admin_set: "User Collection"
+  local_collection_code: ESHIP
+  samvera_collection_id: faculty-pubs
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+grad-pub:
+  work_type: Paper
+  resource_type: "Paper"
+  admin_set: "User Collection"
+  local_collection_code: GRADRES
+  samvera_collection_id: grad-pub
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+ugrad-res-paper:
+  work_type: Paper
+  resource_type: "Paper"
+  admin_set: "User Collection"
+  local_collection_code: UGPAPER
+  samvera_collection_id: np193916n
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+ugrad-res:
+  work_type: Paper
+  resource_type: "Paper"
+  admin_set: "User Collection"
+  local_collection_code: UGRAD
+  samvera_collection_id: np193916n
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."

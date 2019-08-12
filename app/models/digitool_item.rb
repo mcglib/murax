@@ -6,8 +6,11 @@ require 'open-uri'
 class DigitoolItem
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid,
-                :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name, :work_type, :metadata_xml, :digitool_colcode
+  attr_accessor :raw_xml, :added, :pid, :collection_id
+                :related_pids, :metadata_hash, :title,
+                :file_info, :file_path, :file_name,
+                :work_type, :metadata_xml, :local_collection_code
+        
 
   # validates
   validates :title, presence: { message: 'Your work must have a title.' }

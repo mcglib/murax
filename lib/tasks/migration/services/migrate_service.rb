@@ -34,10 +34,10 @@ module Migration
           puts "#{start_time.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
 
-          byebug
           # inistanciate the class_name based on the worktype passed
           class_name = "Digitool::" + @work_type + "Item"
-          item = class_name.constantize.new({"pid" => pid, "work_type" => @work_type})
+          item = class_name.constantize.new({"pid" => pid, "work_type" => @work_type,
+                                             "local_collection_code" => @config['local_collection_code']})
 
           #item = DigitoolItem.new({"pid" => pid, "work_type" => @work_type})
 
@@ -70,7 +70,6 @@ module Migration
         attached = true
 
         # Get the collection
-        user_collection_type = Hyrax::CollectionType.where(title: 'User Collection').first.gid
         collectionObj = Collection.find(collection_name)
         collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
 
