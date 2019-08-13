@@ -40,8 +40,22 @@ class SolrDocument
     institution: "institution_tesim",
     type: "rtype_tesim",
     rights: 'rights_tesim',
-    identifier:  "id"
+    identifier:  "oai_identifier"
   )
+
+  def [](key)
+    return send(key) if %w[ oai_identifier].include?(key)
+
+    super
+  end
+
+  def oai_identifier
+    if self['has_model_ssim'].first.to_s == 'Collection'
+      Hyrax::Engine.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: 'hyrax/collections', id: id)
+    else
+      Rails.application.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
+    end
+  end
 
   def sets
     fetch('isPartOf', []).map { |m| BlacklightOaiProvider::Set.new("isPartOf_ssim:#{m}") }

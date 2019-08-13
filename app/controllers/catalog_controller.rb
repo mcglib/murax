@@ -19,14 +19,14 @@ class CatalogController < ApplicationController
     config.oai = {
       provider: {
         repository_name: 'eScholarship@McGill',
-        repository_url: 'https://escholarship.mcgill.ca/catalog/oai' ,
+        repository_url: 'https://escholarship.mcgill.ca' ,
         record_prefix: 'oai',
         admin_email: 'dev.library@mcgill.ca',
         sample_id: '109660'
       },
       document: {
         limit: 25,
-        set_fields: [{ solr_field: 'isPartOf_ssim' }],
+        set_fields: [{ solr_field: 'has_model_ssim' }],
         set_class: '::OaiSet'
       }
     }
