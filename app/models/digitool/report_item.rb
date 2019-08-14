@@ -155,7 +155,7 @@ class Digitool::ReportItem < DigitoolItem
       date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
       work_attributes['date_uploaded'] =  [date_uploaded.to_s]
       work_attributes['date_modified'] =  [date_uploaded.to_s]
-      
+
       # get the modifiedDate
       date_modified_string = xml.xpath("/record/dc:localdissacceptdate").text
       unless date_modified_string.empty?
@@ -177,7 +177,6 @@ class Digitool::ReportItem < DigitoolItem
       # Set the depositor
       work_attributes['depositor'] = depositor.email
 
-      
       # set the relation
       work_attributes['relation'] = []
       xml.xpath("/record/dc:relation").each do |term|
@@ -193,27 +192,27 @@ class Digitool::ReportItem < DigitoolItem
       ## add the technical creation date as part of the notes field
       work_attributes['note'] << add_creation_date_to_notes
 
-     
+
       work_attributes['alternative_title'] = []
       xml.xpath("/record/dc:alternative_title").each do |term|
         work_attributes['alternative_title'] << term.text if term.text.present?
       end
-      
+
       work_attributes['source'] = []
       xml.xpath("/record/dc:source").each do |term|
         work_attributes['source'] << term.text if term.text.present?
       end
-      
+
       work_attributes['report_number'] = []
       xml.xpath("/record/dc:source").each do |term|
         work_attributes['report_number'] << term.text if term.text.present?
       end
-      
+
       work_attributes['faculty'] = []
         xml.xpath("/record/ns1:localfacultycode").each do |term|
         work_attributes['faculty'] << term.text if term.text.present?
       end
-      
+
       # get the department
       work_attributes['department'] =[]
       xml.xpath("/record/ns1:localdepartmentcode").each do |term|
@@ -228,7 +227,6 @@ class Digitool::ReportItem < DigitoolItem
       end
       work_attributes['language'] = get_language_uri(languages) if !languages.blank?
       work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
-
 
       work_attributes
   end

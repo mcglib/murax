@@ -42,15 +42,11 @@ module Migration
 
         end
 
-         # Now we need to add the pids to the collection
-         add_works_to_collection(@created_work_ids, @config['samvera_collection_id'])
-         @created_work_ids
-
       end
 
       def process_pid(pid, index)
         # inistanciate the class_name based on the worktype passed
- 
+
 
         class_name = "Digitool::" + @work_type + "Item"
         item = class_name.constantize.new({"pid" => pid,
@@ -71,8 +67,6 @@ module Migration
 
         begin
            work_attributes = parsed_data[:work_attributes]
-           work_attributes["relation"] ||= []
-          work_attributes["relation"] << "pid: #{pid}"
 
 
           new_work = work_record(work_attributes)
@@ -82,7 +76,7 @@ module Migration
 
           #update the identifier
           new_work.identifier ||= []
-          new_work.identifier << "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+          new_work.identifier << "https://#{ENV["RAILS_HOST"]}/concerns/#{@work_type}s/#{new_work.id}"
 
           # Create sipity record
           workflow = Sipity::Workflow.joins(:permission_template)
