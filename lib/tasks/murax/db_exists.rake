@@ -1,5 +1,6 @@
 require 'active_record'
 namespace :db do
+  
   desc "Checks to see if the database exists"
   task :exists do
     begin
@@ -16,6 +17,7 @@ namespace :db do
       exit 0
     end
   end
+
   desc ' Clear out all the DB tables'
   task clean: [:environment] do
   	conn = ActiveRecord::Base.connection
@@ -25,4 +27,5 @@ namespace :db do
     	   conn.drop_table(table, {:force=>:cascade} )
   	end
   end
+
 end

@@ -251,8 +251,14 @@ def mapToRightLanguageCode(languageField, languageIsoCodesDictionary):
     """
     if languageField in languageIsoCodesDictionary:
         langIso = languageIsoCodesDictionary[languageField]
+    
+    else:
+        langIso = languageField
+    
+        langIso = langIso.rstrip()
         
     return langIso
+        
 
 def cleanUpCurrentID(currentIdentifier):
     """ The relation field contains related identifier fields. The field should contain the OCLC number, the Proquest number, and the pid.

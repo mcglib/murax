@@ -6,7 +6,7 @@ class GenericWork < ActiveFedora::Base
   self.indexer = GenericWorkIndexer
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
-  validates :title, presence: { message: 'Your work must have a title.' }
+  validates :title, presence: { message: 'Your generic work must have a title.' }
 
   #self.human_readable_type = 'Generic Work'
 

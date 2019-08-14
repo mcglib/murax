@@ -171,3 +171,5 @@ class SolrDocument
     self[Solrizer.solr_name('license')]
   end
 end
+  end
+end 

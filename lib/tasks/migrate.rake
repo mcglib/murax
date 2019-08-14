@@ -1,19 +1,19 @@
-namespace :migrate do
+namespace :migration do
   require 'fileutils'
   require 'htmlentities'
-  require 'tasks/migration/migration_logging'
-  require 'tasks/migration/migration_constants'
   require 'csv'
   require 'yaml'
 
   # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
-  require "tasks/migrate/services/migrate_service"
-  require "tasks/migrate/services/id_mapper"
-  require 'tasks/migrate/services/metadata_parser'
+  require 'tasks/migration/migration_logging'
+  require 'tasks/migration/migration_constants'
+  require "tasks/migration/services/migrate_service"
+  require "tasks/migration/services/id_mapper"
+  require 'tasks/migration/services/metadata_parser'
 
 
   # bundle exec rake migrate:digitool_item -- -p 12007 -c 'thesis'
-  desc 'Migrate a Digitool object with a PID and its related items'
+  desc 'Migrate a Digitool object with a PID and its related items eg: bundle exec rake migrate:digitool_item -- -p 12007 -c "thesis"'
   task :digitool_item =>:environment do
     options = {
           pid: 'spec/fixtures/digitool/ethesis.csv',
@@ -52,7 +52,6 @@ namespace :migrate do
                                             @depositor, @temp).import
       # 4. Add the collection to the item
       
-      # 
     else
       puts 'The default admin set or specified depositor does not exist'
     end
@@ -125,15 +124,6 @@ namespace :migrate do
   end
 
   private
-
-    def get_migration_config(collect_name)
-      # Load the collection config file
-      config_file = "spec/fixtures/digitool/config.yml"
-      config = YAML.load_file(File.join(Rails.root, config_file))
-      migration_config = config[collect_name]
-
-      migration_config
-    end
 
     def get_uuid_from_path(path)
       path.slice(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/)

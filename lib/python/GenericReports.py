@@ -13,13 +13,13 @@ from GenericReports_functions import *
 
 
 ###################
-#    Main Code   
+#    Main Code
 ###################
 
 ### To do: Fix the publisher field to put the department part in discipline. Fix the date script to include 1980? and 198X
 
-#reload(sys)  
-#sys.setdefaultencoding('utf8')
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 pidArray = sys.argv[1:]
 
@@ -49,13 +49,13 @@ if len(pidArray) > 0:
         currentUrl = queryBuilder(currentPid)
         queryOutput = callQuery(currentUrl)
         root = ET.fromstring(queryOutput)
-       
+
         for field in root.findall("mds/md[name='descriptive']") :
             for valueField in field.findall("value"):
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
                 recordRoot = ET.fromstring(valueField.text)
 
-            # All required fields (Alphabetical order):    
+            # All required fields (Alphabetical order):
 
                 # Clean up Date Field
                 if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid) is False:
@@ -79,9 +79,9 @@ if len(pidArray) > 0:
                 else:
                     typeField = ET.SubElement(recordRoot, "dc:type")
                     typeField.text = "Report"
-                
-            
-            # Other Fields (Alphabetical Order) 
+
+
+            # Other Fields (Alphabetical Order)
                 # Clean up Contributor Field
                 for contributor in recordRoot.findall("dc:contributor", namespaces= nSpaces):
                     if isTheContributorFieldEmpty(contributor.text) is True:
@@ -148,11 +148,11 @@ if len(pidArray) > 0:
                             relationField.text = "Pid: " + currentPid + " " + currentId
                             pidAdded = True
                         else:
-                            recordRoot.remove(relationField) 
+                            recordRoot.remove(relationField)
                     if pidAdded == False:
                         relationField = ET.SubElement(recordRoot, "dc:relation")
-                        relationField.text = "Pid: " + currentPid  
-                
+                        relationField.text = "Pid: " + currentPid
+
                 ET.dump(recordRoot)
 
 else:
