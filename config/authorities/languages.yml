@@ -1,6 +1,6 @@
 ## config/authorities/languages.yml
 terms:
-  - id: http://id.loc.gov/vocabulary/iso639-2/en
+  - id: http://id.loc.gov/vocabulary/iso639-2/eng
     term: English
     active: true
   - id: http://id.loc.gov/vocabulary/iso639-2/aar

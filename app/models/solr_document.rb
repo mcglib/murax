@@ -137,5 +137,5 @@ class SolrDocument
 
   def report_number
     self[Solrizer.solr_name('report_number')]
-  end 
+  end
 end 
