@@ -69,7 +69,7 @@ module Migration
         # Create new work record and save
         parsed_data = item.parse(@config, @depositor)
 
-        ##begin
+        begin
            work_attributes = parsed_data[:work_attributes]
            work_attributes["relation"] ||= []
           work_attributes["relation"] << "pid: #{pid}"
@@ -107,10 +107,10 @@ module Migration
 
           # resave
           new_work.save!
-        ##rescue Exception => e
-        ##  puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
-        ##  log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
-        ##end
+        rescue Exception => e
+          puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+          log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+        end
 
         log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
         new_work

@@ -56,10 +56,13 @@ namespace :migration do
       # lets chunck the job
       @pids.each_slice(100) do | chunck |
         puts "Object count:  #{chunck.count.to_s}"
-        migrate_service.import_records(chunck, log)
+        created_works = migrate_service.import_records(chunck, log)
+        migrate_service.add_works_to_collection(created_works, migration_config['samvera_collection_id'])
       end
 
       # add the collections to the last batch of import
+      # Now we need to add the pids to the collection
+      @created_work_ids
 
     else
       puts 'The default admin set or specified depositor does not exist'

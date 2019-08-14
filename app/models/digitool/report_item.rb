@@ -30,17 +30,18 @@ class Digitool::ReportItem < DigitoolItem
         #depending on the collection we are working on
         case collection_code # a_variable is the variable we want to compare
         when "BREPR"    #compare to 1
-          report_class = "CleanMetadata::BioResourceReport";
+          report_class = "CleanMetadata::GenericReport";
         when "GRADRES"    #compare to 2
-          report_class = "CleanMetadata::TechnicalReport";
+          report_class = "CleanMetadata::GenericReport";
         else
-          report_class = "CleanMetadata::TechnicalReport";
+          report_class = "CleanMetadata::GenericReport";
         end
 
-        #service_instance = report_class.constantize
-        #xml = service_instance.new(@pid, @work_type).clean
-        xml = raw_metadata
+        service_instance = report_class.constantize
+        xml = service_instance.new(@pid, @work_type).clean
+        #xml = raw_metadata
     end
+
     xml
   end
 
@@ -120,7 +121,7 @@ class Digitool::ReportItem < DigitoolItem
 
       # Set the abstract
       work_attributes['abstract'] = []
-      xml.xpath("/record/dcterms:abstract").each do |abstract|
+      xml.xpath("/record/ns1:abstract").each do |abstract|
         work_attributes['abstract'] << abstract.text if abstract.text.present?
       end
 
@@ -146,20 +147,12 @@ class Digitool::ReportItem < DigitoolItem
       end
       
       
-      # get the department
-      work_attributes['department'] =[]
-      xml.xpath("/record/dcterms:localthesisdegreediscipline").each do |term|
-        work_attributes['department'] << term.text if term.text.present?
-      end
-
-
       # Get the date_uploaded
       date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
       work_attributes['date_uploaded'] =  [date_uploaded.to_s]
       work_attributes['date_modified'] =  [date_uploaded.to_s]
       
       # get the modifiedDate
-
       date_modified_string = xml.xpath("/record/dc:localdissacceptdate").text
       unless date_modified_string.empty?
         date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
@@ -189,7 +182,7 @@ class Digitool::ReportItem < DigitoolItem
 
       #Added the isPart of
       work_attributes['note'] = []
-      xml.xpath("/record/dcterms:isPartOf").each do |term|
+      xml.xpath("/record/ns1:isPartOf").each do |term|
         work_attributes['note'] << term.text if term.text.present?
       end
      
@@ -207,12 +200,23 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:source").each do |term|
         work_attributes['report_number'] << term.text if term.text.present?
       end
-
+      
+      work_attributes['faculty'] = []
+        xml.xpath("/record/ns1:localfacultycode").each do |term|
+        work_attributes['faculty'] << term.text if term.text.present?
+      end
+      
+      # get the department
+      work_attributes['department'] =[]
+      xml.xpath("/record/ns1:localdepartmentcode").each do |term|
+        work_attributes['department'] << term.text if term.text.present?
+      end
 
       # languages
       languages = []
       xml.xpath("/record/dc:language").each do |term|
-        languages << term.text if term.text.present?
+        clean_term = term.text.gsub(/\r/,"");
+        languages << clean_term if clean_term.present?
       end
       work_attributes['language'] = get_language_uri(languages) if !languages.blank?
       work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !languages.blank?
