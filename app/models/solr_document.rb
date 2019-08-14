@@ -87,13 +87,9 @@ class SolrDocument
     self[Solrizer.solr_name('orcidid')]
   end
 
-  def language
-    self[Solrizer.solr_name('language')]
+  def language_label
+    self[Solrizer.solr_name('language_label')]
   end
-  
-  # def language_label
-  #   self[Solrizer.solr_name('language_label')]
-  # end
 
   def relation
     self[Solrizer.solr_name('relation')]
@@ -147,8 +143,8 @@ class SolrDocument
     self[Solrizer.solr_name('contributor')]
   end 
 
-  def description
-    self[Solrizer.solr_name('description')]
+  def work_description
+    self[Solrizer.solr_name('work_description')]
   end 
 
   def publisher
