@@ -16,6 +16,11 @@ class Digitool::ReportItem < DigitoolItem
     @title = @metadata_hash['title']
   end
 
+  def add_creation_date_to_notes()
+    date = @raw_xml.at_css('digital_entity control creation_date').text if @raw_xml.present?
+    "Date first available online: " + date
+  end
+
   # path to the python cleaning module
   def get_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
@@ -63,7 +68,6 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes = parsed_data[:work_attributes]
         work_attributes["relation"] << "pid: #{@pid}"
 
-        byebug
         new_work = work_record(work_attributes)
         new_work.save!
 
@@ -128,7 +132,7 @@ class Digitool::ReportItem < DigitoolItem
 
       # set the description
       work_attributes['description'] = work_attributes['abstract']
-      
+
       # set the creator
       work_attributes['creator'] = []
       xml.xpath("/record/dc:creator").each do |term|
@@ -140,7 +144,7 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:contributor").each do |term|
         work_attributes['contributor'] << term.text
       end
-      
+ 
       work_attributes['subject'] =[]
       xml.xpath("/record/dc:subject").each do |term|
         work_attributes['subject'] << term.text
@@ -185,6 +189,10 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/ns1:isPartOf").each do |term|
         work_attributes['note'] << term.text if term.text.present?
       end
+
+      ## add the technical creation date as part of the notes field
+      work_attributes['note'] << add_creation_date_to_notes
+
      
       work_attributes['alternative_title'] = []
       xml.xpath("/record/dc:alternative_title").each do |term|
@@ -215,7 +223,7 @@ class Digitool::ReportItem < DigitoolItem
       # languages
       languages = []
       xml.xpath("/record/dc:language").each do |term|
-        clean_term = term.text.gsub(/\r/,"");
+        clean_term = term.text.squish
         languages << clean_term if clean_term.present?
       end
       work_attributes['language'] = get_language_uri(languages) if !languages.blank?
