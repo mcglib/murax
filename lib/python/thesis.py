@@ -62,17 +62,17 @@ if len(pidArray) > 0:
                             formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
                             date.text = formattedDate
 
+                # Clean up Rights Field
+                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces), currentPid) is False:
+                    # Cleans and adds the generic rights statement.
+                    cleanRightsField(recordRoot, nSpaces)
+                
                 # Clean up Title Field
                 if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid) is False:
                     for title in recordRoot.findall("dc:title", namespaces= nSpaces):
                         if title.text is not None:
                             cleanedTitle = cleanTitleField(title.text)
                             title.text = cleanedTitle
-
-                # Clean up Rights Field
-                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces), currentPid) is False:
-                    # Cleans and adds the generic rights statement.
-                    cleanRightsField(recordRoot, nSpaces)
 
                 # Clean up Type Field
                 if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces), currentPid) is False:
