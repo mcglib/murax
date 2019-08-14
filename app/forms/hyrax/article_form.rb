@@ -11,6 +11,6 @@ module Hyrax
     self.terms -= [ :keyword, :rights_statement, :date_created, :resource_type,:import_url, :relative_path, :based_near]
     self.required_fields += [:creator, :date, :rights, :rtype, :bibliographic_citation]
     self.required_fields -= [:keyword, :contact_email, :description]
-    self.single_valued_fields = [:title, :extent]
+    self.single_valued_fields = [:title, :rtype ]
   end
 end
