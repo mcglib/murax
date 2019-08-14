@@ -34,6 +34,7 @@ class SolrDocument
     date: "date_tesim",
     subject: "subject_tesim",
     title: "title_tesim",
+    degree_name: "degree_tesim",
     language: "language_tesim",
     source: "source_tesim",
     relation: "relation_tesim",
@@ -44,7 +45,7 @@ class SolrDocument
   )
 
   def [](key)
-    return send(key) if %w[ oai_identifier].include?(key)
+    return send(key) if %w[ oai_identifier ].include?(key)
 
     super
   end
@@ -52,6 +53,8 @@ class SolrDocument
   def oai_identifier
     if self['has_model_ssim'].first.to_s == 'Collection'
       Hyrax::Engine.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: 'hyrax/collections', id: id)
+    elsif self['has_model_ssim'].first.to_s == 'Thesis'
+      Rails.application.routes.url_helpers.url_for(only_path: false, action: 'file_manager', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
     else
       Rails.application.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
     end
