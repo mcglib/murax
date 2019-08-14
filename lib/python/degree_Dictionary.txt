@@ -1,0 +1,125 @@
+Bachelor of Arts	/	Bachelor of Arts
+Bachelor of Divofity	/	Bachelor of Divofity
+Bachelor of Engofeerofg	/	Bachelor of Engofeerofg
+Bachelor of Engofeerofg (Honours)	/	Bachelor of Engofeerofg
+Bachelor of Science	/	Bachelor of Science
+Bacteriology	/	Master of Science
+D Mus (Performance)	/	Doctor of  Music (Performance)
+Degree of Master of Engofeerofg	/	Master of Engineering
+Degree of SanctÃ¦ TheologiÃ¦ Magister	/	Degree of Sanctae Theologiae Magister
+Degree of STM	/	Degree of Sanctae Theologiae Magister
+Docctor of Philosophy	/	Doctor of Philosophy
+Docto of Philosophy	/	Doctor of Philosophy
+Doctor if Philosophy	/	Doctor of Philosophy
+Doctor of Education	/	Doctor of Education
+Doctor of Medicofe and Surgery	/	Doctor of Medicine and Surgery
+Doctor of Philosophy	/	Doctor of Philosophy
+Doctor of Civil Law	/	Doctor of Civil Law
+Doctor of Civil Laws	/	Doctor of Civil Law
+Doctor of Dental Surgery	/	Doctor of Dental Surgery
+Doctor of Law	/	Doctor of Law
+Doctor of Laws	/	Doctor of Law
+Doctor of Music	/	Doctor of Music
+Doctor of Music (Performance Studies)	/	Doctor of Music (Performance)
+Doctor of Music of Performance Studies	/	Doctor of Music (Performance)
+Doctor of Music Performance Studies	/	Doctor of Music (Performance)
+Doctor of Natural Philosophy	/	Doctor of Philosophy
+Doctor of Philosophy (Nursofg)	/	Doctor of Philosophy
+Doctor of Philosophy (Physics)	/	Doctor of Philosophy
+Doctor of Philosophy of Economics	/	Doctor of Philosophy 
+Doctor of Philosophy of Education	/	Doctor of Philosophy 
+Doctor of Philosophy of Educational Psychology	/	Doctor of Philosophy 
+Doctor of Philosophy of Psychology	/	Doctor of Philosophy 
+Doctor of Philosophy of Sociology	/	Doctor of Philosophy 
+Doctor of Philosopy	/	Doctor of Philosophy
+Doctor of Philosphy	/	Doctor of Philosophy
+Doctor of Philsoophy	/	Doctor of Philosophy
+Doctor of Philsophy	/	Doctor of Philosophy
+Doctor of Philsosphy	/	Doctor of Philosophy
+Doctor of Physiology	/	Doctor of Philosophy
+Doctor of Science	/	Doctor of Philosophy
+Doctor opf Philosophy	/	Doctor of Philosophy
+Doctor or Philosophy	/	Doctor or Philosophy
+Doctor ot Philosophy	/	Doctor of Philosophy
+Doctor pf Philosophy	/	Doctor pf Philosophy
+Doctorat of Music	/	Doctor of Music
+Doctorat of Music Performance Studies	/	Doctor of Music (Performance)
+Doctors of Philosophy	/	Doctor pf Philosophy
+Experimental Surgery	/	Master of Science
+Higher Dimploma	/	Master of Education
+Higher Diploma	/	Master of Education
+Higher Diploma of Physical Education	/	Master of Education
+LL M	/	Master of Laws
+LLM	/	Master of Laws
+MaÃ®trise en Arts	/	Master of Arts
+Masater of Arts	/	Master of Arts
+Maser of Engofeerofg	/	Master of Engineering
+Master Degree of Social Work	/	Master of Social Work
+Master if Science	/	Master of Science
+Master of Arts	/	Master of Arts
+Master of Civil Law	/	Master of Civil Law
+Master of Engofeerofg	/	Master of Engineering
+Master of Science	/	Master of Science
+Master of Social Work	/	Master of Social Work
+Master od Arts	/	Master of Arts
+Master of Architecture	/	Master of Architecture
+Master of Art	/	Master of Arts
+Master of Arts (Education)	/	Master of Arts
+Master of Arts of Economics	/	Master of Arts 
+Master of Arts, Department of Communications	/	Master of Arts
+Master of Arts?	/	Master of Arts
+Master of Busofess Admofistration	/	Master of Business Administration
+Master of Commerce	/	Master of Commerce
+Master of Commerce Degree	/	Master of Commerce
+Master of Communications	/	Master of Communications
+Master of Comparative Law	/	Master of Comparative Law
+Master of Education	/	Master of Education
+Master of Electrical Engofeerofg	/	Master of Engineering
+Master of Engofnerofg	/	Master of Engineering
+Master of English	/	Master of Arts
+Master of French	/	Master of Arts
+Master of Law	/	Master of Laws
+Master of Law and Letters	/	Master of Law and Letters
+Master of Laws	/	Master of Laws
+Master of Laws Degree	/	Master of Laws 
+Master of Library Science	/	Master of Library Science
+Master of Library Sciences	/	Master of Library Science
+Master of Music	/	Master of Music
+Master of Music of Composition	/	Master of Music (Composition)
+Master of Musical Arts	/	Master of Music
+Master of Musical Science	/	Master of Music
+Master of Sacred Theology	/	Master of Sacred Theology
+Master of Science (Applied) Health Sciences (Rehabilitation)	/	Master of Science 
+Master of Science of Agricultural Economics	/	Master of Science 
+Master of Science of Agriculture	/	Master of Science 
+Master of Science of Metallurgical Engofeerofg	/	Master of Science 
+Master of Science of Rehabilitation Science	/	Master of Science 
+Master of Science	/	Master of Science
+Master of Sciences	/	Master of Science
+Master of Systematic Theology	/	Master of Systematic Theology
+Master of Theology	/	Master of Theology
+Master or Arts	/	Master or Arts
+Master ot Science	/	Master of Science
+Masterâ€™s Degree of Social Work	/	Master of Social Work
+Masters Degree of Social Work	/	Master of Social Work
+Masters of Busofess Admofistration	/	Master of Business Administration
+Masters of Civil Engofeerofg	/	Master of Engineering
+Masters of Social Work	/	Master of Social Work
+Masters of Arts	/	Master of Arts
+Masters of Comparative Law	/	Master of Laws
+Masters of Engofeerofg	/	Master of Engineering
+Masters of Engofeerofg of Electrical Engofeerofg	/	Master of Engineering
+Masters of Music	/	Master of Music
+Masters of Science	/	Master of Science
+Masters Thesis	/	Master of Arts
+Mater of Law	/	Master of Laws
+McGill University, Master of Arts	/	Master of Arts
+McGill University, Master of Laws	/	Master of Laws
+Msater of Arts	/	Master of Arts
+PhD	/	Doctor of Philosophy
+PhD of Anthropology	/	Doctor of Philosophy
+Philosophiae Doctore (Microbiologie)	/	Doctor of Philosophy
+Philosophy of Metallurgy	/	Doctor of Philosophy
+Physiology	/	Doctor of Philosophy
+Plant Pathology	/	Doctor of Philosophy
+Social Work	/	Master of Social Work
