@@ -87,10 +87,6 @@ class SolrDocument
     self[Solrizer.solr_name('orcidid')]
   end
 
-  #def language
-  #  self[Solrizer.solr_name('language_label')]
-  #end
-  
   def language_label
     self[Solrizer.solr_name('language_label')]
   end
@@ -137,5 +133,43 @@ class SolrDocument
 
   def report_number
     self[Solrizer.solr_name('report_number')]
+  end 
+
+  def creator
+    self[Solrizer.solr_name('creator')]
+  end 
+
+  def contributor
+    self[Solrizer.solr_name('contributor')]
+  end 
+
+  def work_description
+    self[Solrizer.solr_name('work_description')]
+  end 
+
+  def publisher
+    self[Solrizer.solr_name('publisher')]
+  end 
+
+  def subject
+    self[Solrizer.solr_name('subject')]
+  end 
+
+  def extent
+    self[Solrizer.solr_name('extent')]
+  end 
+
+  def identifier
+    self[Solrizer.solr_name('identifier')]
+  end 
+
+  def note
+    self[Solrizer.solr_name('note')]
+  end 
+
+  def license
+    self[Solrizer.solr_name('license')]
+  end
+end
   end
 end 
