@@ -86,6 +86,11 @@ class SolrDocument
   def orcidid
     self[Solrizer.solr_name('orcidid')]
   end
+  
+  def language
+    self[Solrizer.solr_name('language')]
+  end
+
 
   def language_label
     self[Solrizer.solr_name('language_label')]
@@ -169,7 +174,5 @@ class SolrDocument
 
   def license
     self[Solrizer.solr_name('license')]
-  end
-end
   end
 end 
