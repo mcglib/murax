@@ -14,6 +14,8 @@ module Migration
         @config = config
         @created_work_ids = []
       end
+
+
       def import_records(pid_list, log)
         STDOUT.sync = true
         if pid_list.empty?
@@ -33,36 +35,85 @@ module Migration
           start_time = Time.now
           puts "#{start_time.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
-
-          # inistanciate the class_name based on the worktype passed
-          class_name = "Digitool::" + @work_type + "Item"
-          item = class_name.constantize.new({"pid" => pid, "work_type" => @work_type,
-                                             "local_collection_code" => @config['local_collection_code']})
-
-          #item = DigitoolItem.new({"pid" => pid, "work_type" => @work_type})
-
-          log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
-          puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
-          next unless item.has_metadata?
-
-          log.info "This item #{item.pid} has a main work and its not a main work." unless item.is_main_view?
-          puts "Skipping adding this item #{item.pid} as its not the main_view." unless item.is_main_view?
-          next unless item.is_main_view?
-
-          # check if the item has been added already
-          # maybe we can add this check later
-          # Create new work record and save
-          new_work = create_work(item)
-          log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
+          new_work = process_pid(pid, index)
           # Save the work id to the created_works array
+
           @created_work_ids << new_work.id if new_work.present?
 
         end
 
          # Now we need to add the pids to the collection
-         add_works_to_collection(@created_work_ids, @config['collection'])
-         
+         add_works_to_collection(@created_work_ids, @config['samvera_collection_id'])
          @created_work_ids
+
+      end
+
+      def process_pid(pid, index)
+        # inistanciate the class_name based on the worktype passed
+ 
+
+        class_name = "Digitool::" + @work_type + "Item"
+        item = class_name.constantize.new({"pid" => pid,
+                                          "work_type" => @work_type,
+        })
+
+
+        log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+        puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+
+        log.info "This item #{item.pid} has a main work and its not a main work." unless item.is_main_view?
+        puts "Skipping adding this item #{item.pid} as its not the main_view." unless item.is_main_view?
+
+        # check if the item has been added already
+        # maybe we can add this check later
+        # Create new work record and save
+        parsed_data = item.parse(@config, @depositor)
+
+        ##begin
+           work_attributes = parsed_data[:work_attributes]
+           work_attributes["relation"] ||= []
+          work_attributes["relation"] << "pid: #{pid}"
+
+
+          new_work = work_record(work_attributes)
+          new_work.save!
+
+          # update the identifier and the pid
+
+          #update the identifier
+          new_work.identifier ||= []
+          new_work.identifier << "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+
+          # Create sipity record
+          workflow = Sipity::Workflow.joins(:permission_template)
+                         .where(permission_templates: { source_id: new_work.admin_set_id }, active: true)
+          workflow_state = Sipity::WorkflowState.where(workflow_id: workflow.first.id, name: 'deposited')
+          MigrationHelper.retry_operation('creating sipity entity for work') do
+            Sipity::Entity.create!(proxy_for_global_id: new_work.to_global_id.to_s,
+                                   workflow: workflow.first,
+                                   workflow_state: workflow_state.first)
+          end
+
+          # We add the main file to the work
+          fileset = add_main_file(item.pid, work_attributes, new_work)
+          puts "The work #{pid} does not have a main file set.Check for errors"  if fileset.nil?
+          log.info "The work #{pid} does not have a file set." if fileset.nil?
+          # now we fetch the related pid files
+          if item.has_related_pids?
+            add_related_files(item, work_attributes,new_work) 
+          end
+
+
+
+          # resave
+          new_work.save!
+        ##rescue Exception => e
+        ##  puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+        ##  log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+        ##end
+
+        log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
+        new_work
 
       end
 
@@ -246,7 +297,7 @@ module Migration
           fileset = add_related_file_to_work(file_info, work_attributes, new_work)
 
           fileset
-        
+
         end
 
         def work_record(work_attributes)

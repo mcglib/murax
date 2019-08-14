@@ -6,7 +6,7 @@ require 'open-uri'
 class DigitoolItem
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :collection_id
+  attr_accessor :raw_xml, :added, :pid, :collection_id,
                 :related_pids, :metadata_hash, :title,
                 :file_info, :file_path, :file_name,
                 :work_type, :metadata_xml, :local_collection_code
@@ -28,18 +28,13 @@ class DigitoolItem
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
 
-    # get the clean metadata xml
-    #@meta_xml = clean_metadata_xml(@pid, @work_type,@digitool_colcode)
-
     # set usage type
     set_usage_type
 
 
     @file_info = set_file_metadata
 
-    @metadata_hash = set_metadata
-
-    set_title if is_view?
+    #@metadata_hash = set_metadata
 
     set_related_pids
 
@@ -55,10 +50,6 @@ class DigitoolItem
 
   def is_waiver?
     @usage_type.eql? "ARCHIVE"
-  end
-
-  def set_title
-    @title = @metadata_hash['title']
   end
 
   def set_related_pids
@@ -128,6 +119,12 @@ class DigitoolItem
     @file_info = set_file_metadata unless @file_info.present?
     @file_info['file_name']
 
+  end
+  
+  # Use language code to get iso639-2 uri from service
+  def get_language_uri(language_codes)
+    language_codes.map{|e| LanguagesService.label("http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}") ?
+            "http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}" : e}
   end
 
   def get_file_visibility
