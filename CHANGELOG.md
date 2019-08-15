@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.9.1] - 2019-08-16
+### Changed
+* Fixing bug with adding works to a collection
+* Added extent field to ingest of works of the Report type
+
 ## [1.0.9] - 2019-08-15
 * Updated the code for Digitool import of reports
 
