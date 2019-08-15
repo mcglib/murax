@@ -1,14 +1,10 @@
 module ApplicationHelper
-  def select_item_type(item_types)
-    if request.path.starts_with?('/concern/reports')
-      item_type = item_types["Report"]
-    elsif request.path.starts_with?('/concern/articles') 
-      item_type = item_types["Article"]
-    elsif request.path.starts_with?('/concern/theses')
-      item_type = item_types["Thesis"]
-    else 
-      item_type = item_types["Thesis"]
-    end
+  # This helper provides the item type. currently being used in /views/records/edit_fields/_rtype.html.erb. 
+  def item_type_helper
+    item_url = request.original_fullpath
+    item_split = item_url.split('/')
+    item_type = item_split[2]
+    item_type = item_type.capitalize.singularize
     return item_type
   end 
 end
