@@ -163,7 +163,7 @@ class Digitool::ReportItem < DigitoolItem
                         .strftime('%Y-%m-%d')
         work_attributes['date_created'] =  [date_modified.to_s]
       end
-      
+
       # get the institution
 
 
@@ -218,6 +218,10 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/ns1:localdepartmentcode").each do |term|
         work_attributes['department'] << term.text if term.text.present?
       end
+
+      # get the extent if any
+      extent = xml.xpath("/record/dc:extent").text
+      work_attributes['extent'] = extent if extent.present?
 
       # languages
       languages = []
