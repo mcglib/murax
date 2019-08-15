@@ -19,13 +19,13 @@ class CatalogController < ApplicationController
     config.oai = {
       provider: {
         repository_name: ENV['OAI_REPO_NAME'],
-        repository_url: "http://#{ENV['RAILS_HOST']}/catalog/oai",
+        repository_url: "#{ENV['OAI_URL']}/catalog/oai",
         record_prefix: ENV['OAI_RECORD_PREFIX'],
         admin_email: ENV['OAI_ADMIN_EMAIL'],
         sample_id: ENV['OAI_SAMPLE_ID']
       },
       document: {
-        limit: ENV['OAI_SAMPLE_ID'],
+        limit: ENV['OAI_DOCUMENT_LIMIT'],
         set_fields: [{ solr_field: 'isPartOf_ssim' }],
         set_class: '::OaiSet'
       }
