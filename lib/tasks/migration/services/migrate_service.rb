@@ -29,6 +29,7 @@ module Migration
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
+        workid_list = []
         @pid_list.each.with_index do | pid, index |
 
           start_time = Time.now
@@ -37,8 +38,10 @@ module Migration
           new_work = process_pid(pid, index)
           # Save the work id to the created_works array
           @created_work_ids << new_work.id if new_work.present?
-
+          workid_list << new_work.id if new_work.present?
         end
+
+        workid_list
       end
 
       def process_pid(pid, index)

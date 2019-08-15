@@ -54,11 +54,11 @@ namespace :migration do
       @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
 
       # lets chunck the job
-      @pids.each_slice(10) do | chunck |
+      @pids.each_slice(3) do | chunck |
         puts "Object count:  #{chunck.count.to_s}"
-        migrate_service.import_records(chunck, log)
-        puts "Adding the following workids: #{migrate_service.created_work_ids.split(",")} to the collection #{migration_config['samvera_collection_id']}"
-        migrate_service.add_works_to_collection(migrate_service.created_work_ids, migration_config['samvera_collection_id'])
+        created_work_ids = migrate_service.import_records(chunck, log)
+        puts "Adding the following workids: #{created_work_ids.split(",")} to the collection #{migration_config['samvera_collection_id']}"
+        migrate_service.add_works_to_collection(created_work_ids, migration_config['samvera_collection_id'])
       end
 
       # add the collections to the last batch of import
