@@ -134,4 +134,8 @@ class SolrDocument
   def source
     self[Solrizer.solr_name('source')]
   end
+
+  def report_number
+    self[Solrizer.solr_name('report_number')] 
+  end
 end 
