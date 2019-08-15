@@ -27,7 +27,8 @@ class CatalogController < ApplicationController
       document: {
         limit: 25,
         set_fields: [{ solr_field: 'has_model_ssim' }],
-        set_class: '::OaiSet',
+        set_class: '::OaiSet'
+
       }
     }
 
