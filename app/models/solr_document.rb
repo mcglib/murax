@@ -34,7 +34,7 @@ class SolrDocument
     date: "date_tesim",
     subject: "subject_tesim",
     title: "title_tesim",
-    degree_name: "degree_tesim",
+    degree: "degree_tesim",
     language: "language_tesim",
     source: "source_tesim",
     relation: "relation_tesim",

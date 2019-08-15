@@ -27,7 +27,11 @@ class CatalogController < ApplicationController
       document: {
         limit: 25,
         set_fields: [{ solr_field: 'has_model_ssim' }],
-        set_class: '::OaiSet'
+        set_class: '::OaiSet',
+        format_filters: {
+          'etdms': ['has_model_ssim:"Thesis"'],
+        },
+        supported_formats: ['oai_dc','etdms']
       }
     }
 
