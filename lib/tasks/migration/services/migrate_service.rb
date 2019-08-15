@@ -4,9 +4,8 @@ module Migration
     require 'tasks/migrate/services/metadata_parser'
     require 'tasks/migration_helper'
 
-    attr_accessor :pid_list, :created_work_ids
     class MigrateService
-
+      attr_accessor :pid_list, :created_work_ids, :config, :depositor, :work_type
       def initialize(config, depositor)
         @work_type = config['work_type']
         @depositor = depositor
@@ -37,11 +36,9 @@ module Migration
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
           new_work = process_pid(pid, index)
           # Save the work id to the created_works array
-
           @created_work_ids << new_work.id if new_work.present?
 
         end
-
       end
 
       def process_pid(pid, index)
@@ -68,7 +65,6 @@ module Migration
         begin
            work_attributes = parsed_data[:work_attributes]
 
-
           new_work = work_record(work_attributes)
           new_work.save!
 
@@ -76,7 +72,8 @@ module Migration
 
           #update the identifier
           new_work.identifier ||= []
-          new_work.identifier << "https://#{ENV["RAILS_HOST"]}/concerns/#{@work_type}s/#{new_work.id}"
+          #update the identifier
+          new_work.identifier << "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
 
           # Create sipity record
           workflow = Sipity::Workflow.joins(:permission_template)
@@ -94,19 +91,17 @@ module Migration
           log.info "The work #{pid} does not have a file set." if fileset.nil?
           # now we fetch the related pid files
           if item.has_related_pids?
-            add_related_files(item, work_attributes,new_work) 
+            add_related_files(item, work_attributes,new_work)
           end
-
-
-
           # resave
           new_work.save!
+          log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
         rescue Exception => e
           puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
           log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+          new_work = false
         end
 
-        log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
         new_work
 
       end
@@ -215,7 +210,7 @@ module Migration
             # update the identifier and the pid
 
             #update the identifier
-            new_work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+            new_work.identifier = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
 
             # Create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)
