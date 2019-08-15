@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.9] - 2019-08-15
+* Updated the code for Digitool import of reports
+
 ## [1.0.8] - 2019-08-12
 ### Changed
 * Updated the fixity check
