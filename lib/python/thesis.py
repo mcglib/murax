@@ -12,13 +12,13 @@ from thesis_functions import *
 
 
 ###################
-#    Main Code   
+#    Main Code
 ###################
 
 # I did: file 1, 2, 3
 
-#reload(sys)  
-#sys.setdefaultencoding('utf8')
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 pidArray = sys.argv[1:]
 
@@ -66,7 +66,7 @@ if len(pidArray) > 0:
                 if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces), currentPid) is False:
                     # Cleans and adds the generic rights statement.
                     cleanRightsField(recordRoot, nSpaces)
-                
+
                 # Clean up Title Field
                 if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid) is False:
                     for title in recordRoot.findall("dc:title", namespaces= nSpaces):
@@ -81,9 +81,9 @@ if len(pidArray) > 0:
                 else:
                     typeField = ET.SubElement(recordRoot, "dc:type")
                     typeField.text = "Thesis"
-                
-            
-            # Other Fields (Alphabetical Order) 
+
+
+            # Other Fields (Alphabetical Order)
                 # Clean up Contributor Field
                 for contributor in recordRoot.findall("dc:contributor", namespaces= nSpaces):
                     if isTheContributorFieldEmpty(contributor.text) is True:
@@ -160,11 +160,11 @@ if len(pidArray) > 0:
                                 relationField.text = "Pid: " + currentPid + " " + currentId
                                 pidAdded = True
                             else:
-                                recordRoot.remove(relationField) 
+                                recordRoot.remove(relationField)
                         if pidAdded == False:
                             relationField = ET.SubElement(recordRoot, "dc:relation")
                             relationField.text = "Pid: " + currentPid
-                
+
                 # Add "Department not identified" if there are no department and discipline codes.
                 if recordRoot.find("dcterms:localdepartmentcode", namespaces= nSpaces) is None and recordRoot.find("dcterms:localthesisdegreediscipline", namespaces= nSpaces) is None:
                     addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
