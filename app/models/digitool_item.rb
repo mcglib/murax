@@ -3,33 +3,38 @@ require 'uri'
 require 'json'
 require 'nokogiri'
 require 'open-uri'
-class DigitoolItem 
+class DigitoolItem
   include ActiveModel::Model
   # this will create for you the reader and writer for this attribute
-  attr_accessor :raw_xml, :added, :pid, :related_pids, :metadata_hash, :title, :file_info, :file_path, :file_name
+  attr_accessor :raw_xml, :added, :pid, :collection_id,
+                :related_pids, :metadata_hash, :title,
+                :file_info, :file_path, :file_name,
+                :work_type, :metadata_xml, :local_collection_code
+        
+
+  # validates
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :pid, presence: { message: 'Your digitoolitem  must have a pid.' }
+  validates :work_type, presence: { message: 'Your digitoolitem  must have a worktype.' }
 
   def initialize(attributes={})
     super
-    
+
     @added ||= false
     @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
     @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
     @download_url = "http://digitool.library.mcgill.ca/cgi-bin/download-pid-file.pl"
-    
+
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
-    
+
     # set usage type
     set_usage_type
 
 
     @file_info = set_file_metadata
 
-    @metadata_hash = set_metadata
-
-    set_title if is_view?
+    #@metadata_hash = set_metadata
 
     set_related_pids
 
@@ -45,10 +50,6 @@ class DigitoolItem
 
   def is_waiver?
     @usage_type.eql? "ARCHIVE"
-  end
-
-  def set_title
-    @title = @metadata_hash['title']
   end
 
   def set_related_pids
@@ -82,12 +83,6 @@ class DigitoolItem
     @usage_type
   end
 
-
-  def get_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
-      doc.to_s
-  end
-
   def get_technical_xml
       @raw_xml.at_css('digital_entity control') if @raw_xml.present?
   end
@@ -109,7 +104,7 @@ class DigitoolItem
 
         # set the dest_folder
         file_path = "#{dest}/#{@file_info['file_name']}" if @file_info.present?
-        
+
         url = "#{@download_url}?pid=#{@pid}&dir_path=#{@file_info['path']}"
         download = open(url)
         IO.copy_stream(download, file_path)
@@ -120,10 +115,16 @@ class DigitoolItem
   end
 
   def get_file_name 
-      
+
     @file_info = set_file_metadata unless @file_info.present?
     @file_info['file_name']
 
+  end
+  
+  # Use language code to get iso639-2 uri from service
+  def get_language_uri(language_codes)
+    language_codes.map{|e| LanguagesService.label("http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}") ?
+            "http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}" : e}
   end
 
   def get_file_visibility
@@ -143,7 +144,7 @@ class DigitoolItem
   end
 
 
-  private 
+  private
 
     def fetch_related_pids(pid)
       related_pids = nil
@@ -157,7 +158,7 @@ class DigitoolItem
       related_pids
 
     end
-  
+
 
     def fetch_raw_xml(pid, format="json")
       xml = nil
@@ -174,7 +175,5 @@ class DigitoolItem
       xml
 
     end
-
-
 
 end

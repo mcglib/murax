@@ -11,7 +11,6 @@ module Hyrax
       property :label, predicate: ActiveFedora::RDF::Fcrepo::Model.downloadFilename, multiple: false
       property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
 
-      
       property :alternative_title,  predicate: RDF::Vocab::DC.alternative, multiple: true do | index |
               index.as :stored_searchable
       end
@@ -90,7 +89,7 @@ module Hyrax
       property :relation,      predicate: ::RDF::Vocab::DC11.relation, multiple: true do | index |
               index.as :stored_searchable
       end
-      property :based_near, predicate: ::RDF::Vocab::FOAF.based_near, class_name: Hyrax::ControlledVocabularies::Location     
+      property :based_near, predicate: ::RDF::Vocab::FOAF.based_near, class_name: Hyrax::ControlledVocabularies::Location
 
 
 #### Additional properties added for article worktype.######
@@ -164,12 +163,10 @@ module Hyrax
         index.as :symbol
       end
 
-
-
 ####End of properties that will removed #######
 
       id_blank = proc { |attributes| attributes[:id].blank? }
-      
+
       class_attribute :controlled_properties
       self.controlled_properties = [:based_near]
       accepts_nested_attributes_for :based_near, reject_if: id_blank, allow_destroy: true

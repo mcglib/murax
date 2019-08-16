@@ -18,7 +18,7 @@
   },
   {
     "slug": "faculty-pubs",
-    "title": "Faculty Publications",
+    "title": "Research Publications",
     "collection_type": "User Collection",
     "blurb": "Faculty publications include articles, conference papers, books and working papers by members of the McGill academic community.",
     "visibility": "open",
@@ -26,9 +26,9 @@
   },
   {
     "slug": "grad-pub",
-    "title": "Graduate Projects",
+    "title": "Projects for Course-Based Graduate Degrees",
     "collection_type": "User Collection",
-    "blurb": "Research projects coming from a course-based graduate degree. NB. Civil and Mechanical Engineering reports are not full-text searchable.",
+    "blurb": "Research projects and papers coming from a course-based graduate degrees. Includes works from departments such as the Department of Integrated Studies in Education (DISE), Educational and Counselling Psychology, School of Architecture, School of Computer Science, School of Social Work, School of Urban Planning, and the Schulich School of Music.",
     "visibility": "open",
     "rights": "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
   },
@@ -49,7 +49,7 @@
     "rights": "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
   },
   {
-    "slug": "ugrad-research",
+    "slug": "np193916n",
     "title": "Undergraduate Research",
     "collection_type": "User Collection",
     "blurb": "Undergraduate research contains undergraduate Bioresource Engineering project reports, Honours theses, and Faculty-sponsored papers. Honours undergraduate theses may be included in eScholarship if sponsored by a faculty member. Faculty-sponsored papers are exemplary examples of undergraduate scholarship. Faculty members wishing to sponsor an honours thesis or a paper for deposit should contact escholarship.library@mcgill.ca",

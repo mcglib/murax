@@ -8,14 +8,14 @@ import xml.etree.ElementTree as ET
 
 import requests
 
-from thesis_functions import *
+#from reports_27_functions import transfertoDictionary, transfertoFacultyDictionary, removePunctuationField, readTextFile, queryBuilder, callQuery, cleanTitleField, cleanDateField, isTheContributorFieldEmpty, mapToRightLanguageCode, cleanUpCurrentID, cleanDisciplineField, cleanPublisher,transfertoDegreeDisciplineDictionary
+from papers_gradres_27_functions import *
 
 
 ###################
 #    Main Code   
 ###################
 
-# I did: file 1, 2, 3
 
 #reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -37,6 +37,8 @@ transfertoDegreeDisciplineDictionary(degreeDictionary, "degree_Dictionary.txt")
 disciplineDictionary= {}
 transfertoDegreeDisciplineDictionary(disciplineDictionary, "discipline_Dictionary.txt")
 
+myErrorFile = open("errorFile.txt", "w")
+
 if len(pidArray) > 0:
 
     nSpaces = {"dc": "http://purl.org/dc/elements/1.1/", "dcterms": "http://purl.org/dc/terms/"}
@@ -48,39 +50,44 @@ if len(pidArray) > 0:
         queryOutput = callQuery(currentUrl)
         root = ET.fromstring(queryOutput)
 
+        # Check if the Pid has multiple set of descriptive metadata
+       
+        array = root.findall("mds/md[name='descriptive']")
+
         for field in root.findall("mds/md[name='descriptive']") :
             for valueField in field.findall("value"):
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
                 recordRoot = ET.fromstring(valueField.text)
 
-                # All required fields (Alphabetical order):
+            # All required fields (Alphabetical order):    
+
                 # Clean up Date Field
-                if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid) is False:
+                if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces)) is False:
                     for date in recordRoot.findall("dc:date", namespaces= nSpaces):
                         if date.text not in [None, "YYYY"]:
                             cleanedDate = removePunctuationField(date.text)
-                            formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
+                            formattedDate = cleanDateField(cleanedDate, monthsDictionary)
                             date.text = formattedDate
 
                 # Clean up Rights Field
-                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces), currentPid) is False:
+                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces)) is False:
                     # Cleans and adds the generic rights statement.
                     cleanRightsField(recordRoot, nSpaces)
-                
+
                 # Clean up Title Field
-                if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid) is False:
+                if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces)) is False:
                     for title in recordRoot.findall("dc:title", namespaces= nSpaces):
                         if title.text is not None:
                             cleanedTitle = cleanTitleField(title.text)
                             title.text = cleanedTitle
 
-                # Clean up Type Field
-                if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces), currentPid) is False:
+                # Clean up Type Field #Status is not necessary for gradres.
+                if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces)) is False:
                     for type in recordRoot.findall("dc:type", namespaces= nSpaces):
-                        type.text = "Thesis"
+                        type.text = "Paper"
                 else:
                     typeField = ET.SubElement(recordRoot, "dc:type")
-                    typeField.text = "Thesis"
+                    typeField.text = "Paper"
                 
             
             # Other Fields (Alphabetical Order) 
@@ -95,7 +102,6 @@ if len(pidArray) > 0:
                         if departmentCode in facultyDepartmentCodesDictionary:
                             departmentLabel = facultyDepartmentCodesDictionary[departmentCode]
                             department.text = departmentLabel
-
                 #Clean up Discipline Field
                 for discipline in recordRoot.findall("dcterms:localthesisdegreediscipline", namespaces= nSpaces):
                     if discipline.text is not None:
@@ -124,10 +130,6 @@ if len(pidArray) > 0:
                         if facultyCode in facultyDepartmentCodesDictionary:
                             facultyLabel = facultyDepartmentCodesDictionary[facultyCode]
                             faculty.text = facultyLabel
-                # Add Institution information if missing
-                if recordRoot.find("dcterms:localdissertationinstitution", namespaces= nSpaces) is None:
-                    institutionField = ET.SubElement(recordRoot, "dcterms:localdissertationinstitution")
-                    institutionField.text = "McGill University"
                 # Clean up Language Field
                 for language in recordRoot.findall("dc:language", namespaces= nSpaces):
                     if language.text is not None:
@@ -143,7 +145,7 @@ if len(pidArray) > 0:
                             publisher.text = cleanedPublisherArray[0]
                             addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
-                # Clean up Relation Field
+               # Clean up Relation Field
                 if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
                     relationField = ET.SubElement(recordRoot, "dc:relation")
                     relationField.text = "Pid: " + currentPid
@@ -169,7 +171,7 @@ if len(pidArray) > 0:
                 if recordRoot.find("dcterms:localdepartmentcode", namespaces= nSpaces) is None and recordRoot.find("dcterms:localthesisdegreediscipline", namespaces= nSpaces) is None:
                     addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
                     addedDisciplineField.text = "Department not identified"
-
+                
                 ET.dump(recordRoot)
 
 else:

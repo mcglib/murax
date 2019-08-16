@@ -18,18 +18,20 @@ class CatalogController < ApplicationController
     # Blacklight OAI configurations.
     config.oai = {
       provider: {
-        repository_name: 'eScholarship@McGill',
-        repository_url: 'https://escholarship.mcgill.ca' ,
-        record_prefix: 'oai',
-        admin_email: 'dev.library@mcgill.ca',
-        sample_id: '109660'
+        repository_name: ENV['OAI_REPO_NAME'],
+        repository_url: "#{ENV['OAI_URL']}/catalog/oai",
+        record_prefix: ENV['OAI_RECORD_PREFIX'],
+        admin_email: ENV['OAI_ADMIN_EMAIL'],
+        sample_id: ENV['OAI_SAMPLE_ID']
       },
       document: {
-        limit: 25,
-        set_fields: [{ solr_field: 'has_model_ssim' }],
-
-        set_class: '::OaiSet'
-
+        limit: ENV['OAI_DOCUMENT_LIMIT'],
+        set_fields: [{ solr_field: 'isPartOf_ssim' }],
+        set_class: '::OaiSet',
+        format_filters: {
+          'etdms': ['has_model_ssim:"Thesis"'],
+        },
+        supported_formats: ['oai_dc','etdms']
       }
     }
 
