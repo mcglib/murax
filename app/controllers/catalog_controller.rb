@@ -16,24 +16,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
  
     # Blacklight OAI configurations.
-    config.oai = {
-      provider: {
-        repository_name: ENV['OAI_REPO_NAME'],
-        repository_url: "#{ENV['OAI_URL']}/catalog/oai",
-        record_prefix: ENV['OAI_RECORD_PREFIX'],
-        admin_email: ENV['OAI_ADMIN_EMAIL'],
-        sample_id: ENV['OAI_SAMPLE_ID']
-      },
-      document: {
-        limit: ENV['OAI_DOCUMENT_LIMIT'],
-        set_fields: [{ solr_field: 'isPartOf_ssim' }],
-        set_class: '::OaiSet',
-        format_filters: {
-          'etdms': ['has_model_ssim:"Thesis"'],
-        },
-        supported_formats: ['oai_dc','etdms']
-      }
-    }
+    config.oai = OAI_CONFIG
 
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
