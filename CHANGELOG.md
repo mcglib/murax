@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.10] - 2019-08-17
+### Changed
+* Fixed rtype view 
+* Added helpers for the worktypes
+
 ## [1.0.9.1] - 2019-08-16
 ### Changed
 * Fixing bug with adding works to a collection
