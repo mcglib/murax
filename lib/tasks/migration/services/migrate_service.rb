@@ -14,6 +14,16 @@ module Migration
         @created_work_ids = []
       end
 
+      def import_record(pid, log, index = 1)
+          new_work = nil
+
+          start_time = Time.now
+          puts "#{start_time.to_s}: Processing the item  #{pid}"
+          log.info "#{index}/#{pid_count} - Importing  #{pid}"
+          new_work = process_pid(pid, index)
+
+          new_work
+      end
 
       def import_records(pid_list, log)
         STDOUT.sync = true
@@ -23,20 +33,14 @@ module Migration
           return
         end
 
-        @pid_list = pid_list
-        pid_count = @pid_list.count
-        log.info "Object count:  #{@pid_list.count.to_s}"
+        log.info "Object count:  #{pid_list.count.to_s}"
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
         workid_list = []
-        @pid_list.each.with_index do | pid, index |
+        pid_list.each.with_index do | pid, index |
 
-          start_time = Time.now
-          puts "#{start_time.to_s}: Processing the item  #{pid}"
-          log.info "#{index}/#{pid_count} - Importing  #{pid}"
-          new_work = process_pid(pid, index)
-          # Save the work id to the created_works array
+          new_work = self.import_record(pid, log, index)
           @created_work_ids << new_work.id if new_work.present?
           workid_list << new_work.id if new_work.present?
         end
