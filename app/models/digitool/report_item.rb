@@ -1,13 +1,11 @@
 class Digitool::ReportItem < DigitoolItem
-  
+
   attr_accessor :config
 
   def initialize(attributes={})
     super
-    #@metadata = clean_metadata
-    @metadata_xml = clean_metadata(get_metadata, @local_collection_code)
+    @metadata_xml = clean_metadata(@local_collection_code)
     @metadata_hash = Hash.from_xml(@metadata_xml)
-
     set_title if is_view?
 
   end
@@ -21,13 +19,9 @@ class Digitool::ReportItem < DigitoolItem
     "Date first available online: " + date
   end
 
-  # path to the python cleaning module
-  def get_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
-      doc.to_s
-  end
 
-  def clean_metadata(raw_metadata, collection_code)
+  # path to the python cleaning module
+  def clean_metadata(collection_code)
     xml = nil
     if @pid.present? and @work_type.present?
 
@@ -44,7 +38,6 @@ class Digitool::ReportItem < DigitoolItem
 
         service_instance = report_class.constantize
         xml = service_instance.new(@pid, @work_type).clean
-        #xml = raw_metadata
     end
 
     xml
@@ -112,9 +105,6 @@ class Digitool::ReportItem < DigitoolItem
       #work_attributes['embargo_release_date'] = (Date.try(:edtf, embargo_release_date) || embargo_release_date).to_s
       ## investigate how we can get the visibility from the collection level
       work_attributes['visibility'] = 'open'
- 
-
-
       xml = Nokogiri::XML.parse(@metadata_xml)
 
       # Set the title
@@ -149,7 +139,6 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:subject").each do |term|
         work_attributes['subject'] << term.text
       end
-      
       
       # Get the date_uploaded
       date_uploaded =  DateTime.now.strftime('%Y-%m-%d')

@@ -9,7 +9,7 @@ class DigitoolItem
   attr_accessor :raw_xml, :added, :pid, :collection_id,
                 :related_pids, :metadata_hash, :title,
                 :file_info, :file_path, :file_name,
-                :work_type, :metadata_xml, :local_collection_code
+                :work_type, :metadata_xml, :local_collection_code, :item_type
         
 
   # validates
@@ -38,6 +38,11 @@ class DigitoolItem
 
     set_related_pids
 
+  end
+  
+  def get_metadata
+      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
+      doc.to_s
   end
  
   def is_main_view?

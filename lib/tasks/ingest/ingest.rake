@@ -24,7 +24,7 @@ namespace :ingest do
           collection: 'thesis'
     }
     o = OptionParser.new
-    o.banner = "Usage: rake ingest:ethesis [options]"
+    o.banner = "Usage: rake ingest:create_collections [options]"
     o.on('-f FILENAME', '--xmlfile FILENAME') { |xmlfile|
       options[:xmlfile] = xmlfile
     }
