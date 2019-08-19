@@ -153,8 +153,6 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes['date_created'] =  [date_modified.to_s]
       end
 
-      # get the institution
-
 
       # get the date. copying the modifiedDate
       date = xml.xpath("/record/dc:date").text
@@ -207,6 +205,13 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/ns1:localdepartmentcode").each do |term|
         work_attributes['department'] << term.text if term.text.present?
       end
+      
+      # get the publisher
+      work_attributes['publisher'] = []
+      xml.xpath("/record/dc:publisher").each do |term|
+        work_attributes['publisher'] << term.text if term.text.present?
+      end
+
 
       # get the extent if any
       extent = xml.xpath("/record/dc:extent").text
