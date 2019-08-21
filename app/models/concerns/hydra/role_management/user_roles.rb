@@ -31,6 +31,10 @@ module Hydra
         roles.where(name: 'repository_managers').exists?
       end
 
+      def casual_workers?
+        roles.where(name: 'casual_workers').exists?
+      end
+
     end
   end
 end

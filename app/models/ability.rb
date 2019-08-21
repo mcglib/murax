@@ -1,6 +1,6 @@
 class Ability
   include Hydra::Ability
-  
+ 
   include Hyrax::Ability
   self.ability_logic += [:everyone_can_create_curation_concerns]
 
@@ -21,11 +21,22 @@ class Ability
     # if user_groups.include? 'special_group'
     #   can [:create], ActiveFedora::Base
     # end
+
+    if user_groups.include? 'casual_workers'
+      can [:create, :show, :index, :edit, :update], ActiveFedora::Base
+    end
+
+
     if current_user.admin?
       can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     end
+
     if current_user.repository_managers?
       can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
+    end
+
+    if current_user.casual_workers?
+      can [:create, :show, :index, :edit, :update], Role
     end
   end
 end
