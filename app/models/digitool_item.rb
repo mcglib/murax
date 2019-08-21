@@ -39,12 +39,12 @@ class DigitoolItem
     set_related_pids
 
   end
-  
+
   def get_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
       doc.to_s
   end
- 
+
   def is_main_view?
     !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
   end

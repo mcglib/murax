@@ -134,12 +134,12 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:contributor").each do |term|
         work_attributes['contributor'] << term.text
       end
- 
+
       work_attributes['subject'] =[]
       xml.xpath("/record/dc:subject").each do |term|
         work_attributes['subject'] << term.text
       end
-      
+
       # Get the date_uploaded
       date_uploaded =  DateTime.now.strftime('%Y-%m-%d')
       work_attributes['date_uploaded'] =  [date_uploaded.to_s]
@@ -211,6 +211,13 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:publisher").each do |term|
         work_attributes['publisher'] << term.text if term.text.present?
       end
+      
+      # get the rtype
+      work_attributes['rtype'] =[]
+      xml.xpath("//type").each do |term|
+        work_attributes['rtype'] << term.text if term.text.present?
+      end
+      
 
 
       # get the extent if any

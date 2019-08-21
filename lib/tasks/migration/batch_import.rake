@@ -10,52 +10,39 @@ namespace :migration do
     require 'tasks/migration/services/metadata_parser'
     require 'tasks/migration_helper'
     # bundle exec rake migrate:digitool_item -- -p 12007 -c 'thesis'
-    desc 'Migrate a Digitool objects with a PID and its related items eg: bundle exec rake migrate:digitool_item[pid,localcollectioncode,itemtype, collectionid]'
-    task :batch_import, [:csv_file, :collectionid] => :environment do |t, args|
+    desc 'Migrate a Digitool objects with a PID and its related items eg: bundle exec rake migrate:digitool_item[csvfile]'
+    task :batch_import, [:csv_file] => :environment do |t, args|
 
       require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
 
       start_time = Time.now
-      puts "[#{start_time.to_s}] Start migration of pid item #{args[:pid]} to the collection #{args[:collectionid]}"
-    
-      log = ActiveSupport::Logger.new("log/digitool-import-#{args[:pid]}.log")
-      start_time = Time.now
+      log = ActiveSupport::Logger.new("log/digitool-import-#{start_time}.log")
       log.info "Task started at #{start_time}"
 
-      # get the migration config
-      migration_config = MigrationHelper::get_migration_config(args[:collectionid])
-
-      puts "Could not find the migration config for #{args[:collectionid]} collection" if migration_config.nil?
-
-      # lets create the tmp file location if it does not exist
-      FileUtils::mkdir_p migration_config['tmp_file_location']
+      @pid_list = File.read("#{Rails.root}/#{args[:csv_file]}").strip.split(",")
+      # Lets clean the csv file because of the quotes
+      @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
 
       # The default admin set and designated depositor must exist before running this script
       if AdminSet.where(title: ENV['DEFAULT_ADMIN_SET']).count != 0 &&
-          User.where(email: migration_config['depositor_email']).count > 0
+          User.where(email: ENV['DEFAULT_DEPOSITOR_EMAIL']).count > 0
+        # lets chunck the job
+        @pids.each_slice(5) do | lists |
 
-        @depositor = User.where(email: migration_config['depositor_email']).first
-
-        migrate_service = Migration::Services::MigrateService.new(migration_config,
-                                             @depositor)
-
-        work_id = migrate_service.import_record(args[:pid], log)
-        log.info "Added  pid #{pid} to work id #{work_id}."
-        puts "Adding the workid: #{work_id} to the collection #{migration_config['samvera_collection_id']}"
-        migrate_service.add_works_to_collection([work_id], migration_config['samvera_collection_id'])
-
+          puts "Object count:  #{lists.count.to_s}"
+          lists.each do |item|
+            import_service = Migration::Services::ImportService.new(item)
+            created_work_ids << import_service.import
+          end
+          
+          #puts "Adding the following workids: #{created_work_ids.split(",")} to the collection #{migration_config['samvera_collection_id']}"
+          #migrate_service.add_works_to_collection(created_work_ids, migration_config['samvera_collection_id'])
+        end
       else
         puts 'The default admin set or specified depositor does not exist'
       end
 
-      end_time = Time.now
-      duration = (end_time - start_time) / 1.minute
-      puts "[#{end_time.to_s}] Finished the  migration of #{args[:collection]} in #{duration} minutes"
-      log.info "Task finished at #{end_time} and lasted #{duration} minutes."
-      log.close
 
-      end_time = Time.now
-      puts "[#{end_time.to_s}] Completed migration of #{args[:collection]} in #{duration} seconds"
 
 
     end

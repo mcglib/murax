@@ -1,14 +1,12 @@
 module CleanMetadata
     class Paper < CleanMetadataService
       attr_reader :pid
-      attr_reader :work_type
-      def initialize(pid, work_type)
+      def initialize(pid)
         @pid = pid
-        @work_type = work_type
       end
 
       def clean
-        metadata = self.execute_clean(@pid, "paper-gradres.py")
+        metadata = self.execute_clean(@pid, "papers_gradres_27.py")
         return false unless metadata
         
         metadata
