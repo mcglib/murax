@@ -1,11 +1,10 @@
-class Digitool::ReportItem < DigitoolItem
+class Digitool::PaperItem < DigitoolItem
 
   attr_accessor :config
 
   def initialize(attributes={})
     super
-    @metadata_xml = clean_metadata(@local_collection_code)
-    byebug
+    @metadata_xml = clean_metadata
     @metadata_hash = Hash.from_xml(@metadata_xml)
     set_title if is_view?
 
@@ -22,11 +21,11 @@ class Digitool::ReportItem < DigitoolItem
 
 
   # path to the python cleaning module
-  def clean_metadata(collection_code)
+  def clean_metadata
     xml = nil
-    report_class = "CleanMetadata::GenericReport";
+    report_class = "CleanMetadata::Paper";
     service_instance = report_class.constantize
-    xml = service_instance.new(@pid, @work_type).clean
+    xml = service_instance.new(@pid).clean
 
     xml
   end
@@ -100,6 +99,17 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:title").each do |title|
         work_attributes['title'] << title.text
       end
+      
+      work_attributes['alternative_title'] = []
+      xml.xpath("/record/dc:alternative_title").each do |title|
+        work_attributes['alternative_title'] << title.text
+      end
+      
+      # set the creator
+      work_attributes['creator'] = []
+      xml.xpath("/record/dc:creator").each do |term|
+        work_attributes['creator'] << term.text
+      end
 
       # Set the abstract
       work_attributes['abstract'] = []
@@ -108,24 +118,9 @@ class Digitool::ReportItem < DigitoolItem
       end
 
 
-      # set the description
-      work_attributes['description'] = work_attributes['abstract']
-
-      # set the creator
-      work_attributes['creator'] = []
-      xml.xpath("/record/dc:creator").each do |term|
-        work_attributes['creator'] << term.text
-      end
-
-
       work_attributes['contributor'] =[]
       xml.xpath("/record/dc:contributor").each do |term|
         work_attributes['contributor'] << term.text
-      end
-
-      work_attributes['subject'] =[]
-      xml.xpath("/record/dc:subject").each do |term|
-        work_attributes['subject'] << term.text
       end
 
       # Get the date_uploaded
@@ -167,23 +162,8 @@ class Digitool::ReportItem < DigitoolItem
       ## add the technical creation date as part of the notes field
       work_attributes['note'] << add_creation_date_to_notes
 
-
-      work_attributes['alternative_title'] = []
-      xml.xpath("/record/dc:alternative_title").each do |term|
-        work_attributes['alternative_title'] << term.text if term.text.present?
-      end
-
-      work_attributes['source'] = []
-      xml.xpath("/record/dc:source").each do |term|
-        work_attributes['source'] << term.text if term.text.present?
-      end
-
-      work_attributes['report_number'] = []
-      xml.xpath("/record/dc:source").each do |term|
-        work_attributes['report_number'] << term.text if term.text.present?
-      end
-
-      work_attributes['faculty'] = []
+      
+        work_attributes['faculty'] = []
         xml.xpath("/record/ns1:localfacultycode").each do |term|
         work_attributes['faculty'] << term.text if term.text.present?
       end
@@ -199,22 +179,38 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/dc:publisher").each do |term|
         work_attributes['publisher'] << term.text if term.text.present?
       end
-      
+
+
+
+      xml.remove_namespaces!
+      # get the department
+      work_attributes['degree'] =[]
+      xml.xpath("//localthesisdegreename").each do |term|
+        work_attributes['degree'] << term.text if term.text.present?
+      end
+
+
+      # get the grant_number
+      research_unit = xml.xpath("//localresearchunit").text
+      work_attributes['research_unit'] = research_unit if research_unit.present?
+
+      # get the grant_number
+      grant_no = xml.xpath("//localgrantnumber").text
+      work_attributes['grant_number'] = grant_no if grant_no.present?
+
       # get the rtype
       work_attributes['rtype'] =[]
-      xml.xpath("/record/dc:type").each do |term|
+      xml.xpath("//type").each do |term|
         work_attributes['rtype'] << term.text if term.text.present?
       end
       
-
-
-      # get the extent if any
-      extent = xml.xpath("/record/dc:extent").text
+      # get the extent
+      extent = xml.xpath("//extent").text
       work_attributes['extent'] = extent if extent.present?
 
       # languages
       languages = []
-      xml.xpath("/record/dc:language").each do |term|
+      xml.xpath("//language").each do |term|
         clean_term = term.text.squish
         languages << clean_term if clean_term.present?
       end
