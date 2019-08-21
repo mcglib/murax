@@ -4,6 +4,7 @@ require 'json'
 require 'nokogiri'
 require 'open-uri'
 require 'open3'
+require 'csv'
 class MigrationHelper
 
   # Get the UUID
@@ -95,6 +96,58 @@ class MigrationHelper
       migration_config = config[collect_name]
 
       migration_config
+  end
+
+  def self.get_bibostatus_by_dctype(dctype)
+  end
+
+  def self.get_worktype_by_dctype(dctypes)
+    worktype = nil
+    mapping_file = "#{Rails.root}/spec/fixtures/digitool/mapping.csv"
+    mappinglist = CSV.table(mapping_file, { headers: true, converters: numeric, header_converters: :symbol})
+    
+    if dctypes.downcase.include? "preprint"
+      worktype = "Article"
+    end
+
+    mappinglist.each do |row | 
+      text = row[:digitool].downcase
+      if (text === dctypes.downcase)
+        worktype = row[:worktype]
+      end
+    end
+
+    worktype
+  end
+
+  def self.get_worktype_by_lccode(lccode)
+    work_type = nil
+
+    case lccode.upcase
+    when "ETHESIS"
+      worktype = "Thesis"
+    when "BREPR"
+      worktype = "Report"
+    when "UGPAPER", "UGRAD", "LIVLAB"
+      worktype = "Paper"
+    else
+      puts "You gave me #{lccode} -- I have no idea what to do with that."
+      work_type = nil
+    end
+
+    worktype
+  end
+
+  def self.get_worktype(dctypes, lccode)
+      work_type = nil
+
+      ## filter by lccode first
+      work_type = self.get_worktype_by_lccode(lccode)
+
+      ## if work_type is still nil, we get it by the dctype
+      work_type = self.get_worktype_by_dctype(dctypes) if work_type.nil
+
+      worktype
   end
 
 end

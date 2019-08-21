@@ -34,7 +34,7 @@ class DigitoolItem
 
     @file_info = set_file_metadata
 
-    #@metadata_hash = set_metadata
+    set_metadata
 
     set_related_pids
 
