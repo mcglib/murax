@@ -5,7 +5,7 @@ class CreateWorkType
       entries.size.times do |i|
         work_type.work_type_amount.build
       end
-        
+ 
       @form = work_typeForm.new(work_type)
       work_type_params[:work_type_amount] = entries
       if !@form.validate(work_type_params)
