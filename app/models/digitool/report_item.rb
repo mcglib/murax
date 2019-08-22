@@ -225,6 +225,10 @@ class Digitool::ReportItem < DigitoolItem
 
 
       # get the extent if any
+      type = xml.xpath("/record/dc:type").text
+      work_attributes['rtype'] = type if type.present?
+      
+      # get the extent if any
       extent = xml.xpath("/record/dc:extent").text
       work_attributes['extent'] = extent if extent.present?
 
