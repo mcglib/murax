@@ -25,8 +25,7 @@ class Digitool::PaperItem < DigitoolItem
   # path to the python cleaning module
   def clean_metadata
     xml = nil
-    xml = CleanMetadata::Paper.new(@pid, @work_type).clean
-    xml = service_instance.new(@pid).clean
+    xml = CleanMetadata::Paper.new(@pid).clean
 
     xml
   end
