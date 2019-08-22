@@ -51,11 +51,11 @@ class Ability
     end
 
     if user_groups.include? 'casual_workers'
-      can [:create, :show, :index,  :update], Role
+      can [:create, :show, :index, :edit,  :update], Role
     end
 
     if current_user.casual_workers?
-      can [:create, :show, :index, :update], Role
+      can [:create, :show, :index, :edit, :update], Role
     end
   end
 end
