@@ -40,3 +40,6 @@ yarn-debug.log*
 app/assets/stylesheets/.login_signup.scss.swp
 spf13-vim.sh
 .vscode/launch.json
+dc_deploy.sh
+murax_container.sh
+fits.log
