@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.11.1] - 2019-08-22
+### Changed
+* Added fix to get the rtype in the BREPR reports
+
 ## [1.0.11] - 2019-08-19
 ### Changed
 * Added fix to get the publisher in the BREPR reports
