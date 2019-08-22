@@ -3,13 +3,11 @@ class AddWorksToCollection
     attached = true
 
     # Get the collection
-    collectionObj = Collection.find(collection_name)
+    collectionObj = Collection.find(collection_id)
     collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
-    byebug
 
-    work_ids.each do |wkid|
-      byebug
-       attached = AttachWorkToCollection(wkid, work_type,collectionObj)
+    works.each do |wkid, work_type|
+      attached = AttachWorkToCollection.call(wkid, work_type,collectionObj)
     end
 
     attached

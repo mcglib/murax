@@ -32,20 +32,19 @@ namespace :migration do
         @depositor = User.where(email: ENV['DEFAULT_DEPOSITOR_EMAIL']).first
         @pids.each_slice(2) do | lists |
 
-          puts "Object count:  #{lists.count.to_s}"
           created_works = []
           lists.each do |item|
             logger.info "Ingesting Digitool PID: #{item}"
             import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => ENV['DEFAULT_ADMIN_SET']}, @depositor, logger)
 
-            import_rec = import_service.import 
+            import_rec = import_service.import
             created_works << import_rec if import_rec.present?
           end
-    
+
           # Group the works by collection_id and then add to collection
           created_works.group_by { |d| d[:collection_id] }.each do | collect_id, works |
             puts "Adding the following workids: #{works.pluck(:work_id).split(",")} to the collection #{collect_id}"
-            AddWorksToCollection( works.pluck(:work_id, :work_type),collect_id)
+            AddWorksToCollection.call( works.pluck(:work_id, :worktype),collect_id)
           end
 
 
