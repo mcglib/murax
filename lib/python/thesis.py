@@ -59,7 +59,7 @@ if len(pidArray) > 0:
                     for date in recordRoot.findall("dc:date", namespaces= nSpaces):
                         if date.text not in [None, "YYYY"]:
                             cleanedDate = removePunctuationField(date.text)
-                            formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
+                            formattedDate = cleanDateField(cleanedDate, monthsDictionary)
                             date.text = formattedDate
 
                 # Clean up Rights Field
