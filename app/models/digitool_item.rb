@@ -39,6 +39,17 @@ class DigitoolItem
     set_related_pids
 
   end
+  
+  def set_metadatahash(xml)
+    metadata_hash = nil
+    # Here we remove the weird prefixes not recognized
+    normalized_xml = xml.gsub(/dcterms/, 'ns1')
+
+    metadata_hash = Hash.from_xml(normalized_xml)
+
+    metadata_hash
+
+  end
 
   def get_metadata
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?

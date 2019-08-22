@@ -5,12 +5,14 @@ class Digitool::PaperItem < DigitoolItem
   def initialize(attributes={})
     super
     @metadata_xml = clean_metadata
-    @metadata_hash = Hash.from_xml(@metadata_xml)
+    @metadata_hash = set_metadatahash(@metadata_xml)
+    
     set_title if is_view?
 
   end
 
   def set_title
+    #set the title from the clean xml
     @title = @metadata_hash['title']
   end
 
@@ -23,8 +25,7 @@ class Digitool::PaperItem < DigitoolItem
   # path to the python cleaning module
   def clean_metadata
     xml = nil
-    report_class = "CleanMetadata::Paper";
-    service_instance = report_class.constantize
+    xml = CleanMetadata::Paper.new(@pid, @work_type).clean
     xml = service_instance.new(@pid).clean
 
     xml

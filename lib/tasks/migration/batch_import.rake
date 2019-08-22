@@ -34,7 +34,6 @@ namespace :migration do
             import_service = Migration::Services::ImportService.new(item)
             created_work_ids << import_service.import
           end
-          
           #puts "Adding the following workids: #{created_work_ids.split(",")} to the collection #{migration_config['samvera_collection_id']}"
           #migrate_service.add_works_to_collection(created_work_ids, migration_config['samvera_collection_id'])
         end

@@ -4,9 +4,8 @@ class Digitool::ReportItem < DigitoolItem
 
   def initialize(attributes={})
     super
-    @metadata_xml = clean_metadata(@local_collection_code)
-    byebug
-    @metadata_hash = Hash.from_xml(@metadata_xml)
+    @metadata_xml = clean_metadata
+    @metadata_hash = set_metadatahash(@metadata_xml)
     set_title if is_view?
 
   end
@@ -22,12 +21,9 @@ class Digitool::ReportItem < DigitoolItem
 
 
   # path to the python cleaning module
-  def clean_metadata(collection_code)
+  def clean_metadata
     xml = nil
-    report_class = "CleanMetadata::GenericReport";
-    service_instance = report_class.constantize
-    xml = service_instance.new(@pid, @work_type).clean
-
+    xml = CleanMetadata::GenericReport.new(@pid, @work_type).clean
     xml
   end
 
