@@ -147,6 +147,7 @@ def dateToRightFormat(dateArray):
     """
 
     for i in range(0, len(dateArray)):
+        dateArray[i] = removePunctuationField(dateArray[i])
         if dateArray[i] == "00":
             dateArray.pop(i)
         i = i + 1
@@ -182,12 +183,15 @@ def dateToRightFormat(dateArray):
     
     return formatDate
 
-def replaceAlphaNotationFromDate(myDateString, monthDict, currentPid):
+def replaceAlphaNotationFromDate(myDateString, monthDict):
     """ Replace alphabetical notation of date (January) with a numeric notation
     """
 
-    dateArray = myDateString.split(" ")
+    dateArrayRaw = myDateString.split(" ")
+    dateArray = [e for e in dateArrayRaw if e]
+
     for i in range (0, len(dateArray)):
+
         #Remove punctuation
         dateArray[i] = removePunctuationField(dateArray[i])
 
@@ -196,6 +200,15 @@ def replaceAlphaNotationFromDate(myDateString, monthDict, currentPid):
             month = dateArray[i].lower()
             if month in monthDict:
                 dateArray[i] = monthDict[month]
+                if i == 0 and len(dateArray) == 3:
+                    month = dateArray[i]
+                    if len(dateArray[1]) == 4:
+                        year = dateArray[1]
+                        day = dateArray[2] 
+                    elif len(dateArray[2]) == 4:
+                        year = dateArray[2] 
+                        day = dateArray[1]
+                    dateArray = [day, month, year]
                 #reformat date
                 cleanDate = dateToRightFormat(dateArray)
             else:
@@ -203,11 +216,11 @@ def replaceAlphaNotationFromDate(myDateString, monthDict, currentPid):
         elif "X" in dateArray[i] :
             cleanDate = dateArray[i]   
         elif "u" in dateArray[i] :
-            cleanDate = dateArray[i]   
+            cleanDate = dateArray[i]    
 
     return cleanDate
 
-def cleanDateField(myDateString, monthsDictionary, currentPid):
+def cleanDateField(myDateString, monthsDictionary):
     """ This function sends different problematic dates (wrong format, wrong punctuation, has words, ...) to different cleaning up functions.
     """
     
@@ -220,7 +233,7 @@ def cleanDateField(myDateString, monthsDictionary, currentPid):
         i = i + 1
         
     if charFound == True:
-        formattedDate = replaceAlphaNotationFromDate(myDateString, monthsDictionary, currentPid)
+        formattedDate = replaceAlphaNotationFromDate(myDateString, monthsDictionary)
 
     elif "-" in myDateString:
         dateArray = myDateString.split("-")
