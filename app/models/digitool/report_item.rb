@@ -205,6 +205,12 @@ class Digitool::ReportItem < DigitoolItem
 
 
       # get the extent if any
+      work_attributes['rtype'] = []
+      xml.xpath("/record/dc:type").each do |term|
+        work_attributes['rtype'] << term.text if term.text.present?
+      end
+      
+      # get the extent if any
       extent = xml.xpath("/record/dc:extent").text
       work_attributes['extent'] = extent if extent.present?
 
