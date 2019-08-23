@@ -79,7 +79,7 @@ if len(pidArray) > 0:
                     for type in recordRoot.findall("dc:type", namespaces= nSpaces):
                         type.text = "Thesis"
                 else:
-                    typeField = ET.SubElement(recordRoot, "dc:type")
+                    typeField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}type")
                     typeField.text = "Thesis"
                 
             
@@ -115,7 +115,7 @@ if len(pidArray) > 0:
                     recordRoot.remove(extent)
                 for pageCount in recordRoot.findall("dcterms:localdisspagecount", namespaces = nSpaces):
                     if pageCount.text != "":
-                        extentField = ET.SubElement(recordRoot, "dcterms:extent")
+                        extentField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}extent")
                         extentField.text = pageCount.text + " pages"
                 # Clean up Faculty Field
                 for faculty in recordRoot.findall("dcterms:localfacultycode", namespaces= nSpaces):
@@ -126,7 +126,7 @@ if len(pidArray) > 0:
                             faculty.text = facultyLabel
                 # Add Institution information if missing
                 if recordRoot.find("dcterms:localdissertationinstitution", namespaces= nSpaces) is None:
-                    institutionField = ET.SubElement(recordRoot, "dcterms:localdissertationinstitution")
+                    institutionField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localdissertationinstitution")
                     institutionField.text = "McGill University"
                 # Clean up Language Field
                 for language in recordRoot.findall("dc:language", namespaces= nSpaces):
@@ -141,17 +141,17 @@ if len(pidArray) > 0:
                             publisher.text = cleanedPublisherArray[0]
                         else:
                             publisher.text = cleanedPublisherArray[0]
-                            addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
+                            addedDisciplineField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
                 # Clean up Relation Field
                 if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
-                    relationField = ET.SubElement(recordRoot, "dc:relation")
+                    relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                     relationField.text = "Pid: " + currentPid
                 else:
                     pidAdded = False
                     for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
                         if relationField.text is None:
-                            relationField = ET.SubElement(recordRoot, "dc:relation")
+                            relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                             relationField.text = "Pid: " + currentPid
                             pidAdded = True
                         else:
@@ -162,12 +162,12 @@ if len(pidArray) > 0:
                             else:
                                 recordRoot.remove(relationField) 
                         if pidAdded == False:
-                            relationField = ET.SubElement(recordRoot, "dc:relation")
+                            relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                             relationField.text = "Pid: " + currentPid
                 
                 # Add "Department not identified" if there are no department and discipline codes.
                 if recordRoot.find("dcterms:localdepartmentcode", namespaces= nSpaces) is None and recordRoot.find("dcterms:localthesisdegreediscipline", namespaces= nSpaces) is None:
-                    addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
+                    addedDisciplineField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localthesisdegreediscipline")
                     addedDisciplineField.text = "Department not identified"
 
                 ET.dump(recordRoot)
