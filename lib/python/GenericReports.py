@@ -38,6 +38,7 @@ transfertoDegreeDisciplineDictionary(degreeDictionary, "degree_Dictionary.txt")
 disciplineDictionary= {}
 transfertoDegreeDisciplineDictionary(disciplineDictionary, "discipline_Dictionary.txt")
 
+
 if len(pidArray) > 0:
 
     nSpaces = {"dc": "http://purl.org/dc/elements/1.1/", "dcterms": "http://purl.org/dc/terms/"}
@@ -48,30 +49,36 @@ if len(pidArray) > 0:
         currentUrl = queryBuilder(currentPid)
         queryOutput = callQuery(currentUrl)
         root = ET.fromstring(queryOutput)
-
+       
         for field in root.findall("mds/md[name='descriptive']") :
             for valueField in field.findall("value"):
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
                 recordRoot = ET.fromstring(valueField.text)
 
             # All required fields (Alphabetical order):    
-                # Clean up Date Field    
-                for date in recordRoot.findall("dc:date", namespaces= nSpaces):
-                    if date.text not in [None, "YYYY"]:
-                        cleanedDate = removePunctuationField(date.text)
-                        formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
-                        date.text = formattedDate
+
+                # Clean up Date Field
+                if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces), currentPid) is False:
+                    for date in recordRoot.findall("dc:date", namespaces= nSpaces):
+                        if date.text not in [None, "YYYY"]:
+                            cleanedDate = removePunctuationField(date.text)
+                            formattedDate = cleanDateField(cleanedDate, monthsDictionary)
+                            date.text = formattedDate
 
                 # Clean up Title Field
-                for title in recordRoot.findall("dc:title", namespaces= nSpaces):
-                    if title.text is not None:
-                        cleanedTitle = cleanTitleField(title.text)
-                        title.text = cleanedTitle
-
+                if isFieldEmpty(recordRoot.find("dc:title", namespaces= nSpaces), currentPid) is False:
+                    for title in recordRoot.findall("dc:title", namespaces= nSpaces):
+                        if title.text is not None:
+                            cleanedTitle = cleanTitleField(title.text)
+                            title.text = cleanedTitle
 
                 # Clean up Type Field
-                for type in recordRoot.findall("dc:type", namespaces= nSpaces):
-                    type.text = "Report"
+                if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces), currentPid) is False:
+                    for type in recordRoot.findall("dc:type", namespaces= nSpaces):
+                        type.text = "Report"
+                else:
+                    typeField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}type")
+                    typeField.text = "Report"
                 
             
             # Other Fields (Alphabetical Order) 
@@ -83,8 +90,9 @@ if len(pidArray) > 0:
                 for department in recordRoot.findall("dcterms:localdepartmentcode", namespaces= nSpaces):
                     if department.text is not None:
                         departmentCode = department.text
-                        departmentLabel = facultyDepartmentCodesDictionary[departmentCode]
-                        department.text = departmentLabel
+                        if departmentCode in facultyDepartmentCodesDictionary:
+                            departmentLabel = facultyDepartmentCodesDictionary[departmentCode]
+                            department.text = departmentLabel
                 #Clean up Discipline Field
                 for discipline in recordRoot.findall("dcterms:localthesisdegreediscipline", namespaces= nSpaces):
                     if discipline.text is not None:
@@ -104,14 +112,15 @@ if len(pidArray) > 0:
                     recordRoot.remove(extent)
                 for pageCount in recordRoot.findall("dcterms:localdisspagecount", namespaces = nSpaces):
                     if pageCount.text != "":
-                        extentField = ET.SubElement(recordRoot, "dcterms:extent")
+                        extentField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}extent")
                         extentField.text = pageCount.text + " pages"
                 # Clean up Faculty Field
                 for faculty in recordRoot.findall("dcterms:localfacultycode", namespaces= nSpaces):
                     if faculty.text is not None:
                         facultyCode = faculty.text
-                        facultyLabel = facultyDepartmentCodesDictionary[facultyCode]
-                        faculty.text = facultyLabel
+                        if facultyCode in facultyDepartmentCodesDictionary:
+                            facultyLabel = facultyDepartmentCodesDictionary[facultyCode]
+                            faculty.text = facultyLabel
                 # Clean up Language Field
                 for language in recordRoot.findall("dc:language", namespaces= nSpaces):
                     if language.text is not None:
@@ -125,16 +134,29 @@ if len(pidArray) > 0:
                             publisher.text = cleanedPublisherArray[0]
                         else:
                             publisher.text = cleanedPublisherArray[0]
-                            addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
+                            addedDisciplineField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
-                # Clean up Relation Field
-                for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
-                    if relationField.text is None:
-                        relationField = ET.SubElement(recordRoot, "dc:relation")
-                        relationField.text = "Pid: " + currentPid
-                    else:
-                        currentId = cleanUpCurrentID(relationField.text)
-                        relationField.text = "Pid: " + currentPid + " " + currentId
+               # Clean up Relation Field
+                if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
+                    relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
+                    relationField.text = "Pid: " + currentPid
+                else:
+                    pidAdded = False
+                    for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
+                        if relationField.text is None:
+                            relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
+                            relationField.text = "Pid: " + currentPid
+                            pidAdded = True
+                        else:
+                            currentId = cleanUpCurrentID(relationField.text)
+                            if currentId != "":
+                                relationField.text = "Pid: " + currentPid + " " + currentId
+                                pidAdded = True
+                            else:
+                                recordRoot.remove(relationField) 
+                        if pidAdded == False:
+                            relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
+                            relationField.text = "Pid: " + currentPid
                 
                 ET.dump(recordRoot)
 

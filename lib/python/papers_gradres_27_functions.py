@@ -81,7 +81,7 @@ def removePunctuationField(myString):
         cleanedString = myString
     return cleanedString
 
-def isFieldEmpty(anyField, currentPid):
+def isFieldEmpty(anyField):
     if anyField is None:
         return True
     else: 
@@ -112,34 +112,32 @@ def cleanTitleField(myTitleString):
     myTitleString = " ".join(myTitleString.split())
 
     firstChar = myTitleString[0]
-    secondChar = myTitleString[1]
+    if firstChar == "[":
 
-    # If there is a double [[]]
-    if firstChar == "[" and secondChar == "[":
-        cleanedTitle = myTitleString[2:]
-        splitString = cleanedTitle.split(" ")
-        firstWord = splitString[0]
-        firstWord = firstWord[:-2]
-        if firstWord[-1] == "'":
-            cleanedTitle = firstWord + " ".join(splitString[1:])
-        else:
-            cleanedTitle = firstWord + " " + " ".join(splitString[1:])
-    
-    # If there is a single []
-    elif firstChar == "[":
-        cleanedTitle = myTitleString[1:]
-        splitString = cleanedTitle.split(" ")
-        firstWord = splitString[0]
-        firstWord = firstWord[:-1]
-        if firstWord[-1] == "'":
-            cleanedTitle = firstWord + " ".join(splitString[1:])
-        else:
-            cleanedTitle = firstWord + " " + " ".join(splitString[1:])
-    # If there are no []
+        # Different ways of using dashes (i.e. [[The]], [The], [[The])
+        if re.search(r"\[\[(.*)\]\]", myTitleString):
+            firstWordDashes = re.search(r"\[\[(.*)\]\]", myTitleString)
+            firstWord = firstWordDashes.group(1)
+            cleanedTitle = re.sub(r"\[\[.*\]\]", firstWord, myTitleString)
+        elif re.search(r"\[\[(.*)\]", myTitleString):
+            firstWordDashes = re.search(r"\[\[(.*)\]", myTitleString)
+            firstWord = firstWordDashes.group(1)
+            cleanedTitle = re.sub(r"\[\[.*\]", firstWord, myTitleString)
+        elif re.search(r"\[(.*)\]\]", myTitleString):
+            firstWordDashes = re.search(r"\[(.*)\]\]", myTitleString)
+            firstWord = firstWordDashes.group(1)
+            cleanedTitle = re.sub(r"\[.*\]\]", firstWord, myTitleString)
+        elif re.search(r"\[(.*)\]", myTitleString):
+            firstWordDashes = re.search(r"\[(.*)\]", myTitleString)
+            firstWord = firstWordDashes.group(1)
+            cleanedTitle = re.sub(r"\[.*\]", firstWord, myTitleString)
+        else: 
+            cleanedTitle = myTitleString            
+
     else:
         cleanedTitle = myTitleString
-    
-    return cleanedTitle  
+        
+    return cleanedTitle 
 
 # Functions for date field:
 def dateToRightFormat(dateArray):
@@ -216,7 +214,7 @@ def replaceAlphaNotationFromDate(myDateString, monthDict):
         elif "X" in dateArray[i] :
             cleanDate = dateArray[i]   
         elif "u" in dateArray[i] :
-            cleanDate = dateArray[i]    
+            cleanDate = dateArray[i]  
 
     return cleanDate
 
@@ -248,6 +246,21 @@ def cleanDateField(myDateString, monthsDictionary):
     
     return formattedDate
 
+def cleanRightsField(recordRoot, nSpaces):
+    """ Cleans the rights statement for extra spaces, tabs, and new lines. Adds the generic statement if it's not already included. 
+    """
+    rightsStatement = "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+    statementFound = False
+                    
+    for right in recordRoot.findall("dc:rights", namespaces= nSpaces):
+        rights = " ".join(right.text.split())
+        if rightsStatement in rights:
+            statementFound = True
+            right.text = rights
+        if statementFound == False:
+            rightField = ET.SubElement(recordRoot, "dc:rights")
+            rightField.text = "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+
 # Functions about other fields: 
 def isTheContributorFieldEmpty(contributorField):
     """ Remove field if it only has (Supervisor) written, which was the default text of the field.
@@ -267,11 +280,8 @@ def mapToRightLanguageCode(languageField, languageIsoCodesDictionary):
     
     else:
         langIso = languageField
-    
-        langIso = langIso.rstrip()
         
     return langIso
-        
 
 def cleanUpCurrentID(currentIdentifier):
     """ The relation field contains related identifier fields. The field should contain the OCLC number, the Proquest number, and the pid.
@@ -283,7 +293,7 @@ def cleanUpCurrentID(currentIdentifier):
 
     if currentIdentifier.isdigit():
         cleanedIdentifier = ""
-
+        #cleanedIdentifier = "Aleph: " + currentIdentifier
     else:
         if "nnnn" in currentIdentifier.lower():
             cleanedIdentifier = ""
@@ -296,6 +306,7 @@ def cleanUpCurrentID(currentIdentifier):
             idType = ""
             for identifier in identifierArray:
                 identifier = removePunctuationField(identifier)
+                
                 if identifier.isalpha():
                     if "proquest" in currentIdentifier.lower():
                         idType = "Proquest"
@@ -308,19 +319,26 @@ def cleanUpCurrentID(currentIdentifier):
                 cleanedIdentifier = ""  
     return(cleanedIdentifier)
 
-def cleanPublisher(currentPublisher):
+def cleanPublisher(currentPublisher, dictionary):
     """ Remove additional information from the publisher field that shouldn't be there. This function checks if there is more than "McGill University" entered. 
-    For reports, the additional information is the departmental affiliation, which moves to another field
     """
+    departmentFound = False
+
     publisher = currentPublisher.strip()
     publisher = removePunctuationField(publisher)
     publisher = publisher.lower()
+
     if publisher == "mcgill university":
         myArray = [currentPublisher]
     else:
         myPubArray = currentPublisher.split(",")
-        disciplineInfo =  myPubArray[0].strip()
-        myArray = ["McGill University", disciplineInfo]
+        for elements in myPubArray:
+            if "department" in elements.lower().strip():
+                disciplineInfo =  elements.strip()
+                myArray = ["McGill University", disciplineInfo]
+                departmentFound = True
+    if departmentFound == False:    
+        myArray = [currentPublisher]
     return myArray
 
 def correctDegreeDiscipline(currentString, dictionary):
