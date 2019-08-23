@@ -24,9 +24,9 @@ class SolrDocument
   use_extension(Blacklight::Document::DublinCore)
 
   # Do content negotiation for AF models. 
-
   use_extension( Hydra::ContentNegotiation )
 
+ 
   field_semantics.merge!(
     description: "description_tesim",
     creator: "creator_tesim",
@@ -34,14 +34,31 @@ class SolrDocument
     date: "date_tesim",
     subject: "subject_tesim",
     title: "title_tesim",
+    degree: "degree_tesim",
     language: "language_tesim",
     source: "source_tesim",
     relation: "relation_tesim",
     institution: "institution_tesim",
     type: "rtype_tesim",
     rights: 'rights_tesim',
-    identifier: "identifier_tesim"
+    identifier:  "oai_identifier"
   )
+
+  def [](key)
+    return send(key) if %w[ oai_identifier ].include?(key)
+
+    super
+  end
+
+  def oai_identifier
+    if self['has_model_ssim'].first.to_s == 'Collection'
+      Hyrax::Engine.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: 'hyrax/collections', id: id)
+    elsif self['has_model_ssim'].first.to_s == 'Thesis'
+      Rails.application.routes.url_helpers.url_for(only_path: false, action: 'file_manager', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
+    else
+      Rails.application.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
+    end
+  end
 
   def sets
     fetch('isPartOf', []).map { |m| BlacklightOaiProvider::Set.new("isPartOf_ssim:#{m}") }
@@ -86,11 +103,12 @@ class SolrDocument
   def orcidid
     self[Solrizer.solr_name('orcidid')]
   end
-
-  #def language
-  #  self[Solrizer.solr_name('language_label')]
-  #end
   
+  def language
+    self[Solrizer.solr_name('language')]
+  end
+
+
   def language_label
     self[Solrizer.solr_name('language_label')]
   end
@@ -133,5 +151,45 @@ class SolrDocument
   
   def source
     self[Solrizer.solr_name('source')]
+  end
+
+  def report_number
+    self[Solrizer.solr_name('report_number')]
+  end 
+
+  def creator
+    self[Solrizer.solr_name('creator')]
+  end 
+
+  def contributor
+    self[Solrizer.solr_name('contributor')]
+  end 
+
+  def work_description
+    self[Solrizer.solr_name('work_description')]
+  end 
+
+  def publisher
+    self[Solrizer.solr_name('publisher')]
+  end 
+
+  def subject
+    self[Solrizer.solr_name('subject')]
+  end 
+
+  def extent
+    self[Solrizer.solr_name('extent')]
+  end 
+
+  def identifier
+    self[Solrizer.solr_name('identifier')]
+  end 
+
+  def note
+    self[Solrizer.solr_name('note')]
+  end 
+
+  def license
+    self[Solrizer.solr_name('license')]
   end
 end 

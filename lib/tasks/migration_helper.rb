@@ -86,4 +86,15 @@ class MigrationHelper
       abort("[#{Time.now}] could not recover; aborting migration")
     end
   end
+  
+  # Get the migration config file
+  def self.get_migration_config(collect_name)
+      # Load the collection config file
+      config_file = "spec/fixtures/digitool/config.yml"
+      config = YAML.load_file(File.join(Rails.root, config_file))
+      migration_config = config[collect_name]
+
+      migration_config
+  end
+
 end

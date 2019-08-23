@@ -12,24 +12,11 @@ class CatalogController < ApplicationController
   def self.modified_field
     solr_name('system_modified', :stored_sortable, type: :date)
   end
-
+  
   configure_blacklight do |config|
-   
+ 
     # Blacklight OAI configurations.
-    config.oai = {
-      provider: {
-        repository_name: 'eScholarship@McGill',
-        repository_url: 'http://dev-dawg1.library.mcgill.ca:3000/catalog/oai',
-        record_prefix: 'oai',
-        admin_email: 'dev.library@mcgill.ca',
-        sample_id: '109660'
-      },
-      document: {
-        limit: 25,
-        set_fields: [{ solr_field: 'isPartOf_ssim' }],
-        set_class: '::OaiSet'
-      }
-    }
+    config.oai = OAI_CONFIG
 
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]

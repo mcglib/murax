@@ -9,7 +9,7 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
-
+.env.production
 .env
 .fcrepo_wrapper
 .travis.yml
@@ -38,3 +38,8 @@ yarn-debug.log*
 yarn-debug.log*
 .yarn-integrity
 app/assets/stylesheets/.login_signup.scss.swp
+spf13-vim.sh
+.vscode/launch.json
+dc_deploy.sh
+murax_container.sh
+fits.log

@@ -6,6 +6,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.11.2] - 2019-08-22
+### Changed
+* Added fix to get the rtype in the BREPR reports
+
+## [1.0.11.1] - 2019-08-22
+### Changed
+* Added fix to get the rtype in the BREPR reports
+
+## [1.0.11] - 2019-08-19
+### Changed
+* Added fix to get the publisher in the BREPR reports
+
+## [1.0.10] - 2019-08-17
+### Changed
+* Fixed rtype view 
+* Added helpers for the worktypes
+
+## [1.0.9.1] - 2019-08-16
+### Changed
+* Fixing bug with adding works to a collection
+* Added extent field to ingest of works of the Report type
+
+## [1.0.9] - 2019-08-15
+* Updated the code for Digitool import of reports
+
+## [1.0.8] - 2019-08-12
+### Changed
+* Updated the fixity check
+* Updated the code for Digitool import
+* Changed identifier Script
+* updated few gem
+* updated hyrax 2.5.0 to 2.5.1 to fix the security bug
+* Updated the browse everything provider
+* Updated the code for the rake task
+* added the thesis script
+* Updated the features
+* Removed the error file from script and renamed the functions file
+* Cahnged Relation Field
+* Updated to run bioresource reports
+* Updated the config file
+
+
+### Added
+* Added a separate task for creating default admin user
+* aaded a user group
+* added new user group settings
+* added a new file
+* Created the rake task to automate the reindexing
+ ADded checks for collection mappings
+* added report number to solr doc
+* added all properties to solr document, initially they were skpipped thinking that only the new properties are needed there and not the ones that come with hyrax by default, apprently that approach is not right
+* made a change to article form
+* Enabled utf-8 on the GenericReports.py file
+* Changed language function to remove trailing spaces and newlines
+* Added the bioresource pids
+* updated language field
+* Adding the reports pid list
+* Updating the identifier field
+* Added language to solr doc
+
+
 ## [1.0.7.1] - 2019-07-25
 ### Changed
 - Merging changes from develop
