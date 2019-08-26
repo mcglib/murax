@@ -172,7 +172,6 @@ class MigrationHelper
       when "UGPAPER", "UGRAD", "LIVLAB"
         work_type = "Paper"
       else
-        puts "You gave me #{lccode} -- I have no idea what to do with that."
         work_type = nil
       end
     end
