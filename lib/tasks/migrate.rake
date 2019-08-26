@@ -11,54 +11,6 @@ namespace :migration do
   require "tasks/migration/services/id_mapper"
   require 'tasks/migration/services/metadata_parser'
 
-
-  # bundle exec rake migrate:digitool_item -- -p 12007 -c 'thesis'
-  desc 'Migrate a Digitool object with a PID and its related items eg: bundle exec rake migrate:digitool_item -- -p 12007 -c "thesis"'
-  task :digitool_item =>:environment do
-    options = {
-          pid: 'spec/fixtures/digitool/ethesis.csv',
-          collection: 'thesis'
-    }
-    o = OptionParser.new
-    o.banner = "Usage: rake migrate:digitool_item [options]"
-    o.on('-p PID') { |pid|
-      options[:pid] = pid
-    }
-    o.on('-c COLLECTION') { |collect|
-      options[:collection] = collect
-    }
-    #return `ARGV` with the intended arguments
-    args = o.order!(ARGV) {}
-    o.parse!(args)
-    start_time = Time.now
-
-    # Set the variables
-    pid = options[:pid]
-    collection = options[:collection]
-
-
-    puts "[#{start_time.to_s}] Start migration of pid item #{pid} to the collection #{collection}"
-
-    item  = DigitoolItem.new({"pid" => pid})
-    migration_config = get_migration_config(collection)
-    depositor_email = migration_config['depositor_email']
-    # make sure you have a depositor
-    @depositor = User.where(email: depositor_email).first
-    if @depositor.present?
-
-      # 3. Import the metadata
-      Migrate::Services::MigrateService.new(migration_config,
-                                            item,
-                                            @depositor, @temp).import
-      # 4. Add the collection to the item
-      
-    else
-      puts 'The default admin set or specified depositor does not exist'
-    end
-
-  end 
-
-
   # bundle exec rake migrate:digitool -- -c 'thesis' -f spec/fixtures/digitool/ethesis-pids.csv
   desc 'Batch migrate digitool records from a list of PIDS in a  CSV file'
   task :digitool => :environment do

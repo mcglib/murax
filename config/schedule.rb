@@ -5,7 +5,7 @@
 
 # Example:
 #
-# set :output, "/path/to/my/cron_log.log"
+set :output, "log/whenever.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -49,10 +49,13 @@ end
 
 # Run Fixity checking
 every :day, at: '2:00am' do
-  rake "Hyrax::RepositoryFixityCheckService.fixity_check_everything"
+  rake "murax:fixity_check"
+  #Hyrax::RepositoryFixityCheckService.fixity_check_everything"
 end
 
 # Update user stats on a daily basis
-every :day, at: '2:00am' do
-   rake "hyrax:stats:user_stats"
-end
+# Disabling this as we are not running user stats no
+# Disabling this as we are not running user stats noww
+#every :day, at: '2:00am' do
+#   rake "hyrax:stats:user_stats"
+#end

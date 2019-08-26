@@ -13,12 +13,12 @@ from papers_gradres_27_functions import *
 
 
 ###################
-#    Main Code   
+#    Main Code
 ###################
 
 
-#reload(sys)  
-#sys.setdefaultencoding('utf8')
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 pidArray = sys.argv[1:]
 
@@ -51,7 +51,7 @@ if len(pidArray) > 0:
         root = ET.fromstring(queryOutput)
 
         # Check if the Pid has multiple set of descriptive metadata
-       
+
         array = root.findall("mds/md[name='descriptive']")
 
         for field in root.findall("mds/md[name='descriptive']") :
@@ -59,7 +59,7 @@ if len(pidArray) > 0:
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
                 recordRoot = ET.fromstring(valueField.text)
 
-            # All required fields (Alphabetical order):    
+            # All required fields (Alphabetical order):
 
                 # Clean up Date Field
                 if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces)) is False:
@@ -88,9 +88,9 @@ if len(pidArray) > 0:
                 else:
                     typeField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}type")
                     typeField.text = "Paper"
-                
-            
-            # Other Fields (Alphabetical Order) 
+
+
+            # Other Fields (Alphabetical Order)
                 # Clean up Contributor Field
                 for contributor in recordRoot.findall("dc:contributor", namespaces= nSpaces):
                     if isTheContributorFieldEmpty(contributor.text) is True:
@@ -162,16 +162,16 @@ if len(pidArray) > 0:
                                 relationField.text = "Pid: " + currentPid + " " + currentId
                                 pidAdded = True
                             else:
-                                recordRoot.remove(relationField) 
+                                recordRoot.remove(relationField)
                         if pidAdded == False:
                             relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                             relationField.text = "Pid: " + currentPid
-                
+
                 # Add "Department not identified" if there are no department and discipline codes.
                 if recordRoot.find("dcterms:localdepartmentcode", namespaces= nSpaces) is None and recordRoot.find("dcterms:localthesisdegreediscipline", namespaces= nSpaces) is None:
                     addedDisciplineField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localthesisdegreediscipline")
                     addedDisciplineField.text = "Department not identified"
-                
+
                 ET.dump(recordRoot)
 
 else:

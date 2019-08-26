@@ -1,0 +1,11 @@
+lccode,worktype,collection_id
+BREPR,Report,bioresource-reports
+ETHESIS,Thesis,thesis
+GRADRES,Report,technical-reports
+LIVLAB,Paper,living-lab
+ESHIP,Article,faculty-pubs-article
+ESHIP,Book,faculty-pubs-book
+ESHIP,Presentation,faculty-pubs-presentation
+GRADRES,Paper,grad-pub
+UGPAPER,Paper,ugrad-res-paper
+UGRAD,Paper,ugrad-res
