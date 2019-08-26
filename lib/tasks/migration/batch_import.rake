@@ -24,12 +24,15 @@ namespace :migration do
       # Lets clean the csv file because of the quotes
       @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
 
+      admin_set = ENV['DEFAULT_ADMIN_SET'].tr('"', '')
+      user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
+
       # The default admin set and designated depositor must exist before running this script
-      if AdminSet.where(title: ENV['DEFAULT_ADMIN_SET']).count != 0 &&
-          User.where(email: ENV['DEFAULT_DEPOSITOR_EMAIL']).count > 0
+      if AdminSet.where(title: admin_set).count != 0 &&
+          User.where(email: user_email).count > 0
         # lets chunck the job
         # Get the depositor
-        @depositor = User.where(email: ENV['DEFAULT_DEPOSITOR_EMAIL']).first
+        @depositor = User.where(email: user_email).first
         @pids.each_slice(2) do | lists |
 
           created_works = []
