@@ -33,7 +33,7 @@ namespace :migration do
         # lets chunck the job
         # Get the depositor
         @depositor = User.where(email: user_email).first
-        @pids.each_slice(2) do | lists |
+        @pids.each_slice(5) do | lists |
 
           created_works = []
           lists.each do |item|

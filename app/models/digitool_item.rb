@@ -39,7 +39,7 @@ class DigitoolItem
     set_related_pids
 
   end
-  
+
   def set_metadatahash(xml)
     metadata_hash = nil
     # Here we remove the weird prefixes not recognized
@@ -70,6 +70,16 @@ class DigitoolItem
 
   def set_related_pids
     @related_pids = fetch_related_pids(@pid) if @pid.present?
+  end
+
+  def get_url_identifier(work_id)
+      url = nil
+
+      if work_id.present?
+       url = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{work_id}"
+      end
+
+      url
   end
 
   def get_related_pids

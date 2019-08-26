@@ -80,7 +80,7 @@ module Hyrax
               index.as :stored_searchable
       end
 
-      property :related_url,      predicate: ::RDF::RDFS.seeAlso, multiple: true 
+      property :related_url,      predicate: ::RDF::RDFS.seeAlso, multiple: true
 
       property :identifier,      predicate:  ::RDF::Vocab::DC.identifier, multiple: true do | index |
               index.as :stored_searchable

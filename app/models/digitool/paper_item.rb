@@ -6,7 +6,7 @@ class Digitool::PaperItem < DigitoolItem
     super
     @metadata_xml = clean_metadata
     @metadata_hash = set_metadatahash(@metadata_xml)
-    
+
     set_title if is_view?
 
   end
@@ -36,11 +36,16 @@ class Digitool::PaperItem < DigitoolItem
 
       work_attributes = get_work_attributes(config, depositor)
       child_works = Array.new
-  
+
       work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
 
       { work_attributes: work_attributes.reject!{|k,v| v.blank?},
         child_works: child_works }
+  end
+
+  def update_identifier(work, work_type)
+   work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+   work.save!
   end
 
   def create( parsed_data )
@@ -49,10 +54,11 @@ class Digitool::PaperItem < DigitoolItem
         work_attributes["relation"] << "pid: #{@pid}"
 
         new_work = work_record(work_attributes)
+ 
+        #update the identifier
+        new_work.identifier =  get_url_identifier
         new_work.save!
 
-        #update the identifier
-        new_work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
 
         # Create sipity record
         workflow = Sipity::Workflow.joins(:permission_template)
@@ -94,32 +100,33 @@ class Digitool::PaperItem < DigitoolItem
       work_attributes['visibility'] = 'open'
       xml = Nokogiri::XML.parse(@metadata_xml)
 
+      xml.remove_namespaces!
       # Set the title
       work_attributes['title'] = []
-      xml.xpath("/record/dc:title").each do |title|
+      xml.xpath("/record/title").each do |title|
         work_attributes['title'] << title.text
       end
-      
+
       work_attributes['alternative_title'] = []
-      xml.xpath("/record/dc:alternative_title").each do |title|
+      xml.xpath("/record/alternative_title").each do |title|
         work_attributes['alternative_title'] << title.text
       end
-      
+
       # set the creator
       work_attributes['creator'] = []
-      xml.xpath("/record/dc:creator").each do |term|
+      xml.xpath("/record/creator").each do |term|
         work_attributes['creator'] << term.text
       end
 
       # Set the abstract
       work_attributes['abstract'] = []
-      xml.xpath("/record/ns1:abstract").each do |abstract|
+      xml.xpath("/record/abstract").each do |abstract|
         work_attributes['abstract'] << abstract.text if abstract.text.present?
       end
 
 
       work_attributes['contributor'] =[]
-      xml.xpath("/record/dc:contributor").each do |term|
+      xml.xpath("/record/contributor").each do |term|
         work_attributes['contributor'] << term.text
       end
 
@@ -129,7 +136,7 @@ class Digitool::PaperItem < DigitoolItem
       work_attributes['date_modified'] =  [date_uploaded.to_s]
 
       # get the modifiedDate
-      date_modified_string = xml.xpath("/record/dc:localdissacceptdate").text
+      date_modified_string = xml.xpath("/record/localdissacceptdate").text
       unless date_modified_string.empty?
         date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
                         .strftime('%Y-%m-%d')
@@ -138,7 +145,7 @@ class Digitool::PaperItem < DigitoolItem
 
 
       # get the date. copying the modifiedDate
-      date = xml.xpath("/record/dc:date").text
+      date = xml.xpath("/record/date").text
       work_attributes['date'] = [date] if date.present?
 
       # McGill rights statement
@@ -149,13 +156,13 @@ class Digitool::PaperItem < DigitoolItem
 
       # set the relation
       work_attributes['relation'] = []
-      xml.xpath("/record/dc:relation").each do |term|
+      xml.xpath("/record/relation").each do |term|
         work_attributes['relation'] << term.text if term.text.present?
       end
 
       #Added the isPart of
       work_attributes['note'] = []
-      xml.xpath("/record/ns1:isPartOf").each do |term|
+      xml.xpath("/record/isPartOf").each do |term|
         work_attributes['note'] << term.text if term.text.present?
       end
 
@@ -164,53 +171,52 @@ class Digitool::PaperItem < DigitoolItem
 
       
         work_attributes['faculty'] = []
-        xml.xpath("/record/ns1:localfacultycode").each do |term|
+        xml.xpath("/record/localfacultycode").each do |term|
         work_attributes['faculty'] << term.text if term.text.present?
       end
 
       # get the department
       work_attributes['department'] =[]
-      xml.xpath("/record/ns1:localdepartmentcode").each do |term|
+      xml.xpath("/record/localdepartmentcode").each do |term|
         work_attributes['department'] << term.text if term.text.present?
       end
       
       # get the publisher
       work_attributes['publisher'] = []
-      xml.xpath("/record/dc:publisher").each do |term|
+      xml.xpath("/record/publisher").each do |term|
         work_attributes['publisher'] << term.text if term.text.present?
       end
 
 
 
-      xml.remove_namespaces!
       # get the department
       work_attributes['degree'] =[]
-      xml.xpath("//localthesisdegreename").each do |term|
+      xml.xpath("/record/localthesisdegreename").each do |term|
         work_attributes['degree'] << term.text if term.text.present?
       end
 
 
       # get the grant_number
-      research_unit = xml.xpath("//localresearchunit").text
+      research_unit = xml.xpath("/record/localresearchunit").text
       work_attributes['research_unit'] = research_unit if research_unit.present?
 
       # get the grant_number
-      grant_no = xml.xpath("//localgrantnumber").text
+      grant_no = xml.xpath("/record/localgrantnumber").text
       work_attributes['grant_number'] = grant_no if grant_no.present?
 
       # get the rtype
       work_attributes['rtype'] =[]
-      xml.xpath("//type").each do |term|
+      xml.xpath("/record/type").each do |term|
         work_attributes['rtype'] << term.text if term.text.present?
       end
       
       # get the extent
-      extent = xml.xpath("//extent").text
+      extent = xml.xpath("/record/extent").text
       work_attributes['extent'] = extent if extent.present?
 
       # languages
       languages = []
-      xml.xpath("//language").each do |term|
+      xml.xpath("/record/language").each do |term|
         clean_term = term.text.squish
         languages << clean_term if clean_term.present?
       end

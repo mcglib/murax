@@ -50,9 +50,10 @@ module Migration
           migrate_service = Migration::Services::MigrateService.new(migration_config,
                                                @depositor)
           work_id = migrate_service.import_records([@pid], @logger, work_type)
-        
+
           # Get the title
           work = work_type.constantize.find(work_id.first)
+
           # Return the following info, work_id, collection_id, title, pid, work_type
           import_record = {work_id: work.id,
                            collection_id: collection_id,

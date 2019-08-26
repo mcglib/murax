@@ -52,9 +52,11 @@ namespace :migration do
           work_id = migrate_service.import_records([args[:pid]], log, work_type)
 
           # Add the work to the collection id
-          log.info "Added  pid #{pid} to work id #{work_id}."
-          puts "Adding the workid: #{work_id} to the collection #{collection_id}"
-          migrate_service.add_works_to_collection([work_id], collection_id)
+          if work_id.present?
+            log.info "Added  pid #{pid} to work id #{work_id}."
+            puts "Adding the workid: #{work_id} to the collection #{collection_id}"
+            migrate_service.add_works_to_collection([work_id], collection_id) 
+          end
       else
         puts 'The default admin set or specified depositor does not exist'
       end

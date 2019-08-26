@@ -15,7 +15,7 @@ module Migration
       end
 
       def import_record(pid, log, work_type = nil, index = 1)
-          
+
         @work_type = work_type if work_type.present?
         new_work = nil
         new_work = process_pid(pid, index)
@@ -77,12 +77,12 @@ module Migration
           new_work = work_record(work_attributes)
           new_work.save!
 
-          # update the identifier and the pid
-
-          #update the identifier
-          new_work.identifier ||= []
-          #update the identifier
-          new_work.identifier << "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
+          #update the identifier if we need one for the work_type
+          if new_work.instance_of? Thesis
+            new_work.identifier ||= []
+            new_work.identifier << item.get_url_identifier(new_work.id)
+            new_work.save!
+          end
 
           # Create sipity record
           workflow = Sipity::Workflow.joins(:permission_template)
@@ -214,12 +214,13 @@ module Migration
             work_attributes["relation"] << "pid: #{item.pid}"
 
             new_work = work_record(work_attributes)
+            #update the identifier if the work_type needs it
+            #
+            new_work.identifier = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
             new_work.save!
 
             # update the identifier and the pid
 
-            #update the identifier
-            new_work.identifier = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
 
             # Create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)
