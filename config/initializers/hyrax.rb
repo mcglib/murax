@@ -35,7 +35,7 @@ Hyrax.config do |config|
   config.contact_email = "<%= ENV['CONTACT_EMAIL'] %>"
 
   # Text prefacing the subject entered in the contact form
-  config.subject_prefix = "[Digitool] contact form:"
+  config.subject_prefix = "[eScholarship@McGill] contact form:"
 
   # How many notifications should be displayed on the dashboard
   # config.max_notifications_for_dashboard = 5
@@ -61,7 +61,7 @@ Hyrax.config do |config|
   # Date you wish to start collecting Google Analytic statistics for
   # Leaving it blank will set the start date to when ever the file was uploaded by
   # NOTE: if you have always sent analytics to GA for downloads and page views leave this commented out
-  # config.analytic_start_date = DateTime.new(2014, 9, 10)
+  config.analytic_start_date = DateTime.parse(ENV['GOOGLE_ANALYTICS_STARTDATE'])
 
   # Enables a link to the citations page for a work
   # Default is false
