@@ -53,6 +53,8 @@ every :day, at: '2:00am' do
 end
 
 # Update user stats on a daily basis
-every :day, at: '2:00am' do
-   rake "hyrax:stats:user_stats"
-end
+# Disabling this as we are not running user stats no
+# Disabling this as we are not running user stats noww
+#every :day, at: '2:00am' do
+#   rake "hyrax:stats:user_stats"
+#end
