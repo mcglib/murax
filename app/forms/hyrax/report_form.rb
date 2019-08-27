@@ -10,6 +10,7 @@ module Hyrax
                    :date,  :rights, :rtype, :extent, :orcidid, :relation, :report_number, :pmid ]
     self.terms -= [:identifier, :keyword, :rights_statement,:status, :date_created,:bibliographic_citation, :resource_type,:import_url, :relative_path, :based_near]
     self.required_fields += [:creator, :date, :rights, :rtype]
+    self.required_fields -= [:rights_statement]
     self.single_valued_fields = [ :rtype, :title, :degree]
   end
 end

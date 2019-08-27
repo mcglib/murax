@@ -2,12 +2,12 @@
   <%= f.input :status,
      collection: [['Preprint','Preprint'],['Postprint','Postprint'],['Published','Published']],
      include_blank: true,
-     required: f.object.required?(key) 
+     required: f.object.required?(key)
   %>
 <% else %>
   <%= f.input :status,
      collection: [['Preprint','Preprint'],['Postprint','Postprint'],['Published','Published']],
      include_blank: true,
-     required: f.object.required?(key) 
+     required: f.object.required?(key)
   %>
 <% end %>

@@ -1,8 +1,8 @@
 <% resource_type_authorities = Hyrax::ResourceTypeAuthorities.new %>
  
-<%= f.input :rtype, 
+<%= f.input :rtype,
   collection: resource_type_authorities.select_all_options,
   label: 'Item type',
   selected: item_type_helper,
-  required: f.object.required?(key) 
+  required: f.object.required?(key)
 %>
