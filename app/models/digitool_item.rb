@@ -9,7 +9,7 @@ class DigitoolItem
   attr_accessor :raw_xml, :added, :pid, :collection_id,
                 :related_pids, :metadata_hash, :title,
                 :file_info, :file_path, :file_name,
-                :work_type, :metadata_xml, :local_collection_code
+                :work_type, :metadata_xml, :local_collection_code, :item_type
         
 
   # validates
@@ -34,12 +34,28 @@ class DigitoolItem
 
     @file_info = set_file_metadata
 
-    #@metadata_hash = set_metadata
+    set_metadata
 
     set_related_pids
 
   end
- 
+
+  def set_metadatahash(xml)
+    metadata_hash = nil
+    # Here we remove the weird prefixes not recognized
+    normalized_xml = xml.gsub(/dcterms/, 'ns1')
+
+    metadata_hash = Hash.from_xml(normalized_xml)
+
+    metadata_hash
+
+  end
+
+  def get_metadata
+      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
+      doc.to_s
+  end
+
   def is_main_view?
     !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
   end
@@ -54,6 +70,16 @@ class DigitoolItem
 
   def set_related_pids
     @related_pids = fetch_related_pids(@pid) if @pid.present?
+  end
+
+  def get_url_identifier(work_id)
+      url = nil
+
+      if work_id.present?
+       url = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{work_id}"
+      end
+
+      url
   end
 
   def get_related_pids

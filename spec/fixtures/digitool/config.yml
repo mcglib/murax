@@ -9,6 +9,7 @@ thesis:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: thesis.py
   keywords_transformation:
     - 'Schulich School of'
     - 'Department of '
@@ -27,6 +28,7 @@ bioresource-reports:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: GenericReports.py
 technical-reports:
   work_type: Report
   resource_type: "Report"
@@ -37,6 +39,7 @@ technical-reports:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: GenericReports.py
 living-lab:
   work_type: Paper
   resource_type: "Paper"
@@ -47,6 +50,7 @@ living-lab:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: GenericReports.py
 faculty-pubs-article:
   work_type: Article
   resource_type: "Article"
@@ -57,6 +61,7 @@ faculty-pubs-article:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: faculty_pubs.py
 faculty-pubs-book:
   work_type: Book
   resource_type: "Book"
@@ -67,6 +72,7 @@ faculty-pubs-book:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: faculty_pubs.py
 faculty-pubs-presentation:
   work_type: Presentation
   resource_type: "Presentation"
@@ -77,6 +83,7 @@ faculty-pubs-presentation:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: faculty_pubs.py
 grad-pub:
   work_type: Paper
   resource_type: "Paper"
@@ -87,6 +94,7 @@ grad-pub:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: faculty_pubs.py
 ugrad-res-paper:
   work_type: Paper
   resource_type: "Paper"
@@ -97,6 +105,7 @@ ugrad-res-paper:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: papers_gradres.py
 ugrad-res:
   work_type: Paper
   resource_type: "Paper"
@@ -107,3 +116,4 @@ ugrad-res:
   tmp_file_location: /storage/www/uploads/migrate/files
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: papers_gradres.py

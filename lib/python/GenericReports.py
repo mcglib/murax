@@ -62,7 +62,7 @@ if len(pidArray) > 0:
                     for date in recordRoot.findall("dc:date", namespaces= nSpaces):
                         if date.text not in [None, "YYYY"]:
                             cleanedDate = removePunctuationField(date.text)
-                            formattedDate = cleanDateField(cleanedDate, monthsDictionary, currentPid)
+                            formattedDate = cleanDateField(cleanedDate, monthsDictionary)
                             date.text = formattedDate
 
                 # Clean up Title Field
@@ -77,7 +77,7 @@ if len(pidArray) > 0:
                     for type in recordRoot.findall("dc:type", namespaces= nSpaces):
                         type.text = "Report"
                 else:
-                    typeField = ET.SubElement(recordRoot, "dc:type")
+                    typeField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}type")
                     typeField.text = "Report"
 
 
@@ -112,7 +112,7 @@ if len(pidArray) > 0:
                     recordRoot.remove(extent)
                 for pageCount in recordRoot.findall("dcterms:localdisspagecount", namespaces = nSpaces):
                     if pageCount.text != "":
-                        extentField = ET.SubElement(recordRoot, "dcterms:extent")
+                        extentField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}extent")
                         extentField.text = pageCount.text + " pages"
                 # Clean up Faculty Field
                 for faculty in recordRoot.findall("dcterms:localfacultycode", namespaces= nSpaces):
@@ -134,25 +134,30 @@ if len(pidArray) > 0:
                             publisher.text = cleanedPublisherArray[0]
                         else:
                             publisher.text = cleanedPublisherArray[0]
-                            addedDisciplineField = ET.SubElement(recordRoot, "dcterms:localthesisdegreediscipline")
+                            addedDisciplineField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localthesisdegreediscipline")
                             addedDisciplineField.text = cleanedPublisherArray[1]
-                # Clean up Relation Field
+               # Clean up Relation Field
                 if recordRoot.find("dc:relation", namespaces=nSpaces) is None:
-                    relationField = ET.SubElement(recordRoot, "dc:relation")
+                    relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                     relationField.text = "Pid: " + currentPid
                 else:
                     pidAdded = False
                     for relationField in recordRoot.findall("dc:relation", namespaces= nSpaces):
-                        currentId = cleanUpCurrentID(relationField.text)
-                        if currentId != "":
-                            relationField.text = "Pid: " + currentPid + " " + currentId
+                        if relationField.text is None:
+                            relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
+                            relationField.text = "Pid: " + currentPid
                             pidAdded = True
                         else:
-                            recordRoot.remove(relationField)
-                    if pidAdded == False:
-                        relationField = ET.SubElement(recordRoot, "dc:relation")
-                        relationField.text = "Pid: " + currentPid
-
+                            currentId = cleanUpCurrentID(relationField.text)
+                            if currentId != "":
+                                relationField.text = "Pid: " + currentPid + " " + currentId
+                                pidAdded = True
+                            else:
+                                recordRoot.remove(relationField) 
+                        if pidAdded == False:
+                            relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
+                            relationField.text = "Pid: " + currentPid
+                
                 ET.dump(recordRoot)
 
 else:

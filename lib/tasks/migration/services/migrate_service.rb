@@ -14,8 +14,15 @@ module Migration
         @created_work_ids = []
       end
 
+      def import_record(pid, log, work_type = nil, index = 1)
 
-      def import_records(pid_list, log)
+        @work_type = work_type if work_type.present?
+        new_work = nil
+        new_work = process_pid(pid, index)
+        new_work
+      end
+
+      def import_records(pid_list, log, work_type = nil)
         STDOUT.sync = true
         if pid_list.empty?
           puts "The pid list is empty."
@@ -23,22 +30,22 @@ module Migration
           return
         end
 
-        @pid_list = pid_list
-        pid_count = @pid_list.count
-        log.info "Object count:  #{@pid_list.count.to_s}"
+        pid_count = pid_list.count.to_s
+        log.info "Object count:  #{pid_count}"
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
         workid_list = []
-        @pid_list.each.with_index do | pid, index |
+        pid_list.each.with_index do | pid, index |
 
-          start_time = Time.now
-          puts "#{start_time.to_s}: Processing the item  #{pid}"
+          puts "#{Time.now.to_s}: Processing the item  #{pid}"
           log.info "#{index}/#{pid_count} - Importing  #{pid}"
-          new_work = process_pid(pid, index)
-          # Save the work id to the created_works array
+
+          new_work = self.import_record(pid, log, work_type, index)
           @created_work_ids << new_work.id if new_work.present?
+
           workid_list << new_work.id if new_work.present?
+
         end
 
         workid_list
@@ -46,7 +53,6 @@ module Migration
 
       def process_pid(pid, index)
         # inistanciate the class_name based on the worktype passed
-
 
         class_name = "Digitool::" + @work_type + "Item"
         item = class_name.constantize.new({"pid" => pid,
@@ -71,12 +77,12 @@ module Migration
           new_work = work_record(work_attributes)
           new_work.save!
 
-          # update the identifier and the pid
-
-          #update the identifier
-          new_work.identifier ||= []
-          #update the identifier
-          new_work.identifier << "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
+          #update the identifier if we need one for the work_type
+          if new_work.instance_of? Thesis
+            new_work.identifier ||= []
+            new_work.identifier << item.get_url_identifier(new_work.id)
+            new_work.save!
+          end
 
           # Create sipity record
           workflow = Sipity::Workflow.joins(:permission_template)
@@ -121,13 +127,13 @@ module Migration
         end
 
         attached
-      
+
       end
 
       def attach_work_to_collection(work_id, collection)
           attached = true
           # Get the work
-          work = (@work_type.singularize.classify.constantize).find(work_id)
+          work = (@work_type.singularize.classify.constantize).find(work_id).first
 
           begin
             work.member_of_collections << collection
@@ -208,12 +214,13 @@ module Migration
             work_attributes["relation"] << "pid: #{item.pid}"
 
             new_work = work_record(work_attributes)
+            #update the identifier if the work_type needs it
+            #
+            new_work.identifier = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
             new_work.save!
 
             # update the identifier and the pid
 
-            #update the identifier
-            new_work.identifier = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
 
             # Create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)

@@ -4,6 +4,7 @@ require 'json'
 require 'nokogiri'
 require 'open-uri'
 require 'open3'
+require 'csv'
 class MigrationHelper
 
   # Get the UUID
@@ -95,6 +96,98 @@ class MigrationHelper
       migration_config = config[collect_name]
 
       migration_config
+  end
+
+  def self.get_bibostatus_by_dctype(dctype)
+    bibo_status = nil
+    if dctypes.downcase.include? "preprint" or dctype.downcase.include? "pre-print"
+      bibo_status = "Preprint"
+    end
+    if dctypes.downcase.include? "postprint"
+      bibo_status = "Postprint"
+    end
+    if dctypes.downcase.include? "publisher" and !dctype.downcase.include? "preprint"
+      bibo_status = "Published"
+    end
+
+    bibo_status
+  end
+
+  def self.get_samvera_collection_id(work_type, lccode)
+      collection_id = nil
+      mapping_file = "#{Rails.root}/spec/fixtures/digitool/llc_samvera_collections.csv"
+      mappinglist = CSV.table(mapping_file, { headers: true, converters: :numeric, header_converters: :symbol})
+
+      result = mappinglist.find_all  do |row| row.field(:lccode) == lccode and row.field(:worktype) == work_type end
+
+      collection_id = result[0][:collection_id] if result[0].present?
+      collection_id
+  end
+
+  def self.get_worktype_by_dctype(dctypes)
+    worktype = nil
+    unless dctypes.nil?
+
+      article_types = ["preprint", "publisher", "peer", "article", "application", "postprint", "pre-print"]
+      article_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Article"
+        end
+      end
+
+      paper_types = ["project report", "policy", "working"]
+      paper_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Paper"
+        end
+      end
+
+      book_types = ["chapter", "book", "ebook"]
+      book_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Book"
+        end
+      end
+      
+      report_types = ["technical"]
+      report_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Report"
+        end
+      end
+    end
+
+    worktype
+  end
+
+  def self.get_worktype_by_lccode(lccode)
+    work_type = nil
+
+    unless lccode.nil?
+      case lccode.upcase
+      when "ETHESIS"
+        work_type = "Thesis"
+      when "BREPR"
+        work_type = "Report"
+      when "UGPAPER", "UGRAD", "LIVLAB"
+        work_type = "Paper"
+      else
+        work_type = nil
+      end
+    end
+    work_type
+  end
+
+  def self.get_worktype(dctypes, lccode)
+      work_type = nil
+
+      ## filter by lccode first
+      work_type = self.get_worktype_by_lccode(lccode)
+
+      ## if work_type is still nil, we get it by the dctype
+      work_type = self.get_worktype_by_dctype(dctypes) if work_type.nil?
+
+      work_type
   end
 
 end
