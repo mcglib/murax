@@ -7,9 +7,9 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     input_html_options[:name] ||= "#{object_name}[#{attribute_name}][]"
 
     outer_wrapper do
-      buffer_each(collection) do |value, index|
+      buffer_each(collection) do |valuex, index|
         inner_wrapper do
-          build_field(value, index)
+          build_field(valuex, index)
         end
       end
     end
@@ -43,7 +43,17 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
   def build_field_options(value, index)
     options = input_html_options.dup
 
-    options[:value] = value
+
+    #options[:value] = value if options[:value].nil?
+    if !value.blank?
+      options[:value] = value
+    elsif value.blank? and !options[:value].blank?
+      options[:value] = options[:value]
+    else
+      options[:value] = value
+    end
+
+
     if @rendered_first_element
       options[:id] = nil
       options[:required] = nil
@@ -83,7 +93,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     @collection ||= begin
       val = object.send(attribute_name)
       col = val.respond_to?(:to_ary) ? val.to_ary : val
-      col.reject { |value| value.to_s.strip.blank? } + ['']
+      col.reject { |valuex| valuex.to_s.strip.blank? } + ['']
     end
   end
 
