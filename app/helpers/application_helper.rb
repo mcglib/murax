@@ -6,5 +6,9 @@ module ApplicationHelper
     item_type = item_split[2]
     item_type = item_type.capitalize.singularize
     return item_type
-  end 
+  end
+
+  def item_rights_helper
+    return "Book"
+  end
 end

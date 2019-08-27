@@ -1,0 +1,8 @@
+<% default_statement = ENV['DEFAULT_RIGHTS_STATEMENT'].tr('"', '') %>
+<% byebug %>
+<% if f.object.multiple? key %>
+  <%= f.input :rights, as: :multi_value, html5: true, label: 'Rights', required: f.object.required?(key), input_html: { rows: '3', type: 'textarea', value: item_rights_helper } %>
+  <% #f.input :rights, as: :multi_value, label: 'Rights', required: f.object.required?(key), input_html: { rows: '3', type: 'textarea', value: (f.object.rights.count === 1 and f.object.rights.first.empty?) ?  default_statement : f.objects.rights.first} %>
+<% else %>
+  <%= f.input :rights, as: :text, html5: true, label: 'Rights', required: f.object.required?(key), input_html: { value: (f.object.rights.count === 1 and f.object.rights.first.empty?) ? default_statement : f.objects.rights.first } %>
+<% end %>
