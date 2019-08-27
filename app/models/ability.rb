@@ -2,7 +2,7 @@ class Ability
   include Hydra::Ability
  
   include Hyrax::Ability
-  self.ability_logic += [:everyone_can_create_curation_concerns]
+ #self.ability_logic += [:everyone_can_create_curation_concerns]
   self.ability_logic += [:custom_permissions]
   self.ability_logic += [:casual_workers]
   # Define any customized permissions here.
@@ -23,13 +23,6 @@ class Ability
     #   can [:create], ActiveFedora::Base
     # end
 
-    if user_groups.include? 'casual_workers'
-      can [:create, :show, :edit,  :index, :update], ActiveFedora::Base
-    end
-
-    if user_groups.include? 'casual_workers'
-      can [:create, :show, :index,  :update], Role
-    end
 
     if current_user.admin?
       can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
@@ -39,12 +32,9 @@ class Ability
       can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     end
 
-    if current_user.casual_workers?
-      can [:create, :show, :index, :update], Role
-    end
   end
 
-
+  # Persmissions for casual workers
   def casual_workers
     if user_groups.include? 'casual_workers'
       can [:create, :show, :edit,  :index, :update], ActiveFedora::Base
@@ -57,5 +47,19 @@ class Ability
     if current_user.casual_workers?
       can [:create, :show, :index, :edit, :update], Role
     end
+
+    if user_groups.include? 'casual_workers'
+      cannot [:destroy], ActiveFedora::Base
+    end
   end
+
 end
+
+
+
+
+
+
+
+
+
