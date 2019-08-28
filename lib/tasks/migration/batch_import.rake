@@ -13,10 +13,19 @@ namespace :migration do
 
     # bundle exec rake migraton:digitool_item -- -p 12007 -c 'thesis'
     desc 'Migrate a Digitool objects with a PID and its related items eg: bundle exec rake migration:batch_import[csvfile, batch_no]'
-    task :batch_import, [:csv_file, :batch_no] => :environment do |t, args|
-      args.with_defaults(:batch_no => 5)
+    task :batch_import, [:csv_file, :start_pos, :batch_no] => :environment do |t, args|
+      args.with_defaults(:start_pos => 0, :batch_no => 5)
+
+
+
 
       require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
+
+      # slice length
+      batch_no =  (args[:batch_no] || 5).to_i
+
+      # start position (number) from csv array
+      start_pos =  (args[:start_pos] || 0).to_i
 
       start_time = Time.now
       logger = ActiveSupport::Logger.new("log/digitool-import-#{start_time}.log")
@@ -26,7 +35,6 @@ namespace :migration do
       # Lets clean the csv file because of the quotes
       @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
 
-      batch_no =  (args[:batch_no] || 5).to_i
 
       admin_set = ENV['DEFAULT_ADMIN_SET'].tr('"', '')
       user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
@@ -52,7 +60,7 @@ namespace :migration do
           # Group the works by collection_id and then add to collection
           created_works.group_by { |d| d[:collection_id] }.each do | collect_id, works |
             puts "Adding the following workids: #{works.pluck(:work_id).split(",")} to the collection #{collect_id}"
-            AddWorksToCollection.call( works.pluck(:work_id, :worktype),collect_id)
+            AddWorksToCollection.call( works.pluck(:work_id, :work_type),collect_id)
             puts "Creating a report log for the ingested works"
             AddWorksToImportLog.call( works, collect_id)
           end

@@ -24,7 +24,7 @@ module Migration
         import_record = nil
 
         begin
-          item = DigitoolItem.new({ :pid => pid}) if pid
+          item = DigitoolItem.new({ :pid => @pid}) if @pid.present?
           ##Get the dctypes
           dc_types = item.metadata_hash["type"] if !item.is_waiver?
           dc_types = dc_types.map(&:inspect).join(', ') if dc_types.kind_of?(Array)
@@ -57,7 +57,9 @@ module Migration
           # Return the following info, work_id, collection_id, title, pid, work_type
           import_record = {work_id: work.id,
                            collection_id: collection_id,
-                           title: work.title.first, worktype: work_type }
+                           digitool_collection_code: lc_code,
+                           pid: @pid,
+                           title: work.title.first, work_type: work_type }
           # Maybe we can add the import_record to db
 
 
