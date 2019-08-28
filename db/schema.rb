@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181026124108) do
+ActiveRecord::Schema.define(version: 20190828143151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,20 @@ ActiveRecord::Schema.define(version: 20181026124108) do
     t.boolean "enabled", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "importlogs", force: :cascade do |t|
+    t.string "title"
+    t.integer "pid"
+    t.boolean "imported"
+    t.datetime "date_imported"
+    t.string "work_type", limit: 30
+    t.string "collection_id", limit: 30
+    t.string "work_id", limit: 30
+    t.string "digitool_collection_code", limit: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_importlogs_on_title"
   end
 
   create_table "job_io_wrappers", id: :serial, force: :cascade do |t|
