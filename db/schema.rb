@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190828143151) do
+ActiveRecord::Schema.define(version: 20190828171858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,18 +146,22 @@ ActiveRecord::Schema.define(version: 20190828143151) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "importlogs", force: :cascade do |t|
+  create_table "import_logs", force: :cascade do |t|
     t.string "title"
     t.integer "pid"
     t.boolean "imported"
     t.datetime "date_imported"
     t.string "work_type", limit: 30
-    t.string "collection_id", limit: 30
-    t.string "work_id", limit: 30
+    t.string "collection_id"
     t.string "digitool_collection_code", limit: 10
+    t.text "error"
+    t.string "work_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["title"], name: "index_importlogs_on_title"
+    t.index ["collection_id"], name: "index_import_logs_on_collection_id"
+    t.index ["title"], name: "index_import_logs_on_title"
+    t.index ["work_id"], name: "index_import_logs_on_work_id"
+    t.index ["work_type"], name: "index_import_logs_on_work_type"
   end
 
   create_table "job_io_wrappers", id: :serial, force: :cascade do |t|
