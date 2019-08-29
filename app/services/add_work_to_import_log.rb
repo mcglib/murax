@@ -5,7 +5,7 @@ class AddWorkToImportLog
       begin
         record = ImportLog.create(work)
         # set the date created
-        record.date_imported = Date.now
+        record.date_imported = Date.new
         record.save!
       rescue  StandardError => e
         saved = false

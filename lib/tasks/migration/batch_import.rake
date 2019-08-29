@@ -58,6 +58,7 @@ namespace :migration do
 
                 import_rec = import_service.import
                 created_works << import_rec if import_rec.present?
+                successes += 1
              rescue => e
                 errors += 1
             end
