@@ -45,17 +45,24 @@ namespace :migration do
         # lets chunck the job
         # Get the depositor
         @depositor = User.where(email: user_email).first
+
         @pids.each_slice(batch_no) do | lists |
 
+          successes = 0
+          errors = 0
           created_works = []
           lists.each do |item|
-            logger.info "Ingesting Digitool PID: #{item}"
-            import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => ENV['DEFAULT_ADMIN_SET']}, @depositor, logger)
+            begin
+                logger.info "Ingesting Digitool PID: #{item}"
+                import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => ENV['DEFAULT_ADMIN_SET']}, @depositor, logger)
 
-            import_rec = import_service.import
-            created_works << import_rec if import_rec.present?
-
+                import_rec = import_service.import
+                created_works << import_rec if import_rec.present?
+             rescue => e
+                errors += 1
+            end
           end
+          puts "Processed #{successes} work(s), #{errors} error(s) encountered"
 
           # Group the works by collection_id and then add to collection
           created_works.group_by { |d| d[:collection_id] }.each do | collect_id, works |
