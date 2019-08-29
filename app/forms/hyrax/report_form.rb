@@ -7,7 +7,7 @@ module Hyrax
     self.model_class = ::Report
     self.terms += [:title, :faculty, :alternative_title, :rights, :local_affiliated_centre, :department,
                    :creator, :note,:abstract, :research_unit, :grant_number, :degree,
-                   :date,  :rights, :rtype, :extent, :orcidid, :relation, :report_number, :pmid ]
+                   :date,  :rights, :rtype, :extent, :orcidid, :relation, :report_number, :pmid, :author_order ]
     self.terms -= [:identifier, :keyword, :rights_statement,:status, :date_created,:bibliographic_citation, :resource_type,:import_url, :relative_path, :based_near]
     self.required_fields += [:creator, :date, :rights, :rtype]
     self.required_fields -= [:rights_statement]

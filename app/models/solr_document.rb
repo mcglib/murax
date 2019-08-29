@@ -192,4 +192,8 @@ class SolrDocument
   def license
     self[Solrizer.solr_name('license')]
   end
+
+  def author_order
+    self[Solrizer.solr_name('author_order')]
+  end
 end 
