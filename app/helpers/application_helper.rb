@@ -12,7 +12,7 @@ module ApplicationHelper
   def item_rights_helper(property_obj)
     default_val = ""
     if property_obj.count === 1 and property_obj.first.empty?
-      default_val = ENV['DEFAULT_RIGHTS_STATEMENT'].tr('"', '')
+      default_val = t('hyrax.default_rights_statement')
     end
 
     default_val
