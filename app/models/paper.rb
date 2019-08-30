@@ -15,24 +15,24 @@ class Paper < ActiveFedora::Base
 #
   # we want to handle the language list as an ordered set
   #
-  def language
+  #def language
     #return OrderedStringHelper.deserialize(super )
-  end
+  #end
 
-  def language= values
+  #def language= values
     #super OrderedStringHelper.serialize(values )
-  end
+  #end
 
   #
   # we want to handle the keyword list as an ordered set
   #
-  def keyword
+  #def keyword
     #return OrderedStringHelper.deserialize(super )
-  end
+  #end
 
-  def keyword= values
+  #def keyword= values
     #super OrderedStringHelper.serialize(values )
-  end
+  #end
 
 
 
