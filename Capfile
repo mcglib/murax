@@ -30,14 +30,14 @@ require "capistrano/rbenv"
 require "capistrano/bundler"
 require "capistrano/rails/migrations"
 require "capistrano/rails/assets"
-require 'capistrano-rails'
+#require 'capistrano-rails'
 require 'sshkit/sudo'
 require "whenever/capistrano"
 #require "capistrano/sidekiq"
 #require "capistrano/passenger"
 
-require 'capistrano/puma'
-install_plugin Capistrano::Puma
+#require 'capistrano/puma'
+#install_plugin Capistrano::Puma
 
 #require 'capistrano/honeybadger'
 
