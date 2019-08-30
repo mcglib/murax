@@ -6,6 +6,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.13] - 2019-08-27
+### Changed
+* Disabling temp to fix bug with parse on all branches
+## [1.0.12] - 2019-08-26
+### Changed
+* Enabled utf-8 in thesis py script
+* Adding a few items
+* Adding a generic rake task to import a single digitool item
+* hid the link to forgot to password
+* created rake task to create user groups
+* Updated the import record code
+* added the new version of task
+* fixed the code according to Jarvis's instructions
+* Updated the code to import the Paper worktype
+* Testing running GRADRES
+* Moved the lists of pids to a separate dir
+* Added a gitignore file to hide the  pyc compiled files
+* Updated tge gitignore file
+* Removing unused files
+* Added a import record
+* Changed the date function
+* Added a service import record that takes the pid and does the rest
+* updated status of permissions
+* updated it again
+* Added two services to add works to collections
+* Added the import service
+* Fixed namespace problem:
+* Updated the development branch to disabled sidekiq settings
+* Disabled user stats collection job in hyrax.
+* Fixing the start date for google analytics
+* Added a rake task to run fixity checks on the files
+* Removed debugging code
+* Fixin misplaces gitignore file
+* Removing some debugging info
+* Added a check for making sure the item can have an identifier if its a thesis
+* added some function to give permission to casual_workers
+* Added custom multi_value so we can have html5 support of dates and integers
+* Added ovverides to the multi_value fields. Upadted the rights field property
+
+
+
 ## [1.0.11.2] - 2019-08-22
 ### Changed
 * Added fix to get the rtype in the BREPR reports

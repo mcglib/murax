@@ -55,6 +55,7 @@ en:
       service_html: A service of <a href="https://www.mcgill.ca/library" class="navbar-link" target="_blank">McGill University Library</a>.
     institution_name: McGill Library
     institution_name_full: McGill University Library
+    default_rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
     product_name: "eScholarship@McGill"
     product_twitter_handle: "@mcgill_library"
     base:
