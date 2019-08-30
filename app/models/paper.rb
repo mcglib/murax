@@ -1,7 +1,7 @@
 # Generated via
 #  `rails generate hyrax:work Paper`
-require 'app/helpers/ordered_string_helper'
-include OrderedStringHelper
+#require 'app/helpers/ordered_string_helper'
+#include OrderedStringHelper
 
 class Paper < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
