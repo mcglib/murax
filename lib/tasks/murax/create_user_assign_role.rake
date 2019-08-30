@@ -7,6 +7,7 @@ namespace :murax do
   task :create_user_assign_role, [:user_email, :password, :role] => :environment do |task, args|
     if args.count < 3
       puts "Usage: bundle exec rake murax:create_user_assign_role['users-email-address','password','a-role-which-already-exists']"
+      puts "       If password is less than 8 characters, a 8-character random password will be generated instead."
       puts "Expecting three arguments found #{args.count}"
       exit
     end
@@ -24,8 +25,10 @@ namespace :murax do
       exit
     end
 
-    #check :password for reasonableness (?)
+    #check :password
     if args[:password].length < 8
+      #TODO: generate a random password and email it to user (after account is created) if supplied password is too short, 
+      #      otherwise use the supplied password
       puts "Error: password should be at least 8 characters long"
       exit
     end
@@ -41,7 +44,7 @@ namespace :murax do
     start_time = Time.now
     puts "[#{start_time.to_s}] Creating the user: #{args[:user_email]}"
     u = User.new(email: args[:user_email])
-    u.display_name = args[:user_email].split('@').first
+    u.display_name = args[:user_email]
     u.password = args[:password]
     u.save
 
