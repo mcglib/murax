@@ -1,6 +1,6 @@
 # Generated via
 #  `rails generate hyrax:work Paper`
-require_dependency 'app/helpers/ordered_string_helper'
+require 'app/helpers/ordered_string_helper'
 include OrderedStringHelper
 
 class Paper < ActiveFedora::Base
