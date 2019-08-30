@@ -83,5 +83,4 @@ module OrderedStringHelper
   def self.relation_to_array( arr )
     return arr.map { |e| e.to_s }
   end
-
 end

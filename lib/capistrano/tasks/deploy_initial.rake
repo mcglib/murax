@@ -34,7 +34,7 @@ namespace :deploy do
     on roles(:app) do
       within release_path do
           with rails_env: "#{fetch(:rails_env)}" do
-              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && npm install --quiet")
+              execute("cd #{release_path} && export http_proxy='http://mirage.ncs.mcgill.ca:3128' && export https_proxy='http://mirage.ncs.mcgill.ca:3128' && npm install --quiet --production")
           end
       end
     end
