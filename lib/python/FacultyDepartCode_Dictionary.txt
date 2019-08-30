@@ -1,3 +1,6 @@
+00000  
+00101w  
+002ld  
 00001  Principal and Vice-Chancellor
 00002  Provost & Vice-Principal (Academic)
 00020  Agricultural and Environmental Sciences
@@ -27,8 +30,8 @@
 00094  Anthropology
 00118  Society, Technology and Development
 00115  Anthropology of Development Program
-00581  Anthropology, History & Classical Studies, Jewish Studies,and Sociology Administrative Services Cent
-00582  Art History & Communication Studies, English, French Language Center, and French Language & Literatu
+00581  Anthropology, History & Classical Studies, Jewish Studies, and Sociology Administrative Services Cent
+00582  Art History & Communication Studies, English, French Language Center, and French Language & Literature
 00095  Art History and Communications Studies
 00385  Arts and Science Administrative Services (shared)
 00099  East Asian Studies
@@ -176,7 +179,7 @@
 00270  Medicine, Ethics and Law
 00200  Private & Comparative Law (Quebec Research Centre of)
 00117  Regulated Industries Studies
-00034  McGill University Libraries (Administration)
+00034  McGill University Libraries
 00055  Archives
 00338  Collection Services
 00535  Government Documents & Information
@@ -193,7 +196,7 @@
 00324  Library Serials Unit
 00397  Library Technology Services
 00331  Nahum Gelber Law Library
-00337  Physical Sciences and Engineering Area (Administration)
+00337  Physical Sciences and Engineering Area
 00395  Mathematics and Statistics Library(Edward Rosenthall)
 00396  Schulich Library of Science and Engineering
 00328  Rare Books and Special Collections
@@ -297,7 +300,7 @@
 00242  Rosalind and Morris Goodman Cancer Centre
 00243  Molecular Oncology Group
 00587  Rossy Cancer Network
-00530  Réseau Protéomique Montreal Proteomic Network
+00530  Rï¿½seau Protï¿½omique Montreal Proteomic Network
 00549  Science & Strategic Initiatives (Faculty of Medicine)
 00556  Graduate Studies (Faculty of Medicine)
 00557  Institutional Review Board (Faculty of Medicine)
@@ -481,7 +484,7 @@
 08019  Bio-Business Incubators
 08004  Bios Agriculture Incorporated
 08017  Bone & Periodontal Research
-08035  Calcul Québec
+08035  Calcul Quï¿½bec
 08023  Canadian Aviation Museum
 08033  Concordia University
 08016  DiaTech Oncology Corp.
@@ -502,14 +505,14 @@
 08013  Newmerical Technologies Inc.
 08021  Pharmaco-Proteomics & Structural Genomics Centre
 08007  Polish Library (Non-McGill)
-08024  Presse Café - Space
+08024  Presse CafÃ© - Space
 08008  Quebec Communication Newspaper
 08009  Quebec Farmers Association
 08010  Resource Efficient Agricultural Production
 08011  Royal Astronomical Society of Canada Observatory
 00922  SSMU Infant Daycare Inc
 08036  Telus
-08034  Université de Montréal
+08034  UniversitÃ© de MontrÃ©al
 08038  Videotron
 00996  Constance Lethbridge Readaptation Centre
 00985  Douglas Hospital

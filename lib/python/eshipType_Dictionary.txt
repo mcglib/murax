@@ -1,0 +1,57 @@
+Preprint	 %	Article	 %	Preprint
+Publisher PDF	 %	Article	 %	Published
+application/pdf	 %	Article		 
+application	 %	Article		 
+article (journal), peer reviewed	 %	Article		 
+article (journal)	 %	Article		
+article	 %	Article		
+Book Chapter	 %	Chapter		
+Book Review	 %	Article		
+Book	 %	Book		
+Chapter of book, postprint	 %	Chapter		
+Chapter of book	 %	Chapter		
+Conference paper	 %	Conference Paper		
+eBook	 %	Book		
+monograph	 %	Book
+Paper	 %	Paper
+pdf (publisherss)	 %	Article	 %	Published
+pdf	 %	Article		
+peer reviewed, article (journal)	 %	Article		
+peer reviewed	 %	Article
+peer-reviewed	 %	Article		
+Policy Brief	 %	Paper		
+post print	 %	Article	 %	Postprint
+Poster	 %	Conference Poster		
+Postprint	 %	Article	 %	Postprint
+Postprint| Preprint | Publisher PDF	 %	Article	
+Postprint | Preprint | Publisher PDF	 %	Article		
+Postprint, Book Chapter	 %	Chapter		
+Postprint, Chapter of book	 %	Chapter		
+postprint	 %	Article	 %	Postprint
+Post-print	 %	Article	 %	Postprint
+Preprint	 %	Article	 %	Postprint
+Preprint | Postprint | Other	 %	Article		
+PrePrint, Book Chapter	 %	Chapter		
+Preprint, Publisher PDF	 %	Article	 %	Preprint
+PrePrint	 %	Article	 %	Preprint
+Pre-print	 %	Article	 %	Preprint
+print	 %	Article		
+Publisher PDF, Book Chapter	 %	Chapter		
+Publisher PDF, Book	 %	Book		
+Publisher PDF, Chapter of book	 %	Chapter		
+PDF, publisher	 %	Article		
+Publisher PDF, peer-reviewed	 %	Article		
+Publisher PDF	 %	Article	 %	Published
+Publisher pdf.	 %	Article	 %	Published
+Publisher preprint	 %	Article	 %	Preprint
+Publisher	 %	Article	 %	Published
+technical report	 %	Report		
+Text, Preprint	 %	Article	 %	Preprint
+Text, Text	 %	Article		
+Text,	 %	Article
+Text	 %	Article		
+Working Paper	 %	Paper		 
+Link	 %	Article		
+None	 %	Article		
+Other	 %	Article		
+DOI	 %	Article	
