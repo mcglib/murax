@@ -68,7 +68,7 @@ class SolrDocument
     self[Solrizer.solr_name('title')]
   end
 
-  def abstract 
+  def abstract
     self[Solrizer.solr_name('abstract')]
   end
 
