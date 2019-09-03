@@ -11,7 +11,6 @@ class Paper < ActiveFedora::Base
   # self.valid_child_concerns = []
   validates :title, presence: { message: 'Your paper must have a title.' }
 
-  self.human_readable_type = 'Paper'
 #
   # we want to handle the language list as an ordered set
   #
