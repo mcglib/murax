@@ -64,6 +64,14 @@ class SolrDocument
     fetch('isPartOf', []).map { |m| BlacklightOaiProvider::Set.new("isPartOf_ssim:#{m}") }
   end
 
+  def nested_ordered_creator_label
+    Murax::OrderedParserService.parse(self[Solrizer.solr_name('nested_ordered_creator_label', :symbol)]) || []
+  end
+
+  def creator
+     nested_ordered_creator_label.present? ? nested_ordered_creator_label : self[Solrizer.solr_name('creator', :stored_searchable)] || []
+  end
+
   def title
     self[Solrizer.solr_name('title')]
   end
@@ -191,5 +199,9 @@ class SolrDocument
 
   def license
     self[Solrizer.solr_name('license')]
+  end
+
+  def author_order
+    self[Solrizer.solr_name('author_order')]
   end
 end 
