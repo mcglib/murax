@@ -1,7 +1,7 @@
 <% content_for(:twitter_meta) do %>
   <meta name="twitter:card" content="product" />
   <meta name="twitter:site" content="<%= t('hyrax.product_twitter_handle') %>" />
-  <meta name="twitter:creator" content="<%= @presenter.tweeter %>" />
+ <!-- <meta name="twitter:creator" content="<%# = @presenter.tweeter %>" /> -->
   <meta property="og:site_name" content="<%= application_name %>" />
   <meta property="og:type" content="object" />
   <meta property="og:title" content="<%= @presenter.title.first %>" />
@@ -17,7 +17,7 @@
 <% content_for(:gscholar_meta) do %>
   <meta name="citation_title" content="<%= @presenter.title.first %>" />
   <% @presenter.creator.each do |creator| %>
-  <meta name="citation_author" content="<%= creator %>" />
+    <meta name="citation_author" content="<%= creator %>" />
   <% end %>
   <meta name="citation_publication_date" content="<%= @presenter.date_created.first %>" />
   <meta name="citation_pdf_url" content="<%= @presenter.download_url %>" />
