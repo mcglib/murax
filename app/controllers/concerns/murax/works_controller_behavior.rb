@@ -42,8 +42,7 @@ module Murax
 
 
     def scrub_params
-      byebug
-      Murax::ParamScrubber.scrub(params, hash_key_for_curation_concern)
+      Hyrax::ParamScrubber.scrub(params, hash_key_for_curation_concern)
     end
 
     def set_embargo_release_date
