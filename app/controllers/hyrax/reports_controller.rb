@@ -4,7 +4,7 @@ module Hyrax
   # Generated controller for Report
   class ReportsController < ApplicationController
     # Adds Hyrax behaviors to the controller.
-    include Murax::WorksControllerBehavior
+    include Hyrax::WorksControllerBehavior
     include Hyrax::BreadcrumbsForWorks
     self.curation_concern_type = ::Report
 

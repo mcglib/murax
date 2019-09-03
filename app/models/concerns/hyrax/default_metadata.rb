@@ -1,6 +1,6 @@
 # [murax-override] Overriding default basic metadata to follow MAP
 require "rdf/vocab"
-module Murax
+module Hyrax
   # An optional model mixin to define some simple properties. This must be mixed
   # after all other properties are defined because no other properties will
   # be defined once  accepts_nested_attributes_for is called
@@ -15,7 +15,7 @@ module Murax
               index.as :stored_searchable
       end
 
-      property :creator,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
+      property :creator_x,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end
 

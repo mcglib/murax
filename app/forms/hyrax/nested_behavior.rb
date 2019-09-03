@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Murax
+module Hyrax
   # behavior for nested propeerties
 
   module NestedBehavior
