@@ -10,7 +10,6 @@ module CleanMetadata
       def clean
         metadata = self.execute_clean(@pid, "GenericReports.py")
         return false unless metadata
-        
         metadata
       end
 

@@ -4,7 +4,7 @@ module Hyrax
   # An optional model mixin to define some simple properties. This must be mixed
   # after all other properties are defined because no other properties will
   # be defined once  accepts_nested_attributes_for is called
-  module BasicMetadata
+  module DefaultMetadata
     extend ActiveSupport::Concern
 
     included do
@@ -15,8 +15,12 @@ module Hyrax
               index.as :stored_searchable
       end
 
-      property :creator,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
+      property :creator_x,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
               index.as :stored_searchable, :facetable
+      end
+
+      property :nested_ordered_creator, predicate: ::RDF::Vocab::DC.creator, class_name: NestedOrderedCreator do |index|
+        index.as :stored_searchable, :facetable
       end
 
       # This will be used to maintain author/creator order in samvera. 
@@ -176,6 +180,7 @@ module Hyrax
       class_attribute :controlled_properties
       self.controlled_properties = [:based_near]
       accepts_nested_attributes_for :based_near, reject_if: id_blank, allow_destroy: true
+      accepts_nested_attributes_for :nested_ordered_creator, allow_destroy: true, reject_if: proc { |attributes| attributes[:creator].blank? || attributes.all? { |key, value| key == '_destroy' || value.blank? } }
 
     end
   end

@@ -10,7 +10,6 @@ class DigitoolItem
                 :related_pids, :metadata_hash, :title,
                 :file_info, :file_path, :file_name,
                 :work_type, :metadata_xml, :local_collection_code, :item_type
-        
 
   # validates
   validates :title, presence: { message: 'Your work must have a title.' }
@@ -31,10 +30,9 @@ class DigitoolItem
     # set usage type
     set_usage_type
 
-
     @file_info = set_file_metadata
 
-    set_metadata
+    set_metadata if !is_waiver?
 
     set_related_pids
 
@@ -78,7 +76,6 @@ class DigitoolItem
       if work_id.present?
        url = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{work_id}"
       end
-
       url
   end
 
@@ -140,13 +137,11 @@ class DigitoolItem
 
   end
 
-  def get_file_name 
-
+  def get_file_name
     @file_info = set_file_metadata unless @file_info.present?
     @file_info['file_name']
-
   end
-  
+
   # Use language code to get iso639-2 uri from service
   def get_language_uri(language_codes)
     language_codes.map{|e| LanguagesService.label("http://id.loc.gov/vocabulary/iso639-2/#{e.downcase}") ?
@@ -197,7 +192,6 @@ class DigitoolItem
          xml =  Nokogiri::XML.parse(res.body) if res.is_a?(Net::HTTPSuccess)
         end
       end
-
       xml
 
     end

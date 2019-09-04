@@ -79,8 +79,6 @@ class Digitool::PaperItem < DigitoolItem
           add_related_files(item, work_attributes,new_work) 
         end
 
-
-
         # resave
         new_work.save!
       rescue Exception => e

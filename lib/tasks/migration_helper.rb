@@ -47,7 +47,7 @@ class MigrationHelper
       if pid.present? && dest.present?
 
         item = DigitoolItem.new({"pid"=> pid})
-        
+      
         fileinfo = {path: item.download_main_pdf_file(dest),
                     name: item.get_file_name,
                     visibility: item.get_file_visibility,
@@ -148,7 +148,7 @@ class MigrationHelper
           worktype = "Book"
         end
       end
-      
+
       report_types = ["technical"]
       report_types.each do |term|
         if dctypes.downcase.include? term
