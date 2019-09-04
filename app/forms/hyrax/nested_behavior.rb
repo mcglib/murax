@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Hyrax
-  # behavior for nested propeerties
+  # behavior for nested properties
 
   module NestedBehavior
     extend ActiveSupport::Concern

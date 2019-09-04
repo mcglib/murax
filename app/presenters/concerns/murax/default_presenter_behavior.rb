@@ -5,11 +5,10 @@ module Murax
   module DefaultPresenterBehavior
     extend ActiveSupport::Concern
     included do
-      delegate :nested_ordered_creator,
-               :nested_ordered_creator_label,
-               :title, :faculty, :alternative_title, :rights, :local_affiliated_centre, :department,
-               :note,:abstract, :research_unit, :grant_number, :degree,
-               :date,  :rights, :rtype, :extent, :orcidid, :relation, :report_number, :pmid,
+      delegate :nested_ordered_creator, :nested_ordered_creator_label,
+               :title, :alternative_title, :contributor, :local_affiliated_centre, :department, :subject, :extent,
+               :note, :publisher, :abstract, :pmid, :research_unit, :grant_number, :status, :description, :source, :language,
+               :date,  :rights, :rtype, :orcidid, :identifier, :bibliographic_citation, :relation, :report_number, :related_url, :faculty, :degree, :author_order,
                :use,  to: :solr_document
     end
   end

@@ -15,7 +15,7 @@ module Murax
               index.as :stored_searchable
       end
 
-      property :creator,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
+      property :creator_x,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end
 
