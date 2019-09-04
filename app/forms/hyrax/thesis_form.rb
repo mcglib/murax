@@ -4,14 +4,26 @@ module Hyrax
   # Generated form for Thesis
   class ThesisForm < Hyrax::Forms::WorkForm
     include SingleValuedForm
+    include Hyrax::NestedBehavior
     self.model_class = ::Thesis
     self.terms += [:title, :degree, :institution, :faculty, :rights,
-                   :creator, :note, :extent, :abstract, :department, 
+                   :nested_ordered_creator, :note, :extent, :abstract, :department, 
                    :date,  :rights, :subject, :rtype, :orcidid,  :identifier, :relation, :author_order ]
-    self.terms -= [ :keyword, :rights_statement, :date_created, :resource_type, :bibliographic_citation, :import_url, :relative_path, :based_near]
-    self.required_fields += [:creator,:date, :subject, :rights, :rtype, :identifier, :department]
+    self.terms -= [ :keyword, :creator, :rights_statement, :date_created, :resource_type, :bibliographic_citation, :import_url, :relative_path, :based_near]
+    self.required_fields += [:nested_ordered_creator,:date, :subject, :rights, :rtype, :identifier, :department]
     self.required_fields -= [:keyword, :contact_email, :description, :faculty, :rights_statement]
     self.single_valued_fields = [:title, :rtype]
 
+    def primary_terms
+      [:title, :nested_ordered_creator,:date, :subject, :rights, :rtype, :identifier, :department ] | super
+    end
+
+    def self.build_permitted_params
+      super + [
+        {
+          nested_ordered_creator_attributes: %i[id _destroy index creator],
+        }
+      ]
+    end
   end
 end
