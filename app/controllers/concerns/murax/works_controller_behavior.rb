@@ -7,7 +7,7 @@ module Murax
     include Hyrax::WorksControllerBehavior
     included do
       before_action :redirect_mismatched_work, only: [:show]
-      before_action :scrub_params, only: %i[update create]
+      #before_action :scrub_params, only: %i[update create]
 
       def redirect_mismatched_work
         curation_concern = ActiveFedora::Base.find(params[:id])
@@ -22,19 +22,19 @@ module Murax
       super
     end
 
-    def edit
-      parse_geo
-      get_other_option_values
-      super
-    end
+    #def edit
+      #parse_geo
+      #get_other_option_values
+    #  super
+    #end
 
     def update
-      set_other_option_values
+      #set_other_option_values
       super
     end
 
     def create
-      set_other_option_values
+      #set_other_option_values
       super
     end
 
