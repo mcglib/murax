@@ -79,8 +79,6 @@ class Digitool::PaperItem < DigitoolItem
           add_related_files(item, work_attributes,new_work) 
         end
 
-
-
         # resave
         new_work.save!
       rescue Exception => e
@@ -113,10 +111,17 @@ class Digitool::PaperItem < DigitoolItem
       end
 
       # set the creator
-      work_attributes['creator'] = []
-      xml.xpath("/record/creator").each do |term|
-        work_attributes['creator'] << term.text
+      #work_attributes['creator'] = []
+      #xml.xpath("/record/creator").each do |term|
+      #  work_attributes['creator'] << term.text
+      #end
+
+      # set the nested creator attributes
+      work_attributes['nested_ordered_creator_attributes'] = []
+      xml.xpath("/record/creator").each_with_index do |term, index|
+        work_attributes['nested_ordered_creator_attributes'] << process_ordered_field("creator", term.text, index) unless term.text.nil?
       end
+
 
       # Set the abstract
       work_attributes['abstract'] = []

@@ -19,6 +19,12 @@ module Hyrax
               index.as :stored_searchable, :facetable
       end
 
+      # This will be used to maintain author/creator order in samvera. 
+      property :author_order,      predicate: RDF::URI.new('http://vivoweb.org/ontology/core#preferredDisplayOrder'), multiple: true do | index |
+              index.type :text
+              index.as :stored_searchable
+      end
+
       property :contributor,      predicate: RDF::Vocab::DC.contributor, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end

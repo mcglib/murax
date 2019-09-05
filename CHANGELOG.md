@@ -6,6 +6,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.14] - 2019-09-05
+### Changed
+* organized the order
+* Changed to require instead of require_dependency
+* create_user_assign_role rake task: use email as display name
+* added faculty publication script
+* fixing the ordered string helper
+* removing whitespaces and disabling some functions
+* Fixing the paper type
+* Disabling orderedstringhelper
+* Fixingthe capfile
+* Added custom 404 and 500 error pages
+* Working on author order
+* fixed the author order
+* Updated the services
+* removed the byebug from files
+* Updated the graduation year validator
+* organized code
+* Organized the code in models
+* Updated the code for Paper type
+* Fixing murax controllers
+* updated the hints for newly nested_ordered_creator field
+* added style for drag and drop of nested field
+* Got the import of ordered creators working
+* Enabled reload(sys) and utf-8 functionality
+
+### Added
+* added eship type dictionay
+* added a filed author_order to all work-types
+* fixed the author order for all work-types
+* Added the OrderedStringHelper module to order the language and terms
+* new rake task to create user by email and add to specified role
+
+
 ## [1.0.13] - 2019-08-27
 ### Changed
 * Disabling temp to fix bug with parse on all branches

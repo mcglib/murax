@@ -14,14 +14,6 @@ module Migration
         @created_work_ids = []
       end
 
-      def import_record(pid, log, work_type = nil, index = 1)
-
-        @work_type = work_type if work_type.present?
-        new_work = nil
-        new_work = process_pid(pid, index)
-        new_work
-      end
-
       def import_records(pid_list, log, work_type = nil)
         STDOUT.sync = true
         if pid_list.empty?
@@ -50,6 +42,15 @@ module Migration
 
         workid_list
       end
+
+      def import_record(pid, log, work_type = nil, index = 1)
+
+        @work_type = work_type if work_type.present?
+        new_work = nil
+        new_work = process_pid(pid, index)
+        new_work
+      end
+
 
       def process_pid(pid, index)
         # inistanciate the class_name based on the worktype passed
@@ -98,10 +99,12 @@ module Migration
           fileset = add_main_file(item.pid, work_attributes, new_work)
           puts "The work #{pid} does not have a main file set.Check for errors"  if fileset.nil?
           log.info "The work #{pid} does not have a file set." if fileset.nil?
+
           # now we fetch the related pid files
           if item.has_related_pids?
             add_related_files(item, work_attributes,new_work)
           end
+
           # resave
           new_work.save!
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
@@ -203,60 +206,11 @@ module Migration
 
         def create_work(item)
 
-          log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
-          puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
-          return unless item.has_metadata?
-          parsed_data = Migrate::Services::MetadataParser.new(item.get_metadata,
-                                                              @depositor,
-                                                              @config).parse
-          begin
-            work_attributes = parsed_data[:work_attributes]
-            work_attributes["relation"] << "pid: #{item.pid}"
 
-            new_work = work_record(work_attributes)
-            #update the identifier if the work_type needs it
-            #
-            new_work.identifier = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{new_work.id}"
-            new_work.save!
-
-            # update the identifier and the pid
-
-
-            # Create sipity record
-            workflow = Sipity::Workflow.joins(:permission_template)
-                           .where(permission_templates: { source_id: new_work.admin_set_id }, active: true)
-            workflow_state = Sipity::WorkflowState.where(workflow_id: workflow.first.id, name: 'deposited')
-            MigrationHelper.retry_operation('creating sipity entity for work') do
-              Sipity::Entity.create!(proxy_for_global_id: new_work.to_global_id.to_s,
-                                     workflow: workflow.first,
-                                     workflow_state: workflow_state.first)
-            end
-
-            # We add the main file to the work
-            fileset = add_main_file(item.pid, work_attributes, new_work)
-            puts "The work #{item.pid} does not have a main file set.Check for errors"  if fileset.nil?
-            log.info "The work #{item.pid} does not have a file set." if fileset.nil?
-            # now we fetch the related pid files
-            if item.has_related_pids?
-              add_related_files(item, work_attributes,new_work) 
-            end
-
-
-
-            # resave
-            new_work.save!
-          rescue Exception => e
-            puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
-            log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
-          end
-
-
-          new_work
-          
         end
 
         def add_related_files(item, work_attributes, work) 
-        
+
 
           suggested_types = ['VIEW', 'VIEW_MAIN', 'ARCHIVE']
           file_list = []
@@ -266,7 +220,6 @@ module Migration
                  # We downlond the file to a temporary location
                  FileUtils.mkpath("#{@tmp_file_location}/#{rel_pid}")
                  file_list << MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
-
             end
           end
           file_list.each do |fitem|
@@ -284,7 +237,7 @@ module Migration
             work_attributes['visibility'] = file_info[:visibility]
             fileset_attrs = file_record(work_attributes)
             fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_info[:path])
-          end 
+          end
           fileset
         end
 
@@ -300,6 +253,7 @@ module Migration
         end
 
         def work_record(work_attributes)
+
           if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&
               !(work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
             resource = @child_work_type.singularize.classify.constantize.new

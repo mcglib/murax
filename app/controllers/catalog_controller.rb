@@ -45,7 +45,8 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("creator", :facetable), limit: 5
+   # config.add_facet_field solr_name("creator", :facetable), limit: 5
+    config.add_facet_field 'creator_sim', label: 'Creator', limit: 5
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
     config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5
     config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
@@ -108,7 +109,8 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("description", :stored_searchable)
     config.add_show_field solr_name("relation", :stored_searchable)
     config.add_show_field solr_name("subject", :stored_searchable)
-    config.add_show_field solr_name("creator", :stored_searchable)
+    #config.add_show_field solr_name("creator", :stored_searchable)
+    config.add_show_field solr_name('nested_ordered_creator_label', :stored_searchable), label: 'Creator'
     config.add_show_field solr_name("contributor", :stored_searchable)
     config.add_show_field solr_name("publisher", :stored_searchable)
     config.add_show_field solr_name("based_near_label", :stored_searchable)
@@ -144,7 +146,7 @@ class CatalogController < ApplicationController
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
-        qf: "#{all_names} file_format_tesim all_text_timv",
+        qf: "#{all_names} file_format_tesim all_text_timv nested_ordered_creator_label_tesim",
         pf: title_name.to_s
       }
     end
@@ -173,6 +175,15 @@ class CatalogController < ApplicationController
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
+      }
+    end
+
+    config.add_search_field('nested_ordered_creator_label') do |field|
+      solr_name = solr_name('nested_ordered_creator_label', :stored_searchable)
+      field.label = 'Creator'
+      field.solr_local_parameters = {
+        qf: solr_name,
+          pf: solr_name
       }
     end
 

@@ -18,6 +18,8 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require blacklight/blacklight
+//= require nested_field
+//= require ordered_creator
 //= require_tree .
 //= require hyrax
 //= attributes.js
