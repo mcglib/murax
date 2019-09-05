@@ -13,11 +13,11 @@ from facultyPublications_functions import *
 
 
 ###################
-#    Main Code   
+#    Main Code
 ###################
 
-#reload(sys)  
-#sys.setdefaultencoding('utf8')
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 pidArray = sys.argv[1:]
 
@@ -51,9 +51,9 @@ if len(pidArray) > 0:
         root = ET.fromstring(queryOutput)
 
         # Check if the Pid has multiple set of descriptive metadata
-       
+
         array = root.findall("mds/md[name='descriptive']")
-    
+
         for field in root.findall("mds/md[name='descriptive']") :
             for valueField in field.findall("value"):
                 # Find the root element of the Descriptive Metadata XML (embedded in the general XML)
@@ -61,7 +61,7 @@ if len(pidArray) > 0:
                 #ET.dump(recordRoot)
 
             # All required fields (Alphabetical order):
-               
+
                 # Clean up Date Field
                 if isFieldEmpty(recordRoot.find("dc:date", namespaces= nSpaces)) is False:
                     for date in recordRoot.findall("dc:date", namespaces= nSpaces):
@@ -99,9 +99,9 @@ if len(pidArray) > 0:
                                 if len(valueArray) == 2:
                                     statusField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}status")
                                     statusField.text = valueArray[1]
-                
-            
-            # Other Fields (Alphabetical Order) 
+
+
+            # Other Fields (Alphabetical Order)
                 # Clean up Contributor Field
                 for contributor in recordRoot.findall("dc:contributor", namespaces= nSpaces):
                     if isTheContributorFieldEmpty(contributor.text) is True:
@@ -151,7 +151,7 @@ if len(pidArray) > 0:
                             bibliographicCitationField.text = identifierString
                             identifier.text = ""
                     if identifier.text in [None, ""]:
-                        recordRoot.remove(identifier)     
+                        recordRoot.remove(identifier)
                 # Clean up Language Field
                 for language in recordRoot.findall("dc:language", namespaces= nSpaces):
                     if language.text is not None:
@@ -185,11 +185,11 @@ if len(pidArray) > 0:
                                 relationField.text = "Pid: " + currentPid + " " + currentId
                                 pidAdded = True
                             else:
-                                recordRoot.remove(relationField) 
+                                recordRoot.remove(relationField)
                         if pidAdded == False:
                             relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                             relationField.text = "Pid: " + currentPid
-                
+
                 # Add "Department not identified" if there are no department and discipline codes.
                 if recordRoot.find("dcterms:localdepartmentcode", namespaces= nSpaces) is None and recordRoot.find("dcterms:localthesisdegreediscipline", namespaces= nSpaces) is None:
                     addedDisciplineField = ET.SubElement(recordRoot, "{http://purl.org/dc/terms/}localthesisdegreediscipline")
