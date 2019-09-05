@@ -45,7 +45,9 @@ Publisher PDF	 %	Article	 %	Published
 Publisher pdf.	 %	Article	 %	Published
 Publisher preprint	 %	Article	 %	Preprint
 Publisher	 %	Article	 %	Published
-technical report	 %	Report		
+report	 %	Report
+technical report	 %	Report
+research paper	 %	Paper		
 Text, Preprint	 %	Article	 %	Preprint
 Text, Text	 %	Article		
 Text,	 %	Article
@@ -54,4 +56,4 @@ Working Paper	 %	Paper
 Link	 %	Article		
 None	 %	Article		
 Other	 %	Article		
-DOI	 %	Article	
+DOI	 %	Article
