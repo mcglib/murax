@@ -14,14 +14,6 @@ module Migration
         @created_work_ids = []
       end
 
-      def import_record(pid, log, work_type = nil, index = 1)
-
-        @work_type = work_type if work_type.present?
-        new_work = nil
-        new_work = process_pid(pid, index)
-        new_work
-      end
-
       def import_records(pid_list, log, work_type = nil)
         STDOUT.sync = true
         if pid_list.empty?
@@ -50,6 +42,15 @@ module Migration
 
         workid_list
       end
+
+      def import_record(pid, log, work_type = nil, index = 1)
+
+        @work_type = work_type if work_type.present?
+        new_work = nil
+        new_work = process_pid(pid, index)
+        new_work
+      end
+
 
       def process_pid(pid, index)
         # inistanciate the class_name based on the worktype passed
@@ -252,6 +253,7 @@ module Migration
         end
 
         def work_record(work_attributes)
+
           if !@child_work_type.blank? && !work_attributes['cdr_model_type'].blank? &&
               !(work_attributes['cdr_model_type'].include? 'info:fedora/cdr-model:AggregateWork')
             resource = @child_work_type.singularize.classify.constantize.new

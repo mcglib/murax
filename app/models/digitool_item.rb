@@ -164,6 +164,14 @@ class DigitoolItem
     visible
   end
 
+  def ordered_properties
+    %w[title creator abstract contributor additional_information]
+  end
+
+  def process_ordered_field(property,value, index)
+    # Grab the property name
+    return { index: index.to_s, property.to_s.to_sym => value }
+  end
 
   private
 
