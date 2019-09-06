@@ -71,10 +71,10 @@ namespace :migration do
                   work_log.imported  = true
                 end
 
-             rescue => e
+             rescue StandardError => e
                 errors += 1
                 work_log.imported  = false
-                work_log.error = "#{e}"
+                work_log.error = "#{e}: #{e.}"
                 logger.error "Error importing #{item}: #{e}"
             end
             work_log.save
