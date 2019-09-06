@@ -18,4 +18,12 @@ module ApplicationHelper
     default_val
   end
 
+  # This helper sets the background color for header and footer differently for users that are not logged in. 
+  def default_header_background_color
+    if !user_signed_in? 
+      color = '#004080'
+    end
+    return color
+  end
+
 end
