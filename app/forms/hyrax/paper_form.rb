@@ -10,7 +10,7 @@ module Hyrax
                    :note, :abstract, :pmid, :research_unit, :grant_number,
                    :date,  :rights, :rtype, :orcidid, :relation,:faculty, :degree]
     self.terms -= [ :keyword, :creator, :rights_statement, :date_created, :resource_type,:import_url, :relative_path, :based_near]
-    self.required_fields += [:nested_ordered_creator, :date, :rights, :rtype]
+    self.required_fields += [:title, :nested_ordered_creator, :date, :rights, :rtype]
     self.required_fields -= [:keyword, :contact_email, :description]
     self.single_valued_fields = [:rtype, :title, :degree]
 

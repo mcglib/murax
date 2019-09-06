@@ -63,10 +63,10 @@ module Migration
           # Maybe we can add the import_record to db
 
         rescue StandardError => e
-          raise e if count > 1
+          #raise e if count > 1
           count += 1
           @logger.info "Failed importing #{@pid} #{count} times, retrying. Error: #{e.message}"
-          return import(count: count)
+          #return import(count: count)
         end
 
         import_record
