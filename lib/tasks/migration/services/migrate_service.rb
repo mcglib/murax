@@ -144,7 +144,7 @@ module Migration
           rescue  StandardError => e
             attached = false
             puts "The work #{work_id} could not be attached to the collection #{collection.id}. See #{e}"
-            
+
           end
           attached
       end
@@ -162,11 +162,11 @@ module Migration
         FileUtils.mkpath("#{@tmp_file_location}/#{parent.id}")
         FileUtils.cp(file, renamed_file)
 
-        MigrationHelper.retry_operation('creating fileset') do
+        MigrationHelper.retry_operation('creating the content') do
           actor.create_content(Hyrax::UploadedFile.create(file: File.open(renamed_file), user: @depositor))
         end
 
-        MigrationHelper.retry_operation('creating fileset') do
+        MigrationHelper.retry_operation('attaching the work to parent') do
           actor.attach_to_work(parent, resource)
         end
 

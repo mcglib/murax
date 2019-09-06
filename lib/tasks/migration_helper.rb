@@ -33,9 +33,12 @@ class MigrationHelper
 
         # set the dest_folder
         file_path = "#{dest}"
-        
+
         download = open(download_url)
         io.copy_stream(download, file_path)
+
+        # delete the tmp file to avoid running out of space
+        File.delete(download)
       end
       # return the file_path
       file_path
@@ -47,7 +50,7 @@ class MigrationHelper
       if pid.present? && dest.present?
 
         item = DigitoolItem.new({"pid"=> pid})
-      
+
         fileinfo = {path: item.download_main_pdf_file(dest),
                     name: item.get_file_name,
                     visibility: item.get_file_visibility,
@@ -82,9 +85,9 @@ class MigrationHelper
       puts "[#{Time.now.to_s}] #{e}"
       puts e.backtrace.map{ |x| x.match(/^\/net\/deploy\/ir\/test\/releases.*/)}.compact
       puts message unless message.nil?
-      sleep(10)
-      retry if (retries += 1) < 5
-      abort("[#{Time.now}] could not recover; aborting migration")
+      sleep(5)
+      retry if (retries += 1) < 2
+      abort("[#{Time.now}] could not recover; aborting operation")
     end
   end
   
