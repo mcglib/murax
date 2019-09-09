@@ -35,7 +35,24 @@ class DigitoolItem
     set_metadata if !is_waiver?
 
     set_related_pids
+  end
+  
+  def set_title
+    #set the title from the clean xml
+    @title = @metadata_hash['title']
+  end
 
+  def parse(config, depositor)
+      admin_set = config['admin_set']
+      env_default_admin_set = 'Default Admin Set'
+
+      work_attributes = get_work_attributes(config, depositor)
+      child_works = Array.new
+
+      work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
+
+      { work_attributes: work_attributes.reject!{|k,v| v.blank?},
+        child_works: child_works }
   end
 
   def set_metadatahash(xml)

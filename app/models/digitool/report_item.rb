@@ -10,10 +10,6 @@ class Digitool::ReportItem < DigitoolItem
 
   end
 
-  def set_title
-    @title = @metadata_hash['title']
-  end
-
   def add_creation_date_to_notes()
     date = @raw_xml.at_css('digital_entity control creation_date').text if @raw_xml.present?
     "Date first available online: " + date
@@ -25,19 +21,6 @@ class Digitool::ReportItem < DigitoolItem
     xml = nil
     xml = CleanMetadata::GenericReport.new(@pid, @work_type).clean
     xml
-  end
-
-  def parse(config, depositor)
-      admin_set = config['admin_set']
-      env_default_admin_set = 'Default Admin Set'
-
-      work_attributes = get_work_attributes(config, depositor)
-      child_works = Array.new
-  
-      work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
-
-      { work_attributes: work_attributes.reject!{|k,v| v.blank?},
-        child_works: child_works }
   end
 
   def create( parsed_data )

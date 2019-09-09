@@ -1,4 +1,4 @@
-class Digitool::PaperItem < DigitoolItem
+class Digitool::ThesisItem < DigitoolItem
 
   attr_accessor :config
 
@@ -11,12 +11,10 @@ class Digitool::PaperItem < DigitoolItem
 
   end
 
-
   def add_creation_date_to_notes()
     date = @raw_xml.at_css('digital_entity control creation_date').text if @raw_xml.present?
     "Date first available online: " + date
   end
-
 
   # path to the python cleaning module
   def clean_metadata
@@ -25,6 +23,7 @@ class Digitool::PaperItem < DigitoolItem
 
     xml
   end
+
 
   def update_identifier(work, work_type)
    work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
@@ -37,7 +36,7 @@ class Digitool::PaperItem < DigitoolItem
         work_attributes["relation"] << "pid: #{@pid}"
 
         new_work = work_record(work_attributes)
- 
+
         #update the identifier
         new_work.identifier =  get_url_identifier
         new_work.save!
