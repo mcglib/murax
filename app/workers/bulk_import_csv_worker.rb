@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class BulkImportCsvJob < Murax::ApplicationJob
-  queue_as :default
+class BulkImportCsvWorker < Murax::ApplicationWorker
+  #queue_as :default
 
   sidekiq_options retry: true, queue: "imports", max_retries: 0
 

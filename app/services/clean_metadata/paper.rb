@@ -8,7 +8,6 @@ module CleanMetadata
       def clean
         metadata = self.execute_clean(@pid, "papers_gradres_27.py")
         return false unless metadata
-        
         metadata
       end
 

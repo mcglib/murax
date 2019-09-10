@@ -2,7 +2,6 @@
 
 # reindexes everything
 class ReindexEverythingJob < Murax::ApplicationJob
-  queue_as :default
   def perform
 
   end

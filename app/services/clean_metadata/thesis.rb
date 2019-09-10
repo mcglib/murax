@@ -1,10 +1,8 @@
 module CleanMetadata
     class Thesis < CleanMetadataService
       attr_reader :pid
-      attr_reader :work_type
-      def initialize(pid, work_type)
+      def initialize(pid)
         @pid = pid
-        @work_type = work_type
       end
 
       def clean

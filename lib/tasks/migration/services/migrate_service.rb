@@ -76,7 +76,6 @@ module Migration
            work_attributes = parsed_data[:work_attributes]
 
           new_work = work_record(work_attributes)
-          byebug
           new_work.save!
 
           #update the identifier if we need one for the work_type

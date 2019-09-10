@@ -155,7 +155,7 @@ class Digitool::ReportItem < DigitoolItem
 
 
       work_attributes['alternative_title'] = []
-      xml.xpath("/record/alternative_title").each do |term|
+      xml.xpath("/record/alternative").each do |term|
         work_attributes['alternative_title'] << term.text if term.text.present?
       end
 
