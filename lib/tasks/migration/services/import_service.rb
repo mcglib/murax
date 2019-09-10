@@ -66,6 +66,7 @@ module Migration
           #raise e if count > 
           #count += 1
           @logger.info "Failed importing #{@pid} times. Error: #{e.message}: #{e.class.name}"
+          #raise e if count > 1
           #return import(count: count)
         end
 

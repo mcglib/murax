@@ -11,10 +11,6 @@ class Digitool::PaperItem < DigitoolItem
 
   end
 
-  def set_title
-    #set the title from the clean xml
-    @title = @metadata_hash['title']
-  end
 
   def add_creation_date_to_notes()
     date = @raw_xml.at_css('digital_entity control creation_date').text if @raw_xml.present?
@@ -28,19 +24,6 @@ class Digitool::PaperItem < DigitoolItem
     xml = CleanMetadata::Paper.new(@pid).clean
 
     xml
-  end
-
-  def parse(config, depositor)
-      admin_set = config['admin_set']
-      env_default_admin_set = 'Default Admin Set'
-
-      work_attributes = get_work_attributes(config, depositor)
-      child_works = Array.new
-
-      work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
-
-      { work_attributes: work_attributes.reject!{|k,v| v.blank?},
-        child_works: child_works }
   end
 
   def update_identifier(work, work_type)
@@ -106,7 +89,7 @@ class Digitool::PaperItem < DigitoolItem
       end
 
       work_attributes['alternative_title'] = []
-      xml.xpath("/record/alternative_title").each do |title|
+      xml.xpath("/record/alternative").each do |title|
         work_attributes['alternative_title'] << title.text
       end
 
@@ -129,10 +112,39 @@ class Digitool::PaperItem < DigitoolItem
         work_attributes['abstract'] << abstract.text if abstract.text.present?
       end
 
+      # Set the description
+      work_attributes['description'] = []
+      xml.xpath("/record/description").each do |term|
+        work_attributes['description'] << term.text if term.text.present?
+      end
+
+      # get the subjects
+      work_attributes['subject'] =[]
+      xml.xpath("/record/subject").each do |term|
+        work_attributes['subject'] << term.text
+      end
+
 
       work_attributes['contributor'] =[]
       xml.xpath("/record/contributor").each do |term|
         work_attributes['contributor'] << term.text
+      end
+
+      # get the department from the discipline field
+      # get the department
+      work_attributes['department'] =[]
+      xml.xpath("/record/localthesisdegreediscipline").each do |term|
+        work_attributes['department'] << term.text if term.text.present?
+      end
+
+      xml.xpath("/record/localdepartmentcode").each do |term|
+        work_attributes['department'] << term.text if term.text.present?
+      end
+      
+      # get the source
+      work_attributes['source'] =[]
+      xml.xpath("/record/source").each do |term|
+        work_attributes['source'] << term.text if term.text.present?
       end
 
       # Get the date_uploaded
@@ -149,9 +161,17 @@ class Digitool::PaperItem < DigitoolItem
       end
 
 
-      # get the date. copying the modifiedDate
-      date = xml.xpath("/record/date").text
-      work_attributes['date'] = [date] if date.present?
+      # get the date if multiple
+      work_attributes['date'] =[]
+      xml.xpath("/record/date").each do |term|
+        work_attributes['date'] << term.text if term.text.present?
+      end
+
+      # get the date if multiple
+      work_attributes['pmid'] =[]
+      xml.xpath("/record/pmid").each do |term|
+        work_attributes['pmid'] << term.text if term.text.present?
+      end
 
       # McGill rights statement
       work_attributes['rights'] =  [config['rights_statement']]
@@ -201,7 +221,7 @@ class Digitool::PaperItem < DigitoolItem
       end
 
 
-      # get the grant_number
+      # get the research unit
       research_unit = xml.xpath("/record/localresearchunit").text
       work_attributes['research_unit'] = research_unit if research_unit.present?
 
@@ -213,6 +233,18 @@ class Digitool::PaperItem < DigitoolItem
       work_attributes['rtype'] =[]
       xml.xpath("/record/type").each do |term|
         work_attributes['rtype'] << term.text if term.text.present?
+      end
+
+      #localaffiliatedcentre
+      work_attributes['local_affiliated_centre'] =[]
+      xml.xpath("/record/localaffiliatedcentre").each do |term|
+        work_attributes['local_affiliated_centre'] << term.text if term.text.present?
+      end
+      
+      #localresearchunit
+      work_attributes['research_unit'] =[]
+      xml.xpath("/record/localresearchunit").each do |term|
+        work_attributes['research_unit'] << term.text if term.text.present?
       end
       
       # get the extent
