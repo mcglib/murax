@@ -140,7 +140,7 @@ class Digitool::ThesisItem < DigitoolItem
       # McGill rights statement
       work_attributes['rights'] =  [config['rights_statement']]
       xml.xpath("/record/rights").each do |term|
-        if (!term.text.downcase.include? 'eScholarship')
+        if (!term.text.downcase.include? 'escholarship')
           work_attributes['rights'] << term.text if term.text.present?
         end
       end
@@ -152,7 +152,13 @@ class Digitool::ThesisItem < DigitoolItem
       # set the relation
       work_attributes['relation'] = []
       xml.xpath("/record/relation").each do |term|
-        work_attributes['relation'] << term.text if term.text.present?
+        if (term.text.downcase.include? 'proquest')
+          # Lets remove the pid
+          text_value = "Proquest: #{term.text.strip.split(/\s+/).last}"
+        else
+         text_value = term.text if term.text.present?
+        end
+        work_attributes['relation'] << text_value if text_value.present?
       end
 
       #Added the isPart of

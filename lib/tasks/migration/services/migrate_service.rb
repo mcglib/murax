@@ -80,9 +80,10 @@ module Migration
 
           #update the identifier if we need one for the work_type
           if new_work.instance_of? Thesis
-            new_work.identifier ||= []
-            new_work.identifier << item.get_url_identifier(new_work.id)
-            new_work.save!
+            #new_work.identifier ||= []
+            #new_work.identifier << item.get_url_identifier(new_work.id)
+            new_work.identifier = [item.get_url_identifier(new_work.id)]
+            new_work.save
           end
 
           # Create sipity record
