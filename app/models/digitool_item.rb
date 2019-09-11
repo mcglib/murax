@@ -91,7 +91,7 @@ class DigitoolItem
       url = nil
 
       if work_id.present?
-       url = "https://#{ENV["SITE_URL"]}/concerns/#{@work_type.pluralize.downcase}/#{work_id}"
+       url = "https://#{ENV["SITE_URL"]}/concern/#{@work_type.pluralize.downcase}/#{work_id}"
       end
       url
   end

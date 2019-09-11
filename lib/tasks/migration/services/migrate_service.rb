@@ -110,7 +110,6 @@ module Migration
           new_work.save!
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
         rescue StandardError => e
-          byebug
           puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}, #{e.class.name}, #{e.backtrace}"
           log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
           new_work = false
