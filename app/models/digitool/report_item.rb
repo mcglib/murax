@@ -89,6 +89,7 @@ class Digitool::ReportItem < DigitoolItem
 
 
       # set the description
+      work_attributes['description'] = []
       xml.xpath("/record/description").each do |desc|
         work_attributes['description'] << desc.text if desc.text.present?
       end
@@ -161,12 +162,10 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes['alternative_title'] << term.text if term.text.present?
       end
 
-      #work_attributes['source'] = []
-      #xml.xpath("/record/source").each do |term|
-      #  work_attributes['source'] << term.text if term.text.present?
-      #end
-
       work_attributes['report_number'] = []
+      xml.xpath("/record/localtechnicalreportnumber").each do |term|
+        work_attributes['report_number'] << term.text if term.text.present?
+      end
       xml.xpath("/record/source").each do |term|
         work_attributes['report_number'] << term.text if term.text.present?
       end
@@ -179,6 +178,9 @@ class Digitool::ReportItem < DigitoolItem
       # get the department
       work_attributes['department'] =[]
       xml.xpath("/record/localdepartmentcode").each do |term|
+        work_attributes['department'] << term.text if term.text.present?
+      end
+      xml.xpath("/record/localthesisdegreediscipline").each do |term|
         work_attributes['department'] << term.text if term.text.present?
       end
 
@@ -194,6 +196,18 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes['rtype'] << term.text if term.text.present?
       end
 
+
+      #localaffiliatedcentre
+      work_attributes['local_affiliated_centre'] =[]
+      xml.xpath("/record/localaffiliatedcentre").each do |term|
+        work_attributes['local_affiliated_centre'] << term.text if term.text.present?
+      end
+
+      #localresearchunit
+      work_attributes['research_unit'] =[]
+      xml.xpath("/record/localresearchunit").each do |term|
+        work_attributes['research_unit'] << term.text if term.text.present?
+      end
 
       # get the extent if any
       extent = xml.xpath("/record/extent").text
