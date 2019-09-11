@@ -89,7 +89,9 @@ class Digitool::ReportItem < DigitoolItem
 
 
       # set the description
-      work_attributes['description'] = work_attributes['abstract']
+      xml.xpath("/record/description").each do |desc|
+        work_attributes['description'] << desc.text if desc.text.present?
+      end
 
       # set the creator
       #work_attributes['creator'] = []
@@ -159,10 +161,10 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes['alternative_title'] << term.text if term.text.present?
       end
 
-      work_attributes['source'] = []
-      xml.xpath("/record/source").each do |term|
-        work_attributes['source'] << term.text if term.text.present?
-      end
+      #work_attributes['source'] = []
+      #xml.xpath("/record/source").each do |term|
+      #  work_attributes['source'] << term.text if term.text.present?
+      #end
 
       work_attributes['report_number'] = []
       xml.xpath("/record/source").each do |term|
@@ -179,13 +181,13 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/localdepartmentcode").each do |term|
         work_attributes['department'] << term.text if term.text.present?
       end
-      
+
       # get the publisher
       work_attributes['publisher'] = []
       xml.xpath("/record/publisher").each do |term|
         work_attributes['publisher'] << term.text if term.text.present?
       end
-      
+
       # get the rtype
       work_attributes['rtype'] =[]
       xml.xpath("/record/type").each do |term|
