@@ -30,7 +30,6 @@ namespace :murax do
         puts "Added the collection  :#{c['title']} to the collection type: #{c['collection_type']}"
       end
     end
-    puts "Added the  user :#{options[:full_name]} to the role 'admin'"
     exit
   end
 
