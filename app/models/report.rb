@@ -2,8 +2,8 @@
 #  `rails generate hyrax:work Report`
 class Report < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
-  include Murax::HasSolrLabels
-  include Murax::HasNestedOrderedProperties
+  include Hyrax::HasSolrLabels
+  include Hyrax::HasNestedOrderedProperties
   self.indexer = ReportIndexer
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []

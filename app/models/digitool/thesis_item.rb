@@ -1,4 +1,4 @@
-class Digitool::ReportItem < DigitoolItem
+class Digitool::ThesisItem < DigitoolItem
 
   attr_accessor :config
 
@@ -6,6 +6,7 @@ class Digitool::ReportItem < DigitoolItem
     super
     @metadata_xml = clean_metadata
     @metadata_hash = set_metadatahash(@metadata_xml)
+
     set_title if is_view?
 
   end
@@ -15,12 +16,18 @@ class Digitool::ReportItem < DigitoolItem
     "Date first available online: " + date
   end
 
-
   # path to the python cleaning module
   def clean_metadata
     xml = nil
-    xml = CleanMetadata::GenericReport.new(@pid, @work_type).clean
+    xml = CleanMetadata::Thesis.new(@pid).clean
+
     xml
+  end
+
+
+  def update_identifier(work, work_type)
+   work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+   work.save!
   end
 
   def create( parsed_data )
@@ -29,10 +36,11 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes["relation"] << "pid: #{@pid}"
 
         new_work = work_record(work_attributes)
-        new_work.save!
 
         #update the identifier
-        new_work.identifier = "https://#{ENV["RAILS_HOST"]}/concerns/theses/#{new_work.id}"
+        new_work.identifier =  get_url_identifier
+        new_work.save!
+
 
         # Create sipity record
         workflow = Sipity::Workflow.joins(:permission_template)
@@ -52,8 +60,6 @@ class Digitool::ReportItem < DigitoolItem
         if item.has_related_pids?
           add_related_files(item, work_attributes,new_work) 
         end
-
-
 
         # resave
         new_work.save!
@@ -75,31 +81,18 @@ class Digitool::ReportItem < DigitoolItem
       xml = Nokogiri::XML.parse(@metadata_xml)
 
       xml.remove_namespaces!
+
       # Set the title
       work_attributes['title'] = []
       xml.xpath("/record/title").each do |title|
         work_attributes['title'] << title.text
       end
 
-      # Set the abstract
-      work_attributes['abstract'] = []
-      xml.xpath("/record/abstract").each do |abstract|
-        work_attributes['abstract'] << abstract.text if abstract.text.present?
+      # Set the alternate title
+      work_attributes['alternative_title'] = []
+      xml.xpath("/record/alternative").each do |title|
+        work_attributes['alternative_title'] << title.text
       end
-
-
-      # set the description
-      work_attributes['description'] = []
-      xml.xpath("/record/description").each do |desc|
-        work_attributes['description'] << desc.text if desc.text.present?
-      end
-
-      # set the creator
-      #work_attributes['creator'] = []
-      #xml.xpath("/record/creator").each do |term|
-      #  work_attributes['creator'] << term.text
-      #end
-
 
       # set the nested creator attributes
       work_attributes['nested_ordered_creator_attributes'] = []
@@ -107,14 +100,22 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes['nested_ordered_creator_attributes'] << process_ordered_field("creator", term.text, index) unless term.text.nil?
       end
 
+
+      # Set the abstract
+      work_attributes['abstract'] = []
+      xml.xpath("/record/abstract").each do |abstract|
+        work_attributes['abstract'] << abstract.text if abstract.text.present?
+      end
+
+      # Set the description
+      work_attributes['description'] = []
+      xml.xpath("/record/description").each do |term|
+        work_attributes['description'] << term.text if term.text.present?
+      end
+
       work_attributes['contributor'] =[]
       xml.xpath("/record/contributor").each do |term|
         work_attributes['contributor'] << term.text
-      end
-
-      work_attributes['subject'] =[]
-      xml.xpath("/record/subject").each do |term|
-        work_attributes['subject'] << term.text
       end
 
       # Get the date_uploaded
@@ -131,12 +132,19 @@ class Digitool::ReportItem < DigitoolItem
       end
 
 
-      # get the date. copying the modifiedDate
-      date = xml.xpath("/record/date").text
-      work_attributes['date'] = [date] if date.present?
+      work_attributes['date'] =[]
+      xml.xpath("/record/date").each do |term|
+        work_attributes['date'] << term.text if term.text.present?
+      end
 
       # McGill rights statement
       work_attributes['rights'] =  [config['rights_statement']]
+      xml.xpath("/record/rights").each do |term|
+        if (!term.text.downcase.include? 'escholarship')
+          work_attributes['rights'] << term.text if term.text.present?
+        end
+      end
+      
 
       # Set the depositor
       work_attributes['depositor'] = depositor.email
@@ -144,7 +152,13 @@ class Digitool::ReportItem < DigitoolItem
       # set the relation
       work_attributes['relation'] = []
       xml.xpath("/record/relation").each do |term|
-        work_attributes['relation'] << term.text if term.text.present?
+        if (term.text.downcase.include? 'proquest')
+          # Lets remove the pid
+          text_value = "Proquest: #{term.text.strip.split(/\s+/).last}"
+        else
+         text_value = term.text if term.text.present?
+        end
+        work_attributes['relation'] << text_value if text_value.present?
       end
 
       #Added the isPart of
@@ -152,25 +166,15 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/isPartOf").each do |term|
         work_attributes['note'] << term.text if term.text.present?
       end
+      xml.xpath("/record/localcollectioncode").each do |term|
+        work_attributes['note'] << term.text if term.text.present?
+      end
 
       ## add the technical creation date as part of the notes field
       work_attributes['note'] << add_creation_date_to_notes
 
 
-      work_attributes['alternative_title'] = []
-      xml.xpath("/record/alternative").each do |term|
-        work_attributes['alternative_title'] << term.text if term.text.present?
-      end
-
-      work_attributes['report_number'] = []
-      xml.xpath("/record/localtechnicalreportnumber").each do |term|
-        work_attributes['report_number'] << term.text if term.text.present?
-      end
-      xml.xpath("/record/source").each do |term|
-        work_attributes['report_number'] << term.text if term.text.present?
-      end
-
-      work_attributes['faculty'] = []
+       work_attributes['faculty'] = []
         xml.xpath("/record/localfacultycode").each do |term|
         work_attributes['faculty'] << term.text if term.text.present?
       end
@@ -180,8 +184,22 @@ class Digitool::ReportItem < DigitoolItem
       xml.xpath("/record/localdepartmentcode").each do |term|
         work_attributes['department'] << term.text if term.text.present?
       end
+
+      # get the department from the discipline field
       xml.xpath("/record/localthesisdegreediscipline").each do |term|
         work_attributes['department'] << term.text if term.text.present?
+      end
+
+      # get the degree
+      work_attributes['degree'] =[]
+      xml.xpath("/record/localthesisdegreename").each do |term|
+        work_attributes['degree'] << term.text if term.text.present?
+      end
+
+      # get the source
+      work_attributes['source'] =[]
+      xml.xpath("/record/source").each do |term|
+        work_attributes['source'] << term.text if term.text.present?
       end
 
       # get the publisher
@@ -190,28 +208,58 @@ class Digitool::ReportItem < DigitoolItem
         work_attributes['publisher'] << term.text if term.text.present?
       end
 
+
+
+      # get the department
+      work_attributes['degree'] =[]
+      xml.xpath("/record/localthesisdegreename").each do |term|
+        work_attributes['degree'] << term.text if term.text.present?
+      end
+
+
+      # get the grant_number
+      research_unit = xml.xpath("/record/localresearchunit").text
+      work_attributes['research_unit'] = research_unit if research_unit.present?
+
+      # get the grant_number
+      grant_no = xml.xpath("/record/localgrantnumber").text
+      work_attributes['grant_number'] = grant_no if grant_no.present?
+
       # get the rtype
       work_attributes['rtype'] =[]
       xml.xpath("/record/type").each do |term|
         work_attributes['rtype'] << term.text if term.text.present?
       end
 
-
-      #localaffiliatedcentre
-      work_attributes['local_affiliated_centre'] =[]
-      xml.xpath("/record/localaffiliatedcentre").each do |term|
-        work_attributes['local_affiliated_centre'] << term.text if term.text.present?
-      end
-
-      #localresearchunit
-      work_attributes['research_unit'] =[]
-      xml.xpath("/record/localresearchunit").each do |term|
-        work_attributes['research_unit'] << term.text if term.text.present?
-      end
-
-      # get the extent if any
+      # get the extent
       extent = xml.xpath("/record/extent").text
       work_attributes['extent'] = extent if extent.present?
+      xml.xpath("/record/localdisspagecount").each do |term|
+        work_attributes['extent'] << term.text
+      end
+
+      # get the institution
+      inst = xml.xpath("/record/institution").text
+      work_attributes['institution'] = inst if inst.present?
+      # Other institutions
+      inst = xml.xpath("/record/localtechnicalreportinstitution").text
+      work_attributes['institution'] = inst if inst.present?
+
+      # Other institution defination
+      inst = xml.xpath("/record/localdissertationinstitution ").text
+      work_attributes['institution'] = inst if inst.present?
+
+      # get the subjects
+      work_attributes['subject'] =[]
+      xml.xpath("/record/subject").each do |term|
+        work_attributes['subject'] << term.text
+      end
+
+      # get the license
+      work_attributes['license'] =[]
+      xml.xpath("/record/license").each do |term|
+        work_attributes['license'] << term.text
+      end
 
       # languages
       languages = []

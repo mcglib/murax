@@ -13,20 +13,23 @@ namespace :migration do
 
     # bundle exec rake migraton:digitool_item -- -p 12007 -c 'thesis'
     desc 'Migrate a Digitool objects with a PID and its related items eg: bundle exec rake migration:batch_import[csvfile, batch_no]'
-    task :bulk_import_csv, [:csv_file, :batch_no, :start_pos] => :environment do |t, args|
-      args.with_defaults(:start_pos => 0, :batch_no => 5)
+    task :bulk_import_csv, [:csv_file, :batch_no, :start_pos, :total] => :environment do |t, args|
+      args.with_defaults(:start_pos => 0, :batch_no => 5, :total => 0)
 
       # slice length
       batch_no =  (args[:batch_no] || 5).to_i
 
       # start position (number) from csv array
       start_pos =  (args[:start_pos] || 0).to_i
+ 
+      # start position (number) from csv array
+      total =  (args[:total] || 0).to_i
 
       # start processing
-      process_import_csv(args[:csv_file], start_pos, batch_no)
+      process_import_csv(args[:csv_file], start_pos, batch_no, total)
     end
 
-    def process_import_csv(csv_file, start_pos, batch_no)
+    def process_import_csv(csv_file, start_pos, batch_no, total)
       admin_set = ENV['DEFAULT_ADMIN_SET'].tr('"', '')
       user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
 
@@ -48,7 +51,13 @@ namespace :migration do
         # Get the depositor
         @depositor = User.where(email: user_email).first
 
-        @pids[start_pos, @pids.count].each_slice(batch_no) do | lists |
+        # find out the total we need to ingest
+        amount_to_import = total === 0 ?  @pids.count : total
+
+
+        logger.info "Starting to import #{amount_to_import} items from position: #{start_pos}"
+        puts "Starting to import #{amount_to_import} items from position: #{start_pos}"
+        @pids[start_pos, amount_to_import].each_slice(batch_no) do | lists |
 
           successes = 0
           errors = 0

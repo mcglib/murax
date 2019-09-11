@@ -1,5 +1,5 @@
 # Example configuration for ingest script
-thesis:
+theses:
   work_type: Thesis
   resource_type: "Dissertation"
   admin_set: "User Collection"
