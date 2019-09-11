@@ -24,6 +24,7 @@ module Migration
         import_record = nil
 
         begin
+          byebug
           item = DigitoolItem.new({ :pid => @pid}) if @pid.present?
           ##Get the dctypes
           dc_types = item.metadata_hash["type"] if !item.is_waiver?
@@ -63,6 +64,7 @@ module Migration
           # Maybe we can add the import_record to db
 
         rescue StandardError => e
+          byebug
           #raise e if count > 
           #count += 1
           @logger.info "Failed importing #{@pid} times. Error: #{e.message}: #{e.class.name}"
