@@ -7,7 +7,7 @@ module Hyrax
     include Hyrax::NestedBehavior
     self.model_class = ::Book
     self.terms += [:title, :alternative_title, :rights, :nested_ordered_creator, :note, :abstract, :grant_number, :extent,
-                   :date,  :rights, :rtype, :orcidid, :relation, :bibliographic_citation, :author_order ]
+                   :date,  :rights, :rtype, :orcidid, :relation, :bibliographic_citation ]
     self.terms -= [ :keyword, :creator, :rights_statement, :date_created, :resource_type,:import_url, :relative_path, :based_near]
     self.required_fields += [:nested_ordered_creator, :date, :rights, :rtype, :bibliographic_citation]
     self.required_fields -= [:keyword, :contact_email, :description, :rights_statement]
