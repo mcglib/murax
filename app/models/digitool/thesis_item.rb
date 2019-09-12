@@ -209,14 +209,6 @@ class Digitool::ThesisItem < DigitoolItem
       end
 
 
-
-      # get the department
-      work_attributes['degree'] =[]
-      xml.xpath("/record/localthesisdegreename").each do |term|
-        work_attributes['degree'] << term.text if term.text.present?
-      end
-
-
       # get the grant_number
       research_unit = xml.xpath("/record/localresearchunit").text
       work_attributes['research_unit'] = research_unit if research_unit.present?

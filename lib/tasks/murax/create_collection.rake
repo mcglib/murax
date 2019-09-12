@@ -47,7 +47,7 @@ namespace :murax do
       col.apply_depositor_metadata @user
       col.save!
 
-       puts "Added the collection  :#{collection.slug} to the collection type: #{args[:collection_type]}"
+       puts "Added the collection  :#{col.slug} to the collection type: #{args[:collection_type]}"
     rescue StandardError => e
       puts "Error creating the collection #{args[:slug]}: #{e}: #{e.class.name}"
     end

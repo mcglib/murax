@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.17] - 2019-09-12
+### Changed
+* changed the label for creator property
+* removed the author order from form
+* Fix bug with missing variable
+* Removed duplicate thesis item
+
 ## [1.0.16] - 2019-09-11
 ### Changed
 * Fixed bug with tmp files not being deleted
