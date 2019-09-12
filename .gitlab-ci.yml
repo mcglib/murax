@@ -37,11 +37,15 @@ rspec:
   stage: test
   script:
     - bundle exec rspec
+  tags:
+    - azure
 
 rubocop:
   stage: test
   script:
     - bundle exec rubocop
+  tags:
+    - azure
 
 develop_deploy:
   stage: deploy_dev
@@ -50,14 +54,18 @@ develop_deploy:
     - cap development deploy
   only:
     - develop
+  tags:
+    - azure
 
 staging_deploy:
   stage: deploy_qa
   script:
     - gem install capistrano
-    - cap production deploy
+    - cap staging deploy
   only:
     - master
+  tags:
+    - azure
 
 production_deploy:
   stage: deploy_qa
