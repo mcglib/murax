@@ -24,8 +24,8 @@ before_script:
   - ruby -v
   - which ruby
   - gem install bundler
-  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
   - gem install capistrano
+  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 stages:
   - test
@@ -54,7 +54,6 @@ develop_deploy:
     - azure
   stage: deploy_dev
   script:
-    - gem install capistrano
     - cap development deploy
   only:
     - develop
@@ -62,7 +61,6 @@ develop_deploy:
 staging_deploy:
   stage: deploy_qa
   script:
-    - gem install capistrano
     - cap production deploy
   only:
     - master
@@ -70,7 +68,6 @@ staging_deploy:
 production_deploy:
   stage: deploy_qa
   script:
-    - gem install capistrano
     - cap production deploy
   only:
     - master
