@@ -169,10 +169,10 @@ class Digitool::PaperItem < DigitoolItem
       # get the date if multiple
       work_attributes['date'] =[]
       xml.xpath("/record/date").each do |term|
-        work_attributes['date'] << term.text if term.text.present?
+        work_attributes['date'] << get_proper_date(term.text) if term.text.present?
       end
 
-      # get the date if multiple
+      # get the pmid if multiple
       work_attributes['pmid'] =[]
       xml.xpath("/record/pmid").each do |term|
         work_attributes['pmid'] << term.text if term.text.present?

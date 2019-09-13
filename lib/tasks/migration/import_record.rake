@@ -44,7 +44,8 @@ namespace :migration do
           User.where(email: ENV['DEFAULT_DEPOSITOR_EMAIL']).count > 0
           start_time = Time.now
 
-          @depositor = User.where(email: migration_config['depositor_email']).first
+          user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
+          @depositor = User.where(email: user_email).first
 
           migrate_service = Migration::Services::MigrateService.new(migration_config,
                                                @depositor)

@@ -134,7 +134,7 @@ class Digitool::ThesisItem < DigitoolItem
 
       work_attributes['date'] =[]
       xml.xpath("/record/date").each do |term|
-        work_attributes['date'] << term.text if term.text.present?
+        work_attributes['date'] << get_proper_date(term.text) if term.text.present?
       end
 
       # McGill rights statement

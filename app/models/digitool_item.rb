@@ -154,6 +154,17 @@ class DigitoolItem
 
   end
 
+  def get_proper_date(value)
+
+    date_val = ""
+    if value.present?
+      date_val = (value.upcase == 'YYYY') ? 'XXXX' : value
+    end
+
+    date_val
+
+  end
+
   def get_file_name
     @file_info = set_file_metadata unless @file_info.present?
     @file_info['file_name']

@@ -131,9 +131,11 @@ class Digitool::ReportItem < DigitoolItem
       end
 
 
-      # get the date. copying the modifiedDate
-      date = xml.xpath("/record/date").text
-      work_attributes['date'] = [date] if date.present?
+      # get the date if multiple
+      work_attributes['date'] =[]
+      xml.xpath("/record/date").each do |term|
+        work_attributes['date'] << get_proper_date(term.text) if term.text.present?
+      end
 
       # McGill rights statement
       work_attributes['rights'] =  [config['rights_statement']]
