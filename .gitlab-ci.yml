@@ -38,13 +38,20 @@ rspec:
   stage: test
   script:
     - bundle exec rspec
+  tags:
+    - azure
+
 
 rubocop:
+  tags:
+    - azure
   stage: test
   script:
     - bundle exec rubocop
 
 develop_deploy:
+  tags:
+    - azure
   stage: deploy_dev
   script:
     - gem install capistrano
