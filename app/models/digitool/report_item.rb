@@ -82,10 +82,7 @@ class Digitool::ReportItem < DigitoolItem
       end
 
       # Set the abstract
-      work_attributes['abstract'] = []
-      xml.xpath("/record/abstract").each do |abstract|
-        work_attributes['abstract'] << abstract.text if abstract.text.present?
-      end
+      work_attributes['abstract'] = set_abstracts(xml.xpath("/record/abstract"))
 
 
       # set the description

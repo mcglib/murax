@@ -23,6 +23,7 @@ before_script:
   - printenv
   - ruby -v
   - which ruby
+  - gem install bundler
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
   - gem install capistrano
 

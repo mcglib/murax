@@ -101,11 +101,9 @@ class Digitool::ThesisItem < DigitoolItem
       end
 
 
+
       # Set the abstract
-      work_attributes['abstract'] = []
-      xml.xpath("/record/abstract").each do |abstract|
-        work_attributes['abstract'] << abstract.text if abstract.text.present?
-      end
+      work_attributes['abstract'] = set_abstracts(xml.xpath("/record/abstract"))
 
       # Set the description
       work_attributes['description'] = []
@@ -144,7 +142,7 @@ class Digitool::ThesisItem < DigitoolItem
           work_attributes['rights'] << term.text if term.text.present?
         end
       end
-      
+
 
       # Set the depositor
       work_attributes['depositor'] = depositor.email

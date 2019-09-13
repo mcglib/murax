@@ -36,7 +36,7 @@ class DigitoolItem
 
     set_related_pids
   end
-  
+
   def set_title
     #set the title from the clean xml
     @title = @metadata_hash['title']
@@ -70,6 +70,31 @@ class DigitoolItem
       doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
       doc.to_s
   end
+
+  # Returns an array of abstract strings with
+  # attached prefixes and defaults to 'en'
+  # where abstract is only one
+  # eg
+  # FR:Voici ma thèse…
+  # EN:Here’s my thesis…
+  def set_abstracts(abstract_xmls)
+    abstracts = []
+    abstract_xmls.each do | abstract |
+      lang = abstract.attributes['lang'].present? ? abstract.attributes['lang'].text : 'en'
+      abstracts << add_language_prefix_to_text(lang, abstract.text) if abstract.text.present?
+    end
+
+    abstracts
+  end
+
+  def add_language_prefix_to_text(lang,text)
+    prefixed_text = text
+    if lang.present? and text.present?
+      prefixed_text = "\"#{text}\"@#{lang}"
+    end
+    prefixed_text
+  end
+
 
   def is_main_view?
     !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
