@@ -27,12 +27,13 @@ class DigitoolItem
     # get the raw xml
     @raw_xml = fetch_raw_xml(@pid, "xml") if @pid.present?
 
+    # get the raw metadata_xml
     # set usage type
     set_usage_type
 
-    @file_info = set_file_metadata
-
     set_metadata if !is_waiver?
+
+    @file_info = set_file_metadata
 
     set_related_pids
   end
@@ -155,7 +156,8 @@ class DigitoolItem
   def set_file_metadata
       if @raw_xml.present? && !@file_info.present?
         @file_info = {}
-        @file_info['file_name'] = @raw_xml.at_css('digital_entity stream_ref file_name').text
+
+        @file_info['file_name'] = get_raw_file_name
         @file_info['file_ext'] = @raw_xml.at_css('digital_entity stream_ref file_extension').text
         @file_info['mime_type'] = @raw_xml.at_css('digital_entity stream_ref mime_type').text
         @file_info['path'] = @raw_xml.at_css('digital_entity stream_ref directory_path').text
@@ -163,7 +165,8 @@ class DigitoolItem
       @file_info
   end
 
-  def download_main_pdf_file(dest=nil)
+
+  def download_file(dest=nil)
       file_path = nil
       if @pid.present? && @file_info['path'].present?
 
@@ -228,7 +231,7 @@ class DigitoolItem
 
   private
 
-    def fetch_related_pids(pid)
+  def fetch_related_pids(pid)
       related_pids = nil
       if pid.present?
         uri = URI.parse("#{@scripts_url}?pid=#{pid}")
@@ -239,8 +242,65 @@ class DigitoolItem
 
       related_pids
 
+  end
+
+  def set_filename_and_type(fname, usage_type)
+      my_hash = fname
+      #puts "#{@pid} -- #{fname} -- #{usage_type}"
+      my_hash
+  end
+
+    def get_localfilename_field
+      file_names = []
+      doc = Nokogiri::XML(get_metadata)
+      doc.remove_namespaces!
+
+      # get the first file. its always the main file
+
+      # find all filenames in desc metadata
+      doc.xpath("/record/localfilename").each_with_index do |furl, index|
+        fname = furl.text
+        if fname.include? 'http://'
+          uri = URI.parse(fname)
+          file_names << set_filename_and_type(File.basename(uri.path),@usage_type)
+        else
+          file_names << set_filename_and_type(fname,@usage_type)
+        end
+      end
+
+      file_names
     end
 
+    def get_raw_file_name
+      file_name = @raw_xml.at_css('digital_entity stream_ref file_name').text
+
+      if file_name.include? 'downloaded_stream'
+        # get other names
+        localfilenames = get_localfilename_field
+        if localfilenames.count == 1 and (@usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW')
+            file_name = localfilenames.first
+        end
+
+        if localfilenames.count > 1
+          if @usage_type == 'VIEW_MAIN'
+            file_name = localfilenames.first
+          end
+
+          # lets circle through the filenames to get our info
+          localfilenames.each_with_index do |fname, idx|
+            if fname.downcase.include? 'multimedia' and @usage_type == 'VIEW'
+              file_name = fname
+            end
+            if fname.downcase.include? 'certificate' and @usage_type == 'ARCHIVE'
+              file_name = fname
+            end
+          end
+        end
+
+      end
+
+      file_name
+    end
 
     def fetch_raw_xml(pid, format="json")
       xml = nil

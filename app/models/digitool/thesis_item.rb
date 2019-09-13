@@ -224,9 +224,6 @@ class Digitool::ThesisItem < DigitoolItem
       # get the extent
       extent = xml.xpath("/record/extent").text
       work_attributes['extent'] = extent if extent.present?
-      xml.xpath("/record/localdisspagecount").each do |term|
-        work_attributes['extent'] << term.text
-      end
 
       # get the institution
       inst = xml.xpath("/record/institution").text

@@ -51,7 +51,7 @@ class MigrationHelper
 
         item = DigitoolItem.new({"pid"=> pid})
 
-        fileinfo = {path: item.download_main_pdf_file(dest),
+        fileinfo = {path: item.download_file(dest),
                     name: item.get_file_name,
                     visibility: item.get_file_visibility,
                     pid: pid,
