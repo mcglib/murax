@@ -101,11 +101,9 @@ class Digitool::ThesisItem < DigitoolItem
       end
 
 
+
       # Set the abstract
-      work_attributes['abstract'] = []
-      xml.xpath("/record/abstract").each do |abstract|
-        work_attributes['abstract'] << abstract.text if abstract.text.present?
-      end
+      work_attributes['abstract'] = set_abstracts(xml.xpath("/record/abstract"))
 
       # Set the description
       work_attributes['description'] = []
@@ -134,7 +132,7 @@ class Digitool::ThesisItem < DigitoolItem
 
       work_attributes['date'] =[]
       xml.xpath("/record/date").each do |term|
-        work_attributes['date'] << term.text if term.text.present?
+        work_attributes['date'] << get_proper_date(term.text) if term.text.present?
       end
 
       # McGill rights statement
@@ -144,7 +142,7 @@ class Digitool::ThesisItem < DigitoolItem
           work_attributes['rights'] << term.text if term.text.present?
         end
       end
-      
+
 
       # Set the depositor
       work_attributes['depositor'] = depositor.email
@@ -226,9 +224,6 @@ class Digitool::ThesisItem < DigitoolItem
       # get the extent
       extent = xml.xpath("/record/extent").text
       work_attributes['extent'] = extent if extent.present?
-      xml.xpath("/record/localdisspagecount").each do |term|
-        work_attributes['extent'] << term.text
-      end
 
       # get the institution
       inst = xml.xpath("/record/institution").text
