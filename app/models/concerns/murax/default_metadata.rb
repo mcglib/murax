@@ -50,6 +50,11 @@ module Murax
               index.as :stored_searchable, :facetable
       end
 
+      # GPSO theses have this field and it is only being added for theses.
+      property :date_accepted,      predicate: RDF::Vocab::DC11.dateAccepted, multiple: true do | index |
+              index.as :stored_searchable, :facetable
+      end
+
       property :subject,      predicate: RDF::Vocab::DC11.subject, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end

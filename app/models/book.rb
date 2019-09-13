@@ -2,8 +2,8 @@
 #  `rails generate hyrax:work Book`
 class Book < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
-  include Murax::HasSolrLabels
-  include Murax::HasNestedOrderedProperties
+  include Hyrax::HasSolrLabels
+  include Hyrax::HasNestedOrderedProperties
   self.indexer = BookIndexer
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
@@ -11,5 +11,5 @@ class Book < ActiveFedora::Base
 
   # This must be included at the end, because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
-  include ::Murax::DefaultMetadata
+  include ::Hyrax::DefaultMetadata
 end
