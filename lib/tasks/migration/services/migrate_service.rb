@@ -76,6 +76,9 @@ module Migration
            work_attributes = parsed_data[:work_attributes]
 
           new_work = work_record(work_attributes)
+          # validate the minimum required values
+          raise StandardError.new "The pid #{item.pid}  does not have an creator" if work_attributes["nested_ordered_creator_attributes"].nil?
+
           new_work.save!
 
           #update the identifier if we need one for the work_type
@@ -113,7 +116,7 @@ module Migration
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
         rescue StandardError => e
           puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}, #{e.class.name}, #{e.backtrace}"
-          log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+          log.error "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}, #{e.class.name}"
           new_work = false
         end
 
