@@ -170,6 +170,9 @@ class Digitool::ThesisItem < DigitoolItem
       xml.xpath("/record/localcollectioncode").each do |term|
         work_attributes['note'] << term.text if term.text.present?
       end
+      xml.xpath("/record/localauthoringsoftware").each do |term|
+        work_attributes['note'] << "Authoring software: #{term.text}" if term.text.present?
+      end
 
       ## add the technical creation date as part of the notes field
       work_attributes['note'] << add_creation_date_to_notes

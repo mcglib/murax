@@ -129,16 +129,12 @@ module Hyrax
             index.as :stored_searchable
       end
 
-##### End of properties added for Article worktype.######
 
 ####  Additional properties added for Report worktype.######
 
       property :report_number,       predicate: ::RDF::URI.new('https://schema.org/reportNumber'), multiple: true do |index|
             index.as :stored_searchable
       end
-
-
-##### End of properties added for Report worktype.######
 
 
 ####These properties will be removed in the form app/forms/hyrax file.######
