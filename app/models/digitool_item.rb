@@ -32,10 +32,11 @@ class DigitoolItem
     set_usage_type
 
     set_metadata if !is_waiver?
+    
+    set_related_pids
 
     @file_info = set_file_metadata
 
-    set_related_pids
   end
 
   def set_title
@@ -161,6 +162,7 @@ class DigitoolItem
         @file_info['file_ext'] = @raw_xml.at_css('digital_entity stream_ref file_extension').text
         @file_info['mime_type'] = @raw_xml.at_css('digital_entity stream_ref mime_type').text
         @file_info['path'] = @raw_xml.at_css('digital_entity stream_ref directory_path').text
+        @file_info['representative_media'] = false
       end
       @file_info
   end
