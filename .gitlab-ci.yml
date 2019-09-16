@@ -1,5 +1,5 @@
 #image: registry.it.mcgill.ca/docker/rhel7-ansible
-image: ruby:2.3
+image: ruby:2.5
 services:
     - redis:latest
     - postgres:latest
