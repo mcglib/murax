@@ -34,9 +34,7 @@ before_script:
   - apt-get update -yq
   - apt-get install -y yarn
   # Project setup
-  - gem install bundler
-  - gem install capistrano rake
-  - gem install sassc
+  - gem install capistrano rake bundler
   # Check if the dependencies are ok, if not install what is missing
     # Install the gems
   - bundle check || bundle install --jobs $(nproc) --path vendor
