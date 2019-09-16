@@ -14,5 +14,5 @@ class Paper < ActiveFedora::Base
   validates :title, presence: { message: 'Your paper must have a title.' }
   # This must be included at the end, because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
-  include ::Murax::DefaultMetadata
+  include ::Hyrax::DefaultMetadata
 end

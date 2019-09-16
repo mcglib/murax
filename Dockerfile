@@ -42,10 +42,6 @@ RUN sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xeni
 RUN a2enmod passenger \
 && apachectl restart
 
-
-
-
-
 # Change default locale to en-US.UTF-8
 ENV LANG=en_US.UTF-8
 RUN localedef -f UTF-8 -i en_US en_US.UTF-8

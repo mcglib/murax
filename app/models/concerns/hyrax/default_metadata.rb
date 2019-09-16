@@ -50,6 +50,11 @@ module Hyrax
               index.as :stored_searchable, :facetable
       end
 
+      # GPSO theses have this field and it is only being added for theses.
+      property :date_accepted,      predicate: RDF::Vocab::DC.dateAccepted, multiple: true do | index |
+              index.as :stored_searchable, :facetable
+      end
+
       property :subject,      predicate: RDF::Vocab::DC11.subject, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end
@@ -124,16 +129,12 @@ module Hyrax
             index.as :stored_searchable
       end
 
-##### End of properties added for Article worktype.######
 
 ####  Additional properties added for Report worktype.######
 
       property :report_number,       predicate: ::RDF::URI.new('https://schema.org/reportNumber'), multiple: true do |index|
             index.as :stored_searchable
       end
-
-
-##### End of properties added for Report worktype.######
 
 
 ####These properties will be removed in the form app/forms/hyrax file.######

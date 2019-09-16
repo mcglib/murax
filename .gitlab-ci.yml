@@ -1,5 +1,5 @@
 #image: registry.it.mcgill.ca/docker/rhel7-ansible
-image: ruby:2.3
+image: ruby:2.5
 services:
     - redis:latest
     - postgres:latest
@@ -13,6 +13,7 @@ variables:
 cache:
   paths:
     - vendor/ruby
+    - node_modules
 
 before_script:
   # Run the ssh-agent
@@ -23,9 +24,27 @@ before_script:
   - printenv
   - ruby -v
   - which ruby
-  - gem install bundler
-  - gem install capistrano
-  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
+      # Install node and some other deps
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - apt-get update -yq
+  - apt-get install -y apt-transport-https build-essential cmake nodejs software-properties-common unzip g++
+  # Install yarn
+  - wget -q -O - https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+  - apt-get update -yq
+  - apt-get install -y yarn
+  # Project setup
+  - gem install capistrano rake bundler
+  # Check if the dependencies are ok, if not install what is missing
+    # Install the gems
+  - bundle check || bundle install --jobs $(nproc) --path vendor
+  - yarn install
+  # database.yml.ci file contains the configurations for the CI
+  # server, so let's copy to the configuration file
+  - cp config/database.yml.ci config/database.yml
+  - bundle exec rails db:create RAILS_ENV=test
+  - bundle exec rails db:schema:load RAILS_ENV=test
+  - bundle exec webpack
 
 stages:
   - test
@@ -41,13 +60,14 @@ rspec:
   tags:
     - azure
 
-
 rubocop:
   tags:
     - azure
   stage: test
   script:
     - bundle exec rubocop
+  tags:
+    - azure
 
 develop_deploy:
   tags:
@@ -57,6 +77,8 @@ develop_deploy:
     - cap development deploy
   only:
     - develop
+  tags:
+    - azure
 
 staging_deploy:
   stage: deploy_qa
@@ -64,6 +86,8 @@ staging_deploy:
     - cap production deploy
   only:
     - master
+  tags:
+    - azure
 
 production_deploy:
   stage: deploy_qa
@@ -72,6 +96,8 @@ production_deploy:
   only:
     - master
   when: manual
+  tags:
+    - azure
 
 cleanup:
   stage: cleanup
@@ -79,3 +105,5 @@ cleanup:
     - rm -rf .vault-password
     - rm -rf /root/.ssh
   when: always
+  tags:
+    - azure

@@ -11,5 +11,5 @@ class Report < ActiveFedora::Base
   # validates_with Murax::Validators::NestedRelatedItemsValidator
   # This must be included at the end, because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
-  include ::Murax::DefaultMetadata
+  include ::Hyrax::DefaultMetadata
 end

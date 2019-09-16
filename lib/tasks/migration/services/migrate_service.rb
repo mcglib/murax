@@ -76,6 +76,9 @@ module Migration
            work_attributes = parsed_data[:work_attributes]
 
           new_work = work_record(work_attributes)
+          # validate the minimum required values
+          raise StandardError.new "The pid #{item.pid}  does not have an creator" if work_attributes["nested_ordered_creator_attributes"].nil?
+
           new_work.save!
 
           #update the identifier if we need one for the work_type
@@ -100,6 +103,8 @@ module Migration
           fileset = add_main_file(item.pid, work_attributes, new_work)
           puts "The work #{pid} does not have a main file set.Check for errors"  if fileset.nil?
           log.info "The work #{pid} does not have a file set." if fileset.nil?
+          # We set the fileset as the representative media
+          new_work.representative_id = fileset.id if fileset.id.present?
 
           # now we fetch the related pid files
           if item.has_related_pids?
@@ -111,7 +116,7 @@ module Migration
           log.info "The work has been created for #{item.title} as a #{@work_type}" if new_work.present?
         rescue StandardError => e
           puts "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}, #{e.class.name}, #{e.backtrace}"
-          log.info "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}"
+          log.error "The item #{item.title} with pid id: #{item.pid} could not be saved as a work. #{e}, #{e.class.name}"
           new_work = false
         end
 
@@ -178,7 +183,7 @@ module Migration
 
 
       private
-        # FileSets can include any metadata listed in BasicMetadata file
+        # FileSets can include any metadata listed in DefaultMetadata file
         def file_record(work_attributes)
           file_set = FileSet.new
           file_attributes = Hash.new
@@ -210,7 +215,7 @@ module Migration
 
         end
 
-        def add_related_files(item, work_attributes, work) 
+        def add_related_files(item, work_attributes, work)
 
 
           suggested_types = ['VIEW', 'VIEW_MAIN', 'ARCHIVE']
