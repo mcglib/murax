@@ -24,20 +24,19 @@ before_script:
   - printenv
   - ruby -v
   - which ruby
-  - gem install bundler
-  - gem install capistrano rake
-  - gem install sassc
       # Install node and some other deps
   - curl -sL https://deb.nodesource.com/setup_8.x | bash -
   - apt-get update -yq
   - apt-get install -y apt-transport-https build-essential cmake nodejs python-software-properties software-properties-common unzip
-
   # Install yarn
   - wget -q -O - https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   - echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
   - apt-get update -yq
   - apt-get install -y yarn
   # Project setup
+  - gem install bundler
+  - gem install capistrano rake
+  - gem install sassc
   # Check if the dependencies are ok, if not install what is missing
     # Install the gems
   - bundle check || bundle install --jobs $(nproc) --path vendor
