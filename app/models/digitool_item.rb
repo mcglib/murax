@@ -33,9 +33,10 @@ class DigitoolItem
 
     set_metadata if !is_waiver?
 
+    set_related_pids
+
     @file_info = set_file_metadata
 
-    set_related_pids
   end
 
   def set_title
@@ -68,8 +69,17 @@ class DigitoolItem
   end
 
   def get_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css("digital_entity mds md[shared='true'] value")) if @raw_xml.present?
-      doc.to_s
+
+      doc = nil
+      @raw_xml.xpath("/digital_entity/mds/md").each do | md_xml |
+        if md_xml.at_css("name").text == 'descriptive'
+          val = Nokogiri::XML(md_xml.at_css("value")) if md_xml.present?
+          doc = val.to_s if val.present?
+        end
+      end
+
+      doc
+
   end
 
   # Returns an array of abstract strings with
@@ -131,9 +141,14 @@ class DigitoolItem
   end
 
   def set_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css("digital_entity mds md[shared='true'] value")) if @raw_xml.present?
-      data = Hash.from_xml(doc.to_s)
-      @metadata_hash = data['record']
+      # get the descriptive metadata
+      @raw_xml.xpath("/digital_entity/mds/md").each do | md_xml |
+        if md_xml.at_css("name").text == 'descriptive'
+          doc = Nokogiri::XML(md_xml.at_css("value")) if md_xml.present?
+          data = Hash.from_xml(doc.to_s)
+          @metadata_hash = data['record']
+        end
+      end
   end
 
   def has_metadata?
@@ -161,6 +176,7 @@ class DigitoolItem
         @file_info['file_ext'] = @raw_xml.at_css('digital_entity stream_ref file_extension').text
         @file_info['mime_type'] = @raw_xml.at_css('digital_entity stream_ref mime_type').text
         @file_info['path'] = @raw_xml.at_css('digital_entity stream_ref directory_path').text
+        @file_info['representative_media'] = false
       end
       @file_info
   end
@@ -261,7 +277,7 @@ class DigitoolItem
       doc.xpath("/record/localfilename").each_with_index do |furl, index|
         fname = furl.text
         if fname.include? 'http://'
-          uri = URI.parse(fname)
+          uri = URI.parse(fname.gsub(/\n/, ""))
           file_names << set_filename_and_type(File.basename(uri.path),@usage_type)
         else
           file_names << set_filename_and_type(fname,@usage_type)
