@@ -16,7 +16,6 @@ namespace :migration do
       item = DigitoolItem.new({ :pid => pid}) if pid
 
       ##Get the dctypes
-      byebug
       dc_types = item.metadata_hash["type"] if !item.is_waiver?
       dc_types = dc_types.map(&:inspect).join(', ') if dc_types.kind_of?(Array)
 
