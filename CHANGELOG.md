@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.19] - 2019-09-16
+### Changed
+* Added local collection code to the note field for report and paper
+* Testing to see if we can use azure containers
+* added new property date accepted to default metadata
+* Updated the ci image for ruby
+* Adding date accepted
+* Added the g++ package for CI
+* Fixed bug with import script fetching wrong metadata
+* Removed debugging code
+* Fixing ci
+* Added representative id to the work. The main pid is the representative id
+* Added a setup_chrome for CI testing
+* Fixing a bug with getting metadata
 ## [1.0.18] - 2019-09-13
 ### Changed
 * Hidden the citations fields in work show page according to the request in ADIR-490
