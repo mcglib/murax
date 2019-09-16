@@ -24,7 +24,8 @@ before_script:
   - ruby -v
   - which ruby
   - gem install bundler
-  - gem install capistrano
+  - gem install capistrano rake
+  - gem install sassc
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 stages:
