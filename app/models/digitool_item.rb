@@ -68,7 +68,7 @@ class DigitoolItem
   end
 
   def get_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
+      doc = Nokogiri::XML(@raw_xml.at_css("digital_entity mds md[shared='true'] value")) if @raw_xml.present?
       doc.to_s
   end
 
@@ -131,7 +131,7 @@ class DigitoolItem
   end
 
   def set_metadata
-      doc = Nokogiri::XML(@raw_xml.at_css('digital_entity mds md value')) if @raw_xml.present?
+      doc = Nokogiri::XML(@raw_xml.at_css("digital_entity mds md[shared='true'] value")) if @raw_xml.present?
       data = Hash.from_xml(doc.to_s)
       @metadata_hash = data['record']
   end

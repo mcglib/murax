@@ -100,8 +100,6 @@ class Digitool::ThesisItem < DigitoolItem
         work_attributes['nested_ordered_creator_attributes'] << process_ordered_field("creator", term.text, index) unless term.text.nil?
       end
 
-
-
       # Set the abstract
       work_attributes['abstract'] = set_abstracts(xml.xpath("/record/abstract"))
 
@@ -127,6 +125,11 @@ class Digitool::ThesisItem < DigitoolItem
         date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
                         .strftime('%Y-%m-%d')
         work_attributes['date_created'] =  [date_modified.to_s]
+      end
+      # set the disaccpetdate
+      work_attributes['date_accepted'] =  []
+      xml.xpath("/record/localdissacceptdate").each do |term|
+        work_attributes['date_accepted'] << term.text if term.text.present?
       end
 
 
@@ -166,6 +169,9 @@ class Digitool::ThesisItem < DigitoolItem
       end
       xml.xpath("/record/localcollectioncode").each do |term|
         work_attributes['note'] << term.text if term.text.present?
+      end
+      xml.xpath("/record/localauthoringsoftware").each do |term|
+        work_attributes['note'] << "Authoring software: #{term.text}" if term.text.present?
       end
 
       ## add the technical creation date as part of the notes field
