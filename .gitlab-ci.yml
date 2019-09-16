@@ -23,8 +23,9 @@ before_script:
   - printenv
   - ruby -v
   - which ruby
-  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
+  - gem install bundler
   - gem install capistrano
+  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 stages:
   - test
@@ -41,6 +42,8 @@ rspec:
     - azure
 
 rubocop:
+  tags:
+    - azure
   stage: test
   script:
     - bundle exec rubocop
@@ -48,9 +51,10 @@ rubocop:
     - azure
 
 develop_deploy:
+  tags:
+    - azure
   stage: deploy_dev
   script:
-    - gem install capistrano
     - cap development deploy
   only:
     - develop
@@ -60,8 +64,7 @@ develop_deploy:
 staging_deploy:
   stage: deploy_qa
   script:
-    - gem install capistrano
-    - cap staging deploy
+    - cap production deploy
   only:
     - master
   tags:
@@ -70,11 +73,12 @@ staging_deploy:
 production_deploy:
   stage: deploy_qa
   script:
-    - gem install capistrano
     - cap production deploy
   only:
     - master
   when: manual
+  tags:
+    - azure
 
 cleanup:
   stage: cleanup
@@ -82,3 +86,5 @@ cleanup:
     - rm -rf .vault-password
     - rm -rf /root/.ssh
   when: always
+  tags:
+    - azure

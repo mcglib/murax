@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.18] - 2019-09-13
+### Changed
+* Hidden the citations fields in work show page according to the request in ADIR-490
+* Fixed the date formats to be of XXXX instead for YYYY
+* Changing the bundler version for gitlab
+* Fixing the tags for azure
+* Fixing the gitlab ci proccess
+* Fixed the way we name the files
+* Added en/fr prefixes
+## [1.0.17] - 2019-09-12
+### Changed
+* changed the label for creator property
+* removed the author order from form
+* Fix bug with missing variable
+* Removed duplicate thesis item
+
 ## [1.0.16] - 2019-09-11
 ### Changed
 * Fixed bug with tmp files not being deleted

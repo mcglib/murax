@@ -107,10 +107,7 @@ class Digitool::PaperItem < DigitoolItem
 
 
       # Set the abstract
-      work_attributes['abstract'] = []
-      xml.xpath("/record/abstract").each do |abstract|
-        work_attributes['abstract'] << abstract.text if abstract.text.present?
-      end
+      work_attributes['abstract'] = set_abstracts(xml.xpath("/record/abstract"))
 
       # Set the description
       work_attributes['description'] = []
@@ -169,10 +166,10 @@ class Digitool::PaperItem < DigitoolItem
       # get the date if multiple
       work_attributes['date'] =[]
       xml.xpath("/record/date").each do |term|
-        work_attributes['date'] << term.text if term.text.present?
+        work_attributes['date'] << get_proper_date(term.text) if term.text.present?
       end
 
-      # get the date if multiple
+      # get the pmid if multiple
       work_attributes['pmid'] =[]
       xml.xpath("/record/pmid").each do |term|
         work_attributes['pmid'] << term.text if term.text.present?

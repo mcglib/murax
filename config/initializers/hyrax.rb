@@ -65,7 +65,7 @@ Hyrax.config do |config|
 
   # Enables a link to the citations page for a work
   # Default is false
-  config.citations = true
+  config.citations = false
 
   # Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
   config.temp_file_base = ENV['TMP_PATH'] || '/tmp'
