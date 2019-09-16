@@ -2,7 +2,7 @@
 
 module Hyrax
   class DefaultPresenter < Hyrax::WorkShowPresenter
-    include Murax::DefaultPresenterBehavior
+    include ::Murax::DefaultPresenterBehavior
   end
 end
 

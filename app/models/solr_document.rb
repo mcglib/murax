@@ -108,6 +108,10 @@ class SolrDocument
     self[Solrizer.solr_name('date')]
   end
 
+  def date_accepted
+    self[Solrizer.solr_name('date_accepted')]
+  end
+
   def orcidid
     self[Solrizer.solr_name('orcidid')]
   end
