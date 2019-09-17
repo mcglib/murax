@@ -39,6 +39,6 @@ cp  out.txt $csv_file_path
 
 echo $exec_command $d
 echo "Executing the command: nohup $exec_command --trace > log/rake_$d.out 2>&1 &"
-#nohup $COMMAND --trace > log/rake_$d.out 2>&1 &
+nohup $exec_command --trace > log/rake_$d.out 2>&1 &
 
 
