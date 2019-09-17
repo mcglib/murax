@@ -35,7 +35,7 @@ if grep -q "false" /tmp/stderr.txt; then
 
   echo "Running any migrations first to be sure we are upto date"
   echo "bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}"
-  bundle exec rake db:migrate  RAILS_ENV=${RAILS_ENV}
+  bundle exec rails db:migrate  RAILS_ENV=${RAILS_ENV}
 
   echo "Clean out an Fedora items if needed "
   bundle exec rake murax:fedora_clean RAILS_ENV=${RAILS_ENV}
@@ -59,6 +59,10 @@ if grep -q "false" /tmp/stderr.txt; then
 
 else
   echo "Database tables exists. Not initializing."
+  
+  echo "Running any migrations first to be sure we are upto date"
+  echo "bundle exec rails db:migrate  RAILS_ENV=${RAILS_ENV}"
+  bundle exec rails db:migrate  RAILS_ENV=${RAILS_ENV}
 fi
 echo "------END OF DB SETUP-------------------"
 
