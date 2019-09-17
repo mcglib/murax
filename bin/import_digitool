@@ -33,8 +33,9 @@ echo "wget -O $csv_file_path $download_url?col=$1"
 wget -O $csv_file_path $download_url?col=$1
 
 echo "Fix the csv file by removing first character and last char"
-sed '1s/.//' $csv_file_path > $csv_file_path
-sed 's/]$//' $csv_file_path > $csv_file_path
+sed '1s/.//' $csv_file_path > text.txt
+sed 's/]$//' text.txt > out.txt
+cp  out.txt $csv_file_path
 
 echo $exec_command $d
 echo "Executing the command: nohup $exec_command --trace > log/rake_$d.out 2>&1 &"
