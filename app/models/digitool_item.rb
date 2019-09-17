@@ -303,7 +303,7 @@ class DigitoolItem
       if file_name.include? 'downloaded_stream'
         # get other names
         localfilenames = get_localfilename_field
-        if localfilenames.count == 1 and (@usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW')
+        if localfilenames.count == 1 and (@usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW' or is_suppressed?)
             file_name = localfilenames.first
         end
 
