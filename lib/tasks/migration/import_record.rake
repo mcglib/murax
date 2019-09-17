@@ -36,10 +36,8 @@ namespace :migration do
               import_service = Migration::Services::ImportService.new({:pid => pid,
                                                                        :admin_set => admin_set}, @depositor, log)
 
-              byebug
               import_rec = import_service.import
               if import_rec.present?
-                created_works << import_rec
                 work_log.attributes = import_rec
                 AddWorkToCollection.call(import_rec[:work_id],
                                          import_rec[:work_type],

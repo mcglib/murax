@@ -61,7 +61,7 @@ module Migration
                            collection_id: collection_id,
                            digitool_collection_code: lc_code,
                            pid: @pid,
-                           title: work.title.first, work_type: work_type, raw_xml: xml }
+                           title: work.title.first, work_type: work_type, raw_xml: xml.to_s }
           # Maybe we can add the import_record to db
 
         rescue StandardError => e
