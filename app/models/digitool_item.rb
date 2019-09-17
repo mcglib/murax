@@ -9,7 +9,7 @@ class DigitoolItem
   attr_accessor :raw_xml, :added, :pid, :collection_id,
                 :related_pids, :metadata_hash, :title,
                 :file_info, :file_path, :file_name,
-                :work_type, :metadata_xml, :local_collection_code, :item_type
+                :work_type, :metadata_xml, :local_collection_code, :item_type, :item_status
 
   # validates
   validates :title, presence: { message: 'Your work must have a title.' }
@@ -31,7 +31,10 @@ class DigitoolItem
     # set usage type
     set_usage_type
 
-    set_metadata if !is_waiver?
+    # set item status
+    set_item_status
+
+    set_metadata if !is_waiver? or is_suppressed?
 
     set_related_pids
 
@@ -106,6 +109,13 @@ class DigitoolItem
     prefixed_text
   end
 
+  def is_suppressed?
+    @item_status.eql? 'SUPPRESSED'
+  end
+
+  def set_item_status
+    @item_status = @raw_xml.xpath("digital_entity/control/status").text
+  end
 
   def is_main_view?
     !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"

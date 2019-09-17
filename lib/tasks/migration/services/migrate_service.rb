@@ -23,7 +23,6 @@ module Migration
         end
 
         pid_count = pid_list.count.to_s
-        log.info "Object count:  #{pid_count}"
         # get array of record pids
         #collection_pids = MigrationHelper.get_collection_pids(@collection_ids_file)
 
@@ -31,8 +30,6 @@ module Migration
         pid_list.each.with_index do | pid, index |
 
           puts "#{Time.now.to_s}: Processing the item  #{pid}"
-          log.info "#{index}/#{pid_count} - Importing  #{pid}"
-
           new_work = self.import_record(pid, log, work_type, index)
           @created_work_ids << new_work.id if new_work.present?
 
@@ -61,10 +58,10 @@ module Migration
         })
 
 
-        log.info "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
+        log.error "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
         puts "The work #{item.pid} does not have any metadata. skipping." unless item.has_metadata?
 
-        log.info "This item #{item.pid} has a main work and its not a main work." unless item.is_main_view?
+        log.error "This item #{item.pid} has a main work and its not a main work." unless item.is_main_view?
         puts "Skipping adding this item #{item.pid} as its not the main_view." unless item.is_main_view?
 
         # check if the item has been added already
@@ -102,7 +99,8 @@ module Migration
           # We add the main file to the work
           fileset = add_main_file(item.pid, work_attributes, new_work)
           puts "The work #{pid} does not have a main file set.Check for errors"  if fileset.nil?
-          log.info "The work #{pid} does not have a file set." if fileset.nil?
+          log.warning "The work #{pid} does not have a main file set." if fileset.nil?
+
           # We set the fileset as the representative media
           new_work.representative_id = fileset.id if fileset.id.present?
 
