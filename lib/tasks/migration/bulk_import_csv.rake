@@ -66,7 +66,6 @@ namespace :migration do
 
             work_log = ImportLog.new({:pid => item, :date_imported => Time.now})
             begin
-                logger.info "Ingesting Digitool PID: #{item}"
                 import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => ENV['DEFAULT_ADMIN_SET']}, @depositor, logger)
 
                 import_rec = import_service.import

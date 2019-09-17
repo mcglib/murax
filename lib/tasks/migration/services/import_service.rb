@@ -13,6 +13,7 @@ module Migration
 
     class ImportService
       attr_accessor :pid, :depositor, :logger, :admin_set
+
       def initialize(import_params, depositor, logger)
         @depositor = depositor
         @pid = import_params[:pid]
@@ -45,6 +46,7 @@ module Migration
 
 
           # empty the item
+          xml = item.raw_xml
           item = nil
 
           migrate_service = Migration::Services::MigrateService.new(migration_config,
@@ -59,7 +61,7 @@ module Migration
                            collection_id: collection_id,
                            digitool_collection_code: lc_code,
                            pid: @pid,
-                           title: work.title.first, work_type: work_type }
+                           title: work.title.first, work_type: work_type, raw_xml: xml.to_s }
           # Maybe we can add the import_record to db
 
         rescue StandardError => e

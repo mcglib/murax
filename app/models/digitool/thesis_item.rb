@@ -122,9 +122,10 @@ class Digitool::ThesisItem < DigitoolItem
       # get the modifiedDate
       date_modified_string = xml.xpath("/record/localdissacceptdate").text
       unless date_modified_string.empty?
-        date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
-                        .strftime('%Y-%m-%d')
-        work_attributes['date_created'] =  [date_modified.to_s]
+        # disabled adding acceptdate to date created.
+        #date_modified =  DateTime.strptime(date_modified_string, '%m/%d/%Y')
+        #                .strftime('%Y-%m-%d')
+        #work_attributes['date_created'] =  [date_modified.to_s]
       end
       # set the disaccpetdate
       work_attributes['date_accepted'] =  []
