@@ -12,26 +12,44 @@ namespace :migration do
     require 'tasks/migration_helper'
 
     # bundle exec rake migraton:digitool_item -- -p 12007 -c 'thesis'
-    desc 'Migrate a Digitool objects with a PID and its related items eg: bundle exec rake migration:batch_import[csvfile, batch_no]'
-    task :bulk_import_csv, [:csv_file, :batch_no, :start_pos, :total] => :environment do |t, args|
-      args.with_defaults(:start_pos => 0, :batch_no => 5, :total => 0)
+    desc 'Migrate a Digitool objects with a PID and its related items eg: bundle exec rake migration:batch_import[csvfile, batch_size]'
+    task :bulk_import_csv, [:csv_file, :batch_size, :start_pos, :total] => :environment do |t, args|
+      args.with_defaults(:start_pos => 0, :batch_size => 5, :total => 0)
+      user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
 
       # slice length
-      batch_no =  (args[:batch_no] || 5).to_i
+      batch_size =  (args[:batch_size] || 5).to_i
 
       # start position (number) from csv array
       start_pos =  (args[:start_pos] || 0).to_i
- 
+
       # start position (number) from csv array
       total =  (args[:total] || 0).to_i
 
+      # Lets create a batch no
+      @depositor = User.where(email: user_email).first
+      batch = Batch.new({:no => total, :name => args[:csv_file], :started => Time.now, :finished => Time.now, user: @depositor})
+      batch.save!
       # start processing
-      process_import_csv(args[:csv_file], start_pos, batch_no, total)
+      #process_import_csv(batch.id, args[:csv_file], start_pos, batch_size, total, @depositor)
+
+      batch.finished = Time.now
+      batch.save!
+
+      # Email error report
+      send_error_report(3, @depositor)
+
+
     end
 
-    def process_import_csv(csv_file, start_pos, batch_no, total)
+    def send_error_report(batch_id, user)
+      # Find all items that are part of a given batch
+      error_logs = Batch.find(batch_id).import_log.where(:imported => false)
+
+    end
+
+    def process_import_csv(batch_id, csv_file, start_pos, batch_no, total, user)
       admin_set = ENV['DEFAULT_ADMIN_SET'].tr('"', '')
-      user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
 
       require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
       start_time = Time.now
@@ -45,11 +63,8 @@ namespace :migration do
 
 
       # The default admin set and designated depositor must exist before running this script
-      if AdminSet.where(title: admin_set).count != 0 &&
-          User.where(email: user_email).count > 0
+      if AdminSet.where(title: admin_set).count != 0
         # lets chunck the job
-        # Get the depositor
-        @depositor = User.where(email: user_email).first
 
         # find out the total we need to ingest
         amount_to_import = total === 0 ?  @pids.count : total
@@ -64,9 +79,9 @@ namespace :migration do
           created_works = []
           lists.each do |item|
 
-            work_log = ImportLog.new({:pid => item, :date_imported => Time.now})
+            work_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
             begin
-                import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => ENV['DEFAULT_ADMIN_SET']}, @depositor, logger)
+                import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => admin_set}, user, logger)
 
                 import_rec = import_service.import
                 if import_rec.present?
