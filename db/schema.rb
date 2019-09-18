@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190828171858) do
+ActiveRecord::Schema.define(version: 20190918131324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "batches", force: :cascade do |t|
+    t.integer "no", null: false
+    t.string "name"
+    t.datetime "started", null: false
+    t.datetime "finished", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_batches_on_name"
+    t.index ["no"], name: "index_batches_on_no"
+    t.index ["user_id"], name: "index_batches_on_user_id"
+  end
 
   create_table "bookmarks", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
@@ -158,6 +171,9 @@ ActiveRecord::Schema.define(version: 20190828171858) do
     t.string "work_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "raw_xml"
+    t.bigint "batch_id"
+    t.index ["batch_id"], name: "index_import_logs_on_batch_id"
     t.index ["collection_id"], name: "index_import_logs_on_collection_id"
     t.index ["title"], name: "index_import_logs_on_title"
     t.index ["work_id"], name: "index_import_logs_on_work_id"
@@ -587,8 +603,10 @@ ActiveRecord::Schema.define(version: 20190828171858) do
     t.index ["work_id"], name: "index_work_view_stats_on_work_id"
   end
 
+  add_foreign_key "batches", "users"
   add_foreign_key "collection_type_participants", "hyrax_collection_types"
   add_foreign_key "curation_concerns_operations", "users"
+  add_foreign_key "import_logs", "batches"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"

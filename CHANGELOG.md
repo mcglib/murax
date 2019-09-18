@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.20] - 2019-09-18
+### Changed
+* Added a method to check if the item is suppressed
+* Fixed bug with name of file for suppressed items
+* Added the import_digitool script
+* Improved the digitool import bash script
+* Improved the digitool import bash script
+* Added command so that db migrate is run when we do a docker-compose up
+* Added raw_xml field to import_logs
+* Disabled adding date creation for thesis dates
+* Added a raw_xml column in the import log so we can refer back after the import
+* fixing the bash shell
+* Added the batch model to the import_log and a model to do batch imports
+* Fixed to the logic of main views and items that are of usage_type archive
+* Added a test import mailer
+* Added  a send error report
+
+### Added
+* New batch model to bulk imports
+* New xml field to be added to the import_log model
 ## [1.0.19] - 2019-09-16
 ### Changed
 * Added local collection code to the note field for report and paper

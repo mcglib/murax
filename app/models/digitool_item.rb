@@ -9,7 +9,7 @@ class DigitoolItem
   attr_accessor :raw_xml, :added, :pid, :collection_id,
                 :related_pids, :metadata_hash, :title,
                 :file_info, :file_path, :file_name,
-                :work_type, :metadata_xml, :local_collection_code, :item_type
+                :work_type, :metadata_xml, :local_collection_code, :item_type, :item_status
 
   # validates
   validates :title, presence: { message: 'Your work must have a title.' }
@@ -31,9 +31,14 @@ class DigitoolItem
     # set usage type
     set_usage_type
 
-    set_metadata if !is_waiver?
-
+    # set item status
+    set_item_status
+    
+    # fetch related pids
     set_related_pids
+
+    set_metadata if !is_waiver? or is_suppressed?
+
 
     @file_info = set_file_metadata
 
@@ -106,11 +111,33 @@ class DigitoolItem
     prefixed_text
   end
 
-
-  def is_main_view?
-    !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
+  def is_suppressed?
+    @item_status.eql? 'SUPPRESSED'
   end
 
+  def set_item_status
+    @item_status = @raw_xml.xpath("digital_entity/control/status").text
+  end
+
+  def is_main_view?
+    main_view =  false
+    if @usage_type.eql? "ARCHIVE" and (@related_pids.has_value?('VIEW_MAIN') or @related_pids.has_value?('VIEW'))
+      main_view = false
+    end
+    # if the usage is VIEW_MAIN
+    if @usage_type.eql? "VIEW_MAIN"
+      main_view =  true
+    end
+    if @usage_type.eql? "VIEW"
+      main_view = @related_pids.has_value?('VIEW_MAIN') ? false : true
+    end
+
+    main_view
+  end
+
+  def is_duplicated?
+    @usage_type.eql? "VIEW" and !@related_pids.has_value?("VIEW_MAIN") and @related_pids.has_value?("VIEW")
+  end
   def is_view?
     @usage_type.eql? "VIEW" or @usage_type.eql? "VIEW_MAIN"
   end
@@ -293,12 +320,12 @@ class DigitoolItem
       if file_name.include? 'downloaded_stream'
         # get other names
         localfilenames = get_localfilename_field
-        if localfilenames.count == 1 and (@usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW')
+        if localfilenames.count == 1 and (@usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW' or is_suppressed?)
             file_name = localfilenames.first
         end
 
         if localfilenames.count > 1
-          if @usage_type == 'VIEW_MAIN'
+          if @usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW'
             file_name = localfilenames.first
           end
 
