@@ -33,10 +33,12 @@ class DigitoolItem
 
     # set item status
     set_item_status
+    
+    # fetch related pids
+    set_related_pids
 
     set_metadata if !is_waiver? or is_suppressed?
 
-    set_related_pids
 
     @file_info = set_file_metadata
 
@@ -118,9 +120,24 @@ class DigitoolItem
   end
 
   def is_main_view?
-    !@related_pids.has_value?('VIEW_MAIN') or @usage_type.eql? "VIEW_MAIN"
+    main_view =  false
+    if @usage_type.eql? "ARCHIVE" and (@related_pids.has_value?('VIEW_MAIN') or @related_pids.has_value?('VIEW'))
+      main_view = false
+    end
+    # if the usage is VIEW_MAIN
+    if @usage_type.eql? "VIEW_MAIN"
+      main_view =  true
+    end
+    if @usage_type.eql? "VIEW"
+      main_view = @related_pids.has_value?('VIEW_MAIN') ? false : true
+    end
+
+    main_view
   end
 
+  def is_duplicated?
+    @usage_type.eql? "VIEW" and !@related_pids.has_value?("VIEW_MAIN") and @related_pids.has_value?("VIEW")
+  end
   def is_view?
     @usage_type.eql? "VIEW" or @usage_type.eql? "VIEW_MAIN"
   end
@@ -308,7 +325,7 @@ class DigitoolItem
         end
 
         if localfilenames.count > 1
-          if @usage_type == 'VIEW_MAIN'
+          if @usage_type == 'VIEW_MAIN' or @usage_type == 'VIEW'
             file_name = localfilenames.first
           end
 
