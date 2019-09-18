@@ -31,20 +31,22 @@ namespace :migration do
       batch = Batch.new({:no => total, :name => args[:csv_file], :started => Time.now, :finished => Time.now, user: @depositor})
       batch.save!
       # start processing
-      #process_import_csv(batch.id, args[:csv_file], start_pos, batch_size, total, @depositor)
+      process_import_csv(batch.id, args[:csv_file], start_pos, batch_size, total, @depositor)
 
       batch.finished = Time.now
       batch.save!
 
       # Email error report
-      send_error_report(3, @depositor)
+      send_error_report(batch, @depositor)
 
 
     end
 
-    def send_error_report(batch_id, user)
+    # Not completed yet!
+    def send_error_report(batch, user)
       # Find all items that are part of a given batch
-      error_logs = Batch.find(batch_id).import_log.where(:imported => false)
+      error_logs = batch.import_log.where(:imported => false)
+
 
     end
 
