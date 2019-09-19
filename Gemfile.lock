@@ -284,6 +284,10 @@ GEM
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erubi (1.8.0)
+    exception_handler (0.8.0.0)
+      bundler
+      rails (>= 4.2.0)
+      responders
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -923,6 +927,7 @@ DEPENDENCIES
   devise-guests (~> 0.6)
   devise-i18n
   dotenv-rails
+  exception_handler (~> 0.8.0.0)
   fcrepo_wrapper
   ffaker
   hydra-editor

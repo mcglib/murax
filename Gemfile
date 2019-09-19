@@ -55,6 +55,7 @@ gem 'webpacker', '~> 3.5'
 gem 'rubysl-open3'
 
 #gem 'clamav'
+gem 'exception_handler', '~> 0.8.0.0'
 
 group :development, :test do
   gem 'bixby'
