@@ -124,7 +124,7 @@ namespace :migration do
       end
       end_time = Time.now
       duration = (end_time - start_time) / 1.minute
-      puts "[#{end_time.to_s}] Finished the  migration of #{@pids.count} in #{duration} minutes"
+      puts "[#{end_time.to_s}] Finished the  migration of #{amount_to_import} in #{duration} minutes"
       logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
       logger.close
 
