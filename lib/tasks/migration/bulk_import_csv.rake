@@ -45,8 +45,7 @@ namespace :migration do
     # Not completed yet!
     def send_error_report(batch, user)
       # Find all items that are part of a given batch
-      error_logs = batch.import_log.where(:imported => false)
-
+      ImportMailer.import_email(user,batch)
 
     end
 
@@ -131,7 +130,5 @@ namespace :migration do
 
       # Send email of what has been completed
       # Send email of the errors that occured
-
-
     end
   end

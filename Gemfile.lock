@@ -284,10 +284,7 @@ GEM
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erubi (1.8.0)
-    exception_handler (0.8.0.0)
-      bundler
-      rails (>= 4.2.0)
-      responders
+    erubis (2.7.0)
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -329,10 +326,21 @@ GEM
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
+    haml-rails (2.0.1)
+      actionpack (>= 5.1)
+      activesupport (>= 5.1)
+      haml (>= 4.0.6, < 6.0)
+      html2haml (>= 1.0.1)
+      railties (>= 5.1)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashdiff (0.4.0)
     hiredis (0.6.3)
+    html2haml (2.2.0)
+      erubis (~> 2.7.0)
+      haml (>= 4.0, < 6)
+      nokogiri (>= 1.6.0)
+      ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     http_logger (0.5.1)
     httparty (0.17.0)
@@ -754,6 +762,8 @@ GEM
       oauth2
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
+    ruby_parser (3.13.1)
+      sexp_processor (~> 4.9)
     rubysl-open3 (2.0.0)
     rubyzip (1.2.3)
     safe_yaml (1.0.5)
@@ -778,6 +788,7 @@ GEM
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
+    sexp_processor (4.12.1)
     shex (0.5.2)
       ebnf (~> 1.1)
       json-ld (>= 2.2, < 4.0)
@@ -927,9 +938,9 @@ DEPENDENCIES
   devise-guests (~> 0.6)
   devise-i18n
   dotenv-rails
-  exception_handler (~> 0.8.0.0)
   fcrepo_wrapper
   ffaker
+  haml-rails (~> 2.0)
   hydra-editor
   hydra-role-management
   hyrax (= 2.5.1)

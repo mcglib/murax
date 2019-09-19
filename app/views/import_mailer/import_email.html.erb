@@ -4,19 +4,23 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hi <%= @user.name %></h1>
+    <h4>Hi <%= @user.name %></h4>
     <p>
-    Below is a report of the last import that occured on <DATE> at <TIME>
+    Below is a report of the last import that occured on <%= @batch.started %> at <TIME>
     </p>
-    <h6>summary</h6>
+    <h3>Summary</h3>
     <p> <xxx> items imported
-    <h6> Error list</h6>
-    <ul>
-        <li>
-            
+    <h3> Error list</h3>
+    <dl>
+    <%= @errors.each do |error| %>
+        <dt></dt>
+        <dl></dl>
+        <dt></dt>
+        <dl></dl>
         </li>
+    <% end %>
     </ul>
     <h6> View items</h6>
-    <a href-""><LINK></a>
+    <a href=""><LINK></a>
   </body>
 </html>
