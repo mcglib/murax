@@ -41,6 +41,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # McGill library import logs from digitool
+  resources :import_logs
+
   mount Blacklight::Engine => '/'
   
   require 'sidekiq/web'
