@@ -32,7 +32,8 @@ namespace :migration do
       batch.save!
       # start processing
       process_import_csv(batch.id, args[:csv_file], start_pos, batch_size, total, @depositor)
-
+      
+      # update the batch that its finished
       batch.finished = Time.now
       batch.save!
 

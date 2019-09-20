@@ -33,7 +33,7 @@ namespace :migration do
           errors = 0
           batch = Batch.new({:no => 1, :name => "single_import", :started => Time.now, :finished => Time.now, user: @depositor})
           batch.save!
-          import_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch.id})
+          import_log = ImportLog.new({:pid => pid, :date_imported => Time.now, :batch_id => batch.id})
           begin
               import_service = Migration::Services::ImportService.new({:pid => pid,
                                                                        :admin_set => admin_set}, @depositor, log)
@@ -55,6 +55,9 @@ namespace :migration do
               log.error "Error importing #{pid}: #{e}: #{e.class.name}"
           end
           import_log.save
+          # update the batch that its finished
+          batch.finished = Time.now
+          batch.save!
 
       else
         puts 'The default admin set or specified depositor does not exist'
