@@ -95,4 +95,18 @@ config.webpacker.check_yarn_integrity = false
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+
+  config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for mailgun
+  ActionMailer::Base.smtp_settings = {
+    :port           => ENV['MAIL_PORT'],
+    :address        => ENV['MAIL_HOST'],
+    #:user_name      => ENV['MAIL_USERNAME'],
+    #:password       => ENV['MAIL_PASSWORD'],
+    :authentication => :plain,
+  }
+  config.action_mailer.default_url_options = { :host => ENV['SITE_URL'] }
+
 end

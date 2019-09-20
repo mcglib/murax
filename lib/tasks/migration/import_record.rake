@@ -31,29 +31,33 @@ namespace :migration do
 
           successes = 0
           errors = 0
-          work_log = ImportLog.new({:pid => pid, :date_imported => start_time})
+          batch = Batch.new({:no => 1, :name => "single_import", :started => Time.now, :finished => Time.now, user: @depositor})
+          batch.save!
+          import_log = ImportLog.new({:pid => pid, :date_imported => Time.now, :batch_id => batch.id})
           begin
               import_service = Migration::Services::ImportService.new({:pid => pid,
                                                                        :admin_set => admin_set}, @depositor, log)
 
               import_rec = import_service.import
               if import_rec.present?
-                work_log.attributes = import_rec
+                import_log.attributes = import_rec
                 AddWorkToCollection.call(import_rec[:work_id],
                                          import_rec[:work_type],
                                          import_rec[:collection_id])
                 successes += 1
-                work_log.imported  = true
+                import_log.imported  = true
               end
 
           rescue StandardError => e
               errors += 1
-              work_log.imported  = false
-              work_log.error = "#{e}: #{e.class.name} "
-              puts "#{e.backtrace} #{e.class.name}"
+              import_log.imported  = false
+              import_log.error = "#{e}: #{e.class.name} "
               log.error "Error importing #{pid}: #{e}: #{e.class.name}"
           end
-          work_log.save
+          import_log.save
+          # update the batch that its finished
+          batch.finished = Time.now
+          batch.save!
 
       else
         puts 'The default admin set or specified depositor does not exist'

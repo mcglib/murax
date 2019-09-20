@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.22] - 2019-09-20
+### Changed
+* Fixin the error messages for 404, 422 and 500
+* Updated the env variables
+* Updated the code for import record
+* Fixed the email report
+* Added cc to the report
+* Removed authoring software
+## [1.0.21] - 2019-09-18
+### Changed
 ## [1.0.20] - 2019-09-18
 ### Changed
 * Added a method to check if the item is suppressed
