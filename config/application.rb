@@ -19,7 +19,7 @@ module HyraxDemo
 
     #config.exception_handler = { dev: nil }
 
-    # We handle our own exceptions
+    # We handle our own exceptions for 404 and 422 and 500
     config.exceptions_app = self.routes
   end
 end
