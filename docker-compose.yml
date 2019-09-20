@@ -35,7 +35,7 @@ services:
     container_name: solr
     image: solr:7.0
     ports:
-      - 8983:8983
+      - "8983:8983"
     volumes:
       - ./solr/config/:/myconfig
     command: solr-create -c murax -d /myconfig
@@ -54,7 +54,7 @@ services:
         JDBCConfig: -Dfcrepo.postgresql.username=fedora -Dfcrepo.postgresql.password=fedora123 -Dfcrepo.postgresql.host=postgres.docker.local -Dfcrepo.postgresql.port=5432 
     image: fcrepo
     ports:
-      - 8888:8080
+      - "8888:8080"
     depends_on:
       - postgres
     networks:
