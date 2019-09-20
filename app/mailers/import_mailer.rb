@@ -6,7 +6,8 @@ class ImportMailer < ApplicationMailer
     @batch = batch
     @errors = batch.import_log.where(:imported => false)
     #@error_logs = batch.
-    mail(to: @user.email,
+    #mail(to: @user.email,
+    mail(to: "mutugi.gathuri@mcgill.ca",
          subject: "Import report: Batch import no:#{batch.id} finished at #{batch.finished}"
     )
   end

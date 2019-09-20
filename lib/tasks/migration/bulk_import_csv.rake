@@ -23,7 +23,7 @@ namespace :migration do
       # start position (number) from csv array
       start_pos =  (args[:start_pos] || 0).to_i
 
-      # start position (number) from csv array
+      # total number of items  from csv array
       total =  (args[:total] || 0).to_i
 
       # Lets create a batch no
@@ -77,31 +77,31 @@ namespace :migration do
 
           successes = 0
           errors = 0
-          created_works = []
+          #created_works = []
           lists.each do |item|
 
-            work_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
+            import_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
             begin
                 import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => admin_set}, user, logger)
 
                 import_rec = import_service.import
                 if import_rec.present?
-                  created_works << import_rec
-                  work_log.attributes = import_rec
+                  #created_works << import_rec
+                  import_log.attributes = import_rec
                   AddWorkToCollection.call(import_rec[:work_id],
                                            import_rec[:work_type],
                                            import_rec[:collection_id])
                   successes += 1
-                  work_log.imported  = true
+                  import_log.imported  = true
                 end
 
              rescue StandardError => e
                 errors += 1
-                work_log.imported  = false
-                work_log.error = "#{e}: #{e.class.name} "
+                import_log.imported  = false
+                import_log.error = "#{e}: #{e.class.name} "
                 logger.error "Error importing #{item}: #{e}: #{e.class.name}"
             end
-            work_log.save
+            import_log.save
 
           end
           puts "Processed #{successes} work(s), #{errors} error(s) encountered"
