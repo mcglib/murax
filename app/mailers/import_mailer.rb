@@ -1,8 +1,14 @@
 class ImportMailer < ApplicationMailer
-  default from: "from@example.com"
+  default from: ENV['ADMIN_EMAIL']
 
-  def sample_email(user)
+  def import_email(user, batch)
     @user = user
-    mail(to: @user.email, subject: 'Test email from importLog')
+    @batch = batch
+    @errors = batch.import_log.where(:imported => false)
+    #@error_logs = batch.
+    mail(to: @user.email,
+         subject: "Import report: Batch import no:#{batch.id} finished at #{batch.finished}"
+    )
   end
+
 end

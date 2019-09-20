@@ -120,17 +120,25 @@ class DigitoolItem
   end
 
   def is_main_view?
+
     main_view =  false
-    if @usage_type.eql? "ARCHIVE" and (@related_pids.has_value?('VIEW_MAIN') or @related_pids.has_value?('VIEW'))
+    if @usage_type.eql? "ARCHIVE" and !is_suppressed? and (@related_pids.has_value?('VIEW_MAIN') or @related_pids.has_value?('VIEW'))
       main_view = false
     end
+
+    if is_suppressed? and @usage_type.eql? "ARCHIVE"
+      main_view = true
+    end
+
     # if the usage is VIEW_MAIN
     if @usage_type.eql? "VIEW_MAIN"
       main_view =  true
     end
+
     if @usage_type.eql? "VIEW"
       main_view = @related_pids.has_value?('VIEW_MAIN') ? false : true
     end
+
 
     main_view
   end

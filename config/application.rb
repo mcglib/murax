@@ -6,6 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module HyraxDemo
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -15,5 +16,10 @@ module HyraxDemo
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.active_job.queue_adapter = :sidekiq
+
+    #config.exception_handler = { dev: nil }
+
+    # We handle our own exceptions
+    config.exceptions_app = self.routes
   end
 end

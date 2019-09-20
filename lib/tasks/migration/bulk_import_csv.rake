@@ -45,8 +45,7 @@ namespace :migration do
     # Not completed yet!
     def send_error_report(batch, user)
       # Find all items that are part of a given batch
-      error_logs = batch.import_log.where(:imported => false)
-
+      ImportMailer.import_email(user,batch)
 
     end
 
@@ -125,13 +124,11 @@ namespace :migration do
       end
       end_time = Time.now
       duration = (end_time - start_time) / 1.minute
-      puts "[#{end_time.to_s}] Finished the  migration of #{@pids.count} in #{duration} minutes"
+      puts "[#{end_time.to_s}] Finished the  migration of #{amount_to_import} in #{duration} minutes"
       logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
       logger.close
 
       # Send email of what has been completed
       # Send email of the errors that occured
-
-
     end
   end
