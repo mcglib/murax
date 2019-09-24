@@ -1,9 +1,14 @@
 class ImportLogsController < ApplicationController
+  with_themed_layout 'dashboard'
+  before_action :require_permissions
   before_action :set_import_log, only: [:show, :edit, :update, :destroy]
 
   # GET /import_logs
   # GET /import_logs.json
   def index
+    add_breadcrumb t(:'hyrax.controls.home'), root_path
+    add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
+    add_breadcrumb t(:'hyrax.admin.import_logs.header'), hyrax.admin_workflow_roles_path
     @import_logs = ImportLog.all
   end
 
@@ -70,5 +75,8 @@ class ImportLogsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def import_log_params
       params.fetch(:import_log, {})
+    end
+    def require_permissions
+      authorize! :read, :admin_dashboard
     end
 end

@@ -58,6 +58,7 @@ gem 'rubysl-open3'
 #gem 'exception_handler', '~> 0.8.0.0'
 
 gem "haml-rails", "~> 2.0"
+gem "bootstrap-table-rails"
 
 group :development, :test do
   gem 'bixby'

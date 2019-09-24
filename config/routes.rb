@@ -2,12 +2,10 @@ Rails.application.routes.draw do
   concern :oai_provider, BlacklightOaiProvider::Routes.new
 
   mount BrowseEverything::Engine => '/browse'
-  
+
   mount Riiif::Engine => 'images', as: :riiif if Hyrax.config.iiif_image_server?
     concern :searchable, Blacklight::Routes::Searchable.new
-  
-  match "/404", :to => "errors#not_found", :via => :all
-  match "/500", :to => "errors#internal_server_error", :via => :all
+
 
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
     concerns :oai_provider
@@ -37,8 +35,31 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :import_logs, only: [:show, :index, :edit, :destroy], path: '/admin/digitool-imports' do
+    collection do
+      delete 'clear'
+    end
+  end
   # McGill library import logs from digitool
-  resources :import_logs, only: [:show], path: '/dashboard/import_logs', controller: 'import_log'
+  namespace :admin do
+    resources :admin_sets do
+      member do
+        get :files
+      end
+      resource :permission_template
+    end
+    resources :users, only: [:index]
+    resources :permission_template_accesses, only: :destroy
+    resource 'stats', only: [:show]
+    resources :features, only: [:index] do
+      resources :strategies, only: [:update, :destroy]
+    end
+    resources :workflows
+    resources :workflow_roles
+    resource :appearance
+    resources :collection_types, except: :show
+    resources :collection_type_participants, only: [:create, :destroy]
+  end
 
   mount Blacklight::Engine => '/'
 
@@ -50,6 +71,8 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # Custom errors
+  match "/404", :to => "errors#not_found", :via => :all
+  match "/500", :to => "errors#internal_server_error", :via => :all
   get '/404', to: "errors#not_found"
   get '/422', to: "errors#unacceptable"
   get '/500', to: "errors#internal_server_error"
