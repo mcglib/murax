@@ -1,0 +1,19 @@
+%h1 Listing import_logs
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @import_logs.each do |import_log|
+      %tr
+        %td= link_to 'Show', import_log
+        %td= link_to 'Edit', edit_import_log_path(import_log)
+        %td= link_to 'Destroy', import_log, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Import log', new_import_log_path
