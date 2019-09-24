@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   resources :import_logs
 
   mount Blacklight::Engine => '/'
-  
+
   require 'sidekiq/web'
 
   authenticate :user, ->(u) { u.admin? } do
