@@ -11,21 +11,17 @@ Rails.application.routes.draw do
 
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
     concerns :oai_provider
-
     concerns :searchable
+
   end
 
   devise_for :users
+
   mount Hydra::RoleManagement::Engine => '/'
-  
   mount Qa::Engine => '/authorities'
-
   mount Hyrax::Engine, at: '/'
-
   resources :welcome, only: 'index'
-
   root 'hyrax/homepage#index'
-  
   curation_concerns_basic_routes
   concern :exportable, Blacklight::Routes::Exportable.new
 
@@ -42,13 +38,13 @@ Rails.application.routes.draw do
   end
 
   # McGill library import logs from digitool
-  resources :import_logs
+  resources :import_logs, only: [:show], path: '/dashboard/import_logs', controller: 'import_log'
 
   mount Blacklight::Engine => '/'
 
-  require 'sidekiq/web'
 
   authenticate :user, ->(u) { u.admin? } do
+    require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
   end
 
