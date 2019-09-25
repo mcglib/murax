@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.23] - 2019-09-25
+### Changed
+* Updated the import email preview file
+* new entries in discipline_Dictionary.txt for ugrad and ugpapers
+* added DEFAULT_DEPOSITOR_EMAIL to .env.test
+* Added the import log controller files
+* Added a rake task to process pids that did not get added to the theses collection
+* Updated
+* Updated the routes for the import log
+* Added bootstrap tables
+* Added the batches controller
+* Finishing setting up the import_logs controller
 ## [1.0.22] - 2019-09-20
 ### Changed
 * Fixin the error messages for 404, 422 and 500
