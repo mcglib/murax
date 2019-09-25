@@ -36,7 +36,7 @@ namespace :murax do
     #check if role exists
     existing_role = Role.find_by(name: args[:role])
     if existing_role == nil
-      puts "Error: Role '#{args[:role]}' does not exist."
+      puts "error: Role '#{args[:role]}' does not exist."
       exit
     end
 

@@ -10,7 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= 
+//=
 //= require turbolinks
 // Required by Blacklight
 //= require jquery
@@ -18,6 +18,7 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require blacklight/blacklight
+//= require bootstrap-table
 //= require nested_field
 //= require ordered_creator
 //= require_tree .

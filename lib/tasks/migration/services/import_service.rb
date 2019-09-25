@@ -67,11 +67,10 @@ module Migration
 
           # Return the following info, work_id, collection_id, title, pid, work_type
           import_record = {work_id: work.id,
-                           collection_id: collection_id,
+                           collection_id: migration_config['samvera_collection_id'],
                            digitool_collection_code: lc_code,
                            pid: @pid,
                            title: work.title.first, work_type: work_type, raw_xml: xml.to_s }
-          # Maybe we can add the import_record to db
 
         rescue StandardError => e
           #raise e if count > 

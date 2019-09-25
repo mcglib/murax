@@ -5,7 +5,10 @@ Département des littératures de langue française	/	Département des littérat
 Department Anatomy	/	Department Anatomy
 Department Biomedical Engineering	/	Department Biomedical Engineering
 Department Mechanical Engineering	/	Department Mechanical Engineering
+Geography	/	Department of Geography
 Department od Geography	/	Department of Geography
+Geography department	/	Department of Geography
+Geography Department	/	Department of Geography
 Department of of Epidemiology and Health	/	Department of  Epidemiology and Health
 Department of of Experimental Medicine	/	Department of  Experimental Medicine
 Department of Administration and Policy Studies in Education	/	Department of Administration and Policy Studies in Education
@@ -45,7 +48,10 @@ Department of Animal Science, Macdonald College	/	Department of Animal Science
 Department of Animal Science, Macdonald College of McGill University	/	Department of Animal Science
 Department of Anthropology	/	Department of Anthropology
 Department of Applied Electricity	/	Department of Applied Electricity
+Architecture	/	School of Architecture
 Department of Architecture	/	Department of Architecture
+Department of School of Architecture	/	School of Architecture
+School of Archtecture	/	School of Architecture
 Department of Art History	/	Department of Art History
 Art History and Communication Studies	/	Department of Art History and Communication Studies
 Department of Art History and Communication Studies	/	Department of Art History and Communication Studies
@@ -216,6 +222,7 @@ Department of Histroy	/	Department of History
 Classics	/	Department of History and Classical Studies
 Classics department	/	Department of History and Classical Studies
 Department of History and Classical Studies	/	Department of History and Classical Studies
+Department of History and Classical\nStudies	/	Department of History and Classical Studies
 Department of History and Philosophy of Education	/	Department of History and Philosophy of Education
 Department of History and Philosophy of Science	/	Department of History and Philosophy of Science
 Department of Horticulture	/	Department of Horticulture
@@ -232,6 +239,7 @@ Department of Industrial Engineering	/	Department of Industrial Engineering
 Department of Integrated Studies in Education	/	Department of Integrated Studies in Education
 Department of International Air and Space Law	/	Department of International Air and Space Law
 Department of International Air Law	/	Department of International Air Law
+Department of International\nDevelopment	/	Department of International Development
 Department of Invertebrate Morphology	/	Department of Invertebrate Morphology
 Department of Investigated Medicine	/	Department of Investigated Medicine
 Department of Investigative Medicine	/	Department of Investigative Medicine
@@ -263,6 +271,7 @@ Department of Mathematics and Statistics	/	Department of Mathematics and Statist
 Dept of Mathematics and Statistics	/	Department of Mathematics and Statistics
 Applied Mechanics	/	Department of Mechanical Engineering
 Department of Mechanical Engineering	/	Department of Mechanical Engineering
+Department of Mechanical\nEngineering	/	Department of Mechanical Engineering
 Department of Medical Physics Unit	/	Department of Medical Physics Unit
 Department of Medical Radiation Physics	/	Department of Medical Radiation Physics
 Department of Medicine	/	Department of Medicine
@@ -370,6 +379,7 @@ Centre for Nonlinear Dynamics in Physiology and Medicine	/	Centre for Nonlinear 
 Foster Radiation Laboratory	/	Foster Radiation Laboratory
 Department of Psychology	/	Department of Psychology
 Department of Radiochemistry	/	Department of Radiochemistry 
+Anthropology	/	Department of Anthropology
 Department of Sociology and Anthropology	/	Department of Sociology and Anthropology
 Department of Town Planning	/	Department of Town Planning
 Department of Sociology	/	Department of Sociology
