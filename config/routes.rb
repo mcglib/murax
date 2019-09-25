@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   concern :oai_provider, BlacklightOaiProvider::Routes.new
 
+  concern :bulk_operatable do
+    collection do
+      get 'bulk_operate/:operation', :action => :bulk_operate
+      post :bulk_operate
+    end
+
+  end
+
   mount BrowseEverything::Engine => '/browse'
 
   mount Riiif::Engine => 'images', as: :riiif if Hyrax.config.iiif_image_server?
@@ -35,9 +43,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :import_logs, only: [:show, :index, :edit, :destroy], path: '/admin/digitool-imports' do
-    collection do
-      delete 'clear'
+  resources :batches, path: '/admin/digitool-imports/batches/' do
+    resources :import_logs, only: [:show, :index, :edit, :destroy] do
+      collection do
+        delete 'clear'
+      end
     end
   end
   # McGill library import logs from digitool
