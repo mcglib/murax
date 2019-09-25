@@ -32,7 +32,7 @@ namespace :migration do
       batch.save!
       # start processing
       process_import_csv(batch.id, args[:csv_file], start_pos, batch_size, total, @depositor)
- 
+
       # update the batch that its finished
       batch.finished = Time.now
       batch.save!
@@ -56,7 +56,7 @@ namespace :migration do
       require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
       start_time = Time.now
       datetime_today = Time.now.strftime('%Y%m%d%H%M%S') # "20171021125903"
-      logger = ActiveSupport::Logger.new("log/bulk-import-csv-#{datetime_today}.log")
+      logger = ActiveSupport::Logger.new("log/bulk-import-batch-#{batch_id}-#{datetime_today}.log")
       logger.info "Task started at #{start_time}"
 
       @pid_list = File.read("#{Rails.root}/#{csv_file}").strip.split(",")

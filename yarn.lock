@@ -990,6 +990,11 @@ bonjour@^3.5.0:
     multicast-dns "^6.0.1"
     multicast-dns-service-types "^1.1.0"
 
+bootstrap-table@^1.15.4:
+  version "1.15.4"
+  resolved "https://registry.yarnpkg.com/bootstrap-table/-/bootstrap-table-1.15.4.tgz#18d8c1aa2b86879a5478188a04cf7603783bf019"
+  integrity sha512-hGp0480hLFQrqilnITEdJDhdes8zNwptQ7688osKhd1itCkRLrYbIIBFZ3eUanfS7oXxxmarN4krEqDLkrAw8Q==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -3391,6 +3396,11 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
+
+jquery@^1.9.1:
+  version "1.12.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c"
+  integrity sha1-AeHfuikP5z3rp3zurLD5ui/sngw=
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.9"
