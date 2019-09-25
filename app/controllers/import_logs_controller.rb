@@ -9,7 +9,8 @@ class ImportLogsController < ApplicationController
     add_breadcrumb t(:'hyrax.controls.home'), root_path
     add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
     add_breadcrumb t(:'hyrax.admin.import_logs.header'), hyrax.admin_workflow_roles_path
-    @import_logs = ImportLog.all
+    @batch = Batch.includes(:import_log).find(params[:batch_id]) #ImportLog.all
+    @import_logs = @batch.import_log.all
   end
 
   # GET /import_logs/1
