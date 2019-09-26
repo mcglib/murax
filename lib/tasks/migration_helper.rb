@@ -131,7 +131,7 @@ class MigrationHelper
     worktype = nil
     unless dctypes.nil?
 
-      article_types = ["preprint", "publisher", "peer", "article", "application", "postprint", "pre-print"]
+      article_types = ["preprint", "publisher", "peer", "article", "application", "postprint", "post print", "pre-print"]
       article_types.each do |term|
         if dctypes.downcase.include? term
           worktype = "Article"
