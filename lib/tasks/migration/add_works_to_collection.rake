@@ -67,7 +67,7 @@ namespace :migration do
         collectionObj = Collection.find(collection_id)
         collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
 
-        #added = AttachWorkToCollection.call(work_id, work_type, collectionObj)
+        added = AttachWorkToCollection.call(work_id, work_type, collectionObj)
 
       rescue ActiveFedora::ObjectNotFoundError
           puts "error: Work with id: '#{work_id}' does not exist."
@@ -78,7 +78,6 @@ namespace :migration do
       rescue StandardError => e
           puts "Error occurred adding the work to the collection #{collection_id}. #{e}"
           added = false
-
       end
 
       added
