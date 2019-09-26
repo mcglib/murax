@@ -7,6 +7,7 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     @batches = Batch.all
+    add_breadcrumb t(:'hyrax.controls.home'), root_path
   end
 
   # GET /batches/1

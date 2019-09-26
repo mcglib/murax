@@ -1,5 +1,10 @@
-%h1 Digitool import logs for batch no: #{@import_logs.first.batch_id}
+%h1 Digitool import logs for batch no: #{@import_logs.first.batch_id} imported #{l(@batch.updated_at, :format => :short)}.
 
+#toolbar.select
+  %select.form-control
+    %option{:value => ""} Export Basic
+    %option{:value => "all"} Export All
+    %option{:value => "selected"} Export Selected
 %table.table.table-striped#import_logs-table{"data-toggle":"table",
       "data-filter-control": "true",
       "data-show-filter": "false",
@@ -11,6 +16,11 @@
       "data-show-columns": "true",
       "data-show-export": "true",
       "data-pagination": "true",
+      "data-page-list": "[10, 25, 50, 100, 200, All]",
+      "data-show-search-clear-button": "true",
+      "data-show-footer": "true",
+      "data-footer-style": "footerStyle",
+      "data-show-export": "true",
       }
   %thead.thead-dark
     %tr
@@ -28,7 +38,8 @@
       %tr
         %td
           %a.detailed-icon{"href" => "javascript:", "data-indexed" => "#{import_log.id}"}
-          %i.glyphicon.glyphicon-plus.icon-plus
+            %i.glyphicon.glyphicon-plus.icon-plus
+            %span #{import_log.id}
         %td= import_log.imported.present? ? "yes" : "no"
         %td= import_log.pid
         %td= import_log.title.present? ? import_log.title.truncate(14) : ""

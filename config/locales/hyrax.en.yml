@@ -46,6 +46,9 @@ en:
           subject_tesim: Subject
           title_tesim: Title
   hyrax:
+    admin:
+      import_logs:
+        header: Digitool import logs for batch %{batch_id}
     account_name: My Institution Account Id
     short_about: "eScholarship is McGill University’s institutional digital repository featuring electronic, open access, outputs of McGill researchers and students."
     directory:
@@ -82,8 +85,8 @@ en:
             label_short: My Works
         q:
           label: Search %{application_name}
-          placeholder: Enter search terms or select "Go" to browse.  
-  
+          placeholder: Enter search terms or select "Go" to browse.
+
   simple_form:
     hints:
       admin_set:
@@ -164,7 +167,6 @@ en:
         share_applies_to_new_works: APPLY TO NEW WORKS
         title: Type name
       defaults:
-        abstract: Abstract
         access_right: Access Rights
         admin_set_id: Administrative Set
         based_near: Location

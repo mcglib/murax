@@ -62,7 +62,7 @@ namespace :migration do
         work = work_type.singularize.classify.constantize
         #check if work  exists
         work = work.find(work_id)
-        raise StandardError  "error: Work with id: '#{work_id}' does not exist." if existing_work.nil?
+        raise StandardError  "error: Work with id: '#{work_id}' does not exist." if work.nil?
 
         collectionObj = Collection.find(collection_id)
         collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
