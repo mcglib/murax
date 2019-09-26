@@ -53,7 +53,6 @@ module Migration
           # lets create the tmp file location if it does not exist
           FileUtils::mkdir_p migration_config['tmp_file_location'] if migration_config.present?
 
-
           # empty the item
           xml = item.raw_xml
           item = nil
