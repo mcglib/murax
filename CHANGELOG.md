@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.24.2] - 2019-09-26
+### Changed
+* Fixed bug with wrong theses collection id in the config.yml in fixtures folder
 ## [1.0.24.1] - 2019-09-26
 ### Changed
 * Making the UI for impot logger more responsive and added content for batches.
