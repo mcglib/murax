@@ -3,9 +3,9 @@ BREPR,Report,bioresource-reports
 ETHESIS,Thesis,theses
 GRADRES,Report,technical-reports
 LIVLAB,Paper,living-lab
-ESHIP,Article,faculty-pubs
-ESHIP,Book,faculty-pubs
-ESHIP,Presentation,faculty-pubs
+ESHIP,Article,faculty-pubs-article
+ESHIP,Book,faculty-pubs-book
+ESHIP,Presentation,faculty-pubs-presentation
 GRADRES,Paper,grad-pub
 UGPAPER,Paper,ugrad-res-paper
 UGRAD,Paper,ugrad-res

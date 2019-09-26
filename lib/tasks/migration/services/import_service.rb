@@ -53,7 +53,6 @@ module Migration
           # lets create the tmp file location if it does not exist
           FileUtils::mkdir_p migration_config['tmp_file_location'] if migration_config.present?
 
-
           # empty the item
           xml = item.raw_xml
           item = nil
@@ -67,7 +66,7 @@ module Migration
 
           # Return the following info, work_id, collection_id, title, pid, work_type
           import_record = {work_id: work.id,
-                           collection_id: collection_id,
+                           collection_id: migration_config['samvera_collection_id'],
                            digitool_collection_code: lc_code,
                            pid: @pid,
                            title: work.title.first, work_type: work_type, raw_xml: xml.to_s }
