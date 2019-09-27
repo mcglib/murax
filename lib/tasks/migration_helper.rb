@@ -55,7 +55,13 @@ class MigrationHelper
                     name: item.get_file_name,
                     visibility: item.get_file_visibility,
                     pid: pid,
-                    item_type: item.get_usage_type}
+                    item_type: item.get_usage_type,
+                    embargoed: item.is_embargoed?}
+        if item.is_embargoed?
+          fileinfo[:embargo_release_date] = item.get_embargo_release_date
+          fileinfo[:visibility_during_embargo] = 'restricted'
+          fileinfo[:visibility_after_embargo] = 'open'
+        end
 
       end
       # return the file_path

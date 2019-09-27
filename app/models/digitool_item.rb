@@ -39,6 +39,7 @@ class DigitoolItem
 
     set_metadata if !is_waiver? or is_suppressed?
 
+    set_embargo_release_date if is_embargoed?
 
     @file_info = set_file_metadata
 
@@ -146,6 +147,7 @@ class DigitoolItem
   def is_duplicated?
     @usage_type.eql? "VIEW" and !@related_pids.has_value?("VIEW_MAIN") and @related_pids.has_value?("VIEW")
   end
+
   def is_view?
     @usage_type.eql? "VIEW" or @usage_type.eql? "VIEW_MAIN"
   end
@@ -175,6 +177,11 @@ class DigitoolItem
     @related_pids.present?
   end
 
+  def is_embargoed?
+    # check for the presence of access_rights metadata
+    @raw_xml.xpath("/digital_entity/mds/md/name[contains(.,'accessrights')]").present?
+  end
+
   def set_metadata
       # get the descriptive metadata
       @raw_xml.xpath("/digital_entity/mds/md").each do | md_xml |
@@ -184,6 +191,17 @@ class DigitoolItem
           @metadata_hash = data['record']
         end
       end
+  end
+
+
+  def set_embargo_release_date
+    note_text = @raw_xml.xpath("/digital_entity/control/note").text
+    match_date = note_text.match /\(embargo to ([^)]+)\) .+$/
+    @embargo_release_date = match_date[1].gsub!(/\//,"-")
+  end
+
+  def get_embargo_release_date
+    @embargo_release_date
   end
 
   def has_metadata?
@@ -212,6 +230,9 @@ class DigitoolItem
         @file_info['mime_type'] = @raw_xml.at_css('digital_entity stream_ref mime_type').text
         @file_info['path'] = @raw_xml.at_css('digital_entity stream_ref directory_path').text
         @file_info['representative_media'] = false
+        if is_view? && is_embargoed?
+          @file_info['embargo_release_date'] = get_embargo_release_date
+        end
       end
       @file_info
   end
@@ -265,6 +286,9 @@ class DigitoolItem
         visible = 'open'
     else
         visible = 'open'
+    end
+    if is_embargoed?
+        visible = 'restricted'
     end
     # check the file names
 
