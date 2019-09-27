@@ -20,11 +20,11 @@
 %table
   %thead.thead-dark
     %tr
-      %th Batch ID
+      %th ID
       %th Batch name
       %th No of items in batch
-      %th Executed on
-      %th Updated
+      %th Started  on
+      %th Ended at
       %th Actions
 
   %tbody
@@ -34,9 +34,9 @@
         %td= batch.name
         %td.centered= batch.no
         %td{}
-          = l(batch.created_at, :format => :long)
+          = l(batch.created_at, :format => :short)
         %td{}
-          = l(batch.updated_at, :format => :long)
+          = l(batch.updated_at, :format => :short)
         %td
           %span= link_to 'Edit', edit_batch_path(batch)
           %span= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' }
