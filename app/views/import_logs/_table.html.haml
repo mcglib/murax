@@ -1,0 +1,46 @@
+%table.table.table-striped#import_logs-table{"data-toggle":"table",
+      "data-filter-control": "true",
+      "data-show-filter": "true",
+      "data-show-refresh": "false",
+      "data-search": "true",
+      "data-smart-display": "true",
+      "data-sortable": "true",
+      "data-classes": "table table-hover table-no-bordered",
+      "data-toolbar": "#toolbar",
+      "data-show-columns": "true",
+      "data-show-export": "true",
+      "data-pagination": "true",
+      "data-page-list": "[10, 25, 50, 100, 200, All]",
+      "data-show-search-clear-button": "true",
+      "data-show-footer": "true",
+      "data-footer-style": "footerStyle",
+      "data-show-export": "true",
+      }
+  %thead.thead-dark
+    %tr
+      %th{"data-field": "work_id", "data-sortable": "true"} Work ID
+      %th{"data-field": "imported", "data-sortable": "true"} Imported?
+      %th{"data-field": "pid", "data-sortable": "true"} PID
+      %th{"data-field": "title", "data-sortable": "true"} Title
+      %th{"data-field": "work_type", "data-sortable": "true"} Work Type
+      %th{"data-field": "updated", "data-sortable": "true"} Imported on
+      %th Actions
+
+  %tbody
+    - @import_logs.each do |import_log|
+      %tr
+        %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id)
+        %td{}
+          %span{:class => "badge" + (" danger" if import_log.imported.present?)}
+          %span{:class => "badge" + (" success" if import_log.imported.present?)}
+        %td= import_log.pid
+        %td= import_log.title.present? ? import_log.title.truncate(14) : ""
+        %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id)
+        %td= import_log.work_type
+        %td{}
+          = l(import_log.updated_at, :format => :long)
+        %td
+          %button.btn.btn-info.btn-sm{"data-target" => "##{import_log.pid}-Modal", "data-toggle" => "modal", "data-whatever" => "#{import_log.pid}", :type => "button"} Digitool XML
+        %div.raw-xml-modal{"role": "dialog", "id": "log-#{import_log.id}"}
+          = render partial: "import_logs/xml_modal", locals: {xml: import_log.raw_xml, pid: import_log.pid}
+
