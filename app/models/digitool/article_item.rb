@@ -149,12 +149,10 @@ class Digitool::ArticleItem < DigitoolItem
 
 
 
-      ## McGill rights statement
-      work_attributes['rights'] =  [config['rights_statement']]
+      ## For ESHIP import rights statements as is
+      work_attributes['rights'] = []
       xml.xpath("/record/rights").each do |term|
-        if (!term.text.downcase.include? 'escholarship')
-          work_attributes['rights'] << term.text if term.text.present?
-        end
+        work_attributes['rights'] << term.text if term.text.present?
       end
 
 
