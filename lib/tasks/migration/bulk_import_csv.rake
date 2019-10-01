@@ -23,7 +23,7 @@ namespace :migration do
       # start position (number) from csv array
       start_pos =  (args[:start_pos] || 0).to_i
 
-      # start position (number) from csv array
+      # total number of items  from csv array
       total =  (args[:total] || 0).to_i
 
       # Lets create a batch no
@@ -33,6 +33,7 @@ namespace :migration do
       # start processing
       process_import_csv(batch.id, args[:csv_file], start_pos, batch_size, total, @depositor)
 
+      # update the batch that its finished
       batch.finished = Time.now
       batch.save!
 
@@ -45,8 +46,7 @@ namespace :migration do
     # Not completed yet!
     def send_error_report(batch, user)
       # Find all items that are part of a given batch
-      error_logs = batch.import_log.where(:imported => false)
-
+      ImportMailer.import_email(user,batch).deliver
 
     end
 
@@ -56,7 +56,7 @@ namespace :migration do
       require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
       start_time = Time.now
       datetime_today = Time.now.strftime('%Y%m%d%H%M%S') # "20171021125903"
-      logger = ActiveSupport::Logger.new("log/bulk-import-csv-#{datetime_today}.log")
+      logger = ActiveSupport::Logger.new("log/bulk-import-batch-#{batch_id}-#{datetime_today}.log")
       logger.info "Task started at #{start_time}"
 
       @pid_list = File.read("#{Rails.root}/#{csv_file}").strip.split(",")
@@ -78,31 +78,31 @@ namespace :migration do
 
           successes = 0
           errors = 0
-          created_works = []
+          #created_works = []
           lists.each do |item|
 
-            work_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
+            import_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
             begin
                 import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => admin_set}, user, logger)
 
                 import_rec = import_service.import
                 if import_rec.present?
-                  created_works << import_rec
-                  work_log.attributes = import_rec
+                  #created_works << import_rec
+                  import_log.attributes = import_rec
                   AddWorkToCollection.call(import_rec[:work_id],
                                            import_rec[:work_type],
                                            import_rec[:collection_id])
                   successes += 1
-                  work_log.imported  = true
+                  import_log.imported  = true
                 end
 
              rescue StandardError => e
                 errors += 1
-                work_log.imported  = false
-                work_log.error = "#{e}: #{e.class.name} "
+                import_log.imported  = false
+                import_log.error = "#{e}: #{e.class.name} "
                 logger.error "Error importing #{item}: #{e}: #{e.class.name}"
             end
-            work_log.save
+            import_log.save
 
           end
           puts "Processed #{successes} work(s), #{errors} error(s) encountered"
@@ -125,13 +125,11 @@ namespace :migration do
       end
       end_time = Time.now
       duration = (end_time - start_time) / 1.minute
-      puts "[#{end_time.to_s}] Finished the  migration of #{@pids.count} in #{duration} minutes"
+      puts "[#{end_time.to_s}] Finished the  migration of #{amount_to_import} in #{duration} minutes"
       logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
       logger.close
 
       # Send email of what has been completed
       # Send email of the errors that occured
-
-
     end
   end

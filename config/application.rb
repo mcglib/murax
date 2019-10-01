@@ -8,6 +8,10 @@ Bundler.require(*Rails.groups)
 
 module HyraxDemo
   class Application < Rails::Application
+    # Added the Canadian timezone for object imports
+    config.time_zone = 'Eastern Time (US & Canada)'
+    config.active_record.default_timezone = :local # Or :utc
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
@@ -15,5 +19,10 @@ module HyraxDemo
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.active_job.queue_adapter = :sidekiq
+
+    #config.exception_handler = { dev: nil }
+
+    # We handle our own exceptions for 404 and 422 and 500
+    config.exceptions_app = self.routes
   end
 end

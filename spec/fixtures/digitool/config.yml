@@ -3,7 +3,7 @@ theses:
   work_type: Thesis
   resource_type: "Dissertation"
   admin_set: "User Collection"
-  samvera_collection_id: thesis
+  samvera_collection_id: theses
   local_collection_code: ETHESIS
   depositor_email: dev.library@mcgill.ca
   tmp_file_location: /storage/www/uploads/migrate/files

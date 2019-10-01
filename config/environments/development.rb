@@ -30,10 +30,6 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
-  config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -55,4 +51,32 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  # Execption handler
+  #config.exception_handler = {
+  #    dev:        nil, # allows you to turn ExceptionHandler "on" in development
+  #    db:         nil, # allocates a "table name" into which exceptions are saved (defaults to nil)
+  #    email:      nil, # sends exception emails to a listed email (string // "you@email.com")
+  #    exceptions: {
+  #      :all => {
+  #        layout: "exception", # define layout
+  #      },
+  #      500 => {
+  #        layout: "exception", # define layout
+  #      }
+  #    }
+  #}
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for mailgun
+  ActionMailer::Base.smtp_settings = {
+    :port           => ENV['MAIL_PORT'],
+    :address        => ENV['MAIL_HOST'],
+    #:user_name      => ENV['MAIL_USERNAME'],
+    #:password       => ENV['MAIL_PASSWORD'],
+    :authentication => :plain,
+  }
+  config.action_mailer.default_url_options = { :host => ENV['SITE_URL'] }
 end

@@ -11,9 +11,10 @@
  * It is generally better to create a new file per style scope.
  *
  *
- *= require_tree .
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require bootstrap-table
  *= require_self
  *= require custom_attributes
  *= require nested_ordered
+ *= require_tree .
  */

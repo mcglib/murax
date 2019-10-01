@@ -59,7 +59,7 @@ if grep -q "false" /tmp/stderr.txt; then
 
 else
   echo "Database tables exists. Not initializing."
-  
+
   echo "Running any migrations first to be sure we are upto date"
   echo "bundle exec rails db:migrate  RAILS_ENV=${RAILS_ENV}"
   bundle exec rails db:migrate  RAILS_ENV=${RAILS_ENV}
@@ -99,9 +99,5 @@ rm -rf ${APP_PATH}/tmp/pids/server.pid
 echo "Precompiling the rake assets with ${RAILS_ENV}"
 RAILS_ENV=${RAILS_ENV} bundle exec rake assets:precompile
 
-echo "Copy the assets file for 404 and 505 in ${RAILS_ENV}"
-cd ${APP_PATH}
-cp ${APP_PATH}/public/assets/404-*.html ${APP_PATH}/public/404.html
-cp ${APP_PATH}/public/assets/500-*.html ${APP_PATH}/public/500.html
-echo "Starting the server on ${RAILS_ENV}"
+echo "Starting the server on ${RAILS_ENV} on ports 3000"
 RAILS_ENV=${RAILS_ENV} bundle exec rails s -p 3000 -b '0.0.0.0'

@@ -1,8 +1,5 @@
 Rails.application.configure do
-  # Verifies that versions and hashed value of the package contents in the project's package.json
-config.webpacker.check_yarn_integrity = false
-
-  # Verifies that versions and hashed value of the package contents in the project's package.json
+  # Verifies that versions and hashed value of the package contents in the project's package.json 
   config.webpacker.check_yarn_integrity = false
 
   # Settings specified here will take precedence over those in config/application.rb.
@@ -51,7 +48,7 @@ config.webpacker.check_yarn_integrity = false
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -95,4 +92,18 @@ config.webpacker.check_yarn_integrity = false
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+
+  config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for mailgun
+  ActionMailer::Base.smtp_settings = {
+    :port           => ENV['MAIL_PORT'],
+    :address        => ENV['MAIL_HOST'],
+    #:user_name      => ENV['MAIL_USERNAME'],
+    #:password       => ENV['MAIL_PASSWORD'],
+    :authentication => :plain,
+  }
+  config.action_mailer.default_url_options = { :host => ENV['SITE_URL'] }
+
 end
