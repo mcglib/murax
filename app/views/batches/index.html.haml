@@ -29,14 +29,15 @@
 
   %tbody
     - @batches.each do |batch|
+      - time_taken = batch.updated_at - batch.created_at
       %tr
         %td= link_to batch.id, batch
         %td= batch.name
         %td.centered= batch.no
         %td{}
           = l(batch.created_at, :format => :short)
-        %td{}
-          = l(batch.updated_at - batch.created_at), :format => :short)
+        //%td{}
+        //  = l(time_taken.to_s, :format => :short)
         %td
           %span= link_to 'Edit', edit_batch_path(batch)
           %span= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' }

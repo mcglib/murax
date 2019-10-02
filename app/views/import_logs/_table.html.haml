@@ -30,12 +30,14 @@
     - @import_logs.each do |import_log|
       %tr
         %td{}
-          %span{:class => "badge" + (" danger" if import_log.imported.present?)} No
-          %span{:class => "badge" + (" success" if import_log.imported)} Yes
-        %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id)
+          - if import_log.imported.present? and !import_log.imported
+            %span.badge.danger{} No
+          - if import_log.imported.present? and import_log.imported
+            %span.badge.success{} Yes
+        %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id) if import_log.work_id.present?
         %td= import_log.pid
         %td= import_log.title.present? ? import_log.title.truncate(20) : ""
-        %td= import_log.work_type
+        %td= import_log.work_type if import_log.work_type.present?
         %td{}
           = l(import_log.updated_at, :format => :long)
         %td
