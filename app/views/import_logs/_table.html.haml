@@ -18,8 +18,8 @@
       }
   %thead.thead-dark
     %tr
+      %th{"data-field": "imported", "data-sortable": "true"} Status
       %th{"data-field": "work_id", "data-sortable": "true"} Work ID
-      %th{"data-field": "imported", "data-sortable": "true"} Imported?
       %th{"data-field": "pid", "data-sortable": "true"} PID
       %th{"data-field": "title", "data-sortable": "true"} Title
       %th{"data-field": "work_type", "data-sortable": "true"} Work Type
@@ -29,13 +29,12 @@
   %tbody
     - @import_logs.each do |import_log|
       %tr
-        %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id)
         %td{}
-          %span{:class => "badge" + (" danger" if import_log.imported.present?)}
-          %span{:class => "badge" + (" success" if import_log.imported.present?)}
-        %td= import_log.pid
-        %td= import_log.title.present? ? import_log.title.truncate(14) : ""
+          %span{:class => "badge" + (" danger" if import_log.imported.present?)} No
+          %span{:class => "badge" + (" success" if import_log.imported)} Yes
         %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id)
+        %td= import_log.pid
+        %td= import_log.title.present? ? import_log.title.truncate(20) : ""
         %td= import_log.work_type
         %td{}
           = l(import_log.updated_at, :format => :long)
