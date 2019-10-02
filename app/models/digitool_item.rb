@@ -39,7 +39,7 @@ class DigitoolItem
 
     set_metadata if !is_waiver? or is_suppressed?
 
-    set_embargo_release_date if is_embargoed?
+    set_embargo_release_date if !is_waiver? && is_embargoed?
 
     @file_info = set_file_metadata
 

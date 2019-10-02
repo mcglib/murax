@@ -78,10 +78,9 @@ if len(pidArray) > 0:
                             title.text = cleanedTitle
 
 
-                # Clean up Rights Field
-                if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces)) is False:
-                    # Cleans and adds the generic rights statement.
-                    cleanRightsField(recordRoot, nSpaces)
+                # Uncomment the following to add a generic rights statement
+                #if isFieldEmpty(recordRoot.find("dc:rights", namespaces= nSpaces)) is False:
+                    #cleanRightsField(recordRoot, nSpaces)
 
                 # Clean up Type Field
                 if isFieldEmpty(recordRoot.find("dc:type", namespaces= nSpaces)) is False:

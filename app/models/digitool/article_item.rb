@@ -149,12 +149,10 @@ class Digitool::ArticleItem < DigitoolItem
 
 
 
-      ## McGill rights statement
-      work_attributes['rights'] =  [config['rights_statement']]
+      ## For ESHIP import rights statements as is
+      work_attributes['rights'] = []
       xml.xpath("/record/rights").each do |term|
-        if (!term.text.downcase.include? 'escholarship')
-          work_attributes['rights'] << term.text if term.text.present?
-        end
+        work_attributes['rights'] << term.text if term.text.present?
       end
 
 
@@ -228,10 +226,12 @@ class Digitool::ArticleItem < DigitoolItem
       end
 
 
-      ## get the publisher
+      ## get the publisher - do not include McGill as a publisher
       work_attributes['publisher'] = []
       xml.xpath("/record/publisher").each do |term|
-        work_attributes['publisher'] << term.text if term.text.present?
+        if (!term.text.downcase.include? 'mcgill')
+          work_attributes['publisher'] << term.text if term.text.present?
+        end
       end
 
 
