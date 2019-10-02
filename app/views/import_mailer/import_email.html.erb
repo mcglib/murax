@@ -12,7 +12,7 @@
     <p> <%= @batch.import_log.where(:imported => true).count %> items imported successfully. </p>
     <p>View a summary of import logs  <%=link_to "here", batch_import_logs_url(@batch) %>
     <h3> Error list</h3>
-    <% if @errors.present? %>
+    <% if @errors.count >= 1 %>
         <table>
             <tr>
                 <th>Pid</th>

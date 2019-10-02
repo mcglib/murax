@@ -104,6 +104,6 @@ Rails.application.configure do
     #:password       => ENV['MAIL_PASSWORD'],
     :authentication => :plain,
   }
-  config.action_mailer.default_url_options = { :host => ENV['SITE_URL'] }
+  config.action_mailer.default_url_options = { :host => ENV['RAILS_HOST'] }
 
 end
