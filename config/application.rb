@@ -6,9 +6,12 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-
 module HyraxDemo
   class Application < Rails::Application
+    # Added the Canadian timezone for object imports
+    config.time_zone = 'Eastern Time (US & Canada)'
+    config.active_record.default_timezone = :local # Or :utc
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 

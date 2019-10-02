@@ -241,6 +241,10 @@ module Migration
             work_attributes['visibility'] = file_info[:visibility]
             fileset_attrs = file_record(work_attributes)
             fileset = create_fileset(parent: new_work, resource: fileset_attrs, file: file_info[:path])
+            if file_info[:embargoed]
+              fileset.apply_embargo(file_info[:embargo_release_date],file_info[:visibility_during_embargo],file_info[:visibility_after_embargo])
+              fileset.save
+            end
           end
           fileset
         end
