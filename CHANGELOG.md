@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.26] - 2019-10-02
 ### Changed
 * fixing batch ui
+* fixing the rails ui for import logs
 ## [1.0.25] - 2019-10-02
 ### Changed
 * revised facultypublications_functions.py filename part deux
