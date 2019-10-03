@@ -20,24 +20,26 @@
       }
   %thead.thead-dark
     %tr
-      %th{"data-field": "id", "data-sortable": "true"}  ID
+      %th{"data-field": "id", "data-sortable": "true"}  Batch No
       %th{"data-field": "name", "data-sortable": "true"}  Batch name
       %th{"data-field": "no", "data-sortable": "true"}  No of items in batch
       %th{"data-field": "created_at", "data-sortable": "true"} Started  on
-      %th{"data-field": "total_time", "data-sortable": "true"} Total time used
+      %th{"data-field": "total_time", "data-sortable": "true"} Duration
       %th Actions
 
   %tbody
     - @batches.each do |batch|
-      - time_taken = batch.updated_at - batch.created_at
+      - time_taken = (batch.updated_at - batch.created_at)
+      - mins  = (time_taken / 60) % 60
+      - hours = time_taken / (60 * 60)
       %tr
         %td= link_to batch.id, batch
         %td= batch.name
         %td.centered= batch.no
         %td{}
           = l(batch.created_at, :format => :short)
-        //%td{}
-        //  = l(time_taken.to_s, :format => :short)
+        %td{}
+          = distance_of_time_in_words(time_taken)
         %td
           %span= link_to 'Edit', edit_batch_path(batch)
           %span= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' }
