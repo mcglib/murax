@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.28] - 2019-10-03
+### Added
+* Sorting and being able to export the logs
+* Fixed bug with the turbolinks not loading the bootstrap tables
 ## [1.0.27] - 2019-10-03
+### Changed
 * Fixing the duration for the batches
 * Visual change to the UI of the import_logs
 ## [1.0.26] - 2019-10-02
