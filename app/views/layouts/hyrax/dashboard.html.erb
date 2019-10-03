@@ -33,7 +33,7 @@
 
     </div><!-- /#content-wrapper -->
     <%= render 'shared/ajax_modal' %>
-    <hello></hello>
+    <!-- Added inline JS where needed -->
     <%= content_for?(:javascript) ? yield(:javascript) : yield %>
   </body>
 </html>
