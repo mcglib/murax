@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.26] - 2019-10-02
+### Changed
+* fixing batch ui
+* fixing the rails ui for import logs
+## [1.0.25] - 2019-10-02
+### Changed
+* revised facultypublications_functions.py filename part deux
+* fixed collection ids for 'Research Publications' collection
+* app/models/digitool/article_item.rb added bib citation and identifier elements
+* fixed handling of faculty_pubs collection
+* lib/tasks/migration_helper.rb - added 'post print' as type option
+* Udpated
+* support for importing embargoed files
+* fixing batch ui
+* Fixing names with python function
+* Re-added the file
+* Moved the config directives to the right locations
+* File renaming issues
+* File naming
+* For ESHIP items import rights statements as is
+* For ESHIP don't import 'McGill University' as Publisher
+* Don't try to get an embargo date when processing waivers
 ## [1.0.24.2] - 2019-09-26
 ### Changed
 * Fixed bug with wrong theses collection id in the config.yml in fixtures folder

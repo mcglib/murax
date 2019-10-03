@@ -13,6 +13,7 @@ class BatchesController < ApplicationController
   # GET /batches/1
   # GET /batches/1.json
   def show
+    @import_logs = @batch.import_log
   end
 
   # GET /batches/new

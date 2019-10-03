@@ -1,6 +1,9 @@
 %p#notice= notice
 
-%h2 List of imported logs
+%h1 List of imported  items
+%h3 for batch no: #{@batch.id} imported #{l(@batch.updated_at, :format => :long)}.
+
+= render "import_logs/table"
 
 = link_to 'Edit', edit_batch_path(@batch)
 \|
