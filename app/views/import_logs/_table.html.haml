@@ -1,5 +1,11 @@
-%table.table.table-striped#import_logs-table{"data-toggle":"table",
-      "data-filter-control": "true",
+
+//= require tableexport/tableExport.min.js
+#toolbar.select
+  %select.form-control
+    %option{:value => ""} Export Basic
+    %option{:value => "all"} Export All
+    %option{:value => "selected"} Export Selected
+%table.table.table-striped#import_logs-table{"data-filter-control": "true",
       "data-show-filter": "true",
       "data-show-refresh": "false",
       "data-search": "true",
@@ -9,6 +15,7 @@
       "data-toolbar": "#toolbar",
       "data-show-columns": "true",
       "data-show-export": "true",
+      "data-click-to-select": "true",
       "data-pagination": "true",
       "data-page-list": "[10, 25, 50, 100, 200, All]",
       "data-show-search-clear-button": "true",
@@ -45,3 +52,32 @@
         %div.raw-xml-modal{"role": "dialog", "id": "log-#{import_log.id}"}
           = render partial: "import_logs/xml_modal", locals: {xml: import_log.raw_xml, pid: import_log.pid}
 
+- content_for(:javascript) do
+  :javascript
+    $table = $('#import_logs-table')
+    $(document).on('turbolinks:load', function() {
+        $table.bootstrapTable();
+        $('#toolbar').find('select').change(function () {
+              $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val(),
+                exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+                columns: [
+                  {
+                    field: 'state',
+                    checkbox: true,
+                    visible: $(this).val() === 'selected'
+                  },
+                ]
+              })
+        }).trigger('change')
+
+
+
+
+
+
+
+
+
+
+    });

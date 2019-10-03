@@ -1,7 +1,6 @@
 %h1 Digitool imports: Batch lists
 
-%table.table.table-striped#batch-table{"data-toggle":"table",
-      "data-filter-control": "true",
+%table.table.table-stripped.table-hover.table-condensed.order-column#batch-table{"data-filter-control": "true",
       "data-show-filter": "true",
       "data-show-refresh": "false",
       "data-search": "true",
@@ -47,3 +46,13 @@
 %br
 
 = link_to 'New Batch', new_batch_path
+
+- content_for(:javascript) do
+  :javascript
+    $(document).on('turbolinks:load', function() {
+        $table = $('#batch-table')
+        $table.bootstrapTable();
+    });
+    function boldFormatter(value, row) {
+      return '<strong><span class="blue-highlight">' + value + '</span></strong>'
+    }
