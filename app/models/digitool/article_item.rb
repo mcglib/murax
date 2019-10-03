@@ -241,9 +241,10 @@ class Digitool::ArticleItem < DigitoolItem
         work_attributes['research_unit'] << term.text if term.text.present?
       end
       # get the grant_number
-      grant_no = xml.xpath("/record/localgrantnumber").text
-      work_attributes['grant_number'] = grant_no if grant_no.present?
-
+      work_attributes['grant_number'] = []
+      xml.xpath("/record/localgrantnumber").each do |term|
+        work_attributes['grant_number'] << term.text if term.text.present?
+      end
 
       ## get the rtype
       work_attributes['rtype'] =[]
