@@ -59,9 +59,14 @@ namespace :migration do
       logger = ActiveSupport::Logger.new("log/bulk-import-batch-#{batch_id}-#{datetime_today}.log")
       logger.info "Task started at #{start_time}"
 
-      @pid_list = File.read("#{Rails.root}/#{csv_file}").strip.split(",")
+      if csv_file.include? "ethesis"
+        @pid_list = File.read("#{Rails.root}/#{csv_file}").strip.split("\n")
+        @pids = @pid_list
+      else
+        @pid_list = File.read("#{Rails.root}/#{csv_file}").strip.split(",")
+        @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
+      end
       # Lets clean the csv file because of the quotes
-      @pids = @pid_list.map do | item | item.gsub!(/\A"|"\Z/, '') end
 
 
       # The default admin set and designated depositor must exist before running this script
