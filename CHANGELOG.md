@@ -5,15 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.30.1] - 2019-10-04
+### Changed
+* File name issues
 ## [1.0.30] - 2019-10-04
+### Changed
 * Added ethesis pids for better tracking
 * Adjusted the bulk import script so that we can do ethesis differently
 ## [1.0.29.2] - 2019-10-04
+### Changed
 * Fixed sidekiq jobs to 2 in PROD.
 * Added host in subject of email sent after import
 ## [1.0.29.1] - 2019-10-04
+### Changed
 * Forgot to echo out the js code part :)
 ## [1.0.29] - 2019-10-04
+### Changed
 * Fixing a bug with interface for the dashboard of hyrax
 ## [1.0.28] - 2019-10-03
 ### Added
