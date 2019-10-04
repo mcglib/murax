@@ -166,6 +166,10 @@ if len(pidArray) > 0:
                         if pidAdded == False:
                             relationField = ET.SubElement(recordRoot, "{http://purl.org/dc/elements/1.1/}relation")
                             relationField.text = "Pid: " + currentPid
+                # Clean up Subject Field
+                for subject in recordRoot.findall("dc:subject", namespaces=nSpaces):
+                  if subject.text is not None:
+                     subject.text = subject.text.strip('.')
 
                 # Add "Department not identified" if there are no department and discipline codes.
                 if recordRoot.find("dcterms:localdepartmentcode", namespaces= nSpaces) is None and recordRoot.find("dcterms:localthesisdegreediscipline", namespaces= nSpaces) is None:
