@@ -363,3 +363,9 @@ def correctDegreeDiscipline(currentString, dictionary):
     else:
         correctedString = currentString
     return correctedString
+
+def cleanSubject (currentString):
+    """ Remove trailing periods
+    """
+    
+    return currentString.strip('.')
