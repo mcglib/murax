@@ -6,6 +6,6 @@
 # timeout
 # you can override concurrency based on environment
 production:
-  :concurrency: 1
+  :concurrency: 2
 staging:
   :concurrency: 15
