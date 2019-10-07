@@ -6,6 +6,7 @@ class ImportMailer < ApplicationMailer
     @user = user
     @batch = batch
     @errors = batch.import_log.where(:imported => false)
+    byebug
     #@error_logs = batch.
     mail(to: @user.email,
       subject: "#{ENV['RAILS_HOST']} import report: Batch import no:#{batch.id}"
