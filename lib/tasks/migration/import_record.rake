@@ -86,13 +86,14 @@ namespace :migration do
       duration = (end_time - start_time) / 1.minute
       puts "[#{end_time.to_s}] Finished the  migration of #{pids.map(&:inspect).join(', ')} in #{duration} minutes"
       log.info "Task finished at #{end_time} and lasted #{duration} minutes."
-      log.close
 
       pids
 
     end
 
     def send_error_report(batch, user)
+      byebug
+      @errors = batch.import_log.not_imported
       # Find all items that are part of a given batch
       ImportMailer.import_email(user,batch).deliver
     end

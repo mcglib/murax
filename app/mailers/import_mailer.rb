@@ -6,7 +6,6 @@ class ImportMailer < ApplicationMailer
     @user = user
     @batch = batch
     #@errors = batch.import_log.where(:imported => false)
-    byebug
     @errors = batch.import_log.not_imported
     #@error_logs = batch.
     mail(to: @user.email,
