@@ -84,6 +84,17 @@ faculty-pubs-presentation:
   department_authorites: spec/fixtures/authorities/departments.yml
   rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
   clean_up_script: faculty_pubs.py
+faculty-pubs-report:
+  work_type: Report
+  resource_type: "Report"
+  admin_set: "User Collection"
+  local_collection_code: ESHIP
+  samvera_collection_id: faculty-pubs
+  depositor_email: dev.library@mcgill.ca
+  tmp_file_location: /storage/www/uploads/migrate/files
+  department_authorites: spec/fixtures/authorities/departments.yml
+  rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
+  clean_up_script: GenericReports.py
 grad-pub:
   work_type: Paper
   resource_type: "Paper"
