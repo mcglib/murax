@@ -63,13 +63,17 @@ namespace :migration do
         begin
             import_service = Migration::Services::ImportService.new({:pid => pid, :admin_set => admin_set}, user, logger)
             import_rec = import_service.import
-            if import_rec.present?
+            if import_rec[:error].nil?
               import_log.attributes = import_rec
               AddWorkToCollection.call(import_rec[:work_id],
                                        import_rec[:work_type],
                                        import_rec[:collection_id])
               successes += 1
               import_log.imported  = true
+            else
+              import_log.imported = false
+              errors += 1
+              import_log.error = "#{import_rec[:error]}"
             end
 
          rescue StandardError => e
@@ -86,10 +90,13 @@ namespace :migration do
       duration = (end_time - start_time) / 1.minute
       puts "[#{end_time.to_s}] Finished the  migration of #{pids.map(&:inspect).join(', ')} in #{duration} minutes"
       log.info "Task finished at #{end_time} and lasted #{duration} minutes."
-      log.close
+
+      pids
+
     end
 
     def send_error_report(batch, user)
+      @errors = batch.import_log.not_imported
       # Find all items that are part of a given batch
       ImportMailer.import_email(user,batch).deliver
     end

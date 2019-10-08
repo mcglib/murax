@@ -1,5 +1,3 @@
-
-//= require tableexport/tableExport.min.js
 #toolbar.select
   %select.form-control
     %option{:value => ""} Export Basic
@@ -25,6 +23,7 @@
       }
   %thead.thead-dark
     %tr
+      %th{"data-field": "imported", "data-sortable": "false"} Select
       %th{"data-field": "imported", "data-sortable": "true"} Imported
       %th{"data-field": "work_id", "data-sortable": "true"} Work ID
       %th{"data-field": "pid", "data-sortable": "true"} PID
@@ -36,6 +35,7 @@
   %tbody
     - @import_logs.each do |import_log|
       %tr
+        %td{}
         %td{}
           - if import_log.imported.present? and !import_log.imported
             %span.badge.danger{} No
