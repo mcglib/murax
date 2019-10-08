@@ -69,12 +69,15 @@ module Migration
                            collection_id: migration_config['samvera_collection_id'],
                            digitool_collection_code: lc_code,
                            pid: @pid,
-                           title: work.title.first, work_type: work_type, raw_xml: xml.to_s }
+                           title: work.title.first, work_type: work_type, raw_xml: xml.to_s}
 
         rescue StandardError => e
           #raise e if count > 
           #count += 1
-          @logger.error "Failed importing #{@pid}. Error: #{e.message}: #{e.class.name}"
+          error_str = "Failed importing #{@pid}. Error: #{e.message}: #{e.class.name}"
+          @logger.error error_str
+          import_record = { pid: @pid,
+                            error: error_str}
           #raise e if count > 1
           #return import(count: count)
         end

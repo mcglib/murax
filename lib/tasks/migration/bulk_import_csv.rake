@@ -91,7 +91,7 @@ namespace :migration do
                 import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => admin_set}, user, logger)
 
                 import_rec = import_service.import
-                if import_rec.present?
+                if import_rec[:error].nil?
                   #created_works << import_rec
                   import_log.attributes = import_rec
                   AddWorkToCollection.call(import_rec[:work_id],
@@ -99,6 +99,10 @@ namespace :migration do
                                            import_rec[:collection_id])
                   successes += 1
                   import_log.imported  = true
+                else
+                  import_log.imported = false
+                  errors += 1
+                  import_log.error = "#{import_rec[:error]}"
                 end
 
              rescue StandardError => e
