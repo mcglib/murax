@@ -87,6 +87,9 @@ namespace :migration do
       puts "[#{end_time.to_s}] Finished the  migration of #{pids.map(&:inspect).join(', ')} in #{duration} minutes"
       log.info "Task finished at #{end_time} and lasted #{duration} minutes."
       log.close
+
+      pids
+
     end
 
     def send_error_report(batch, user)
