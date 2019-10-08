@@ -5,7 +5,8 @@ class ImportMailer < ApplicationMailer
   def import_email(user, batch)
     @user = user
     @batch = batch
-    @errors = batch.import_log.where(:imported => false)
+    #@errors = batch.import_log.where(:imported => false)
+    @errors = batch.import_log.not_imported
     #@error_logs = batch.
     mail(to: @user.email,
       subject: "#{ENV['RAILS_HOST']} import report: Batch import no:#{batch.id}"
