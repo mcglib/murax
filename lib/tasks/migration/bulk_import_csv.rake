@@ -79,13 +79,13 @@ namespace :migration do
 
         logger.info "Starting to import #{amount_to_import} items from position: #{start_pos}"
         puts "Starting to import #{amount_to_import} items from position: #{start_pos}"
-        @pids[start_pos, amount_to_import].each_slice(batch_no) do | lists |
+        successes = 0
+        errors = 0
+        total_items = @pids[start_pos, amount_to_import].count
+        @pids[start_pos, amount_to_import].each_with_index do |item, index |
 
-          successes = 0
-          errors = 0
           #created_works = []
-          lists.each do |item|
-
+            puts "Processing  #{index} of #{total_items} pids"
             import_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
             begin
                 import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => admin_set}, user, logger)
@@ -113,9 +113,6 @@ namespace :migration do
             end
             import_log.save
 
-          end
-          puts "Processed #{successes} work(s), #{errors} error(s) encountered"
-          logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
 
           # Group the works by collection_id and then add to collection
           #created_works.group_by { |d| d[:collection_id] }.each do | collect_id, works |
@@ -129,6 +126,8 @@ namespace :migration do
           #end
           #created_works.pluck(:work_id)
         end
+        puts "Processed #{successes} work(s), #{errors} error(s) encountered"
+        logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
       else
         puts 'The default admin set or specified depositor does not exist'
       end

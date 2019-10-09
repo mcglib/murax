@@ -58,7 +58,9 @@ namespace :migration do
 
       successes = 0
       errors = 0
-      pids.each do | pid |
+      total_items = pids.count
+      pids.each_with_index do | pid, index |
+        puts "Processing  #{index} of #{total_items} pids"
         import_log = ImportLog.new({:pid => pid, :date_imported => Time.now, :batch_id => batch_id})
         begin
             import_service = Migration::Services::ImportService.new({:pid => pid, :admin_set => admin_set}, user, logger)
