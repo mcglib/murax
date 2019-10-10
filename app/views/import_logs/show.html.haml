@@ -1,5 +1,39 @@
 %p#notice= notice
 
-= link_to 'Edit', edit_import_log_path(@import_log)
+%table.table.table-striped#import_log-table{}
+  %tr
+    %td.header-title{} Status
+    %td
+      - if !@import_log.imported?
+        %span.badge.danger{}
+          %i.glyphicon.glyphicon-remove
+      - if @import_log.imported?
+        %span.badge.success{}
+          %i.glyphicon.glyphicon-ok
+  %tr
+    %td.header-title{} PID
+    %td= @import_log.pid
+  %tr
+    %td.header-title{} Title
+    %td= @import_log.title.present? ? @import_log.title : ""
+  %tr
+    %td.header-title{} Work ID
+    %td= link_to import_log.work_id, hyrax_thesis_path(@import_log.work_id) if @import_log.work_id.present?
+  %tr
+    %td.header-title{} Work Type
+    %td= @import_log.work_type if @import_log.work_type.present?
+  %tr
+    %td.header-title{} Errors
+    %td= @import_log.error if @import_log.error.present?
+  %tr
+    %td.header-title{} Date imported
+    %td{}
+      = l(@import_log.updated_at, :format => :long)
+  %tr
+    %td.header-title{} Digitool XML
+    %td{}
+      %code #{@import_log.raw_xml}
+
+= link_to 'Edit', edit_batch_import_log_path(@import_log)
 \|
-= link_to 'Back', import_logs_path
+= link_to 'Back', batch_import_logs_path
