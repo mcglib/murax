@@ -144,7 +144,7 @@ class MigrationHelper
         end
       end
 
-      paper_types = ["project report", "policy", "working"]
+      paper_types = ["project report", "policy", "working", "conference paper"]
       paper_types.each do |term|
         if dctypes.downcase.include? term
           worktype = "Paper"
