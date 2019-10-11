@@ -164,6 +164,13 @@ class MigrationHelper
           worktype = "Report"
         end
       end
+
+      presentation_types = ["poster"]
+      presentation_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Presentation"
+        end
+      end
     end
 
     worktype
