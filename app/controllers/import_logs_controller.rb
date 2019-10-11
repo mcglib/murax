@@ -16,6 +16,10 @@ class ImportLogsController < ApplicationController
   # GET /import_logs/1
   # GET /import_logs/1.json
   def show
+    @batch = @import_log.batch
+    add_breadcrumb t(:'hyrax.controls.home'), root_path
+    add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
+    add_breadcrumb t(:'hyrax.admin.import_logs.header', batch_id: @batch.id), batches_path
   end
 
   # GET /import_logs/new

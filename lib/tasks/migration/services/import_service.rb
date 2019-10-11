@@ -31,9 +31,9 @@ module Migration
           # archive. If it is, we skip ingesting 
           puts "Skipping adding this item #{item.pid} as its not the main_view.its a #{item.get_usage_type}" unless item.is_main_view?
 
-          raise StandardError.new "this item #{item.pid} as its not the main_view.its a #{item.get_usage_type}" unless item.is_main_view?
+          raise StandardError.new "Skipping #{item.pid}. It's defined as a #{item.get_usage_type}" unless item.is_main_view?
 
-          raise StandardError.new "this item #{item.pid} is a potential duplicate with no main object. it's a #{item.get_usage_type}" if item.is_duplicated?
+          raise StandardError.new "Skipping #{item.pid}.It's a potential duplicate with no main object.#{item.get_usage_type}" if item.is_duplicated?
 
           ##Get the dctypes
           dc_types = item.metadata_hash["type"] if !item.is_waiver?
@@ -72,9 +72,9 @@ module Migration
                            title: work.title.first, work_type: work_type, raw_xml: xml.to_s}
 
         rescue StandardError => e
-          #raise e if count > 
+          #raise e if count >
           #count += 1
-          error_str = "Failed importing #{@pid}. Error: #{e.message}: #{e.class.name}"
+          error_str = "Error: Failed importing #{@pid}.#{e.class.name}: #{e.message}"
           @logger.error error_str
           import_record = { pid: @pid,
                             error: error_str}
