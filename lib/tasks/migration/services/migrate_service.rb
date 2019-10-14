@@ -29,7 +29,7 @@ module Migration
         workid_list = []
         pid_list.each.with_index do | pid, index |
 
-          puts "#{Time.now.to_s}: Processing the item  #{pid}"
+          #puts "#{index}/#{pid_count}:-  #{Time.now.to_s}: Processing the item  #{pid}"
           new_work = self.import_record(pid, log, work_type, index)
           @created_work_ids << new_work.id if new_work.present?
 
