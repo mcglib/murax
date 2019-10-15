@@ -5,7 +5,7 @@
                     class: "representative-media",
                     alt: "",
                     role: "presentation" %>
-      <% if strip_tags(file_set.permission_badge) != 'Embargo' %>
+      <% if strip_tags(file_set.permission_badge).downcase != 'embargo' %>
         <%= link_to t('hyrax.file_set.show.downloadable_content.pdf_link'),
                   hyrax.download_path(file_set),
                   target: :_blank,
