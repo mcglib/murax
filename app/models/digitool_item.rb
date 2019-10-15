@@ -336,7 +336,7 @@ class DigitoolItem
       doc.xpath("/record/localfilename").each_with_index do |furl, index|
         fname = furl.text
         if fname.include? 'http://'
-          uri = URI.parse(fname.gsub(/\n/, ""))
+          uri = URI.parse(fname.gsub(/s+/, ""))
           file_names << set_filename_and_type(File.basename(uri.path),@usage_type)
         else
           file_names << set_filename_and_type(fname,@usage_type)
