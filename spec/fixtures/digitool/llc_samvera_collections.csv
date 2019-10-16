@@ -6,6 +6,8 @@ LIVLAB,Paper,living-lab
 ESHIP,Article,faculty-pubs-article
 ESHIP,Book,faculty-pubs-book
 ESHIP,Presentation,faculty-pubs-presentation
+ESHIP,Report,faculty-pubs-report
+ESHIP,Paper,faculty-pubs-paper
 GRADRES,Paper,grad-pub
 UGPAPER,Paper,ugrad-res-paper
 UGRAD,Paper,ugrad-res

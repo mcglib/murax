@@ -85,7 +85,7 @@ namespace :migration do
         @pids[start_pos, amount_to_import].each_with_index do |item, index |
 
           #created_works = []
-            puts "#{index}/#{total_items}:-  #{Time.now.to_s}: Processing the item  #{item}"
+            puts "#{index}/#{total_items}:  #{Time.now.to_s}: Processing the item  #{item}"
             import_log = ImportLog.new({:pid => item, :date_imported => Time.now, :batch_id => batch_id})
             begin
                 import_service = Migration::Services::ImportService.new({:pid => item, :admin_set => admin_set}, user, logger)
