@@ -43,7 +43,6 @@ namespace :murax do
 
        #transform to xml
        temphash = {}
-       #builder = Nokogiri::XML::Builder.new
     
        work.attributes.each do |name, value|
           if !value.nil? && !ignored_elements.include?(name)
