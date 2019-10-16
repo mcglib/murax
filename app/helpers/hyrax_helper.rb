@@ -18,6 +18,13 @@ module HyraxHelper
     end
   end
 
-
+  # This method is used in views/hyrax/base/_attribute_rows.html.erb and provides link for thesis only worktypes. 
+  def thesis_identifier_field(presenter)
+    if presenter.human_readable_type.downcase == 'thesis'
+      presenter.attribute_to_html(:identifier, render_as: :external_link, search_field: 'identifier_tesim', html_dl: true)
+    else
+      presenter.attribute_to_html(:identifier, render_as: :linked, search_field: 'identifier_tesim', html_dl: true)
+    end
+  end
 
 end

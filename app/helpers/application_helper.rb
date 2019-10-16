@@ -25,5 +25,4 @@ module ApplicationHelper
     end
     return color
   end
-
 end
