@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.35] - 2019-10-15
+### Changed
+* Fixed bug with the thesis imports.
+* Updated the code for printing out the log
+* Changed the code for reading the localfilename so that it removes all whitespace from the url
+* Hid the link to download the pdf for embargoed items
+* changed to downcase
+* Updated the display error log
 ## [1.0.32] - 2019-10-10
 ### Changed
 * Improved the Ui for digitool imports
