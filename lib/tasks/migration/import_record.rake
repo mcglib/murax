@@ -60,7 +60,7 @@ namespace :migration do
       errors = 0
       total_items = pids.count
       pids.each_with_index do | pid, index |
-        puts "#{index}/#{total_items}:-  #{Time.now.to_s}: Processing the item  #{item}"
+        puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{index}/#{total_items}  : Processing the item  #{pid}"
         import_log = ImportLog.new({:pid => pid, :date_imported => Time.now, :batch_id => batch_id})
         begin
             import_service = Migration::Services::ImportService.new({:pid => pid, :admin_set => admin_set}, user, logger)
