@@ -5,7 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-## [1.0.35] - 2019-10-15
+## [1.0.34] - 2019-10-15
+### Changed
+* Report objects can now be imported into Samvera collection id faculty-pubs
+* Added support for Presentation work type in Research publications
+* Added support for Papers in Samvera Research publications
+* for thesis it should link to an item in view
+* support for book objects
+* Added a helper method to please the boss and it is working now.
+* Fixing a bug with the email report
+* Fixed a wrong regexp to clean up the urls
+## [1.0.33] - 2019-10-15
 ### Changed
 * Fixed bug with the thesis imports.
 * Updated the code for printing out the log
