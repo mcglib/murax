@@ -16,8 +16,8 @@ namespace :murax do
       exit
     end
 
-    # We assume that nested ordered elements are always stored as hashes with first key always called 'index' which indicates the output order
-    #  and a second key which is the name of the ordered field. Therefore we only store the name of the second key in the hash below 
+    # We assume that nested ordered elements are always stored as hashes with one key always called 'index' (the value is an int specifying output order)
+    #  and a second key which is the name of the ordered field (the value is the value of the ordered field). Therefore we only store the name of the second key in the hash below 
     nested_ordered_elements = { "nested_ordered_creator"=>"creator" }
     ignored_elements = ["head","tail","creator_x"]
 
