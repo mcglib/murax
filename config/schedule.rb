@@ -5,7 +5,7 @@
 
 # Example:
 #
-set :output, "log/whenever.log"
+set :output, "/storage/www/murax/current/log/whenever.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -47,10 +47,9 @@ every :day, at: '1:00am' do
   command "/usr/bin/find /storage/www/tmp -type f -mtime +7 -user dev.library -execdir /bin/rm -- {} \\;"
 end
 
-# Run Fixity checking
-every :day, at: '2:00am' do
+# Run Fixity checking on a weekly basis instead of daily
+every :sunday, at: '3:00am' do
   rake "murax:fixity_check"
-  #Hyrax::RepositoryFixityCheckService.fixity_check_everything"
 end
 
 # Update user stats on a daily basis
