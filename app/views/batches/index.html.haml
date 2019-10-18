@@ -36,8 +36,8 @@
       %tr
         %td= link_to batch.id, batch
         %td= batch.name
-        %td.centered= batch.no
-        %td.centered= batch.no
+        %td.centered= batch.import_log.imported.count
+        %td.centered= batch.import_log.not_imported.count
         %td.centered= batch.no
         %td{}
           = l(batch.created_at, :format => :short)
