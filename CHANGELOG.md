@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.35] - 2019-10-15
+### Changed
+* Export samvera metadata as xml
+* Revert "Export samvera metadata as xml"
+   This reverts commit 402e10a6cdc4e3261c5ccc9d0378e5352ddecb5d.
+* Samvera export metadata as xml task
+* Samvera export metadata as xml task - tidy up stray comments
+* tidied up comments in metadata export rake task
+* Updated the time that fixity checks are run
+* dc:source wasn't being imported for papers
+* Added a view log modal window to the import logs
+* Added the import log view and the log error modal
+* Minor UI tweaks to the import logs
 ## [1.0.34] - 2019-10-15
 ### Changed
 * Report objects can now be imported into Samvera collection id faculty-pubs
