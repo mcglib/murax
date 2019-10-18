@@ -24,7 +24,7 @@
   %thead.thead-dark
     %tr
       %th{"data-field": "imported", "data-sortable": "false"} Select
-      %th{"data-field": "imported", "data-sortable": "true"}
+      %th{"data-field": "imported", "data-sortable": "true"} State
       %th{"data-field": "pid", "data-sortable": "true"} PID
       %th{"data-field": "work_id", "data-sortable": "true"} Work ID
       %th{"data-field": "title", "data-sortable": "true"} Title
@@ -50,11 +50,22 @@
         %td{}
           = l(import_log.updated_at, :format => :long)
         %td
-          %button.btn.btn-info.btn-sm{"data-target" => "##{import_log.pid}-Modal", "data-toggle" => "modal", "data-whatever" => "#{import_log.pid}", :type => "button"} Digitool XML
-          %button.btn.btn-info.btn-sm{:type => "button"} View log
-          = link_to "View log", batch_import_log_path(import_log.id) if import_log.id.present?
-        %div.raw-xml-modal{"role": "dialog", "id": "log-#{import_log.id}"}
-          = render partial: "import_logs/xml_modal", locals: {xml: import_log.raw_xml, pid: import_log.pid}
+          - if import_log.raw_xml?
+            %button.btn.btn-info.btn-sm{"data-target" => "#xmllog-#{import_log.pid}-Modal", "data-toggle" => "modal", "data-pid" => "#{import_log.pid}", :type => "button"} Digitool XML
+          - if !import_log.imported?
+            %button.btn.btn-info.btn-sm{"data-target" => "#errorlog-#{import_log.pid}-Modal", "data-toggle" => "modal", "data-pid" => "#{import_log.pid}", :type => "button"} Errors
+          - if import_log.id.present?
+            %button.btn.btn-info.btn-sm{"data-target" => "#importlog-#{import_log.pid}-Modal", "data-toggle" => "modal", "data-pid" => "#{import_log.pid}", :type => "button"} View log
+            = link_to "View log", batch_import_log_path(import_log.batch, import_log.id)
+        - if import_log.imported?
+          %div.xmllog-modal{"role": "dialog", "id": "xmllog-#{import_log.id}"}
+            = render partial: "import_logs/xml_modal", locals: {xml: import_log.raw_xml, pid: import_log.pid}
+        - if !import_log.imported?
+          %div.errorlog-modal{"role": "dialog", "id": "errorlog-#{import_log.id}"}
+            = render partial: "import_logs/log_error_modal", locals: {errors: import_log.error, pid: import_log.pid}
+        - if import_log.pid.present?
+          %div.importlog-modal{"role": "dialog", "id": "importlog-#{import_log.id}"}
+            = render partial: "import_logs/import_log_modal", locals: {import_log: import_log, pid: import_log.pid}
 
 - content_for(:javascript) do
   :javascript
