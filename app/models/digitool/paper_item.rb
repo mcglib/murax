@@ -138,9 +138,9 @@ class Digitool::PaperItem < DigitoolItem
       end
 
       # get the source
-      work_attributes['report_number'] =[]
+      work_attributes['source'] =[]
       xml.xpath("/record/source").each do |term|
-        work_attributes['report_number'] << term.text if term.text.present?
+        work_attributes['source'] << term.text if term.text.present?
       end
       
       # get the localtechinicalreportnumber
