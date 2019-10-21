@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.36] - 2019-10-21
+### Changed
+* stop capturing faculty and dept info for books
+* Don't include 'McGill University' as a publisher for Papers (Presentations and Books already exclude McGill)
 ## [1.0.35] - 2019-10-15
 ### Changed
 * Export samvera metadata as xml
