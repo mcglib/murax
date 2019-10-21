@@ -204,10 +204,12 @@ class Digitool::PaperItem < DigitoolItem
         work_attributes['faculty'] << term.text if term.text.present?
       end
 
-      # get the publisher
+      # get the publisher - do not include McGill as a publisher
       work_attributes['publisher'] = []
       xml.xpath("/record/publisher").each do |term|
-        work_attributes['publisher'] << term.text if term.text.present?
+        if (!term.text.downcase.include? 'mcgill')
+           work_attributes['publisher'] << term.text if term.text.present?
+        end
       end
 
       # get the degree
