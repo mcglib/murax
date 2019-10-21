@@ -194,18 +194,19 @@ class Digitool::BookItem < DigitoolItem
       #available_note = xml.xpath("/record/available").text
       #work_attributes['note'] << available_note if available_note.present?
 
+      ### We don't want faculty info for Books, even if it's available in DigiTool
       ## get the faculty
-      work_attributes['faculty'] = []
-        xml.xpath("/record/localfacultycode").each do |term|
-        work_attributes['faculty'] << term.text if term.text.present?
-      end
+      #work_attributes['faculty'] = []
+      #  xml.xpath("/record/localfacultycode").each do |term|
+      #  work_attributes['faculty'] << term.text if term.text.present?
+      #end
 
-
+      ### We don't want department info for Books, even if it's available in DigiTool
       ## get the department
-      work_attributes['department'] =[]
-      xml.xpath("/record/localdepartmentcode").each do |term|
-        work_attributes['department'] << term.text if term.text.present?
-      end
+      #work_attributes['department'] =[]
+      #xml.xpath("/record/localdepartmentcode").each do |term|
+      #  work_attributes['department'] << term.text if term.text.present?
+      #end
       ## get the department from the discipline field
       #xml.xpath("/record/localthesisdegreediscipline").each do |term|
       #  work_attributes['department'] << term.text if term.text.present?
