@@ -38,6 +38,13 @@ module Murax
       super
     end
 
+    def destroy
+      deleted_work_type = curation_concern_type
+      deleted_work_id = curation_concern.id 
+      super
+      WorkDeleteMailer.with(user: current_user.username, deleted_work_title: title, deleted_work_id: deleted_work_id, deleted_work_type: deleted_work_type).work_delete_email.deliver_now  
+    end
+
     private
 
 
