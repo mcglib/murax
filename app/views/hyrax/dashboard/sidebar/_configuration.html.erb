@@ -1,0 +1,52 @@
+  <% if menu.show_configuration? %>
+    <li class="h5"><%= t('hyrax.admin.sidebar.configuration') %></li>
+    <li class="sidebar-item">
+      <%= menu.collapsable_section t('hyrax.admin.sidebar.settings'),
+                                   icon_class: "fa fa-cog",
+                                   id: 'collapseSettings',
+                                   open: menu.settings_section? do %>
+        <% if can?(:update, :appearance) %>
+          <%= menu.nav_link(hyrax.admin_appearance_path) do %>
+            <span class="fa fa-paint-brush" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.appearance') %></span>
+          <% end %>
+        <% end %>
+        <% if can?(:manage, :collection_types) %>
+          <%= menu.nav_link(hyrax.admin_collection_types_path) do %>
+            <span class="fa fa-folder-open" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.collection_types') %></span>
+          <% end %>
+        <% end %>
+        <% if can?(:manage, Hyrax::Feature) %>
+          <%= menu.nav_link(hyrax.edit_pages_path) do %>
+            <span class="fa fa-file-text-o" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.pages') %></span>
+          <% end %>
+          <%= menu.nav_link(hyrax.edit_content_blocks_path) do %>
+            <span class="fa fa-square-o" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.content_blocks') %></span>
+          <% end %>
+          <%= menu.nav_link(hyrax.admin_features_path) do %>
+            <span class="fa fa-wrench" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.technical') %></span>
+          <% end %>
+        <% end %>
+      <% end %>
+    </li>
+    <li class="sidebar-item">
+        <a href=""><span class="fa fa-users" aria-hidden="true"></span><span class="sidebar-action-text">Users</span></a>
+    </li>
+    <!-- Sidebar imports  menu-->
+    <li class="treeview menu-open" style="height: auto;">
+        <a role="button" href="#" class="collapsed collapse-toggle" data-toggle="collapse" ><i class="fa fa-code"></i> <span>Data imports</span>
+        </a>
+        <ul class="treeview-menu" style="display: block;">
+            <li>
+                <a href="/admin/digitool-imports/batches"><i class="fa fa-circle-o"></i>Digitool Batches</a>
+            </li>
+            <li>
+                <a href="<%= hyrax.admin_batches_path %>"><i class="fa fa-circle-o"></i>Import Digitool Pids</a>
+            </li>
+        </ul>
+    </li>
+    <% if can?(:manage, Sipity::WorkflowResponsibility) %>
+      <%= menu.nav_link(hyrax.admin_workflow_roles_path) do %>
+        <span class="fa fa-users" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.workflow_roles') %></span>
+      <% end %>
+    <% end # end of configuration block %>
+  <% end %>
