@@ -34,7 +34,7 @@
       - mins  = (time_taken / 60) % 60
       - hours = time_taken / (60 * 60)
       %tr
-        %td= link_to batch.id, batch
+        %td= link_to batch.id, admin_batch_path(batch)
         %td= batch.name
         %td.centered= batch.import_log.imported.count
         %td.centered= batch.import_log.not_imported.count
@@ -44,12 +44,12 @@
         %td{}
           = distance_of_time_in_words(time_taken)
         %td
-          %span= link_to 'Edit', edit_batch_path(batch)
-          %span= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' }
+          %span= link_to 'Edit', edit_admin_batch_path(batch)
+          %span= link_to 'Destroy', admin_batch_path(batch), method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Batch', new_batch_path
+= link_to 'New Batch', new_admin_batch_path
 
 - content_for(:javascript) do
   :javascript

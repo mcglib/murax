@@ -18,6 +18,8 @@ module Hyrax
         @import_logs = @batch.import_log
       end
 
+      def import
+      end
       # GET /batches/new
       def new
         @batch = Batch.new
