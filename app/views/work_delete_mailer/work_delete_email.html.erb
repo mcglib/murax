@@ -48,7 +48,7 @@
                     <td align="left" valign="top">
                           <p>
                             This is to inform you that below work has been deleted by <%= @user %> from the  
-                            <%= link_to "repository", root_url(:only_path => true), :target => "_blank" %>.
+                            <%= link_to "repository", root_url(:only_path => false, :host => "#{ENV['RAILS_HOST']}"), :target => "_blank" %>.
                           </p>
                     </td>
                   </tr>
