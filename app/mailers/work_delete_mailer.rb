@@ -6,8 +6,8 @@ class WorkDeleteMailer < ApplicationMailer
     @user = params[:user]
     @deleted_work_title = params[:deleted_work_title]
     @deleted_work_id = params[:deleted_work_id]
-    mail(to: 'awais.khalid@mcgill.ca',
-      subject: "#{ENV['RAILS_HOST']} - A work has been deleted"
+    mail(to: ENV['CONTACT_US_EMAIL'],
+      subject: "A work has been deleted in  #{ENV['RAILS_HOST']}"
     )
   end
 
