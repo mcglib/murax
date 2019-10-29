@@ -1,2 +1,22 @@
-Hi <%= @user.name %>
-Sample mail sent using smtp.
+Hello eScholarship@McGill,
+
+This is to inform you that below file/s have been deleted by <%= @user %> from the  
+<%= link_to "repository", root_url(:only_path => false, :host => "#{ENV['RAILS_HOST']}"), :target => "_blank" %>.
+
+Work Title: <%= @deleted_files_work_title %>
+File belonged to this work
+   		      
+Deleted ID: <%= @deleted_files_work_id  %>
+ID of the work file belonged to.
+		      
+Deleted File: <%= @deleted_files  %>
+Name of the deleted file.
+		    
+Deleted File ID: <%= @deleted_file_id  %>
+ID of the deleted file. 
+
+If you have any questions, please email <%= ENV['CONTACT_US_EMAIL'] %>.
+
+Thank you,
+
+eScholarship@McGill
