@@ -56,7 +56,7 @@ en:
             rights_notes: Contains information about rights held in and over the resource.
             subject: Please enter subjects (LCSH/MESH) or keywords as available.
             title: Enter title as listed on front matter. Capitalise the first non-article only.
-            date: Enter as YYYY-MM-DD. Where no full date available enter YYYY. In cases of approximate decade use ? (e.g. 198?). 
+            date: Enter as YYYY-MM-DD. Where no full date available enter XXXX. In cases of approximate decade use ? (e.g. 198?). 
             faculty: Enter as full name (e.g. Faculty of Arts)
             department: Enter what is listed on the item.
             bibliographic_citation: Use citation obtained from publisher website.
