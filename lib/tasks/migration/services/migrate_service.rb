@@ -102,7 +102,7 @@ module Migration
           log.error "The work #{pid} does not have a main file set." if fileset.nil?
 
           # We set the fileset as the representative media
-          new_work.representative_id = fileset.id if !fileset.present?
+          new_work.representative_id = fileset.id if fileset.present?
 
           # now we fetch the related pid files
           if item.has_related_pids?
