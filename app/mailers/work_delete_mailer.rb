@@ -5,6 +5,8 @@ class WorkDeleteMailer < ApplicationMailer
   # An email that goes out when a work is deleted in the repository. 
   def work_delete_email
     @user = params[:user]
+    @deleted_files = params[:deleted_files]
+    @deleted_file_ids = params[:deleted_file_ids]
     @deleted_work_title = params[:deleted_work_title]
     @deleted_work_id = params[:deleted_work_id]
     mail(to: ENV['CONTACT_US_EMAIL'],

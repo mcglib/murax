@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'byebug'
 module Murax
   # works controller behavior
   module WorksControllerBehavior
@@ -37,12 +37,15 @@ module Murax
       #set_other_option_values
       super
     end
+  
     
     def destroy
       title = curation_concern.to_s
       deleted_work_id = curation_concern.id
+      deleted_files = curation_concern.ordered_file_sets.each do |file| puts file.to_s end
+      deleted_file_ids = curation_concern.ordered_file_set_ids.each do |id| puts id.to_s end
       super
-      WorkDeleteMailer.with(user: current_user, deleted_work_title: title, deleted_work_id: deleted_work_id).work_delete_email.deliver_now
+      WorkDeleteMailer.with(user: current_user, deleted_work_title: title, deleted_work_id: deleted_work_id, deleted_files: deleted_files, deleted_file_ids: deleted_file_ids).work_delete_email.deliver_now
     end
 
     private
