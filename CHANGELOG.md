@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.36.2] - 2019-10-30
+### Changed
+* Fixing logic checking if fileset is present
+## [1.0.36.1] - 2019-10-30
+### Changed
+* Fixed bug when the main fileset is empty for suppressed pids.
 ## [1.0.36] - 2019-10-21
 ### Changed
 * stop capturing faculty and dept info for books
