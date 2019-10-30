@@ -99,10 +99,10 @@ module Migration
           # We add the main file to the work
           fileset = add_main_file(item.pid, work_attributes, new_work)
           puts "The work #{pid} does not have a main file set.Check for errors"  if fileset.nil?
-          log.warning "The work #{pid} does not have a main file set." if fileset.nil?
+          log.error "The work #{pid} does not have a main file set." if fileset.nil?
 
           # We set the fileset as the representative media
-          new_work.representative_id = fileset.id if fileset.id.present?
+          new_work.representative_id = fileset.id if !fileset.present?
 
           # now we fetch the related pid files
           if item.has_related_pids?
