@@ -18,7 +18,7 @@ class WorkDeleteMailer < ApplicationMailer
     @user = params[:user]
     @deleted_files_work_title = params[:deleted_files_work_title]
     @deleted_files_work_id = params[:deleted_files_work_id]
-    @deleted_files = params[:deleted_file_name]
+    @deleted_file_name = params[:deleted_file_name]
     @deleted_file_id = params[:deleted_file_id]
     mail(to: ENV['CONTACT_US_EMAIL'],
       subject: "A file has been deleted in  #{ENV['RAILS_HOST']}"
