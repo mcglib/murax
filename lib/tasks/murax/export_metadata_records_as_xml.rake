@@ -2,7 +2,6 @@ require 'active_record'
 require 'optparse'
 require 'uri'
 require 'htmlentities'
-require 'byebug'
 
 namespace :murax do
   desc 'Export one or more metadata records as xml'
@@ -20,9 +19,8 @@ namespace :murax do
       puts "Expecting three arguments; found #{args.count}."
       exit
     end
-    stylesheet = "#{Rails.root}/lib/tasks/murax/#{transforms[xsl_ss]}"
+    stylesheet = "#{Rails.root}/lib/tasks/murax/assets/#{transforms[xsl_ss]}"
     
-
     # We assume that nested ordered elements are always stored as hashes with one key always called 'index' (the value is an int specifying output order)
     #  and a second key which is the name of the ordered field (the value is the value of the ordered field). Therefore we only store the name of the second key in the hash below 
     nested_ordered_elements = { "nested_ordered_creator"=>"creator" }
