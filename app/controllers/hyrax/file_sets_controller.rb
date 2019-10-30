@@ -49,10 +49,10 @@ module Hyrax
       parent = curation_concern.parent
       parent_id = parent.id
       deleted_file_id = curation_concern.id
-      deleted_file_name = curation_concern 
+      deleted_file_name = curation_concern.to_s 
       actor.destroy
-      WorkDeleteMailer.with(user: current_user, deleted_files_work_title: parent, deleted_files_work_id: parent_id, deleted_files: deleted_file_name, deleted_file_id: deleted_file_id).file_delete_email.deliver_now
-      redirect_to [main_app, parent], notice: "The file has been deleted. #{deleted_file_name} "
+      WorkDeleteMailer.with(user: current_user, deleted_files_work_title: parent, deleted_files_work_id: parent_id, deleted_file_name: deleted_file_name, deleted_file_id: deleted_file_id).file_delete_email.deliver_now
+      redirect_to [main_app, parent], notice: "The file has been deleted. #{curation_concern} "
     end
 
     # PATCH /concern/file_sets/:id
