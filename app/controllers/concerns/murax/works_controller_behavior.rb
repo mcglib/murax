@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'byebug'
 module Murax
   # works controller behavior
   module WorksControllerBehavior
@@ -37,7 +37,7 @@ module Murax
       #set_other_option_values
       super
     end
-    
+
     def destroy
       title = curation_concern.to_s
       deleted_work_id = curation_concern.id

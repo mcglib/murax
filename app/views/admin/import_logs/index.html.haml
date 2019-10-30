@@ -1,0 +1,10 @@
+%h1 Digitool import logs for batch no: #{@import_logs.first.batch_id} imported #{l(@batch.updated_at, :format => :short)}.
+
+#toolbar.select
+  %select.form-control
+    %option{:value => ""} Export Basic
+    %option{:value => "all"} Export All
+    %option{:value => "selected"} Export Selected
+= render "table"
+%br
+
