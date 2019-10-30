@@ -33,7 +33,7 @@ class DigitoolItem
 
     # set item status
     set_item_status
-    
+
     # fetch related pids
     set_related_pids
 
