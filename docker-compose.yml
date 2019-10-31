@@ -7,6 +7,16 @@ networks:
     appnetwork:
       driver: bridge
 services:
+  mail:
+    image: bytemark/smtp
+    restart: always
+    environment:
+      RELAY_HOST: mailhost.mcgill.ca
+      RELAY_PORT: 25
+    networks:
+      appnetwork:
+        aliases:
+            - mail.docker.local
   postgres:
     container_name: postgres
     build:
