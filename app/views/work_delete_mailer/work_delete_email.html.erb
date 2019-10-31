@@ -74,8 +74,12 @@
                     <td align="left" valign="top">
                       <p><b>Work Title:&nbsp;</b> <%= @deleted_work_title %></p>
 		      <p><b>Work ID:&nbsp;</b> <%= @deleted_work_id  %></p>
-                      <p><b>Files associated with this Work:&nbsp;</b> <%= @deleted_files  %></p>
-		      <p><b>File IDs:&nbsp;</b> <%= @deleted_file_ids  %></p>
+                       <% if @deleted_files.blank? %>
+                         <p> This work had no files attached to it. </p>
+                       <% else %> 
+                         <p><b>Files associated with this Work:&nbsp;</b> <%= @deleted_files  %></p>
+		         <p><b>File IDs:&nbsp;</b> <%= @deleted_file_ids  %></p>
+                       <% end %>
                     </td>
                   </tr>
                 </table>

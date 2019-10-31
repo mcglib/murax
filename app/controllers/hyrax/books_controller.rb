@@ -4,7 +4,7 @@ module Hyrax
   # Generated controller for Book
   class BooksController < ApplicationController
     # Adds Hyrax behaviors to the controller.
-    include Hyrax::WorksControllerBehavior
+    include Murax::WorksControllerBehavior
     include Hyrax::BreadcrumbsForWorks
     self.curation_concern_type = ::Book
 
