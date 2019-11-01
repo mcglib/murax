@@ -57,7 +57,7 @@ namespace :import do
       batch.save!
       logger = ActiveSupport::Logger.new("log/gpso-import-batch-#{batch.id}-#{datetime_today}.log")
       logger.info "Task started at #{start_time}"
-
+      byebug
 
       # start processing
       process_import_gpso_theses(batch.id, theses, @depositor, logger)
@@ -101,9 +101,9 @@ namespace :import do
             item = GpsoItem.new()
 
             work_attributes = item.parse(node,user)
-            byebug
 
             new_work = create_thesis_record(work_attributes,user)
+            
             new_work.save!
             new_work.identifier = [item.get_url_identifier(new_work.id)]
  
@@ -124,7 +124,11 @@ namespace :import do
             collectionObj = Collection.find('theses')
             collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
             new_work.member_of_collections << collectionObj
-            new_work.save!
+            begin
+              new_work.save!
+            rescue StandardError => e
+              puts "#{e}: #{e.class.name}"
+            end
 
             logger.info("added #{filename}")
             successes += 1
@@ -160,6 +164,9 @@ namespace :import do
        work_attributes.each do |k,v|
           resource.attributes[k.to_s]=v if resource.has_attribute?(k.to_s)
        end
+       # forcing a title so that I can keep debugging
+       resource.title = work_attributes['title']
+
        resource.visibility = work_attributes['visibility']
        resource.admin_set_id = work_attributes['admin_set_id']
        resource

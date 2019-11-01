@@ -46,10 +46,10 @@ class GpsoItem
       work_attributes['date_uploaded'] = [date_uploaded.to_s]
       work_attributes['date_modified'] = [date_uploaded.to_s]
       
-      work_attributes['nested_ordered_creator'] = []
-      # never more than one creator in a GSPO record
-      work_attributes['nested_ordered_creator'] << { index: '0', "creator".to_sym => thesis_xml.xpath('creator').text.strip } 
-      work_attributes['creator_x'] = work_attributes['nested_ordered_creator']
+      work_attributes['nested_ordered_creator_attributes'] = []
+      # never more than one creator in a GPSO record
+      work_attributes['nested_ordered_creator_attributes'] << { index: '0', "creator".to_sym => thesis_xml.xpath('creator').text.strip } 
+      work_attributes['creator_x'] = work_attributes['nested_ordered_creator_attributes']
 
       work_attributes['contributor'] = []
       thesis_xml.xpath('contributor').each do |term|
@@ -90,10 +90,10 @@ class GpsoItem
 
       work_attributes['extent'] = thesis_xml.xpath('extent').text.strip
 
-      language = []
-      language << thesis_xml.xpath('language').text.strip
-      work_attributes['language'] = get_language_uri(language)
-      work_attributes['language_label'] = LanguagesService.label(language)
+      #language = []
+      #language << thesis_xml.xpath('language').text.strip
+      #work_attributes['language'] = get_language_uri(language)
+      #work_attributes['language_label'] = LanguagesService.label(language)
 
       work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
       work_attributes
