@@ -68,7 +68,7 @@ class GpsoItem
       end
 
       work_attributes['date_accepted'] = []
-      work_attributes['date_accepted'] << thesis_xml.xpath('localdissacceptdate').text.strip
+      work_attributes['date_accepted'] << Date.strptime(thesis_xml.xpath('localdissacceptdate').text.strip,"%m/%d/%Y").strftime("%Y-%m-%d")
 
       work_attributes['rights'] = []
       work_attributes['rights'] << thesis_xml.xpath('rights').text.strip
@@ -86,7 +86,7 @@ class GpsoItem
       work_attributes['department'] << thesis_xml.xpath('localthesisdegreediscipline').text.strip
 
       work_attributes['date'] = []
-      work_attributes['DAte'] << thesis_xml.xpath('date').text.strip
+      work_attributes['date'] << thesis_xml.xpath('date').text.strip
 
       work_attributes['extent'] = thesis_xml.xpath('extent').text.strip
 
