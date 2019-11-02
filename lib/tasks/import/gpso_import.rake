@@ -161,11 +161,30 @@ namespace :import do
        resource = Thesis.new
        resource.depositor = user.id
        resource.save
+
+       # Singularize non-enumerable attributes
        work_attributes.each do |k,v|
-          resource.attributes[k.to_s]=v if resource.has_attribute?(k.to_s)
+         if resource.attributes.keys.member?(k.to_s) && !resource.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
+            work_attributes[k] = v.first
+         else
+            work_attributes[k] = v
+         end
        end
+   
+       # Only keep attributes which apply to the given work type
+       work_attributes.select {|k,v| k.ends_with? '_attributes'}.each do |k,v|
+         if !resource.respond_to?(k.to_s+'=')
+            work_attributes.delete(k.split('s_')[0]+'_display')
+            work_attributes.delete(k)
+         end
+       end
+       resource.attributes = work_attributes.reject{|k,v| !resource.attributes.keys.member?(k.to_s) unless k.ends_with? '_attributes'}
+
+       #work_attributes.each do |k,v|
+       #   resource.attributes[k.to_s]=v if resource.has_attribute?(k.to_s)
+       #end
        # forcing a title so that I can keep debugging
-       resource.title = work_attributes['title']
+       #resource.title = work_attributes['title']
 
        resource.visibility = work_attributes['visibility']
        resource.admin_set_id = work_attributes['admin_set_id']

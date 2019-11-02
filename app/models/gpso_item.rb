@@ -28,7 +28,7 @@ class GpsoItem
       work_attributes = Hash.new
       work_attributes['visibility'] = 'open'
       work_attributes['depositor'] = depositor.id
-      work_attributes['rtype'] = thesis_xml.xpath('type').text.strip
+      work_attributes['rtype'] = [thesis_xml.xpath('type').text.strip]
 
       work_attributes['note'] = []
       work_attributes['note'] << 'ETHESIS'
@@ -47,9 +47,9 @@ class GpsoItem
       work_attributes['date_modified'] = [date_uploaded.to_s]
       
       work_attributes['nested_ordered_creator_attributes'] = []
-      # never more than one creator in a GPSO record
-      work_attributes['nested_ordered_creator_attributes'] << { index: '0', "creator".to_sym => thesis_xml.xpath('creator').text.strip } 
-      work_attributes['creator_x'] = work_attributes['nested_ordered_creator_attributes']
+      thesis_xml.xpath('creator').each_with_index do |term,index|
+         work_attributes['nested_ordered_creator_attributes'] << process_ordered_field("creator", term.text.strip, index) unless term.text.nil? 
+      end
 
       work_attributes['contributor'] = []
       thesis_xml.xpath('contributor').each do |term|
@@ -97,6 +97,14 @@ class GpsoItem
 
       work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
       work_attributes
+  end
+
+  def ordered_properties
+    %w[title creator abstract contributor additional_information]
+  end
+
+  def process_ordered_field(property,value, index)
+    return { index: index.to_s, property.to_s.to_sym => value }
   end
 
   def get_url_identifier(work_id)
