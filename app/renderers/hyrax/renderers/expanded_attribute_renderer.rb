@@ -11,9 +11,9 @@ module Hyrax
         Array(values).each do |value|
 	  markup << '<div class="panel panel-default">'
           markup << '<div class="panel-heading">'
-          markup << '<h6>'
+          markup << '<h5>'
           markup << "#{return_lang_label(value)}"
-	  markup << '</h6></div><div class="panel-body">'
+	  markup << '</h5></div><div class="panel-body">'
           markup << "<li#{html_attributes(attributes)}>"
           markup << "#{attribute_value_to_html(value.to_s)}</li></div></div>"
         end
@@ -30,7 +30,8 @@ module Hyrax
 	return languages
       end 
 
-      def return_lang_label(value) 
+      def return_lang_label(value)
+	abs = nil 
         languages = lang_arr
         lang_label = value.last(3)
         languages.map do |lang|
