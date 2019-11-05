@@ -7,11 +7,11 @@ module Import
         @work_attributes = work_attributes
         @user = user
         @item = item
-        @work_type = work_type
+        @work_type = work_type.constantize
      end
 
       def create_a_work_record
-         @resource = @work_type.constantize.new
+         @resource = @work_type.new
          @resource.depositor = @user.id
          @resource.save
 
