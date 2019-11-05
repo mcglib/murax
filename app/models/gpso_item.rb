@@ -3,7 +3,6 @@ require 'uri'
 require 'json'
 require 'nokogiri'
 require 'open-uri'
-require 'byebug'
 
 class GpsoItem
   include ActiveModel::Model
