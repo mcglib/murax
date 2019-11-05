@@ -93,7 +93,7 @@ class GpsoItem
       language = []
       language << thesis_xml.xpath('language').text.strip
       work_attributes['language'] = get_language_uri(language)
-      work_attributes['language_label'] = LanguagesService.label(language)
+      work_attributes['language_label'] = work_attributes['language'].map{|l| LanguagesService.label(l) } if !language.blank?
 
       work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
       work_attributes
