@@ -3,14 +3,15 @@ module Import
     
     attr_accessor :resource, :item
     class ImportService
-     def initialize(user,item,work_attributes)
+     def initialize(user,item,work_attributes,work_type)
         @work_attributes = work_attributes
         @user = user
         @item = item
+        @work_type = work_type
      end
 
-      def create_thesis_record # see lib/tasks/migration/services/migrate_service.rb work_record()
-         @resource = Thesis.new
+      def create_a_work_record
+         @resource = @work_type.constantize.new
          @resource.depositor = @user.id
          @resource.save
 
@@ -37,7 +38,7 @@ module Import
         @resource
       end
 
-      def add_files(base_file_path)
+      def create_a_file_record
          file_set = FileSet.new
          file_attributes = Hash.new
          # Singularize non-enumerable attributes
@@ -52,18 +53,10 @@ module Import
           end
           file_attributes[:date_created] = @work_attributes['date_created']
 
-          #create directory in tmp_file_location for the files belonging to this thesis
-          FileUtils.mkpath("#{base_file_path}/#{@resource.id}")
-
-          add_a_file_set(file_attributes,@item.get_thesis_filename,base_file_path) if !@item.get_thesis_filename.nil?
-          add_a_file_set(file_attributes,@item.get_waiver_filename,base_file_path) if !@item.get_waiver_filename.nil?
-          add_a_file_set(file_attributes,@item.get_multimedia_filename,base_file_path) if !@item.get_multimedia_filename.nil?
- 
-          # delete the files in tmp_file_location
-          FileUtils.rm_rf("#{base_file_path}/#{@resource.id}")
+          file_attributes
       end
 
-      def add_a_file_set(file_attributes,file_name,base_file_path)
+      def add_a_thesis_file_set(file_attributes,file_name,base_file_path)
           if !file_name.nil?
             file_set = nil
             case file_name

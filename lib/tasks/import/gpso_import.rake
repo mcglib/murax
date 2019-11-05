@@ -95,7 +95,7 @@ namespace :import do
             thesis_attributes = gpso_thesis.parse(node,user)
 
             import_service = Import::Services::ImportService.new(user,gpso_thesis,thesis_attributes)
-            new_thesis = import_service.create_thesis_record
+            new_thesis = import_service.create_a_work_record
            
             new_thesis.save!
             new_thesis.identifier = [gpso_thesis.get_url_identifier(new_thesis.id)]
@@ -110,8 +110,19 @@ namespace :import do
                                      workflow_state: workflow_state.first)
             end
 
-            #create file sets
-            import_service.add_files(@tmp_file_location)
+
+	    #create directory in tmp_file_location for the files belonging to this thesis
+	    FileUtils.mkpath("#{@tmp_file_location}/#{@resource.id}")
+	  
+            #files
+            file_attributes = import_service.create_a_file_record(@tmp_file_location)
+
+            add_a_thesis_file_set(file_attributes,@item.get_thesis_filename,@tmp_file_location) if !@item.get_thesis_filename.nil?
+            add_a_thesis_file_set(file_attributes,@item.get_waiver_filename,@tmp_file_location) if !@item.get_waiver_filename.nil?
+            add_a_thesis_file_set(file_attributes,@item.get_multimedia_filename,@tmp_file_location) if !@item.get_multimedia_filename.nil?
+
+            # delete the files in tmp_file_location
+            FileUtils.rm_rf("#{@tmp_file_location}/#{@resource.id}")
 
             #add to collection
             collectionObj = Collection.find('theses')
