@@ -90,10 +90,10 @@ class GpsoItem
 
       work_attributes['extent'] = thesis_xml.xpath('extent').text.strip
 
-      #language = []
-      #language << thesis_xml.xpath('language').text.strip
-      #work_attributes['language'] = get_language_uri(language)
-      #work_attributes['language_label'] = LanguagesService.label(language)
+      language = []
+      language << thesis_xml.xpath('language').text.strip
+      work_attributes['language'] = get_language_uri(language)
+      work_attributes['language_label'] = LanguagesService.label(language)
 
       work_attributes['admin_set_id'] = AdminSet.where(title: admin_set).first || AdminSet.where(title: env_default_admin_set).first.id
       work_attributes

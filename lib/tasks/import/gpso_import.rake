@@ -26,6 +26,7 @@ namespace :import do
       datetime_today = Time.now.strftime('%Y%m%d%H%M%S') # "20171021125903"
       user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
       @depositor = User.where(email: user_email).first
+      @tmp_file_location = '/storage/www/uploads/import/files'
       admin_set = ENV['DEFAULT_ADMIN_SET'].tr('"', '')
       if AdminSet.where(title: admin_set).count == 0
          puts "No admin set found. Please create one"
@@ -57,7 +58,6 @@ namespace :import do
       batch.save!
       logger = ActiveSupport::Logger.new("log/gpso-import-batch-#{batch.id}-#{datetime_today}.log")
       logger.info "Task started at #{start_time}"
-      byebug
 
       # start processing
       process_import_gpso_theses(batch.id, theses, @depositor, logger)
@@ -97,7 +97,7 @@ namespace :import do
           import_log = ImportLog.new({:pid => filename, :date_imported => Time.now, :batch_id => batch_id})
           begin
             # fetch a thesis record from xml and transform to thesis work type
-            
+             
             item = GpsoItem.new()
 
             work_attributes = item.parse(node,user)
@@ -117,8 +117,8 @@ namespace :import do
                                      workflow_state: workflow_state.first)
             end
 
-            #create file set
-            create_fileset(work_attributes,new_work,item)
+            #create file sets
+            add_files(work_attributes,new_work,item,user)
 
             #add to collection
             collectionObj = Collection.find('theses')
@@ -153,8 +153,66 @@ namespace :import do
       ImportMailer.import_email(user,batch).deliver
     end
 
-    def create_fileset(work_attributes,new_work,item)
-         # TODO
+    def add_files(work_attributes,new_work,item,user)
+         file_set = FileSet.new
+         file_attributes = Hash.new
+          # Singularize non-enumerable attributes
+          work_attributes.each do |k,v|
+            if file_set.attributes.keys.member?(k.to_s)
+              if !file_set.attributes[k.to_s].respond_to?(:each) && work_attributes[k].respond_to?(:each)
+                file_attributes[k] = v.first
+              else
+                file_attributes[k] = v
+              end
+            end
+          end
+          file_attributes[:date_created] = work_attributes['date_created']
+
+          #create directory in tmp_file_location for the files belonging to this thesis
+          FileUtils.mkpath("#{@tmp_file_location}/#{new_work.id}")
+
+          add_a_file_set(file_attributes,new_work,item.get_thesis_filename,user) if !item.get_thesis_filename.nil?
+          add_a_file_set(file_attributes,new_work,item.get_waiver_filename,user) if !item.get_waiver_filename.nil?
+          add_a_file_set(file_attributes,new_work,item.get_multimedia_filename,user) if !item.get_multimedia_filename.nil?
+ 
+          # delete the files in tmp_file_location
+          FileUtils.rm_rf("#{@tmp_file_location}/#{new_work.id}")
+    end
+
+    def add_a_file_set(file_attributes,new_work,file_name,user)
+          if !file_name.nil?
+            file_set = nil
+            case file_name
+               when /CERTIFICATE/
+                 file_attributes['visibility'] = 'restricted'
+                 new_title = new_work.attributes['title'].first+" - license"
+                 file_attributes['title'][0] = new_title
+               when /MULTIMEDIA/
+                 file_attributes['visibility'] = 'open'
+                 new_title = new_work.attributes['title'][0] + " - supplement"
+                 file_attributes['title'][0] = new_title
+               else
+                 file_attributes['visibility'] = 'open'
+            end
+            file_part_of_name = file_name.split('/').last
+            file_attributes['label']=file_part_of_name
+            retry_op('creating fileset') do
+              file_set = FileSet.create(file_attributes)
+            end
+            actor = Hyrax::Actors::FileSetActor.new(file_set,user)
+            actor.create_metadata(file_attributes)
+            
+            #fetch the file
+            uploaded_file = "#{@tmp_file_location}/#{new_work.id}/#{file_part_of_name}"
+            bitstream = open(file_name)
+            IO.copy_stream(bitstream,uploaded_file)
+            retry_op('reading file') do
+              actor.create_content(Hyrax::UploadedFile.create(file: File.open(uploaded_file), user: user))
+            end
+            retry_op('attaching file to thesis') do
+              actor.attach_to_work(new_work,file_attributes)
+            end
+          end
     end
 
     def create_thesis_record(work_attributes,user) # see lib/tasks/migration/services/migrate_service.rb work_record()
@@ -179,12 +237,6 @@ namespace :import do
          end
        end
        resource.attributes = work_attributes.reject{|k,v| !resource.attributes.keys.member?(k.to_s) unless k.ends_with? '_attributes'}
-
-       #work_attributes.each do |k,v|
-       #   resource.attributes[k.to_s]=v if resource.has_attribute?(k.to_s)
-       #end
-       # forcing a title so that I can keep debugging
-       #resource.title = work_attributes['title']
 
        resource.visibility = work_attributes['visibility']
        resource.admin_set_id = work_attributes['admin_set_id']
