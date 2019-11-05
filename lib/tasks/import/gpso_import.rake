@@ -1,16 +1,8 @@
 namespace :import do
     require 'fileutils'
     require 'htmlentities'
-    require 'csv'
-    require 'yaml'
-    # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
     require 'tasks/import/import_logging'
-    #require 'tasks/migration/migration_constants'
-    #require "tasks/migration/services/migrate_service"
-    #require 'tasks/migration/services/metadata_parser'
-    #require 'tasks/migration/services/import_service'
-    #require 'tasks/migration_helper'
-    require 'byebug'
+    require 'tasks/import/services/import_service'
 
     desc 'Import theses and related items from GPSO. This rake task expects to find the xml file in the tmp directory. Eg: bundle exec rake import:gpso_import["xml_file.xml"]'
     task :gpso_import, [:xml_file] => :environment do |t, args|
@@ -82,8 +74,8 @@ namespace :import do
       amount_to_import = theses.root.children.count
       require "#{Rails.root}/app/services/find_or_create_collection" # <-- HERE!
 
-      logger.info "Starting to import #{amount_to_import} items."
-      puts "Starting to import #{amount_to_import} items."
+      logger.info "Starting to import #{amount_to_import} theses."
+      puts "Starting to import #{amount_to_import} theses."
 
       successes = 0
       errors = 0
@@ -98,34 +90,35 @@ namespace :import do
           begin
             # fetch a thesis record from xml and transform to thesis work type
              
-            item = GpsoItem.new()
+            gpso_thesis = GpsoItem.new()
 
-            work_attributes = item.parse(node,user)
+            thesis_attributes = gpso_thesis.parse(node,user)
 
-            new_work = create_thesis_record(work_attributes,user)
-            
-            new_work.save!
-            new_work.identifier = [item.get_url_identifier(new_work.id)]
+            import_service = Import::Services::ImportService.new(user,gpso_thesis,thesis_attributes)
+            new_thesis = import_service.create_thesis_record
+           
+            new_thesis.save!
+            new_thesis.identifier = [gpso_thesis.get_url_identifier(new_thesis.id)]
  
             #create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)
-                         .where(permission_templates: { source_id: new_work.admin_set_id}, active: true)
+                         .where(permission_templates: { source_id: new_thesis.admin_set_id}, active: true)
             workflow_state = Sipity::WorkflowState.where(workflow_id: workflow.first.id, name: 'deposited')
             retry_op('creating sipity entry for thesis') do
-              Sipity::Entity.create!(proxy_for_global_id: new_work.to_global_id.to_s,
+              Sipity::Entity.create!(proxy_for_global_id: new_thesis.to_global_id.to_s,
                                      workflow: workflow.first,
                                      workflow_state: workflow_state.first)
             end
 
             #create file sets
-            add_files(work_attributes,new_work,item,user)
+            import_service.add_files(@tmp_file_location)
 
             #add to collection
             collectionObj = Collection.find('theses')
             collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
-            new_work.member_of_collections << collectionObj
+            new_thesis.member_of_collections << collectionObj
             begin
-              new_work.save!
+              new_thesis.save!
             rescue StandardError => e
               puts "#{e}: #{e.class.name}"
             end
@@ -153,6 +146,7 @@ namespace :import do
       ImportMailer.import_email(user,batch).deliver
     end
 
+=begin
     def add_files(work_attributes,new_work,item,user)
          file_set = FileSet.new
          file_attributes = Hash.new
@@ -242,6 +236,7 @@ namespace :import do
        resource.admin_set_id = work_attributes['admin_set_id']
        resource
     end
+=end
 
     private
 
@@ -258,5 +253,6 @@ namespace :import do
         abort("[#{Time.now}] could not recover; aborting operation")
       end
     end
+
 
 end
