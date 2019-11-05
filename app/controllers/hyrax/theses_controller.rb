@@ -4,7 +4,7 @@ module Hyrax
   # Generated controller for Thesis
   class ThesesController < ApplicationController
     # Adds Hyrax behaviors to the controller.
-    include Hyrax::WorksControllerBehavior
+    include Murax::WorksControllerBehavior
     include Hyrax::BreadcrumbsForWorks
     self.curation_concern_type = ::Thesis
 
