@@ -19,28 +19,26 @@ module Admin
 
     # GET /batches/import
     def import
-      @batch = Batch.new
+      @form = Murax::ImportPidForm.new
+      @users = User.all
     end
 
     # POST /batches/ingest
     def ingest
-      @batch = Batch.new(batch_params)
-
-      # start ingesting
-      migrate_service = MigrateServices(pid)
-
+      @form = Murax::ImportPidForm.new(import_pid_form_params)
+      respond_to do |format|
+        if @form.submit
+            format.html { redirect_to root_path, notice: 'Thank you for importing,
+                          a job has been created and you will be notified on completion' }
+            format.json { render :import, status: :created, location: @form }
+        else
+          format.html { render :import }
+          format.json { render json: @form.errors, status: :unprocessable_entity }
+        end
+      end
       #
       # end ingesting
       # validate the form
-      respond_to do |format|
-        if @batch.save
-          format.html { redirect_to @batch, notice: 'Batch was successfully created.' }
-          format.json { render :show, status: :created, location: @batch }
-        else
-          format.html { render :new }
-          format.json { render json: @batch.errors, status: :unprocessable_entity }
-        end
-      end
     end
 
     
@@ -105,6 +103,11 @@ module Admin
       def batch_params
         params.fetch(:batch, {})
       end
+
+      def import_pid_form_params
+        params.require(:murax_import_pid_form).permit(:name, :user, :pid)
+      end
+
       def require_permissions
         authorize! :read, :admin_dashboard
       end
