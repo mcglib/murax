@@ -7,9 +7,7 @@ module Admin
     # GET /batches
     # GET /batches.json
     def index
-      byebug
       @batches = Batch.all
-
       add_breadcrumb t(:'hyrax.controls.home'), root_path
     end
 
@@ -19,8 +17,35 @@ module Admin
       @import_logs = @batch.import_log
     end
 
+    # GET /batches/import
     def import
+      @batch = Batch.new
     end
+
+    # POST /batches/ingest
+    def ingest
+      @batch = Batch.new(batch_params)
+
+      # start ingesting
+      migrate_service = MigrateServices(pid)
+
+      #
+      # end ingesting
+      # validate the form
+      respond_to do |format|
+        if @batch.save
+          format.html { redirect_to @batch, notice: 'Batch was successfully created.' }
+          format.json { render :show, status: :created, location: @batch }
+        else
+          format.html { render :new }
+          format.json { render json: @batch.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    
+
+
     # GET /batches/new
     def new
       @batch = Batch.new

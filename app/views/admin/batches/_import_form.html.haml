@@ -1,104 +1,21 @@
-.box.box-warning
+.box.box-primary
   .box-header.with-border
-    %h3.box-title Import Digitool pids
   / /.box-header
-  .box-body
-    %form{:role => "form"}
-      / text input
-      .form-group
-        %label Text
-        %input.form-control{:placeholder => "Enter ...", :style => "background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC\"); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;", :type => "text"}/
-      .form-group
-        %label Text Disabled
-        %input.form-control{:disabled => "disabled", :placeholder => "Enter ...", :style => "background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=\");", :type => "text"}/
+  - if @batch.errors.any?
+    #error_explanation
+    .form-group.has-warning
+      %h2= "#{pluralize(@batch.errors.count, "error")} prohibited this batch from being saved:"
+      %ul
+        - @batch.errors.full_messages.each do |message|
+          %li= message
+  = simple_form_for :batch, :url => '/admin/digitool-imports/batches/import' do |f|
+    .box-body
       / textarea
       .form-group
-        %label Textarea
-        %textarea.form-control{:placeholder => "Enter ...", :rows => "3"}
+        = f.input :name, disabled: false, hint: 'Give this batch import a descriptive name.'
       .form-group
-        %label Textarea Disabled
-        %textarea.form-control{:disabled => "disabled", :placeholder => "Enter ...", :rows => "3"}
-      / input states
-      .form-group.has-success
-        %label.control-label{:for => "inputSuccess"}
-          %i.fa.fa-check
-          Input with success
-        %input#inputSuccess.form-control{:placeholder => "Enter ...", :style => "background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC\"); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;", :type => "text"}/
-        %span.help-block Help block with success
-      .form-group.has-warning
-        %label.control-label{:for => "inputWarning"}
-          %i.fa.fa-bell-o
-          Input with
-          warning
-        %input#inputWarning.form-control{:placeholder => "Enter ...", :style => "background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC\"); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;", :type => "text"}/
-        %span.help-block Help block with warning
-      .form-group.has-error
-        %label.control-label{:for => "inputError"}
-          %i.fa.fa-times-circle-o
-          Input with
-          error
-        %input#inputError.form-control{:placeholder => "Enter ...", :style => "background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC\"); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;", :type => "text"}/
-        %span.help-block Help block with error
-      / checkbox
-      .form-group
-        .checkbox
-          %label
-            %input{:type => "checkbox"}/
-            Checkbox 1
-        .checkbox
-          %label
-            %input{:type => "checkbox"}/
-            Checkbox 2
-        .checkbox
-          %label
-            %input{:disabled => "disabled", :type => "checkbox"}/
-            Checkbox disabled
-      / radio
-      .form-group
-        .radio
-          %label
-            %input#optionsRadios1{:checked => "checked", :name => "optionsRadios", :type => "radio", :value => "option1"}/
-            Option one is this and that—be sure to include why it's great
-        .radio
-          %label
-            %input#optionsRadios2{:name => "optionsRadios", :type => "radio", :value => "option2"}/
-            Option two can be something else and selecting it will deselect option one
-        .radio
-          %label
-            %input#optionsRadios3{:disabled => "disabled", :name => "optionsRadios", :type => "radio", :value => "option3"}/
-            Option three is disabled
-      / select
-      .form-group
-        %label Select
-        %select.form-control
-          %option option 1
-          %option option 2
-          %option option 3
-          %option option 4
-          %option option 5
-      .form-group
-        %label Select Disabled
-        %select.form-control{:disabled => "disabled"}
-          %option option 1
-          %option option 2
-          %option option 3
-          %option option 4
-          %option option 5
-      / Select multiple
-      .form-group
-        %label Select Multiple
-        %select.form-control{:multiple => "multiple"}
-          %option option 1
-          %option option 2
-          %option option 3
-          %option option 4
-          %option option 5
-      .form-group
-        %label Select Multiple Disabled
-        %select.form-control{:disabled => "disabled", :multiple => "multiple"}
-          %option option 1
-          %option option 2
-          %option option 3
-          %option option 4
-          %option option 5
-  //.box-body
+        %label List of PIDS
+        %textarea.form-control{:placeholder => "Enter list of pids separated by comma...", :rows => "3"}
+    .box-footer
+      = f.button :submit, "Import", class: "btn btn-primary"
+      = f.button :button, "Cancel", class: "btn btn-secondary"
