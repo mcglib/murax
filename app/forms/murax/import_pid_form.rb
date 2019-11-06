@@ -9,10 +9,24 @@ module Murax
       return false if invalid?
       # send acknowledgement reply, and admin notification emails, etc
       # start ingesting
-      # create a logger
+      pids =  get_pids(pid)
+
+      # get the user
+      depositor = User.find(user)
+      # Create the batch
+      batch = Batch.new({:no => pids.count, :name => name, :started => Time.now,
+                         :finished => Time.now, user: depositor})
+      batch.save!
       byebug
-      import_service = Migration::Services::ImportService.new({:pid => pid, :admin_set => admin_set}, user, logger)
+      ImportDigitoolPidWorker.perform_async(batch.id, pids, depositor) if pids.present?
+      #flash[:message] = "You did it! A job with job id has been queued. You will receive a notification once the job is complete"
       true
+    end
+
+    def get_pids(pid_string)
+      pids = []
+      pids = pid_string.split(',').map{ |s| s.to_i } # first argument
+      pids
     end
   end
 end

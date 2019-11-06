@@ -28,8 +28,8 @@ module Admin
       @form = Murax::ImportPidForm.new(import_pid_form_params)
       respond_to do |format|
         if @form.submit
-            format.html { redirect_to root_path, notice: 'Thank you for importing,
-                          a job has been created and you will be notified on completion' }
+            format.html { redirect_to import_admin_batches_path, notice: "Thank you for importing,
+                          a job with the pids #{@form.pid} has been created and you will be notified on completion" }
             format.json { render :import, status: :created, location: @form }
         else
           format.html { render :import }

@@ -2,7 +2,7 @@ class ImportDigitoolPidWorker
   include Sidekiq::Worker
   sidekiq_options retry: true, queue: "digitool_imports", max_retries: 0
 
-  def perform(batch_id)
+  def perform(batch_id, pids, depositor)
     # Do something
     batch = Batch.find_by(id: batch_id)
     logger = ActiveSupport::Logger.new("#{Rails.root}/log/ui-import-csv-jid-#{batch_id}.log")
@@ -10,8 +10,7 @@ class ImportDigitoolPidWorker
     begin
       start_time = Time.now
       logger.info "Starting the worker job  at #{start_time}"
-      raise "#{filepath} db file was not found in the specified directory.." if !File.exist?(real_filepath)
-      self.total = 100 # setting total to 100
+      self.total = pids.count # setting total to 100
       if batch
         batch.update_attribute(:status, "Processing")
        # BatchProcessor.call(batch)
