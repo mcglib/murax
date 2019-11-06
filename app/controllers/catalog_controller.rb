@@ -48,7 +48,8 @@ class CatalogController < ApplicationController
    # config.add_facet_field solr_name("creator", :facetable), limit: 5
     config.add_facet_field 'creator_sim', label: 'Creator', limit: 5
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
-    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5
+    #config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5 #removing to show rtype as faceted field.  
+    config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 5
     config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
