@@ -65,7 +65,7 @@ namespace :import do
       batch.save!
 
       # Email error report
-      #send_error_report(batch, @depositor)
+      send_error_report(batch, @depositor)
     end
 
 
@@ -85,6 +85,8 @@ namespace :import do
         if node.name == 'record'
           increment+=1
           filename = node.xpath('localfilename').first.text.split('/').last.strip
+          m = filename.match(/[A-Z]+_[0-9]{4,4}_([0-9]+)_.*.pdf/)
+          student_id = m[1]
           puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{increment}/#{total_items}  : Processing the item  #{filename}"
           import_log = ImportLog.new({:pid => filename, :date_imported => Time.now, :batch_id => batch_id})
           begin
@@ -97,9 +99,10 @@ namespace :import do
             new_work_type_as_string = 'Thesis'
             import_service = Import::Services::ImportService.new(user,gpso_thesis,thesis_attributes,new_work_type_as_string)
             new_thesis = import_service.create_a_work_record
-           
+            new_thesis.save! 
+            
+            new_thesis['identifier'] = [gpso_thesis.get_url_identifier(new_thesis.id)]
             new_thesis.save!
-            new_thesis.identifier = [gpso_thesis.get_url_identifier(new_thesis.id)]
  
             #create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)
@@ -134,8 +137,18 @@ namespace :import do
               puts "#{e}: #{e.class.name}"
             end
 
+            import_record={
+                work_id: new_thesis.id,
+                collection_id: 'theses',
+                digitool_collection_code: 'THESIS',
+                pid: student_id,
+                title: new_thesis.title.first, work_type: 'Thesis', raw_xml: node.to_s
+            }
+            import_log.attributes = import_record
+
             logger.info("added #{filename}")
             successes += 1
+            import_log.imported = true
 
           rescue StandardError => e
             errors += 1
