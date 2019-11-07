@@ -1,6 +1,6 @@
 class WorkDeleteMailer < ApplicationMailer
   default from: ENV['ADMIN_EMAIL'],
-          cc: ENV['ADMIN_EMAIL']
+          cc: ENV['CONTACT_US_EMAIL']
 
   # An email that goes out when a work is deleted in the repository. This includes the information about the work and the associated files. 
   def work_delete_email

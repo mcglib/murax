@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.36.3] - 2019-11-06
+### Changed
+* Disabled code that checks for items that are embargoed.
 ## [1.0.36.2] - 2019-10-30
 ### Changed
 * Fixing logic checking if fileset is present
