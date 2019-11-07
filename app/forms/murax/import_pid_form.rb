@@ -17,9 +17,16 @@ module Murax
       batch = Batch.new({:no => pids.count, :name => name, :started => Time.now,
                          :finished => Time.now, user: depositor})
       batch.save!
-      byebug
-      ImportDigitoolPidWorker.perform_async(batch.id, pids, depositor) if pids.present?
+      #jid = BatchImportDigitoolPidWorker.perform_async(batch.id, pids, depositor) if pids.present?
       #flash[:message] = "You did it! A job with job id has been queued. You will receive a notification once the job is complete"
+      # start processing
+      process_import_pids(batch.id, pids, @depositor) if pids.present?
+
+      # update the batch that its finished
+      batch.finished = Time.now
+      batch.save!
+
+
       true
     end
 
@@ -28,5 +35,15 @@ module Murax
       pids = pid_string.split(',').map{ |s| s.to_i } # first argument
       pids
     end
+
+    def process_import_pids(batch_id, pids, depositor)
+      pids.each do |pid|
+        puts "#{pid}"
+        jid = ImportDigitoolPidWorker.perform_async(pid, batch_id, depositor)
+      end
+      # Email error report
+      #send_error_report(batch, @depositor)
+    end
+
   end
 end
