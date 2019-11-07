@@ -99,9 +99,10 @@ namespace :import do
             new_work_type_as_string = 'Thesis'
             import_service = Import::Services::ImportService.new(user,gpso_thesis,thesis_attributes,new_work_type_as_string)
             new_thesis = import_service.create_a_work_record
-           
+            new_thesis.save! 
+            
+            new_thesis['identifier'] = [gpso_thesis.get_url_identifier(new_thesis.id)]
             new_thesis.save!
-            new_thesis.identifier = [gpso_thesis.get_url_identifier(new_thesis.id)]
  
             #create sipity record
             workflow = Sipity::Workflow.joins(:permission_template)
