@@ -1,6 +1,5 @@
 require 'active_record'
 require 'optparse'
-require 'uri'
 
 namespace :murax do
   desc 'Count the objects that have mutiple abstract with the same language.'
@@ -20,7 +19,7 @@ namespace :murax do
     work_types.each do |wt|
       puts "checkng worktype #{wt}"
       type_objects = []
-      wt.all.each do |w|
+      wt.find_each do |w|
         abs = w.abstract
         multiple = false
         if abs.count > 1 
