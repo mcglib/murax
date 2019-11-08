@@ -7,12 +7,12 @@ class ImportDigitoolPidWorker
         @expiration ||= 60 * 60 * 24 * 30 # 30 days
   end
 
-  def perform(pid,depositor, logger)
+  def perform(pid, batch_id, depositor, logger)
     begin
       start_time = Time.now
       puts "Processing pid #{pid}"
       sleep(30)
-      import_rec = Migrate::ImportRecord.call(pid, batch_id, depositor, logger)
+      #import_rec = Migrate::ImportRecord.call(pid, batch_id, depositor, logger)
     rescue => e
       msg = "Error occured during the import process: #{e}"
       puts "#{msg}"

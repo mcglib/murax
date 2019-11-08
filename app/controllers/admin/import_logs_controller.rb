@@ -11,7 +11,7 @@ module Admin
       @import_logs = @batch.import_log.all
       add_breadcrumb t(:'hyrax.controls.home'), root_path
       add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-      add_breadcrumb t(:'hyrax.admin.import_logs.header', batch_id: @batch.id), batches_path
+      add_breadcrumb t(:'hyrax.admin.import_logs.header', batch_id: @batch.id), admin_batches_path
     end
 
     # GET /import_logs/1
@@ -20,7 +20,7 @@ module Admin
       @batch = @import_log.batch
       add_breadcrumb t(:'hyrax.controls.home'), root_path
       add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-      add_breadcrumb t(:'hyrax.admin.import_logs.header', batch_id: @batch.id), batches_path
+      add_breadcrumb t(:'hyrax.admin.import_logs.header', batch_id: @batch.id), admin_batches_path
     end
 
     # GET /import_logs/new

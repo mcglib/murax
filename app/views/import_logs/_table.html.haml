@@ -15,66 +15,62 @@
     %div.importlog-modal{"role": "dialog", "id": "importlog-#{import_log.id}"}
       = render partial: "import_logs/import_log_modal", locals: {import_log: import_log, pid: import_log.pid}
 %table.table.table-striped#import_logs-table{"data-filter-control": "true",
-      "data-show-filter": "true",
-      "data-show-refresh": "false",
-      "data-search": "true",
-      "data-smart-display": "true",
-      "data-sortable": "true",
-      "data-classes": "table table-hover table-no-bordered",
-      "data-toolbar": "#toolbar",
-      "data-show-columns": "true",
-      "data-show-export": "true",
-      "data-click-to-select": "true",
-      "data-pagination": "true",
-      "data-page-list": "[10, 25, 50, 100, 200, All]",
-      "data-show-search-clear-button": "true",
-      "data-show-footer": "true",
-      "data-footer-style": "footerStyle",
-      "data-show-export": "true",
-      "data-height":"400",
-      "data-url": "import_logs.json",
-      }
+    "data-show-filter": "true",
+    "data-show-refresh": "false",
+    "data-search": "true",
+    "data-smart-display": "true",
+    "data-sortable": "true",
+    "data-classes": "table table-hover table-no-bordered",
+    "data-toolbar": "#toolbar",
+    "data-show-columns": "true",
+    "data-show-export": "true",
+    "data-click-to-select": "true",
+    "data-pagination": "true",
+    "data-page-list": "[10, 25, 50, 100, 200, All]",
+    "data-show-search-clear-button": "true",
+    "data-show-footer": "true",
+    "data-footer-style": "footerStyle",
+    "data-show-export": "true",
+    "data-url": "/admin/digitool-imports/batches/#{@batch.id}/import_logs.json",
+    }
   %thead.thead-dark
     %tr
-      %th{"data-field": "imported", "data-sortable": "false"} Select
-      %th{"data-field": "imported", "data-sortable": "true"} Status
+      %th{"data-field": "state", "data-sortable": "false"} Select
+      %th{"data-field": "status", "data-sortable": "true"} Imported
       %th{"data-field": "pid", "data-sortable": "true"} PID
-      %th{"data-field": "work_id", "data-sortable": "true"} Work ID
+      %th{"data-field": "work_url", "data-sortable": "true"} Work ID
       %th{"data-field": "title", "data-sortable": "true"} Title
       %th{"data-field": "work_type", "data-sortable": "true"} Work Type
-      %th{"data-field": "updated", "data-sortable": "true"} Imported on
-      %th Actions
-
-  %tbody
-    - @import_logs.each do |import_log|
-      %tr
-        %td{}
-        %td{}
-          - if !import_log.imported?
-            %span.badge.badge-danger.badge-pill{}
-              %i.glyphicon.glyphicon-exclamation-sign
-              Fail
-          - if import_log.imported?
-            %span.badge.badge-success.badge-pill{}
-              %i.glyphicon.glyphicon-ok
-              OK
-        %td= import_log.pid
-        %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id) if import_log.work_id.present?
-        %td= import_log.title.present? ? import_log.title.truncate(30) : ""
-        %td= import_log.work_type if import_log.work_type.present?
-        %td{}
-          = l(import_log.updated_at, :format => :long)
-        %td
-          - if import_log.raw_xml?
-            %button.btn.btn-info.btn-sm{"data-target" => "#xmllog-#{import_log.pid}-Modal", "data-toggle" => "modal", "data-pid" => "#{import_log.pid}", :type => "button"} Digitool XML
-          - if !import_log.imported?
-            %button.btn.btn-info.btn-sm{"data-target" => "#errorlog-#{import_log.pid}-Modal", "data-toggle" => "modal", "data-pid" => "#{import_log.pid}", :type => "button"} Show Error
-          - if import_log.id.present?
-            %button.btn.btn-info.btn-sm{"data-target" => "#importlog-#{import_log.pid}-Modal", "data-toggle" => "modal", "data-pid" => "#{import_log.pid}", :type => "button"} Complete log
+      %th{"data-field": "updated_at", "data-sortable": "true"} Imported on
+      %th{"data-field": "actions"} Actions
 
 - content_for(:javascript) do
   :javascript
     $table = $('#import_logs-table')
+
+    totalTextFormatter = function(data) {
+        return 'Total';
+    };
+    totalNameFormatter = function(data) {
+        return data.length;
+    };
+    dateFormatter = function(value) {
+
+      m =  new Date(value);
+      var dateString =
+        m.getUTCFullYear() + "/" +
+        ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+        ("0" + m.getUTCDate()).slice(-2) + " " +
+        ("0" + m.getUTCHours()).slice(-2) + ":" +
+        ("0" + m.getUTCMinutes()).slice(-2);
+      return dateString;
+    };
+
+    linkFormatter = function(value) {
+      return '<a class="link" href="/concerns/' + value +
+                  '" title="Like">' + value + '<i class="fa fa-share"></i></a>';
+      };
+
     $(document).on('turbolinks:load', function() {
         $table.bootstrapTable();
         $('#toolbar').find('select').change(function () {
@@ -87,17 +83,49 @@
                     checkbox: true,
                     visible: $(this).val() === 'selected'
                   },
+                  {
+                    title: 'Imported',
+                    field: 'status',
+                    valign: 'middle'
+                  },
+                  {
+                    title: 'PID/Student ID',
+                    field: 'pid',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                  },
+                  {
+                    title: 'Work ID',
+                    field: 'work_url',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                  },
+                  {
+                    field: 'title',
+                    title: 'Title',
+                    sortable: true,
+                    align: 'left'
+                  },
+                  {
+                    field: 'work_type',
+                    title: 'Work Type',
+                    sortable: true,
+                    align: 'center',
+                  },
+                  {
+                    field: 'updated_at',
+                    title: 'Imported on',
+                    sortable: true,
+                    align: 'center',
+                  },
+                  {
+                    field: 'actions',
+                    title: 'Actions',
+                    events: window.operateEvents,
+                  },
                 ]
               })
         }).trigger('change')
-
-
-
-
-
-
-
-
-
-
     });

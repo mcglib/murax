@@ -4,11 +4,6 @@ module Migrate
     require 'csv'
     require 'yaml'
 
-    require 'migration_logging'
-    require 'migration_constants'
-    require 'id_mapper'
-    require 'metadata_parser'
-    require 'migration_helper'
 
     class ImportService
       attr_accessor :pid, :depositor, :logger, :admin_set
@@ -56,7 +51,7 @@ module Migrate
           xml = item.raw_xml
           item = nil
 
-          migrate_service = Migration::Services::MigrateService.new(migration_config,
+          migrate_service = MigrateService.new(migration_config,
                                                @depositor)
           work_id = migrate_service.import_records([@pid], @logger, work_type)
 

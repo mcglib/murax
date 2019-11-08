@@ -1,8 +1,7 @@
-module Migration
-  module Services
-    require 'tasks/migrate/services/id_mapper'
-    require 'tasks/migrate/services/metadata_parser'
-    require 'tasks/migration_helper'
+module Migrate
+    #require 'id_mapper'
+    #require 'metadata_parser'
+    #require 'migration_helper'
 
     class MigrateService
       attr_accessor :pid_list, :created_work_ids, :config, :depositor, :work_type
@@ -223,7 +222,7 @@ module Migration
             if suggested_types.include?(item_type)
                  # We downlond the file to a temporary location
                  FileUtils.mkpath("#{@tmp_file_location}/#{rel_pid}")
-                 file_list << MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
+                 file_list << Migrate::MigrationHelper.download_digitool_file_by_pid(rel_pid, "#{@tmp_file_location}/#{rel_pid}" )
             end
           end
           file_list.each do |fitem|
@@ -318,5 +317,4 @@ module Migration
           end
         end
     end
-  end
 end
