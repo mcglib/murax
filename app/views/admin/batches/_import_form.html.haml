@@ -1,23 +1,24 @@
-.box.box-primary
-  .box-header.with-border
-  / /.box-header
-  - if @form.errors.any?
-    #error_explanation
-    .form-group.has-warning
-      %h2= "#{pluralize(@form.errors.count, "error")} prohibited this batch from being saved:"
-      %ul
-        - @form.errors.full_messages.each do |message|
-          %li= message
-  = simple_form_for @form, :url => '/admin/digitool-imports/batches/ingest' do |f|
-    .box-body
-      / textarea
-      .form-group
-        = f.input :name, disabled: false, hint: 'Give this import a descriptive name.'
-      .form-group
-        = f.input :user, collection: @users, prompt: "Select your age", selected: '1'
-      .form-group
-        %label List of PIDS
-        = f.input :pid, as: :text, disabled: false, hint: 'Enter list of pids separated by comma..."'
-    .box-footer
-      = f.button :submit, "Import", class: "btn btn-primary"
-      = f.button :button, "Cancel", class: "btn btn-secondary"
+- if can?(:manage, Sipity::WorkflowResponsibility) 
+  .box.box-primary
+    .box-header.with-border
+    / /.box-header
+    - if @form.errors.any?
+      #error_explanation
+      .form-group.has-warning
+        %h2= "#{pluralize(@form.errors.count, "error")} prohibited this batch from being saved:"
+        %ul
+          - @form.errors.full_messages.each do |message|
+            %li= message
+    = simple_form_for @form, :url => '/admin/digitool-imports/batches/ingest' do |f|
+      .box-body
+        / textarea
+        .form-group
+          = f.input :name, disabled: false, hint: 'Give this import a descriptive name.'
+        .form-group
+          = f.input :user, collection: @users, prompt: "Select your age", selected: '1'
+        .form-group
+          %label List of PIDS
+          = f.input :pid, as: :text, disabled: false, hint: 'Enter list of pids separated by comma..."'
+      .box-footer
+        = f.button :submit, "Import", class: "btn btn-primary"
+        = f.button :button, "Cancel", class: "btn btn-secondary"

@@ -7,7 +7,7 @@ module Admin
     # GET /batches
     # GET /batches.json
     def index
-      @batches = Batch.all
+      @batches = Batch.all.order(updated_at: :desc)
       add_breadcrumb t(:'hyrax.controls.home'), root_path
     end
 

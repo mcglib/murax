@@ -30,8 +30,6 @@ class BatchImportDigitoolPidWorker
       errors = 0
       pids.each_with_index do |pid, index|
         puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{index}/#{total}  : Processing the item  #{pid}"
-        #jid = ImportDigitoolPidWorker.perform_async(pid, batch_id, depositor, logger)
-        #sleep(5)
         import_rec = Migrate::ImportRecord.call(pid, batch_id, @user, logger)
         successes += 1 if import_rec.present?
         errors += 1 if !import_rec.present?
@@ -50,7 +48,8 @@ class BatchImportDigitoolPidWorker
     end_time = Time.now
     duration = (end_time - start_time) / 1.minute
     puts "[#{end_time.to_s}] Finished the  migration of #{pids.map(&:inspect).join(', ')} in #{duration} minutes"
-    log.info "Task finished at #{end_time} and lasted #{duration} minutes."
+    logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
+
     # send report
     @errors = batch.import_log.not_imported
     # Find all items that are part of a given batch
