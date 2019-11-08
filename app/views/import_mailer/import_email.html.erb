@@ -10,14 +10,14 @@
     </p>
     <h3>Summary</h3>
     <p> <strong><%= @batch.import_log.where(:imported => true).count %></strong> items imported successfully. </p>
-    <p>View a summary of import logs  <%=link_to "here", batch_url(@batch) %>
+    <p>View a summary of import logs  <%=link_to "here", admin_batch_url(@batch) %>
     <h3> Error list</h3>
     <% if @errors.count >= 1 %>
         <p><strong><%= @errors.count %></strong> were reported. See below:</p>
         <hr />
         <table>
             <tr>
-                <th>Pid</th>
+                <th>Pid/ Student ID</th>
                 <th>Title</th>
                 <th>LCC code</th>
                 <th>Error </th>
