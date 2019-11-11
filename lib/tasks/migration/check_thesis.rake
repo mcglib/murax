@@ -37,8 +37,8 @@ namespace :migration do
 
     end
   
-    def set_item_status
-     item_status = @raw_xml.xpath("digital_entity/control/status").text
+    def set_item_status(raw_xml)
+     item_status = raw_xml.xpath("digital_entity/control/status").text
      item_status
     end
 
