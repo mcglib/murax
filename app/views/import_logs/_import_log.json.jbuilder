@@ -1,6 +1,5 @@
 json.extract! import_log, :id, :created_at, :updated_at, :pid, :work_id, :title, :raw_xml, :date_imported, :work_type, :imported
-json.work_url "<a href='/concerns/thesis/#{work_id}'>#{work_id}</a>"
-#json.date_imported url_for(work_id)
+json.work_url "<a href='/concerns/thesis/#{import_log.work_id}'>#{import_log.work_id}</a>"
 if (!import_log.imported?)
   json.status "<span class='label label-warning'> Fail</span>"
   json.actions "<button class='btn btn-info btn-sm' data-target='#errorlog-#{import_log.pid}-Modal' data-toggle='modal' data-pid='#{import_log.pid}' type='button'><i class='fa fa-plus icon-minus' />Show Error</button>"
