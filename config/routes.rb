@@ -56,9 +56,9 @@ Rails.application.routes.draw do
     resources :batches, path: '/digitool-imports/batches/' do
       collection do
         get :import
-	post :ingest
+	      post :ingest
       end
-      resources :import_logs, only: [:show, :index, :edit, :destroy] do
+      resources :import_logs, only: [:show, :index, :edit, :destroy]  do
         collection do
           delete 'clear'
         end
