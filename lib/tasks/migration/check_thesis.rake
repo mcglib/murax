@@ -27,8 +27,9 @@ namespace :migration do
         usage_type = set_usage_type(xml)
         item_status = set_item_status(xml)
         related_pids = fetch_related_pids(pid)
+        main_view = is_main_view(usage_type, item_status, related_pids)
         byebug
-        clean_pids << pid if is_main_view(usage_type, item_status, related_pids)?
+        clean_pids << pid if main_view
       end
       check_thesis(clean_pids)
       #send_error_report(batch, @depositor)
@@ -41,7 +42,7 @@ namespace :migration do
      item_status
     end
 
-    def is_main_view(usage_type, item_status, related_pids)?
+    def is_main_view(usage_type, item_status, related_pids)
       main_view =  false
       is_suppressed = item_status.eql? 'SUPPRESSED'
       if usage_type.eql? "ARCHIVE" and !is_suppressed? and (related_pids.has_value?('VIEW_MAIN') or related_pids.has_value?('VIEW'))
