@@ -1,5 +1,5 @@
 json.extract! import_log, :id, :created_at, :updated_at, :pid, :work_id, :title, :raw_xml, :date_imported, :work_type, :imported
-json.work_url url_for(import_log.work_id)
+json.work_url url_for(import_log)
 #json.date_imported url_for(work_id)
 if (!import_log.imported?)
   json.status "<span class='label label-warning'> Fail</span>"
@@ -7,7 +7,7 @@ if (!import_log.imported?)
 end
 if (import_log.imported?)
   json.status "<span class='label label-success'> OK</span>"
-  json.actions "<button class='btn btn-info btn-sm' data-target='#xmllog-#{import_log.pid}-Modal' data-toggle='modal' data-pid='#{import_log.pid}' type='button'><i class='fa fa-plus icon-plus' /> Raw XML</button>"
+  json.actions "<button class='btn btn-info btn-sm' data-target='#xmllog-#{import_log.pid}-Modal' data-toggle='modal' data-pid='#{import_log.pid}' type='button'><i class='fa fa-plus icon-plus' /> Raw XML</button><button class='btn btn-info btn-sm' data-target='#importlog-#{import_log.pid}-Modal' data-toggle='modal' data-pid='#{import_log.pid}' type='button'><i class='fa fa-plus icon-plus' /> Full log</button>"
 end
 
 json.set!(:updated_at, l(import_log.updated_at, format: :long))
