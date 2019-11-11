@@ -9,7 +9,9 @@ if (import_log.imported?)
   json.actions "<button class='btn btn-info btn-sm' data-target='#xmllog-#{import_log.pid}-Modal' data-toggle='modal' data-pid='#{import_log.pid}' type='button'><i class='fa fa-plus icon-plus' /> Raw XML</button>&nbsp;&nbsp;<button class='btn btn-info btn-sm' data-target='#importlog-#{import_log.pid}-Modal' data-toggle='modal' data-pid='#{import_log.pid}' type='button'><i class='fa fa-plus icon-plus' /> Full log</button>"
 end
 
-json.set!(:title, import_log.title.truncate(40))
+if (import_log.title.present)
+  json.set!(:title, import_log.title.truncate(40))
+end
 json.set!(:updated_at, l(import_log.updated_at, format: :short))
 json.set!(:date_imported, l(import_log.date_imported, format: :short))
 json.set!(:created_at, l(import_log.created_at, format: :short))
