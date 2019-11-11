@@ -3,6 +3,11 @@ namespace :migration do
     require 'htmlentities'
     require 'csv'
     require 'yaml'
+    require 'net/http'
+    require 'uri'
+    require 'json'
+    require 'nokogiri'
+    require 'open-uri'
     # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
     require 'tasks/migration/migration_logging'
     require 'tasks/migration/migration_constants'
@@ -22,13 +27,12 @@ namespace :migration do
       # clean up the @pids list by removing all archive and supplemental pids
 
       clean_pids = []
-      @pids[0,5].each do | pid |
-        xml = fetch_raw_xml(pid)
+      @pids.each do | pid |
+        xml = fetch_raw_xml(pid, "xml")
         usage_type = set_usage_type(xml)
         item_status = set_item_status(xml)
         related_pids = fetch_related_pids(pid)
         main_view = is_main_view(usage_type, item_status, related_pids)
-        byebug
         clean_pids << pid if main_view
       end
       check_thesis(clean_pids)
@@ -45,11 +49,11 @@ namespace :migration do
     def is_main_view(usage_type, item_status, related_pids)
       main_view =  false
       is_suppressed = item_status.eql? 'SUPPRESSED'
-      if usage_type.eql? "ARCHIVE" and !is_suppressed? and (related_pids.has_value?('VIEW_MAIN') or related_pids.has_value?('VIEW'))
+      if usage_type.eql? "ARCHIVE" and !is_suppressed and (related_pids.has_value?('VIEW_MAIN') or related_pids.has_value?('VIEW'))
         main_view = false
       end
 
-      if is_suppressed? and usage_type.eql? "ARCHIVE"
+      if is_suppressed and usage_type.eql? "ARCHIVE"
         main_view = true
       end
 
