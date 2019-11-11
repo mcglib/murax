@@ -1,5 +1,5 @@
 json.extract! import_log, :id, :created_at, :updated_at, :pid, :work_id, :title, :raw_xml, :date_imported, :work_type, :imported
-json.work_url url_for(import_log)
+json.work_url "<a href='/concerns/thesis/#{work_id}'>#{work_id}</a>"
 #json.date_imported url_for(work_id)
 if (!import_log.imported?)
   json.status "<span class='label label-warning'> Fail</span>"
