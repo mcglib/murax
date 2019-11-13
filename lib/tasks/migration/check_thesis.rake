@@ -28,7 +28,6 @@ namespace :migration do
         item_status = set_item_status(xml)
         related_pids = fetch_related_pids(pid)
         main_view = is_main_view(usage_type, item_status, related_pids)
-        byebug
         clean_pids << pid if main_view
       end
       check_thesis(clean_pids)
@@ -124,7 +123,7 @@ namespace :migration do
     def get_thesis_pid(thesis) 
         thesis_pid = nil
         my_pid = thesis.relation.select{|item| item.include? "Pid"}.first
-        thesis_pid = my_pid.strip.split(":", 2).second
+        thesis_pid = my_pid.strip.split(":", 2).second if my_pid.present?
         thesis_pid
     end
   end
