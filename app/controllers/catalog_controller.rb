@@ -48,7 +48,8 @@ class CatalogController < ApplicationController
    # config.add_facet_field solr_name("creator", :facetable), limit: 5
     config.add_facet_field 'creator_sim', label: 'Creator', limit: 5
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
-    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5
+    #config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5 #removing to show rtype as faceted field.  
+    config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 5
     config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
@@ -99,7 +100,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("rtype", :stored_searchable), label: "Type", link_to_search: solr_name("rtype", :facetable)
    # config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type", link_to_search: solr_name("resource_type", :facetable) -- removing to replace it with rtype.
     config.add_index_field solr_name("file_format", :stored_searchable), link_to_search: solr_name("file_format", :facetable)
-    config.add_index_field solr_name("identifier", :stored_searchable), helper_method: :index_field_link, field_name: 'identifier'
+    #config.add_index_field solr_name("identifier", :stored_searchable), helper_method: :index_field_link, field_name: 'identifier'
+    config.add_index_field solr_name("identifier", :stored_searchable), helper_method: :iconify_auto_link, field_name: 'identifier'
     config.add_index_field solr_name("embargo_release_date", :stored_sortable, type: :date), label: "Embargo release date", helper_method: :human_readable_date
     config.add_index_field solr_name("lease_expiration_date", :stored_sortable, type: :date), label: "Lease expiration date", helper_method: :human_readable_date
 

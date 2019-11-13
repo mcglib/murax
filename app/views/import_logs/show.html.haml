@@ -11,7 +11,7 @@
         %span.badge.success{}
           %i.glyphicon.glyphicon-ok
   %tr
-    %td.header-title{} PID
+    %td.header-title{} ID
     %td= @import_log.pid
   %tr
     %td.header-title{} Title
@@ -30,7 +30,7 @@
     %td{}
       = l(@import_log.updated_at, :format => :long)
   %tr
-    %td.header-title{} Digitool XML
+    %td.header-title{} Original XML
     %td{}
       %code #{@import_log.raw_xml}
 

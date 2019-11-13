@@ -2,7 +2,7 @@
 
 module Murax
   # A common base class for all Murax jobs.
-  # This allows downstream applications to manipulate all the Muraz jobs by
+  # This allows downstream applications to manipulate all the Murax jobs by
   # including modules on this class.
   class ApplicationJob
     include Sidekiq::Worker

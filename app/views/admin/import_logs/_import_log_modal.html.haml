@@ -1,0 +1,46 @@
+.modal{:role => "dialog", :tabindex => "-1", :id => "importlog-#{pid}-Modal"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5.modal-title Import log for #{pid}
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        %table.table.table-striped
+          %tr
+            %td.header-title{} Status
+            %td
+              - if !import_log.imported?
+                %span.badge.badge-danger.badge-pill{}
+                  %i.glyphicon.glyphicon-exclamation-sign
+                  Fail
+              - if import_log.imported?
+                %span.badge.badge-success.badge-pill{}
+                  %i.glyphicon.glyphicon-ok 
+                  OK
+          %tr
+            %td.header-title{} PID
+            %td= import_log.pid
+          %tr
+            %td.header-title{} Title
+            %td= import_log.title.present? ? import_log.title : ""
+          %tr
+            %td.header-title{} Work ID
+            %td= link_to import_log.work_id, hyrax_thesis_path(import_log.work_id) if import_log.work_id.present?
+          %tr
+            %td.header-title{} Work Type
+            %td= import_log.work_type if import_log.work_type.present?
+          %tr
+            %td.header-title{} Errors
+            %td
+              %code
+                = import_log.error if import_log.error.present?
+          %tr
+            %td.header-title{} Date imported
+            %td{}
+              = l(import_log.updated_at, :format => :long)
+          %tr
+            %td.header-title{} Digitool XML
+            %td{}
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Close

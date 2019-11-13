@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Alert: A Work Deleted in eScholarship</title>
+</head>
+
+<body style="margin:0; padding:0;">
+  <center>
+    <table class="email-body-table" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+      <tr>
+        <td align="center" valign="top">
+
+          <table width="640" cellpadding="0" cellspacing="0" border="0" class="wrapper" bgcolor="#FFFFFF">
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="top">
+
+                <table width="600" cellpadding="0" cellspacing="0" border="0" class="container">
+                  <tr>
+                    <td align="left" valign="top">
+                      <h4>Hello eScholarship@McGill, </h4>
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+          </table>
+
+          <table width="640" cellpadding="0" cellspacing="0" border="0" class="wrapper" bgcolor="#FFFFFF">
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="top">
+
+                <table width="600" cellpadding="0" cellspacing="0" border="0" class="container">
+                  <tr>
+                    <td align="left" valign="top">
+                          <p>
+                            This is to inform you that below work has been deleted by <%= @user %> from the  
+                            <%= link_to "repository", root_url(:only_path => false, :host => "#{ENV['RAILS_HOST']}"), :target => "_blank" %>.
+                          </p>
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+          </table>
+
+
+          <table width="640" cellpadding="0" cellspacing="0" border="0" class="wrapper" bgcolor="#FFFFFF">
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="top">
+
+                <table width="600" cellpadding="0" cellspacing="0" border="0" class="container">
+                  <tr>
+                    <td align="left" valign="top">
+                      <p><b>Work Title:&nbsp;</b> <%= @deleted_work_title %></p>
+		      <p><b>Work ID:&nbsp;</b> <%= @deleted_work_id  %></p>
+                       <% if @deleted_files.blank? %>
+                         <p> This work had no files attached to it. </p>
+                       <% else %> 
+                         <p><b>Files associated with this Work:&nbsp;</b> <%= @deleted_files  %></p>
+		         <p><b>File IDs:&nbsp;</b> <%= @deleted_file_ids  %></p>
+                       <% end %>
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+          </table>
+
+          <table width="640" cellpadding="0" cellspacing="0" border="0" class="wrapper" bgcolor="#FFFFFF">
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="top">
+
+                <table width="600" cellpadding="0" cellspacing="0" border="0" class="container">
+                  <tr>
+                    <td align="left" valign="top">
+                      <p>If you have any questions, please email <%= ENV['CONTACT_US_EMAIL'] %>.</p>
+                      <p>Thank you, </p>
+                      <p> eScholarship@McGill </p> 
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+            <tr>
+              <td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+            </tr>
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  </center>
+  </body>
+  </html>
+
