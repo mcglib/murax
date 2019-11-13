@@ -94,7 +94,7 @@ module Hyrax
         file_extension = File.extname(filename)
         file_basename = File.basename(filename, File.extname(filename))
         # Check for thesis filenames since they contain student ids
-        if file_basename.include? "SZPTHUP"
+        if file_basename.downcase.include? "szpthup"
           new_name = file_basename.gsub(/\d+/, SecureRandom.hex(16))
           obf_filename = "#{file_id}#{file_extension}" if file_id.present?
           obf_filename = "#{new_name}#{file_extension}" if file_id.nil?
