@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   mount Hydra::RoleManagement::Engine => '/'
   mount Qa::Engine => '/authorities'
   mount Hyrax::Engine, at: '/'
+
   resources :welcome, only: 'index'
   root 'hyrax/homepage#index'
   curation_concerns_basic_routes
@@ -43,14 +44,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :batches, path: '/admin/digitool-imports/batches/' do
-    resources :import_logs, only: [:show, :index, :edit, :destroy] do
-      collection do
-        delete 'clear'
-      end
-    end
-  end
-  # McGill library import logs from digitool
   namespace :admin do
     resources :admin_sets do
       member do
@@ -58,6 +51,20 @@ Rails.application.routes.draw do
       end
       resource :permission_template
     end
+  
+    # McGill library import logs from digitool
+    resources :batches, path: '/digitool-imports/batches/' do
+      collection do
+        get :import
+	      post :ingest
+      end
+      resources :import_logs, only: [:show, :index, :edit, :destroy]  do
+        collection do
+          delete 'clear'
+        end
+      end
+    end
+
     resources :users, only: [:index]
     resources :permission_template_accesses, only: :destroy
     resource 'stats', only: [:show]
@@ -73,6 +80,7 @@ Rails.application.routes.draw do
 
   mount Blacklight::Engine => '/'
 
+  
 
   authenticate :user, ->(u) { u.admin? } do
     require 'sidekiq/web'

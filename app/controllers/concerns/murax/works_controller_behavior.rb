@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 module Murax
   # works controller behavior
   module WorksControllerBehavior
@@ -37,7 +36,6 @@ module Murax
       #set_other_option_values
       super
     end
-    
     def deleted_work_files
       file_names = []
       work_files = curation_concern.ordered_file_sets
@@ -57,8 +55,6 @@ module Murax
       str_file_ids = file_ids.join(";  ")
       return str_file_ids
     end
-      
-    
     def destroy
       title = curation_concern.to_s
       deleted_work_id = curation_concern.id
