@@ -21,7 +21,7 @@ namespace :migration do
       # clean up the @pids list by removing all archive and supplemental pids
 
       clean_pids = []
-      @pids[0..10].each do | pid |
+      @pids.each do | pid |
         xml = fetch_raw_xml(pid, "xml")
         usage_type = set_usage_type(xml)
         item_status = set_item_status(xml)
