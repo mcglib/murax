@@ -50,6 +50,7 @@ module Hyrax
       def local_file_name
         # check if its a thesis and then we simply change the name 
         #
+        byebug
         params[:filename] || File.basename(file) || (asset.respond_to?(:label) && asset.label)
       end
 
