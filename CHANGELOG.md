@@ -5,6 +5,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.37] - 2019-11-13
+### Changed
+* Added route to batches
+* remvoed dev.library account from emails
+* removed the helper method in rtype filed, making it default to an empty value unless selected by a user
+* added rtype as faceted field
+* Added a import worker
+* Fixing the import form and added a job to run the import
+* Added the import worker
+* added the plumbing so that the worker jobs are added to sidekiq queue
+* fixed issues with batch reports
+* Revert "fixed issues with batch reports"
+
+* Updated the code to run the pid processing
+* Refactored the services to work for service import_record
+* fixed problem with batch reporting
+* identifier field now saved
+* removed 'THESIS' entry from notes
+* Added a rake task that will gives the information about how many objects in samvera have multiple abstracts with the same language
+* Changed find_each to reduce the usage of memory, pluck will not work untill I pass 'all' option to it, and also it will get me only the fields and not the objects.
+* Updated the code for importing via UI
+* Final tweaks to digitool pid importer
+* removed trailing byebug
+* changed the logic
+* added faculty and department to book worktype
+* Updated code to show the full log
+* Fixed bug with the presenters of the batches log
+* Updated bug with the batch reports
+* Fixing so as to speed up search
+* Bug fixing
+* Fixing a way to check for the thesis pids
+* Updated the task to send some logging details
 ## [1.0.36.3] - 2019-11-06
 ### Changed
 * Disabled code that checks for items that are embargoed.

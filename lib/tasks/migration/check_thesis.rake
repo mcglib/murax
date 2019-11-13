@@ -3,13 +3,12 @@ namespace :migration do
     require 'htmlentities'
     require 'csv'
     require 'yaml'
+    require 'net/http'
+    require 'uri'
+    require 'json'
+    require 'nokogiri'
+    require 'open-uri'
     # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
-    require 'tasks/migration/migration_logging'
-    require 'tasks/migration/migration_constants'
-    require "tasks/migration/services/migrate_service"
-    require 'tasks/migration/services/metadata_parser'
-    require 'tasks/migration/services/import_service'
-    require 'tasks/migration_helper'
 
     # bundle exec rake migraton:digitool_item -- -p 12007 -c 'thesis'
     desc 'Verify that the thesis items have all been properly imported. Remove duplicates if any eg: bundle exec rake migration:check_thesis[csvfile]'
@@ -22,8 +21,8 @@ namespace :migration do
       # clean up the @pids list by removing all archive and supplemental pids
 
       clean_pids = []
-      @pids[0,5].each do | pid |
-        xml = fetch_raw_xml(pid)
+      @pids[0..10].each do | pid |
+        xml = fetch_raw_xml(pid, "xml")
         usage_type = set_usage_type(xml)
         item_status = set_item_status(xml)
         related_pids = fetch_related_pids(pid)
@@ -33,6 +32,8 @@ namespace :migration do
       check_thesis(clean_pids)
       #send_error_report(batch, @depositor)
 
+      # Send email of what has been completed
+      # Send email of the errors that occured
 
     end
   
@@ -44,11 +45,11 @@ namespace :migration do
     def is_main_view(usage_type, item_status, related_pids)
       main_view =  false
       is_suppressed = item_status.eql? 'SUPPRESSED'
-      if usage_type.eql? "ARCHIVE" and !is_suppressed? and (related_pids.has_value?('VIEW_MAIN') or related_pids.has_value?('VIEW'))
+      if usage_type.eql? "ARCHIVE" and !is_suppressed and (related_pids.has_value?('VIEW_MAIN') or related_pids.has_value?('VIEW'))
         main_view = false
       end
 
-      if is_suppressed? and usage_type.eql? "ARCHIVE"
+      if is_suppressed and usage_type.eql? "ARCHIVE"
         main_view = true
       end
 
@@ -107,17 +108,17 @@ namespace :migration do
     def check_thesis(csv_pids)
       Thesis.find_each do | item |
         my_pid = get_thesis_pid(item)
-        #Check if the pid is inside ny csv_pids
-        found = csv_pids.include? my_pid.strip
-        my_index = csv_pids.index(my_pid.strip)
-        csv_pids[my_index] = "#{my_pid.strip}:found" if my_index.present?
-        #puts "Found" if found
+        if my_pid.present?
+          puts "Checking if pid #{my_pid} for workid #{item.id} was ingested" 
+          #Check if the pid is inside  csv_pids
+          found = csv_pids.include? my_pid.strip
+          my_index = csv_pids.index(my_pid.strip)
+          csv_pids[my_index] = "#{my_pid.strip}:found" if my_index.present?
+        end
         #puts "Pid #{my_pid} not found" if !found 
       end
       csv_pids.each do |item| puts item end
 
-      # Send email of what has been completed
-      # Send email of the errors that occured
     end
 
     def get_thesis_pid(thesis) 
