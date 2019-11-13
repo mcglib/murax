@@ -28,6 +28,7 @@ namespace :migration do
         related_pids = fetch_related_pids(pid)
         main_view = is_main_view(usage_type, item_status, related_pids)
         clean_pids << pid if main_view
+        puts "Adding pid #{pid} to csv" if main_view
       end
       check_thesis(clean_pids)
       #send_error_report(batch, @depositor)
