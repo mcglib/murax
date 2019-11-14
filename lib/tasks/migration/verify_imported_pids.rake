@@ -10,12 +10,17 @@ namespace :migration do
     require 'open-uri'
 
     desc 'Verify that the samvera items have all been properly imported. Remove duplicates if any eg: bundle exec rake migration:verify_import[csvfile]'
-    task :verify_import, [:csv_file] => :environment do |t, args|
+    task :verify_imported_pids, [:csv_file] => :environment do |t, args|
 
       @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
       @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
+
+      # check if its a string or a file
       @pid_list = File.read("#{Rails.root}/#{args[:csv_file]}").strip.split("\n")
       @pids = @pid_list
+
+      # if its a string
+      @pids = args[:csv_file].split(' ').map{ |s| s.to_i } # first argument
 
       # clean up the @pids list by removing all archive and supplemental pids
       clean_pids = []
@@ -28,6 +33,7 @@ namespace :migration do
         clean_pids << pid if main_view
         puts "Adding pid #{pid} to csv" if main_view
       end
+
       check_concern(clean_pids)
       #send_error_report(batch, @depositor)
 
@@ -112,7 +118,7 @@ namespace :migration do
           #Check if the pid is inside  csv_pids
           found = csv_pids.include? my_pid.strip
           my_index = csv_pids.index(my_pid.strip)
-          csv_pids[my_index] = "#{my_pid.strip}:found" if my_index.present?
+          csv_pids[my_index] = "#{my_pid.strip}:imported" if my_index.present?
         end
         #puts "Pid #{my_pid} not found" if !found 
       end
