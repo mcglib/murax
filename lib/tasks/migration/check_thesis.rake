@@ -8,20 +8,18 @@ namespace :migration do
     require 'json'
     require 'nokogiri'
     require 'open-uri'
-    # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
 
-    # bundle exec rake migraton:digitool_item -- -p 12007 -c 'thesis'
-    desc 'Verify that the thesis items have all been properly imported. Remove duplicates if any eg: bundle exec rake migration:check_thesis[csvfile]'
-    task :check_thesis, [:csv_file] => :environment do |t, args|
+    desc 'Verify that the samvera items have all been properly imported. Remove duplicates if any eg: bundle exec rake migration:verify_import[csvfile]'
+    task :verify_import, [:csv_file] => :environment do |t, args|
 
       @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
       @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
       @pid_list = File.read("#{Rails.root}/#{args[:csv_file]}").strip.split("\n")
       @pids = @pid_list
-      # clean up the @pids list by removing all archive and supplemental pids
 
+      # clean up the @pids list by removing all archive and supplemental pids
       clean_pids = []
-      @pids.each do | pid |
+      @pids[0..10].each do | pid |
         xml = fetch_raw_xml(pid, "xml")
         usage_type = set_usage_type(xml)
         item_status = set_item_status(xml)
@@ -30,7 +28,7 @@ namespace :migration do
         clean_pids << pid if main_view
         puts "Adding pid #{pid} to csv" if main_view
       end
-      check_thesis(clean_pids)
+      check_concern(clean_pids)
       #send_error_report(batch, @depositor)
 
       # Send email of what has been completed
@@ -81,8 +79,8 @@ namespace :migration do
 
   
     def set_usage_type(raw_xml)
-      usage_type = raw_xml.at_css('digital_entity control usage_type').text if raw_xml.present?
-      usage_type
+      usage_type_v = raw_xml.at_css('digital_entity control usage_type') if raw_xml.present?
+      usage_type_v.text if usage_type_v.present?
     end
     
     def fetch_raw_xml(pid, format="json")
@@ -106,9 +104,9 @@ namespace :migration do
       ImportMailer.import_email(user,batch).deliver
     end
 
-    def check_thesis(csv_pids)
-      Thesis.find_each do | item |
-        my_pid = get_thesis_pid(item)
+    def check_concern(csv_pids, work_type)
+      worktype.constantize.find_each do | item |
+        my_pid = get_cur_concern_pid(item)
         if my_pid.present?
           puts "Checking if pid #{my_pid} for workid #{item.id} was ingested" 
           #Check if the pid is inside  csv_pids
@@ -122,10 +120,10 @@ namespace :migration do
 
     end
 
-    def get_thesis_pid(thesis) 
-        thesis_pid = nil
-        my_pid = thesis.relation.select{|item| item.include? "Pid"}.first
-        thesis_pid = my_pid.strip.split(":", 2).second if my_pid.present?
-        thesis_pid
+    def get_cur_concern_pid(cur_concern) 
+        cur_concern_pid = nil
+        my_pid = cur_concern.relation.select{|item| item.include? "Pid"}.first
+        cur_concern_pid = my_pid.strip.split(":", 2).second if my_pid.present?
+        cur_concern_pid
     end
   end
