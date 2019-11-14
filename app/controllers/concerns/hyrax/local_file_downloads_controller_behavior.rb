@@ -2,7 +2,7 @@ module Hyrax
   module LocalFileDownloadsControllerBehavior
     extend ActiveSupport::Concern
     #include Hyrax::LocalFileDownloadsControllerBehavior
-    #protected
+    protected
 
       # Handle the HTTP show request
       def send_local_content

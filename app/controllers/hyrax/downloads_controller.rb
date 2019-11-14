@@ -2,7 +2,6 @@ module Hyrax
   class DownloadsController < ApplicationController
     include Hydra::Controller::DownloadBehavior
     include Hyrax::LocalFileDownloadsControllerBehavior
-    #include Murax::FileDownloadsControllerBehavior
 
     def self.default_content_path
       :original_file
