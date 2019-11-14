@@ -14,7 +14,6 @@ module Hyrax
       when ActiveFedora::File
         # For original files that are stored in fedora
         super
-        #send_original_content
       when String
         # For derivatives stored on the local file system
         send_local_content
@@ -83,9 +82,17 @@ module Hyrax
       # Override this if you'd like a different filename
       # @return [String] the filename
       def file_name
+        #send_original_content
+        case file
+        when ActiveFedora::File
           fedora_id = file.id.split("/").last
           original_name = obfuscate_file_name(file.original_name, fedora_id)
           params[:filename] || original_name || (asset.respond_to?(:label) && asset.label) || file.id
+        when String
+          params[:filename] || file.original_name || (asset.respond_to?(:label) && asset.label) || file.id
+        else
+          raise ActiveFedora::ObjectNotFoundError
+        end
       end
 
       def obfuscate_file_name(filename, file_id)
