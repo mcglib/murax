@@ -21,13 +21,14 @@ namespace :migration do
       # clean up the @pids list by removing all archive and supplemental pids
 
       clean_pids = []
-      @pids[0..10].each do | pid |
+      @pids.each do | pid |
         xml = fetch_raw_xml(pid, "xml")
         usage_type = set_usage_type(xml)
         item_status = set_item_status(xml)
         related_pids = fetch_related_pids(pid)
         main_view = is_main_view(usage_type, item_status, related_pids)
         clean_pids << pid if main_view
+        puts "Adding pid #{pid} to csv" if main_view
       end
       check_thesis(clean_pids)
       #send_error_report(batch, @depositor)
@@ -124,7 +125,7 @@ namespace :migration do
     def get_thesis_pid(thesis) 
         thesis_pid = nil
         my_pid = thesis.relation.select{|item| item.include? "Pid"}.first
-        thesis_pid = my_pid.strip.split(":", 2).second
+        thesis_pid = my_pid.strip.split(":", 2).second if my_pid.present?
         thesis_pid
     end
   end

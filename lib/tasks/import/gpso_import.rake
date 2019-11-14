@@ -140,7 +140,7 @@ namespace :import do
             import_record={
                 work_id: new_thesis.id,
                 collection_id: 'theses',
-                digitool_collection_code: 'THESIS',
+                digitool_collection_code: 'N/A',
                 pid: student_id,
                 title: new_thesis.title.first, work_type: 'Thesis', raw_xml: node.to_s
             }
@@ -152,9 +152,19 @@ namespace :import do
 
           rescue StandardError => e
             errors += 1
+            import_record={
+               work_id: new_thesis.id,
+               collection_id: 'theses',
+               digitool_collection_code: 'N/A',
+               pid: student_id,
+               title: new_thesis.title.first,
+               work_type: 'Thesis',
+               raw_xml: node.to_s
+            }
+            import_log.attributes = import_record
             import_log.imported  = false
             import_log.error = "#{e}: #{e.class.name} "
-            logger.error "Error importing #{filename}: #{e}: #{e.class.name}"
+            logger.error "Error importing #{filename} or related data: #{e}: #{e.class.name}"
           end
         end
         import_log.save
