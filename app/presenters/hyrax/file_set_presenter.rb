@@ -36,9 +36,21 @@ module Hyrax
       @single_use_links ||= SingleUseLink.where(itemId: id).map { |link| link_presenter_class.new(link) }
     end
 
+    ## Override the method for users who are not logged in
+    ##  and show for users who are editors
+    def title
+      current_ability.can?(:edit, solr_document) ? @solr_document.title : [id]
+    end
+
     # The title of the webpage that shows this FileSet.
     def page_title
-      "#{human_readable_type} | #{title.first} | ID: #{id} | #{I18n.t('hyrax.product_name')}"
+       if human_readable_type == 'File'
+         file_title = current_ability.can?(:edit, solr_document) ? title.first : id
+       else
+         file_title = title.first
+       end
+
+      "#{human_readable_type} | #{file_title} | ID: #{id} | #{I18n.t('hyrax.product_name')}"
     end
 
     # The first title assertion
