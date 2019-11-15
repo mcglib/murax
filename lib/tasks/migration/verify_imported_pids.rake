@@ -8,18 +8,32 @@ namespace :migration do
     require 'json'
     require 'nokogiri'
     require 'open-uri'
-    # Maybe switch to auto-loading lib/tasks/migrate in environment.rb
 
-    # bundle exec rake migraton:digitool_item -- -p 12007 -c 'thesis'
-    desc 'Verify that the thesis items have all been properly imported. Remove duplicates if any eg: bundle exec rake migration:check_thesis[csvfile]'
-    task :check_thesis, [:csv_file] => :environment do |t, args|
+    desc 'Verify that the samvera items have all been properly imported. Remove duplicates if any eg: bundle exec rake migration:verify_import[csvfile]'
+    task :verify_imported_pids, [:csv_file, :worktype] => :environment do |t, args|
+      if args.count < 2
+        puts "Usage: bundle exec rake migration:verify_imported_pids[csv_file,'Thesis']"
+        puts "Expecting two arguments. found #{args.count}"
+        exit
+      end
+      if args[:worktype] == nil
+        puts "error: Work type '#{args[:worktype]}' was not defined."
+        exit
+      end
 
       @scripts_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-related-pids.php"
       @xml_url = "http://internal.library.mcgill.ca/digitool-reports/diverse-queries/hyrax/get-de-with-relations-by-pid.php"
+
+      # check if its a string or a file
       @pid_list = File.read("#{Rails.root}/#{args[:csv_file]}").strip.split("\n")
       @pids = @pid_list
-      # clean up the @pids list by removing all archive and supplemental pids
+      work_type = args[:worktype]
 
+      # if its a string
+      # #@pids = args[:csv_file].split(' ').map{ |s| s.to_i } # first argument
+
+      # clean up the @pids list by removing all archive and supplemental pids
+      puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  Checking that the pids are on digitool and creating a new list:\n\n"
       clean_pids = []
       @pids.each do | pid |
         xml = fetch_raw_xml(pid, "xml")
@@ -28,9 +42,11 @@ namespace :migration do
         related_pids = fetch_related_pids(pid)
         main_view = is_main_view(usage_type, item_status, related_pids)
         clean_pids << pid if main_view
-        puts "Adding pid #{pid} to csv" if main_view
+        #puts "Adding pid #{pid} to csv" if main_view
       end
-      check_thesis(clean_pids)
+
+      puts "Starting to verify that the pids have been imported:\n\n"
+      check_concern(clean_pids, work_type)
       #send_error_report(batch, @depositor)
 
       # Send email of what has been completed
@@ -81,8 +97,8 @@ namespace :migration do
 
   
     def set_usage_type(raw_xml)
-      usage_type = raw_xml.at_css('digital_entity control usage_type').text if raw_xml.present?
-      usage_type
+      usage_type_v = raw_xml.at_css('digital_entity control usage_type') if raw_xml.present?
+      usage_type_v.text if usage_type_v.present?
     end
     
     def fetch_raw_xml(pid, format="json")
@@ -106,26 +122,34 @@ namespace :migration do
       ImportMailer.import_email(user,batch).deliver
     end
 
-    def check_thesis(csv_pids)
-      Thesis.find_each do | item |
-        my_pid = get_thesis_pid(item)
-        if my_pid.present?
-          puts "Checking if pid #{my_pid} for workid #{item.id} was ingested" 
-          #Check if the pid is inside  csv_pids
-          found = csv_pids.include? my_pid.strip
-          my_index = csv_pids.index(my_pid.strip)
-          csv_pids[my_index] = "#{my_pid.strip}:found" if my_index.present?
-        end
-        #puts "Pid #{my_pid} not found" if !found 
+    def check_concern(csv_pids, work_type)
+      wktype = work_type.capitalize.constantize
+      total_items = csv_pids.count
+      csv_pids.each_with_index do | pid, index |
+        puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{index}/#{total_items}  : Checking the pid  #{pid}."
+        my_pid = pid.strip.to_i
+        item = wktype.where(relation_tesim: "Pid: #{my_pid}").first
+        csv_pids[index] = "#{my_pid}:imported" if item.present?
       end
+      #work_type.capitalize.constantize.find_each do | item |
+      #  my_pid = get_digitool_pid(item)
+      #  if my_pid.present?
+      #    puts "Checking if pid #{my_pid} for workid #{item.id} was ingested" 
+      #    #Check if the pid is inside  csv_pids
+      #    found = csv_pids.include? my_pid.strip
+      #    my_index = csv_pids.index(my_pid.strip)
+      #    csv_pids[my_index] = "#{my_pid.strip}:imported" if my_index.present?
+      #  end
+        #puts "Pid #{my_pid} not found" if !found 
+      #end
       csv_pids.each do |item| puts item end
 
     end
 
-    def get_thesis_pid(thesis) 
-        thesis_pid = nil
-        my_pid = thesis.relation.select{|item| item.include? "Pid"}.first
-        thesis_pid = my_pid.strip.split(":", 2).second if my_pid.present?
-        thesis_pid
+    def get_digitool_pid(cur_concern) 
+        digitool_pid = nil
+        my_pid = cur_concern.relation.select{|item| item.include? "Pid"}.first
+        digitool_pid = my_pid.strip.split(":", 2).second if my_pid.present?
+        digitool_pid
     end
   end
