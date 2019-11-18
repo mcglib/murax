@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.38] - 2019-11-14
+### Changed
+* Updated
+* * Minor changes to check thesis
+* * add details to batch report for errors
+* * Updated the code so that we can see the file that is being added to be checked
+* * Updated
+* * Added some methods to obfuscate the filename when its from GPSO
+* * Updated the controller so that we only target filenames from gpso
+* * Clean up code we do not need
+* * Fixed a bug introduced by the change of filenames
+* * Made the check_thesis more generic
+* * Renaming the task so its more generic
+* * Updated the code for the verification of the pids. Increased checking perfomance by 300%
+* * Udpated to newer version of bootstrap tables
+* * Updated so that the we hide the filename and just show the system file id
+* * Updated the file_set_presenter
+* * Upgraded the code so that we can have a summary of missing pids.
+* * Upgraded the code so that we can have a summary of missing pids.
+* * support for a few more unexpected dc:types
+
+## [Unreleased]
 ## [1.0.37] - 2019-11-13
 ### Changed
 * Added route to batches
