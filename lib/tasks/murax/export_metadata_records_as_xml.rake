@@ -45,7 +45,7 @@ namespace :murax do
           xml_out << "<record><error>couldn't find work_id "+work_id+"</error></record>"
           next
        rescue URI::InvalidURIError
-          puts "Invalid URI. Did you use commas to separate workids?"
+          puts "Invalid URI. Did you use commas to separate workids? (you should...)"
           exit
        end
 
