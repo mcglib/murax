@@ -56,6 +56,7 @@ namespace :migration do
       missing_pids = clean_pids - imported_pids
       puts "No missing pids found. All have been imported" if missing_pids.empty?
       puts "#{missing_pids.count} pid(s) reported as not imported. See list below:" if missing_pids.count >= 1
+      puts "--\n\n"
       missing_pids.each do | missing_pid | puts "#{missing_pid}\n" end
 
 
