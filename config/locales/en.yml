@@ -35,3 +35,7 @@ en:
     not_found:              "404: A page is missing" # -> 404 page
     unauthorized:           "You need to login to continue"
     internal_server_error:  "This is a test to show the %{status} of the error"
+  devise:
+    sessions:
+      new:
+        sign_in: Administrative login
