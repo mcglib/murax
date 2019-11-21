@@ -61,6 +61,9 @@ en:
     default_rights_statement: "All items in eScholarship@McGill are protected by copyright with all rights reserved unless otherwise indicated."
     product_name: "eScholarship@McGill"
     product_twitter_handle: "@mcgill_library"
+    toolbar:
+      profile:
+        login: Login (staff only)
     base:
       show:
         rtype: Type
