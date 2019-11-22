@@ -4,11 +4,12 @@ namespace :import do
     require 'tasks/import/import_logging'
     require 'tasks/import/services/import_service'
 
-    desc 'Import theses and related items from GPSO. This rake task expects to find the xml file in the tmp directory. Eg: bundle exec rake import:gpso_import["xml_file.xml"]'
-    task :gpso_import, [:xml_file] => :environment do |t, args|
+    desc 'Import theses and related items from GPSO. This rake task expects to find the xml file in the tmp directory. Eg: bundle exec rake import:gpso_import["xml_file.xml","batch report title"]'
+    task :gpso_import, [:xml_file, :batch_name] => :environment do |t, args|
       gpso_xml = args[:xml_file]
+      batch_name = args[:batch_name]
       if gpso_xml.empty?
-        puts "Usage: bundle exec rake import:gpso_import['gpso-xml-file.xml']"
+        puts "Usage: bundle exec rake import:gpso_import['gpso-xml-file.xml','title for batch report']"
         puts "       The task expects to file the xml file in the tmp directory"
         exit
       end
@@ -45,7 +46,7 @@ namespace :import do
       thesis_count = theses.root.children.count
 
       # set up logging
-      batch = Batch.new({:no => thesis_count, :name => 'gpso_import', :started => Time.now,
+      batch = Batch.new({:no => thesis_count, :name => batch_name, :started => Time.now,
                          :finished => Time.now, user: @depositor})
       batch.save!
       logger = ActiveSupport::Logger.new("log/gpso-import-batch-#{batch.id}-#{datetime_today}.log")
