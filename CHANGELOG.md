@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.40] - 2019-11-25
+### Changed
+* Updated the code to fetch pids from the second template
+* Added the template 2 pids for ingest
+* Renaming the thesis pid for ETHESIS2
+
 ## [1.0.39] - 2019-11-22
 ### Changed
 * fixed the file manager internal server error
