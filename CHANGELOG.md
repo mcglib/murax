@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.0.41] - 2019-11-25
+### Changed
+* Fixed the bug with ETHESIS2 not importing. Added a check so that we can get the dctype of the xml to check for thesis.
 ## [1.0.40] - 2019-11-25
 ### Changed
 * Updated the code to fetch pids from the second template
