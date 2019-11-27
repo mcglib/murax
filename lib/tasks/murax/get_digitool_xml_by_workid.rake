@@ -15,13 +15,45 @@ namespace :murax do
         puts "Expecting atleast one arguments; found #{args.count}."
         exit
      end
+     export_digitool_xml(wkids)
 
+     exit
+  end
+  
+  task :bulk_export_digitool_xml_by_workid, [:csv_file] => :environment do |task, args|
+      # check if we go other pids
+     csv_file = args[:csv_file]
+     if csv_file.empty?
+        puts "Usage: bundle exec rake murax:bulk_export_digitool_xml_by_workid[csv_file]"
+        puts "       Prints out the digitool xml for a given workid that was imported"
+        puts "Expecting atleast one arguments; found #{args.count}."
+        exit
+     end
+     export_digitool_xml(wkids)
+     exit
+   end
+
+
+# Not completed yet!
+   def export_digitool_xml(wkids)
+     start_time = Time.now
+     logger = ActiveSupport::Logger.new("log/export-digitool-xml-#{start_time}.log")
+     logger.info "Task started at #{start_time}"
+     successes = 0
+     errors = 0
      wkids.each do |work_id|
        #fetch object
        xml = Murax::DigitoolXmlService.get_xml_by_workid(work_id)
        puts xml if xml.present?
+       logger.info "#{work_id} : Found" if xml.present?
+       logger "#{work_id}: Not found" if !xml.present?
+       errors += 1 if !xml.present?
+       successes += 1 if xml.present?
      end
+      logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
+      end_time = Time.now
+      duration = (end_time - start_time) / 1.minute
+      log.info "Task finished at #{end_time} and lasted #{duration} minutes."
 
-     exit
    end
 end
