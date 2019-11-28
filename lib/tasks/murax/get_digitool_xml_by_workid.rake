@@ -43,10 +43,11 @@ namespace :murax do
      errors = 0
      wkids.each do |work_id|
        #fetch object
-       xml = Murax::DigitoolXmlService.get_xml_by_workid(work_id)
-       puts xml if xml.present?
-       logger.info "#{work_id} : Found" if xml.present?
-       logger "#{work_id}: Not found" if !xml.present?
+       xml = Murax::DigitoolService.get_xml_by_workid(work_id)
+       pid = Murax::DigitoolService.get_pid_by_workid(work_id)
+       puts "<work id='#{work_id}'>#{xml}<work>" if xml.present?
+       logger.info "#{work_id} - #{pid}: Found" if xml.present?
+       logger "#{work_id} - #{pid}: Not found" if !xml.present?
        errors += 1 if !xml.present?
        successes += 1 if xml.present?
      end
