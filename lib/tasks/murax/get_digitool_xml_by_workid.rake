@@ -33,13 +33,28 @@ namespace :murax do
      exit
    end
 
-    # Not completed yet!
+
+# Not completed yet!
    def export_digitool_xml(wkids)
+     start_time = Time.now
+     logger = ActiveSupport::Logger.new("log/export-digitool-xml-#{start_time}.log")
+     logger.info "Task started at #{start_time}"
+     successes = 0
+     errors = 0
      wkids.each do |work_id|
        #fetch object
-       xml = Murax::DigitoolXmlService.get_xml_by_workid(work_id)
-       puts xml if xml.present?
+       xml = Murax::DigitoolService.get_xml_by_workid(work_id)
+       pid = Murax::DigitoolService.get_pid_by_workid(work_id)
+       puts "<work id='#{work_id}'>#{xml}<work>" if xml.present?
+       logger.info "#{work_id} - #{pid}: Found" if xml.present?
+       logger "#{work_id} - #{pid}: Not found" if !xml.present?
+       errors += 1 if !xml.present?
+       successes += 1 if xml.present?
      end
+      logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
+      end_time = Time.now
+      duration = (end_time - start_time) / 1.minute
+      log.info "Task finished at #{end_time} and lasted #{duration} minutes."
 
    end
 end
