@@ -20,6 +20,7 @@ namespace :murax do
      exit
   end
   
+  desc 'Get the digitool raw xml from import log'
   task :bulk_export_digitool_xml_by_workid, [:csv_file] => :environment do |task, args|
       # check if we go other pids
      csv_file = args[:csv_file]
@@ -35,7 +36,6 @@ namespace :murax do
    end
 
 
-# Not completed yet!
    def export_digitool_xml(wkids)
      start_time = Time.now
      logger = ActiveSupport::Logger.new("log/export-digitool-xml-#{start_time}.log")
@@ -46,9 +46,12 @@ namespace :murax do
        #fetch object
        xml = Murax::DigitoolService.get_xml_by_workid(work_id)
        pid = Murax::DigitoolService.get_pid_by_workid(work_id)
+
        puts "<work id='#{work_id}'>#{xml}</work>" if xml.present?
+
        logger.info "#{work_id} - #{pid}: Found" if xml.present?
        logger.info "#{work_id} - #{pid}: Not found" if !xml.present?
+
        errors += 1 if !xml.present?
        successes += 1 if xml.present?
      end
