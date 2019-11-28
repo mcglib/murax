@@ -29,6 +29,7 @@ namespace :murax do
         puts "Expecting atleast one arguments; found #{args.count}."
         exit
      end
+     wkids = File.read("#{Rails.root}/#{csv_file}").strip.split(",")
      export_digitool_xml(wkids)
      exit
    end
@@ -45,16 +46,16 @@ namespace :murax do
        #fetch object
        xml = Murax::DigitoolService.get_xml_by_workid(work_id)
        pid = Murax::DigitoolService.get_pid_by_workid(work_id)
-       puts "<work id='#{work_id}'>#{xml}<work>" if xml.present?
+       puts "<work id='#{work_id}'>#{xml}</work>" if xml.present?
        logger.info "#{work_id} - #{pid}: Found" if xml.present?
-       logger "#{work_id} - #{pid}: Not found" if !xml.present?
+       logger.info "#{work_id} - #{pid}: Not found" if !xml.present?
        errors += 1 if !xml.present?
        successes += 1 if xml.present?
      end
       logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
       end_time = Time.now
       duration = (end_time - start_time) / 1.minute
-      log.info "Task finished at #{end_time} and lasted #{duration} minutes."
+      logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
 
    end
 end
