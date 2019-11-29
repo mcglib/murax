@@ -3,7 +3,10 @@ module Hyrax
     extend ActiveSupport::Concern
 
     class_methods do
+      ## Overidden by McGill
+      ## removed :file_title and :filename
       def characterization_terms
+
         [
           :byte_order, :compression, :height, :width, :color_space,
           :profile_name, :profile_version, :orientation, :color_map, :image_producer,
