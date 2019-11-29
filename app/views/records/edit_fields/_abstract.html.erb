@@ -10,13 +10,13 @@
 
 
 <% if f.object.multiple? key %>
-  <%= f.input :abstract, wrapper: :horizontal_form,  as: :multi_value, required: f.object.required?(key) do %>
+  <%= f.input :abstract, wrapper: :vertical_form,  as: :multi_value, required: f.object.required?(key) do %>
     <%= f.input_field :abstract, class: "form-control" %>
     <div class="input-group-btn">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select a language <span class="caret"></span></button>
         <ul class="dropdown-menu pull-right">
           <% languages_auth.select_all_options.each do |lang| %>
-            <li> <%= lang[0] %> </li>
+            <li><a href="#"><%= lang[0] %></a></li>
           <% end %>
         </ul>
     </div>
