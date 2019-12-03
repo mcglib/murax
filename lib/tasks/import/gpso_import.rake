@@ -87,7 +87,7 @@ namespace :import do
           increment+=1
           filename = node.xpath('localfilename').first.text.split('/').last.strip
           m = filename.match(/[A-Z]+_[0-9]{4,4}_([0-9]+)_.*.pdf/)
-          student_id = m[1]
+          m ? student_id = m[1] : student_id = '000000000'
           puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{increment}/#{total_items}  : Processing the item  #{filename}"
           import_log = ImportLog.new({:pid => filename, :date_imported => Time.now, :batch_id => batch_id})
           begin
@@ -121,9 +121,12 @@ namespace :import do
 
             #add files
             file_attributes = import_service.create_a_file_record
-            import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_thesis_filename,@tmp_file_location) if !gpso_thesis.get_thesis_filename.nil?
-            import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_waiver_filename,@tmp_file_location) if !gpso_thesis.get_waiver_filename.nil?
-            import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_multimedia_filename,@tmp_file_location) if !gpso_thesis.get_multimedia_filename.nil?
+            success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_thesis_filename,@tmp_file_location) if !gpso_thesis.get_thesis_filename.nil?
+            raise StandardError.new "Error reading or writing thesis file #{gpso_thesis.get_thesis_filename}" if !success
+            success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_waiver_filename,@tmp_file_location) if !gpso_thesis.get_waiver_filename.nil?
+            raise StandardError.new "Error reading or writing waiver file #{gpso_thesis.get_waiver_filename}" if !success
+            success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_multimedia_filename,@tmp_file_location) if !gpso_thesis.get_multimedia_filename.nil?
+            raise StandardError.new "Error reading or writing multimedia file #{gpso_thesis.get_multimedia_filename}" if !success
 
             # delete the files in tmp_file_location
             FileUtils.rm_rf("#{@tmp_file_location}/#{new_thesis.id}")
