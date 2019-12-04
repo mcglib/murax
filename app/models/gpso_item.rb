@@ -26,7 +26,7 @@ class GpsoItem
 
       work_attributes = Hash.new
       work_attributes['visibility'] = 'open'
-      work_attributes['depositor'] = depositor.email
+      work_attributes['depositor'] = depositor.id
       work_attributes['rtype'] = [thesis_xml.xpath('type').text.strip]
 
       work_attributes['note'] = []
