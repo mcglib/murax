@@ -19,9 +19,23 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'span', class: 'help-block' }
     b.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
     b.use :input, class: 'form-control'
+  end
+
+#Input group for abstracts. 
+  config.wrappers :vertical_input_group_form, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :label, class: 'control-label'
+    b.use :error, wrap_with: { tag: 'span', class: 'help-block' }
+    b.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
+    b.use :input, class: 'form-control'
 
     b.wrapper tag: 'div' do |ba|
-      ba.wrapper tag: 'div', class: 'input-group col-sm-9' do |append|
+      ba.wrapper tag: 'div', class: 'input-group col-sm-6' do |append|
         append.use :input, class: 'form-control'
       end
       ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
@@ -29,6 +43,7 @@ SimpleForm.setup do |config|
     end
 
   end
+# End of Input group for abstracts.
 
   config.wrappers :vertical_file_input, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5

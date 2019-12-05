@@ -27,4 +27,13 @@ module HyraxHelper
     end
   end
 
+# This methods returns the last 3 keywords of a string. 
+  def language_abstract_code(str)
+    append_symbol = '"@'
+    get_language_code = str.last(3)
+    language_code = get_language_code.first(2)
+    abstract_append_code = append_symbol + language_code
+    return  abstract_append_code
+  end
+
 end

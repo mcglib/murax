@@ -12,8 +12,8 @@ module Murax
         curation_concern = ActiveFedora::Base.find(params[:id])
         redirect_to(main_app.polymorphic_path(curation_concern), status: :moved_permanently) and return if curation_concern.class != _curation_concern_type
       end
-    end
-
+    end 
+  
     def new
       curation_concern.publisher = ['McGill University']
       curation_concern.rights_statement = ['http://rightsstatements.org/vocab/InC/1.0/']
@@ -31,7 +31,6 @@ module Murax
       #set_other_option_values
       super
     end
-
     def create
       #set_other_option_values
       super

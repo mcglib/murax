@@ -28,3 +28,4 @@
 //= require_tree .
 //= require hyrax
 //= attributes.js
+//= append_lang_abstracts.js
