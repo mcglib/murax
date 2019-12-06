@@ -4,11 +4,12 @@ namespace :import do
     require 'tasks/import/import_logging'
     require 'tasks/import/services/import_service'
 
-    desc 'Import theses and related items from GPSO. This rake task expects to find the xml file in the tmp directory. Eg: bundle exec rake import:gpso_import["xml_file.xml"]'
-    task :gpso_import, [:xml_file] => :environment do |t, args|
+    desc 'Import theses and related items from GPSO. This rake task expects to find the xml file in the tmp directory. Eg: bundle exec rake import:gpso_import["xml_file.xml","batch report title"]'
+    task :gpso_import, [:xml_file, :batch_name] => :environment do |t, args|
       gpso_xml = args[:xml_file]
+      batch_name = args[:batch_name]
       if gpso_xml.empty?
-        puts "Usage: bundle exec rake import:gpso_import['gpso-xml-file.xml']"
+        puts "Usage: bundle exec rake import:gpso_import['gpso-xml-file.xml','title for batch report']"
         puts "       The task expects to file the xml file in the tmp directory"
         exit
       end
@@ -45,7 +46,7 @@ namespace :import do
       thesis_count = theses.root.children.count
 
       # set up logging
-      batch = Batch.new({:no => thesis_count, :name => 'gpso_import', :started => Time.now,
+      batch = Batch.new({:no => thesis_count, :name => batch_name, :started => Time.now,
                          :finished => Time.now, user: @depositor})
       batch.save!
       logger = ActiveSupport::Logger.new("log/gpso-import-batch-#{batch.id}-#{datetime_today}.log")
@@ -86,7 +87,7 @@ namespace :import do
           increment+=1
           filename = node.xpath('localfilename').first.text.split('/').last.strip
           m = filename.match(/[A-Z]+_[0-9]{4,4}_([0-9]+)_.*.pdf/)
-          student_id = m[1]
+          m ? student_id = m[1] : student_id = '000000000'
           puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{increment}/#{total_items}  : Processing the item  #{filename}"
           import_log = ImportLog.new({:pid => filename, :date_imported => Time.now, :batch_id => batch_id})
           begin
@@ -120,9 +121,12 @@ namespace :import do
 
             #add files
             file_attributes = import_service.create_a_file_record
-            import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_thesis_filename,@tmp_file_location) if !gpso_thesis.get_thesis_filename.nil?
-            import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_waiver_filename,@tmp_file_location) if !gpso_thesis.get_waiver_filename.nil?
-            import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_multimedia_filename,@tmp_file_location) if !gpso_thesis.get_multimedia_filename.nil?
+            success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_thesis_filename,@tmp_file_location) if !gpso_thesis.get_thesis_filename.nil?
+            raise StandardError.new "Error reading or writing thesis file #{gpso_thesis.get_thesis_filename}" if !success
+            success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_waiver_filename,@tmp_file_location) if !gpso_thesis.get_waiver_filename.nil?
+            raise StandardError.new "Error reading or writing waiver file #{gpso_thesis.get_waiver_filename}" if !success
+            success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_multimedia_filename,@tmp_file_location) if !gpso_thesis.get_multimedia_filename.nil?
+            raise StandardError.new "Error reading or writing multimedia file #{gpso_thesis.get_multimedia_filename}" if !success
 
             # delete the files in tmp_file_location
             FileUtils.rm_rf("#{@tmp_file_location}/#{new_thesis.id}")

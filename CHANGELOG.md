@@ -5,6 +5,54 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.1.0] - 2019-12-06
+### Changed
+* Added nofollow, noindex for preventing google searching and crawling
+## [Unreleased]
+## [1.0.43] - 2019-11-27
+### Changed
+* Added a rake task to export digitool xml of a given set of workids or csvfile
+## [1.0.42] - 2019-11-26
+### Changed
+* Clara fixed bug with the papers that had and extra field
+## [1.0.41] - 2019-11-25
+### Changed
+* Fixed the bug with ETHESIS2 not importing. Added a check so that we can get the dctype of the xml to check for thesis.
+## [1.0.40] - 2019-11-25
+### Changed
+* Updated the code to fetch pids from the second template
+* Added the template 2 pids for ingest
+* Renaming the thesis pid for ETHESIS2
+
+## [1.0.39] - 2019-11-22
+### Changed
+* fixed the file manager internal server error
+* hidden the share work button from the home page
+* hiddent the signup button on login
+* changed the log in heading to administrative login
+* moved the terms of use button to the right bottom of home content page. moved from index
+* Changed the verbage on login to login (staff only) and also changed the location of login button to footer of the home page.
+## [1.0.38] - 2019-11-14
+### Changed
+* Minor changes to check thesis
+* add details to batch report for errors
+* Updated the code so that we can see the file that is being added to be checked
+* Updated
+* Added some methods to obfuscate the filename when its from GPSO
+* Updated the controller so that we only target filenames from gpso
+* Clean up code we do not need
+* Fixed a bug introduced by the change of filenames
+* Made the check_thesis more generic
+* Renaming the task so its more generic
+* Updated the code for the verification of the pids. Increased checking perfomance by 300%
+* Udpated to newer version of bootstrap tables
+* Updated so that the we hide the filename and just show the system file id
+* Updated the file_set_presenter
+* Upgraded the code so that we can have a summary of missing pids.
+* Upgraded the code so that we can have a summary of missing pids.
+* support for a few more unexpected dc:types
+
+## [Unreleased]
 ## [1.0.37] - 2019-11-13
 ### Changed
 * Added route to batches

@@ -5,7 +5,7 @@ require 'htmlentities'
 
 namespace :murax do
   desc 'Export one or more metadata records as xml'
-  task :export_metadata_records_as_dc_xml, [:destination, :stylesheet] => :environment do |task, args|
+  task :export_metadata_records_as_xml, [:destination, :stylesheet] => :environment do |task, args|
     transforms = {"none"=>"identity.xsl","dc"=>"samvera2DC.xsl"}
     transform_options = transforms.keys
     dest   = args.destination
@@ -44,6 +44,9 @@ namespace :murax do
        rescue ActiveFedora::ObjectNotFoundError
           xml_out << "<record><error>couldn't find work_id "+work_id+"</error></record>"
           next
+       rescue URI::InvalidURIError
+          puts "Invalid URI. Did you use commas to separate workids? (you should...)"
+          exit
        end
 
        #transform to xml

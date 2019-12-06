@@ -44,11 +44,11 @@ Hyrax.config do |config|
   # config.max_days_between_fixity_checks = 7
 
   # Options to control the file uploader
-  # config.uploader = {
-  #   limitConcurrentUploads: 6,
-  #   maxNumberOfFiles: 100,
-  #   maxFileSize: 1500.megabytes
-  # }
+  config.uploader = {
+     limitConcurrentUploads: 6,
+     maxNumberOfFiles: 100,
+     maxFileSize: 1600.megabytes
+  }
 
   # Enable displaying usage statistics in the UI
   # Defaults to false
@@ -169,7 +169,7 @@ Hyrax.config do |config|
   # config.iiif_metadata_fields = Hyrax::Forms::WorkForm.required_fields
 
   # Should a button with "Share my work" show on the front page to all users (even those not logged in)?
-  # config.display_share_button_when_not_logged_in = true
+  config.display_share_button_when_not_logged_in = false
 
   # The user who runs batch jobs. Update this if you aren't using emails
   # config.batch_user_key = 'batchuser@example.com'

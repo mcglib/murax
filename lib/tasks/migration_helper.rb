@@ -144,7 +144,7 @@ class MigrationHelper
         end
       end
 
-      paper_types = ["project report", "policy", "working", "conference paper"]
+      paper_types = ["project report", "policy", "working", "paper"]
       paper_types.each do |term|
         if dctypes.downcase.include? term
           worktype = "Paper"
@@ -165,10 +165,17 @@ class MigrationHelper
         end
       end
 
-      presentation_types = ["poster"]
+      presentation_types = ["poster", "presentation"]
       presentation_types.each do |term|
         if dctypes.downcase.include? term
           worktype = "Presentation"
+        end
+      end
+
+      thesis_types = ["electronic thesis or Dissertation", "thesis"]
+      thesis_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Thesis"
         end
       end
     end
