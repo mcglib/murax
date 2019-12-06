@@ -5,7 +5,7 @@
     <li class="field-wrapper input-group input-append">
       <%= f.input_field :abstract, class: "form-control multi_value optional #{f.object_name}-abstract multi-text-field abstract-text-field", name: "#{f.object_name}[abstract][]", style: "width:80%" %>
       <div class="form-group field-wrapper input-group input-append  multi_value optional <%= f.object_name %>_abstract managed" style="width:20%;background-color:inherit;vertical-align:bottom;padding:0;border-radius:0;border:none;">
-        <select class="string multi_value optional form-control <%= f.object_name %>_abstract multi-text-field select_abstract" id="<%= f.object_name %>_abstract" name="<%= f.object_name %>[abstract][]" >
+        <select class="string multi_value optional form-control <%= f.object_name %>_abstract multi-text-field select_abstract" id="<%= f.object_name %>_abstract" name="<%= f.object_name %>[abstract][]">
           <% languages_auth.select_all_options.each do |lang| %>
             <option value="<%= language_abstract_code(lang[1]) %>"><%= lang[0] %></option>
           <% end %>
@@ -16,7 +16,7 @@
             class="sr-only"> previous <span class="controls-field-name-text"> Abstract</span></span></button></span>
     </li>
    </ul> 
-    <button type="button" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span><span
+    <button type="button" class="btn btn-link add" id="add-more-abstracts"><span class="glyphicon glyphicon-plus"></span><span
       class="controls-add-text">Add another Abstract</span></button>
   <% end %>
 <% end %>

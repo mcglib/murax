@@ -8,8 +8,12 @@ document.addEventListener("turbolinks:load", function() {
       var n = 2;
       for (var i = 0; i < abstract_fields.length; i += n) {
         next_value = i+1;
-        abstract_fields[i].value += abstract_fields[next_value].value;
-        abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
+        if (abstract_fields[i].value != "") {
+          abstract_fields[i].value += abstract_fields[next_value].value;
+          abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
+        } else {
+          abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
+        }
       } 
       console.log(abstract_fields);
     });

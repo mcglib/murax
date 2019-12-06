@@ -27,7 +27,7 @@ module HyraxHelper
     end
   end
 
-# This methods returns the last 3 keywords of a string. 
+# This methods returns the two digit language code appended with @ sign from language authority id. 
   def language_abstract_code(str)
     append_symbol = '"@'
     get_language_code = str.last(3)
