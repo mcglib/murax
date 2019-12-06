@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale.to_s %>" prefix="og:http://ogp.me/ns#">
   <head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
     <%= render partial: 'layouts/head_tag_content' %>
     <%= content_for(:head) %>
   </head>
