@@ -171,6 +171,13 @@ class MigrationHelper
           worktype = "Presentation"
         end
       end
+
+      thesis_types = ["electronic thesis or Dissertation", "thesis"]
+      thesis_types.each do |term|
+        if dctypes.downcase.include? term
+          worktype = "Thesis"
+        end
+      end
     end
 
     worktype

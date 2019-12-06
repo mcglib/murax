@@ -80,8 +80,13 @@ module Import
             actor.create_metadata(file_attributes)
             #fetch the file
             uploaded_file = "#{base_file_path}/#{@resource.id}/#{file_part_of_name}"
-            bitstream = open(file_name)
-            IO.copy_stream(bitstream,uploaded_file)
+            begin
+              bitstream = open(file_name)
+              IO.copy_stream(bitstream,uploaded_file)
+            rescue StandardError => e
+              puts "File read/write error: #{e.message}"
+              return false
+            end
             retry_op('reading file') do
               actor.create_content(Hyrax::UploadedFile.create(file: File.open(uploaded_file), user: @user))
             end
@@ -89,6 +94,7 @@ module Import
               actor.attach_to_work(@resource,file_attributes)
             end
           end
+          return true
       end
 
       private

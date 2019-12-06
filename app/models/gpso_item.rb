@@ -26,7 +26,7 @@ class GpsoItem
 
       work_attributes = Hash.new
       work_attributes['visibility'] = 'open'
-      work_attributes['depositor'] = depositor.id
+      work_attributes['depositor'] = depositor.email
       work_attributes['rtype'] = [thesis_xml.xpath('type').text.strip]
 
       work_attributes['note'] = []
@@ -66,7 +66,8 @@ class GpsoItem
       end
 
       work_attributes['date_accepted'] = []
-      work_attributes['date_accepted'] << Date.strptime(thesis_xml.xpath('localdissacceptdate').text.strip,"%m/%d/%Y").strftime("%Y-%m-%d")
+      #work_attributes['date_accepted'] << Date.strptime(thesis_xml.xpath('localdissacceptdate').text.strip,"%m/%d/%Y").strftime("%Y-%m-%d")
+      work_attributes['date_accepted'] << thesis_xml.xpath('localdissacceptdate').text.strip
 
       work_attributes['rights'] = []
       work_attributes['rights'] << thesis_xml.xpath('rights').text.strip
