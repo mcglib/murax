@@ -29,7 +29,8 @@ namespace :report do
     count=0
     o=File.open(f,'w')
     co.member_objects.each do |object|
-      o.puts "#{object.id}\t#{object.relation.first}"
+      pid=object.relation.select { |rel| rel.include? "Pid" }
+      o.puts "#{object.id}\t#{pid.first}"
       count+=1
     end
     o.close
