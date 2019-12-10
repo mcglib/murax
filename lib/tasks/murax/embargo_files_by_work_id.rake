@@ -10,21 +10,21 @@ namespace :murax do
     workids = args[:workids].split(' ')
 
     embargo_release_date = DateTime.now.next_year.strftime('%Y-%m-%d')
-    abort "0 files were embargoed because one or more invalid work ids were found. Please verify input values and ensure that work ids are submitted as a space separated list." if bad_ids(workids)
+    abort "0 files were embargoed because one or more invalid work ids were found. Please verify input values and ensure that work ids are submitted as a space separated list." if bad_ids_found(workids)
     
     embargo_files(workids,embargo_release_date)
     
   end
 
-  def bad_ids(wids)
+  def bad_ids_found(wids)
     puts "#{wids.count} Samvera work ids found"
-    bad_ids = 0
+    bad_ids = false
     wids.each do |wid|
       if /\A[0-9a-z]{9}\z/ === wid
         next
       else
         puts "invalid work id : #{wid}"
-        bad_ids+=1
+        bad_ids = true
       end
     end
     return bad_ids
@@ -32,6 +32,7 @@ namespace :murax do
 
   def embargo_files(wids,embargo_release_date)
     wids.each do |wid|
+       no_visible_files_found = true
        begin
           file_sets = ActiveFedora::Base.search_by_id(wid)['human_readable_type_tesim'].first.constantize.find(wid).file_sets
        rescue ActiveFedora::ObjectNotFoundError => e
@@ -40,9 +41,8 @@ namespace :murax do
        end
        file_sets.each do |file_set|
          if file_set.visibility == 'open'
-            #embargo the file
+            no_visible_files_found = false
             puts "embargoing #{file_set.label}"
-            file_set.inspect
             begin
                file_set.apply_embargo(embargo_release_date,'restricted','open')
                file_set.save!
@@ -51,6 +51,7 @@ namespace :murax do
             end
          end
        end
+       puts "No visible files found for work id #{wid}" if no_visible_files_found
     end 
   end
 end
