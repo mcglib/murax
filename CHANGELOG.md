@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.1.1] - 2019-12-11
+### Changed
+* Added a condition that checks if the presenter is an edrtor we can hide the user activity
+* Added check so that a user must add a file before submitting a new work
 ## [1.1.0] - 2019-12-06
 ### Changed
 * Added nofollow, noindex for preventing google searching and crawling
