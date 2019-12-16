@@ -1,6 +1,4 @@
 namespace :report do
-  require 'tasks/report/services/report_service'
-
   desc 'Output work ids for a specified batch import'
   task :report_work_ids_by_batch_id, [:batchid] => :environment do |t,args|
      if args.count < 1
@@ -10,8 +8,8 @@ namespace :report do
      batchid = args[:batchid]
 
      puts "fetching work ids from batch id #{batchid}"
-     report_service = Report::Services::ReportService.new(batchid: batchid)
-     samvera_work_ids = report_service.get_work_ids_by_batch_id
+     report_workids_service = ReportWorkidsService.new
+     samvera_work_ids = report_workids_service.by_batch_id(batchid)
      puts "#{samvera_work_ids.join(',')}"
   end
 end
