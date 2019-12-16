@@ -1,5 +1,5 @@
 class ReportWorkidsService
-      def by_filename(filename)
+      def self.by_filename(filename)
         samvera_work_ids = []
         if !filename.nil?
           active_fedora_relation = FileSet.where("label_ssi:#{filename}")
@@ -12,7 +12,7 @@ class ReportWorkidsService
         samvera_work_ids
       end
 
-      def by_batch_id(batchid)
+      def self.by_batch_id(batchid)
         samvera_work_ids = []
         if !batchid.nil?
           b=Batch.find(batchid)

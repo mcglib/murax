@@ -9,9 +9,8 @@ namespace :report do
 
     puts "checking #{filenames.count} file names"
 
-    report_workids_service = ReportWorkidsService.new
     filenames.each do |fname|
-       samvera_work_ids = report_workids_service.by_filename(fname)
+       samvera_work_ids = ReportWorkidsService.by_filename(fname)
        puts "#{samvera_work_ids.join(',')} #{fname}"
     end
   end
