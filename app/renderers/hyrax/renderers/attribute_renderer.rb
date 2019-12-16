@@ -24,6 +24,7 @@ module Hyrax
         markup = ''
 
         return markup if values.blank? && !options[:include_empty]
+
         markup << %(<tr class="custom-field-row"><th class="custom-tb custom-tb-#{label}">#{label}</th>\n<td class="custom-td-#{field} custom-field-description"><ul class='tabular custom-tabular-ul'>)
         attributes = microdata_object_attributes(field).merge(class: "custom-attribute-#{field} attribute attribute-#{field}")
         Array(values).each do |value|
