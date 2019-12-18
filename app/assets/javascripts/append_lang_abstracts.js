@@ -17,5 +17,10 @@ document.addEventListener("turbolinks:load", function() {
       } 
       console.log(abstract_fields);
     });
- }
+  }
+  // In your Javascript (external .js resource or <script> tag)
 })
+$(document).ready(function() {
+  $('.lang-selector').select2();
+});
+

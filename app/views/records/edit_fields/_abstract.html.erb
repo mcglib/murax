@@ -4,8 +4,7 @@
     <%= f.input_field :abstract, as: :multi_value_abstract,
       class: "form-control multi_value optional #{f.object_name}-abstract multi-text-field abstract-text-field",
       name: "#{f.object_name}[abstract][]",
-      style: "width:80%",
-      rows: '3',
+      rows: '8',
       type: 'textarea'
     %>
     <button type="button" class="btn btn-link add" id="add-more-abstracts"><span class="glyphicon glyphicon-plus"></span><span class="controls-add-text">Add another Abstract</span></button>
