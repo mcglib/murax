@@ -1,5 +1,6 @@
 <ul id="user_utility_links" class="nav navbar-nav navbar-right">
-  <%= render 'shared/locale_picker' if available_translations.size > 1 %>
+   <%# Removing the languages swithcer for now untill the time we translate everything into multiple languages or atleast in French - ADIR-622   %>
+  <%#= render 'shared/locale_picker' if available_translations.size > 1 %>
   <% if user_signed_in? %>
     <li>
       <%= render_notifications(user: current_user) %>

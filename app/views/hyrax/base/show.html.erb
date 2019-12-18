@@ -26,7 +26,8 @@
             <%= render 'social_media' %>
           </div>
           <div class="col-sm-9">
-            <%= render 'work_description', presenter: @presenter %>
+            <%# removing the rendering of work_description partial to avoid duplication of description field.ADIR-607 %>
+            <%# = render 'work_description', presenter: @presenter %>
             <%= render 'metadata', presenter: @presenter %>
           </div>
           <div class="col-sm-12">
