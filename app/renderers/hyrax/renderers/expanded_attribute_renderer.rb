@@ -12,8 +12,7 @@ module Hyrax
         Array(values).each do |value|
           markup << '<div class="panel panel-default">'
           markup << '<div class="panel-heading">'
-          markup << '<h5>'
-          markup << "#{return_lang_label(value)}"
+          markup << "<h5>#{return_lang_label(value)}</h5>"
           markup << '</h5></div><div class="panel-body">'
           markup << "<li#{html_attributes(attributes)}>"
           markup << "#{attribute_value_to_html(value.to_s)}</li></div></div>"
@@ -38,11 +37,9 @@ module Hyrax
       private
         def lang_arr
           languages = [] 
-
           Qa::Authorities::Local.subauthority_for('languages').all.map do |element| 
             languages << { id: element["id"],  label: element["label"] }
           end
-          
           languages
         end 
 
@@ -56,7 +53,7 @@ module Hyrax
             term_lang = lang[:label]
             if "@#{term}" == lang_label
               label = term_lang
-              next
+              break
             end
           end
           label
