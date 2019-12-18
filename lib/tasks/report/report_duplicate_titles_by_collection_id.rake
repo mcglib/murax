@@ -1,6 +1,4 @@
 namespace :report do
-  require 'set'
-
   desc 'Output titles and work ids of possible duplicates'
   task :report_duplicate_titles_by_collection_id, [:collectionid, :output_file] => :environment do |t,args|
     if args.count < 1
@@ -33,13 +31,13 @@ namespace :report do
     o=File.open("#{fn}",'w')
     if !duplicate_titles.nil?
       duplicate_titles.each do |ti|
-         puts "#{ti}" 
+         o.puts "#{ti}" 
       end
     else
       puts "No duplicates found"
     end
     o.close if !fn.nil?
-    puts "wrote #{duplicate_titles.count} possible duplicate titles to #{fn}" if !duplicate_titles.nil?
+    puts "wrote #{duplicate_titles.count} possible duplicated titles to #{fn}" if !duplicate_titles.nil?
 
   end
 

@@ -1,11 +1,12 @@
 namespace :report do
-  require 'set'
-
   desc 'Output titles and work ids of possible duplicates'
   task :report_duplicate_titles_and_work_ids_by_collection_id, [:collectionid, :output_file] => :environment do |t,args|
     if args.count < 1
        puts 'Usage: bundle exec rake report:report_duplicate_titles_and_work_ids_by_collection_id[<collectionid>[,output-file]]'
        puts '       Output is written to tmp directory. If no filename is provided as the 2nd argument output is written to tmp/duplicate-titles.txt'
+       puts '       Format of output is workid:title. E.g.:'
+       puts '       abc123def:The title of my thesis.'
+       puts '       xyz987uvw:The title of my thesis.'
        exit
     end
     collection_id = args[:collectionid]
