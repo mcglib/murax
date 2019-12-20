@@ -16,5 +16,6 @@
  *= require_self
  *= require custom_attributes
  *= require nested_ordered
+ *= require product_info
  *= require_tree .
  */
