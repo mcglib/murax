@@ -140,7 +140,6 @@ class MultiValueAbstractInput < MultiValueInput
   def build_select_options(authority_lang,curr_lang, attribute_name,index)
      buffer = "<select name='language_select[]' id='lang_#{attribute_name}_#{index}' class='lang-selector'>"
      
-     byebug
      # Get the lang URI
      curr_lang_uri = get_language_uri([curr_lang]) if !curr_lang.blank?
 

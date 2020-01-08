@@ -24,17 +24,17 @@ module Murax
 
     def show
       super
+      byebug
+
     end
     def edit
       #parse_geo
       #get_other_option_values
-       byebug
        super
     end
 
     def update
       set_language_attribute_for_abstracts if params["language_select"].present?
-      byebug
       super
     end
     def create
@@ -42,16 +42,6 @@ module Murax
       #set_other_option_values
       super
     end
-    def deleted_work_files
-      file_names = []
-      work_files = curation_concern.ordered_file_sets
-      work_files.each do |f|
-        file_names << f.to_s
-      end
-      str_file_names = file_names.join(";  ")
-      return str_file_names
-    end
-
     def destroy
       title = curation_concern.to_s
       deleted_work_id = curation_concern.id
@@ -63,6 +53,17 @@ module Murax
     end
 
     private
+    
+    def deleted_work_files
+      file_names = []
+      work_files = curation_concern.ordered_file_sets
+      work_files.each do |f|
+        file_names << f.to_s
+      end
+      str_file_names = file_names.join(";  ")
+      return str_file_names
+    end
+
 
     def deleted_work_file_ids
       file_ids = []
@@ -88,13 +89,13 @@ module Murax
     end
 
     def set_language_attribute_for_abstracts
-      byebug
       new_abstracts = []
       params["language_select"].each_with_index do | lang, index | 
            #Join the value with the respective language index
            new_abstracts << "\"#{params[hash_key_for_curation_concern]['abstract'][index]}\"@#{params["language_select"][index]}"
       end
       curation_concern.abstract = new_abstracts
+      params[hash_key_for_curation_concern]['abstract'] = new_abstracts
     end
     def set_other_option_values
       # if the user selected the "Other" option in "degree_field" or "degree_level", and then provided a custom

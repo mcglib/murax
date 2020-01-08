@@ -9,7 +9,6 @@ module Hyrax
         markup << %(<dt class="custom-dt custom-dt-#{label}">#{label}</dt>\n<dd class="custom-dd-#{field} custom-field-description"><ul class='tabular custom-tabular-ul'>)
         attributes = microdata_object_attributes(field).merge(class: "only-so-big custom-attribute-#{field} attribute attribute-#{field}")
        	# markup << %(<div class="only-so-big">)
-          byebug
         Array(values).each do |value|
           markup << '<div class="panel panel-default">'
           markup << '<div class="panel-heading">'
@@ -48,12 +47,19 @@ module Hyrax
           label = nil 
           languages = lang_arr
           lang_label = value.last(3)
+          # We add an execption for English and French 
+          # that were added with 2 char code instead of 3 char
+          # eg "en" instead of "eng"
+          # so we map "en" -> "eng" and
+          # we map "fr" -> "fre".
+          lang_label = "eng" if lang_label == "en"
+          lang_label = "fre" if lang_label == "fr"
+          byebug
           languages.map do |lang|
             id = lang[:id].last(3)
-            term = id.first(2)
-            term_lang = lang[:label]
-            if "@#{term}" == lang_label
-              label = term_lang
+            #term = id.first(2)
+            if "@#{id}" == "@#{lang_label}"
+              label = lang[:label]
               break
             end
           end
