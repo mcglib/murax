@@ -19,4 +19,18 @@ document.addEventListener("turbolinks:load", function() {
   }
   // In your Javascript (external .js resource or <script> tag)
 })
+$(document).on('ready turbolinks:load', function() {
+  console.log("Time to append the language values the abstract")
+  $( "#with_files_submit" ).click(function() {
+      alert( "Handler for .click() called." );
+      // get all the select languages and their related 
+      // abstract text areas and then append on submit
+      $( "li.abstract-wrapper" ).each(function( index ) {
+        console.log( index + ": " + $( this ).text() );
+      });
+  });
+
+});
+
+
 

@@ -20,6 +20,7 @@ module Hyrax
 
     def self.build_permitted_params
       super + [
+        :language_select,
         {
           nested_ordered_creator_attributes: %i[id _destroy index creator],
         }

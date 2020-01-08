@@ -9,6 +9,7 @@ module Hyrax
         markup << %(<dt class="custom-dt custom-dt-#{label}">#{label}</dt>\n<dd class="custom-dd-#{field} custom-field-description"><ul class='tabular custom-tabular-ul'>)
         attributes = microdata_object_attributes(field).merge(class: "only-so-big custom-attribute-#{field} attribute attribute-#{field}")
        	# markup << %(<div class="only-so-big">)
+          byebug
         Array(values).each do |value|
           markup << '<div class="panel panel-default">'
           markup << '<div class="panel-heading">'

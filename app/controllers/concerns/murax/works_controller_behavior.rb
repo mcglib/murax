@@ -22,17 +22,23 @@ module Murax
       super
     end
 
-    #def edit
+    def show
+      super
+    end
+    def edit
       #parse_geo
       #get_other_option_values
-    #  super
-    #end
+       byebug
+       super
+    end
 
     def update
-      #set_other_option_values
+      set_language_attribute_for_abstracts if params["language_select"].present?
+      byebug
       super
     end
     def create
+      set_language_attribute_for_abstracts if params["language_select"].present?
       #set_other_option_values
       super
     end
@@ -46,6 +52,18 @@ module Murax
       return str_file_names
     end
 
+    def destroy
+      title = curation_concern.to_s
+      deleted_work_id = curation_concern.id
+      deleted_files = deleted_work_files
+      deleted_file_ids = deleted_work_file_ids
+      super
+      ## Send an email when a curation concern is deleted to the user
+      WorkDeleteMailer.with(user: current_user, deleted_work_title: title, deleted_work_id: deleted_work_id, deleted_files: deleted_files, deleted_file_ids: deleted_file_ids).work_delete_email.deliver_now
+    end
+
+    private
+
     def deleted_work_file_ids
       file_ids = []
       file_ids_arr = curation_concern.ordered_file_set_ids
@@ -55,16 +73,6 @@ module Murax
       str_file_ids = file_ids.join(";  ")
       return str_file_ids
     end
-    def destroy
-      title = curation_concern.to_s
-      deleted_work_id = curation_concern.id
-      deleted_files = deleted_work_files
-      deleted_file_ids = deleted_work_file_ids
-      super
-      WorkDeleteMailer.with(user: current_user, deleted_work_title: title, deleted_work_id: deleted_work_id, deleted_files: deleted_files, deleted_file_ids: deleted_file_ids).work_delete_email.deliver_now
-    end
-
-    private
 
 
     def scrub_params
@@ -79,6 +87,15 @@ module Murax
       params[hash_key_for_curation_concern]['embargo_release_date'] = Date.parse(translated_date.to_date.to_s).strftime('%Y-%m-%d')
     end
 
+    def set_language_attribute_for_abstracts
+      byebug
+      new_abstracts = []
+      params["language_select"].each_with_index do | lang, index | 
+           #Join the value with the respective language index
+           new_abstracts << "\"#{params[hash_key_for_curation_concern]['abstract'][index]}\"@#{params["language_select"][index]}"
+      end
+      curation_concern.abstract = new_abstracts
+    end
     def set_other_option_values
       # if the user selected the "Other" option in "degree_field" or "degree_level", and then provided a custom
       #       # value in the input shown when selecting this option, these custom values would be assigned to the

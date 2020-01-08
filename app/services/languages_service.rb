@@ -9,10 +9,16 @@ module LanguagesService
   end
 
   def self.code(id)
-   
+    code = nil
     begin
       t = id.chars.last(3).join
       #check that string return does not contain a slash
+      if t.include? "\\" 
+         code = t.chars.last(2).join
+      else
+         code = t
+      end
+      code
     rescue
       Rails.logger.warn "LanguagesService: cannot find '#{id}'"
       puts "LanguagesService: cannot find '#{id}'" # for migration log
