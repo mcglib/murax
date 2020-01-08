@@ -9,18 +9,14 @@ document.addEventListener("turbolinks:load", function() {
       for (var i = 0; i < abstract_fields.length; i += n) {
         next_value = i+1;
         if (abstract_fields[i].value != "") {
-          abstract_fields[i].value += abstract_fields[next_value].value;
-          abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
+            //abstract_fields[i].value += abstract_fields[next_value].value;
+            //abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
         } else {
-          abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
+            //abstract_fields[next_value].parentNode.removeChild(abstract_fields[next_value]);
         }
       } 
-      console.log(abstract_fields);
     });
   }
   // In your Javascript (external .js resource or <script> tag)
 })
-$(document).ready(function() {
-  $('.lang-selector').select2();
-});
 

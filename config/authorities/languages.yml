@@ -293,6 +293,7 @@ terms:
     term: French
   - id: http://id.loc.gov/vocabulary/iso639-2/fre
     term: French
+    active: true
   - id: http://id.loc.gov/vocabulary/iso639-2/fr
     term: French
   - id: http://id.loc.gov/vocabulary/iso639-2/frm

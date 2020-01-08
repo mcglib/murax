@@ -1,4 +1,4 @@
-# [hyc-override] Overriding hydra editor custom input to allow for multivalue HTML5 dates
+# [hyc-override] Overriding hydra editor custom input to allow for selectable language  for the abstract fields.
 # https://github.com/samvera/hydra-editor/blob/master/app/inputs/multi_value_input.rb
 include LanguagesService
 class MultiValueAbstractInput < MultiValueInput
@@ -11,6 +11,7 @@ class MultiValueAbstractInput < MultiValueInput
     input_html_classes.unshift('string')
     input_html_options[:name] ||= "#{object_name}[#{attribute_name}][]"
 
+    # get the list of languages
     authority = Qa::Authorities::Local.subauthority_for('languages')
     #authority.all.each do |lang| 
     #end
@@ -27,7 +28,7 @@ class MultiValueAbstractInput < MultiValueInput
   end
   
   def input_html_classes
-    super.push('select2 lang-selector')
+    super.push('lang-selector')
   end
 
   protected
@@ -139,22 +140,23 @@ class MultiValueAbstractInput < MultiValueInput
   def build_select_options(authority_lang,curr_lang, attribute_name,index)
      buffer = "<select name='language_select' id='lang_#{attribute_name}_#{index}' class='lang-selector'>"
      
+     byebug
      # Get the lang URI
-     lang_uri = get_language_uri([curr_lang]) if !curr_lang.blank?
+     curr_lang_uri = get_language_uri([curr_lang]) if !curr_lang.blank?
 
      # Loop through all the languages to get them added to the select list
      # and then we can process the selected values
      authority_lang.all.each do |lang| 
        selected_value = ""
-       # If the lang_uri is set, check if it matches with the currnt lang[:id]
-       if !lang_uri.nil? && lang_uri.first === lang[:id] 
+       # If the lang_uri is set, check if it matches with the current lang[:id]
+       if !curr_lang_uri.nil? && curr_lang_uri.first === lang[:id] 
          selected_value = "selected='selected'"
        end
 
        # Get the lang code from URI
-       #lang_code = get_lang_code(lang[:id])
+       lang_code = get_language_code(lang[:id])
        # Write out the option with the selected terms if possible.
-       buffer << "<option value='#{lang[:id]}' #{selected_value} >#{lang[:label]}</option>"
+       buffer << "<option value='#{lang_code}' #{selected_value} >#{lang[:label]}</option>"
      end
      buffer << "</select>"
 

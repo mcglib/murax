@@ -8,6 +8,17 @@ module LanguagesService
     end
   end
 
+  def self.code(id)
+   
+    begin
+      t = id.chars.last(3).join
+      #check that string return does not contain a slash
+    rescue
+      Rails.logger.warn "LanguagesService: cannot find '#{id}'"
+      puts "LanguagesService: cannot find '#{id}'" # for migration log
+      nil
+    end
+  end
   def self.label(id)
     begin
       authority.find(id).fetch('term')
