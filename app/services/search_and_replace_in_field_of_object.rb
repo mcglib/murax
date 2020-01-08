@@ -5,15 +5,19 @@ class SearchAndReplaceInFieldOfObject
      @object = nil
 
   def initialize(search,replace,field,object)
-     @search_val = search
-     @replace_val = replace
-     @field_name = field
-     @samvera_object = object
-     abort "missing required search argument" if @search_val.nil?
-     abort "missing required replace argument" if @replace_val.nil?
-     abort "missing required field argument" if @field_name.nil?
-     abort "missing required object argument" if @samvera_object.nil?
-     search_and_replace_in_field_of_object
+     begin
+       raise ArgumentError.new("Missing required search argument.") if search.nil?
+       raise ArgumentError.new("Missing required replace argument.") if replace.nil?
+       raise ArgumentError.new("Missing required field argument.") if field.nil?
+       raise ArgumentError.new("Missing required object argument") if object.nil?
+       @search_val = search
+       @replace_val = replace
+       @field_name = field
+       @samvera_object = object
+       search_and_replace_in_field_of_object
+     rescue ArgumentError => e
+       puts e.message
+     end
   end
 
   def search_and_replace_in_field_of_object
@@ -30,6 +34,7 @@ class SearchAndReplaceInFieldOfObject
         @samvera_object.save
      else
         puts "Samvera object with id #{@samvera_object.id} does not have a field called #{@field_name}"
+        return false
      end
      @samvera_object
   end

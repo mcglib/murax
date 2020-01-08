@@ -3,7 +3,9 @@ require 'active_record'
 namespace :murax do
   desc 'Search and replace in a specified field in works belonging to a specified collection'
   task :search_and_replace_in_work_metadata_field_by_collection_id, [:search, :replace, :field, :collection_id] => :environment do |task, args|
-     usage_message="Usage: bundle exec rake murax:search_and_replace_in_work_metadata_field_by_collection_id[<search-term>,<replace-term>,<field>,<collection-id>]"
+     usage_message="Usage: bundle exec rake murax:search_and_replace_in_work_metadata_field_by_collection_id[<search-term>,<replace-term>,<field>,<collection-id>]\n"
+     usage_message+='Leading and trailing spaces must be escaped. E.g. to replace the word "duct" with the word "pipe" use "\ duct\ " and "\ pipe\ "'
+     usage_message+=' to avoid turning "products" into "propipes", etc.'
      if args.count < 4
         puts usage_message
         exit
