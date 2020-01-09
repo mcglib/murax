@@ -1,6 +1,6 @@
 require 'pathname'
 
-class ReadEmbeddedMetadataFromFile
+class FetchEmbeddedMetadataFromFile
 
    def initialize(filepathname)
       begin
