@@ -3,6 +3,12 @@ terms:
   - id: http://id.loc.gov/vocabulary/iso639-2/eng
     term: English
     active: true
+  - id: http://id.loc.gov/vocabulary/iso639-2/fre
+    term: French
+    active: true
+  - id: http://id.loc.gov/vocabulary/iso639-2/es
+    term: Spanish
+    active: true
   - id: http://id.loc.gov/vocabulary/iso639-2/aar
     term: Afar
   - id: http://id.loc.gov/vocabulary/iso639-2/abk
@@ -291,9 +297,6 @@ terms:
     term: Fon
   - id: http://id.loc.gov/vocabulary/iso639-2/fra
     term: French
-  - id: http://id.loc.gov/vocabulary/iso639-2/fre
-    term: French
-    active: true
   - id: http://id.loc.gov/vocabulary/iso639-2/fr
     term: French
   - id: http://id.loc.gov/vocabulary/iso639-2/frm

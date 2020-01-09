@@ -22,11 +22,10 @@ module Hyrax
         markup.html_safe
       end
       def attribute_value_to_html(value)
-        lang_prefix = value.last(3)
-        if label == "Abstract" and lang_prefix.include?("@")
-          value = value.delete_suffix("\"#{lang_prefix}").delete_prefix("\"")
+        if label == "Abstract"
+          result = value.gsub(/"@\w{2,3}$/, "")
+          value = result.delete_prefix("\"")
         end
-        ##value.delete_suffix("\"@en")
         if microdata_value_attributes(field).present?
           "<span#{html_attributes(microdata_value_attributes(field))}>#{li_value(value)}</span>"
         else
@@ -47,18 +46,20 @@ module Hyrax
           label = nil 
           languages = lang_arr
           lang_label = value.last(3)
+          # remove the @ if any in the lang_label
+          lang_label.gsub!(/@/,"")
+
           # We add an execption for English and French 
           # that were added with 2 char code instead of 3 char
           # eg "en" instead of "eng"
           # so we map "en" -> "eng" and
           # we map "fr" -> "fre".
-          lang_label = "eng" if lang_label == "en"
-          lang_label = "fre" if lang_label == "fr"
-          byebug
+          lang_label = "eng" if lang_label.downcase == "en"
+          lang_label = "fre" if lang_label.downcase == "fr"
           languages.map do |lang|
             id = lang[:id].last(3)
             #term = id.first(2)
-            if "@#{id}" == "@#{lang_label}"
+            if "@#{id}" == "@#{lang_label.downcase}"
               label = lang[:label]
               break
             end

@@ -24,7 +24,6 @@ module Murax
 
     def show
       super
-      byebug
 
     end
     def edit
@@ -92,7 +91,10 @@ module Murax
       new_abstracts = []
       params["language_select"].each_with_index do | lang, index | 
            #Join the value with the respective language index
-           new_abstracts << "\"#{params[hash_key_for_curation_concern]['abstract'][index]}\"@#{params["language_select"][index]}"
+           # Skip blank texts
+           if !params[hash_key_for_curation_concern]['abstract'][index].blank?
+              new_abstracts << "\"#{params[hash_key_for_curation_concern]['abstract'][index]}\"@#{params["language_select"][index]}"
+           end
       end
       curation_concern.abstract = new_abstracts
       params[hash_key_for_curation_concern]['abstract'] = new_abstracts
@@ -153,6 +155,7 @@ module Murax
     def get_all_other_options(property)
       OtherOption.where(work_id: curation_concern.id, property_name: property.to_s)
     end
+
   end
 end
 
