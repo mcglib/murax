@@ -57,9 +57,9 @@ module Hyrax
           lang_label = "eng" if lang_label.downcase == "en"
           lang_label = "fre" if lang_label.downcase == "fr"
           languages.map do |lang|
-            id = lang[:id].last(3)
-            #term = id.first(2)
-            if "@#{id}" == "@#{lang_label.downcase}"
+            lang_code = lang[:id].match(/(\w{2,3})$/) {|m| m.captures}
+            #id = lang[:id].gsub(/"(\w{2,3})$/","")
+            if lang_code.first == lang_label.downcase
               label = lang[:label]
               break
             end

@@ -45,31 +45,30 @@ class MultiValueAbstractInput < MultiValueInput
 
   def get_lang_code_from_text(value)
     clean_value = value.dup
-    lang_prefix = "eng"
+    prefix = ""
     # Remove quotes
     new_text = clean_value.gsub!(/^\"|\"?$/, '')
-    lang_prefix = new_text.last(3)
-    prefix = lang_prefix.gsub(/@/, "")
+    lang_code = new_text.match(/\"@(\w{2,3})$/) {|m| m.captures}
 
-    
-    # We add customed substitutions for languages
-    if prefix.length == 2
-      case prefix.downcase
-      when "en"
-        prefix = "eng"
-      when "fr"
-        prefix = "fre"
-      else
+    # Set the prefix
+ 
+    if !lang_code.nil?   
+      # We add customed substitutions for languages
+      if lang_code.first.length == 2
+        case lang_code.first.downcase
+        when "en"
+          prefix = "eng"
+        when "fr"
+          prefix = "fre"
+        when "es"
+          prefix = "es"
+        else
+          prefix = lang_code.first
+        end
       end
-    end
-    #clean_value.gsub(/(\"@\w{2,3})$/) { lang_prefix = $1}
-    #lang_uri = get_language_uri([lang_prefix]) if !lang_prefix.blank?
-    #lang_label = LanguagesService.label(lang_uri)  if !lang_prefix.blank?
-    # Remove the lang prefix
-    #t = value.gsub!(/\"@\w{2,3}$/, "")
-    # Return clean values
-    #clean_value = t
+      prefix = lang_code.first if lang_code.first.length > 2 
 
+     end
     prefix.downcase
   end
   

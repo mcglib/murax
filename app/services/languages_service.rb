@@ -13,7 +13,7 @@ module LanguagesService
     begin
       t = id.chars.last(3).join
       #check that string return does not contain a slash
-      if t.include? "\\" 
+      if t.include? "\/" 
          code = t.chars.last(2).join
       else
          code = t
