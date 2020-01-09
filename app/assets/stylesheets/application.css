@@ -16,5 +16,6 @@
  *= require_self
  *= require custom_attributes
  *= require nested_ordered
+ *= require select2
  *= require_tree .
  */

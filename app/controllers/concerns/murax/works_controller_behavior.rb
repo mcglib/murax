@@ -12,30 +12,47 @@ module Murax
         curation_concern = ActiveFedora::Base.find(params[:id])
         redirect_to(main_app.polymorphic_path(curation_concern), status: :moved_permanently) and return if curation_concern.class != _curation_concern_type
       end
-    end
-
+    end 
+  
     def new
+      # Set the default values
       curation_concern.publisher = ['McGill University']
       curation_concern.rights_statement = ['http://rightsstatements.org/vocab/InC/1.0/']
       curation_concern.degree_grantors = 'http://id.loc.gov/authorities/names/n80017721' if curation_concern.respond_to?(:degree_grantors)
       super
     end
 
-    #def edit
+    def show
+      super
+
+    end
+    def edit
       #parse_geo
       #get_other_option_values
-    #  super
-    #end
+       super
+    end
 
     def update
+      set_language_attribute_for_abstracts if params["language_select"].present?
+      super
+    end
+    def create
+      set_language_attribute_for_abstracts if params["language_select"].present?
       #set_other_option_values
       super
+    end
+    def destroy
+      title = curation_concern.to_s
+      deleted_work_id = curation_concern.id
+      deleted_files = deleted_work_files
+      deleted_file_ids = deleted_work_file_ids
+      super
+      ## Send an email when a curation concern is deleted to the user
+      WorkDeleteMailer.with(user: current_user, deleted_work_title: title, deleted_work_id: deleted_work_id, deleted_files: deleted_files, deleted_file_ids: deleted_file_ids).work_delete_email.deliver_now
     end
 
-    def create
-      #set_other_option_values
-      super
-    end
+    private
+    
     def deleted_work_files
       file_names = []
       work_files = curation_concern.ordered_file_sets
@@ -46,6 +63,7 @@ module Murax
       return str_file_names
     end
 
+
     def deleted_work_file_ids
       file_ids = []
       file_ids_arr = curation_concern.ordered_file_set_ids
@@ -55,16 +73,6 @@ module Murax
       str_file_ids = file_ids.join(";  ")
       return str_file_ids
     end
-    def destroy
-      title = curation_concern.to_s
-      deleted_work_id = curation_concern.id
-      deleted_files = deleted_work_files
-      deleted_file_ids = deleted_work_file_ids
-      super
-      WorkDeleteMailer.with(user: current_user, deleted_work_title: title, deleted_work_id: deleted_work_id, deleted_files: deleted_files, deleted_file_ids: deleted_file_ids).work_delete_email.deliver_now
-    end
-
-    private
 
 
     def scrub_params
@@ -79,6 +87,18 @@ module Murax
       params[hash_key_for_curation_concern]['embargo_release_date'] = Date.parse(translated_date.to_date.to_s).strftime('%Y-%m-%d')
     end
 
+    def set_language_attribute_for_abstracts
+      new_abstracts = []
+      params["language_select"].each_with_index do | lang, index | 
+           #Join the value with the respective language index
+           # Skip blank texts
+           if !params[hash_key_for_curation_concern]['abstract'][index].blank?
+              new_abstracts << "\"#{params[hash_key_for_curation_concern]['abstract'][index]}\"@#{params["language_select"][index]}"
+           end
+      end
+      curation_concern.abstract = new_abstracts
+      params[hash_key_for_curation_concern]['abstract'] = new_abstracts
+    end
     def set_other_option_values
       # if the user selected the "Other" option in "degree_field" or "degree_level", and then provided a custom
       #       # value in the input shown when selecting this option, these custom values would be assigned to the
@@ -135,6 +155,7 @@ module Murax
     def get_all_other_options(property)
       OtherOption.where(work_id: curation_concern.id, property_name: property.to_s)
     end
+
   end
 end
 
