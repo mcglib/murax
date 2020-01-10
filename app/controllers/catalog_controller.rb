@@ -1,20 +1,23 @@
 class CatalogController < ApplicationController
+  include BlacklightAdvancedSearch::Controller
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
+
   include BlacklightOaiProvider::Controller
+  
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
   def self.uploaded_field
-    solr_name('system_create', :stored_sortable, type: :date)
+    solr_name('date_uploaded', :stored_sortable, type: :date)
   end
 
   def self.modified_field
     solr_name('system_modified', :stored_sortable, type: :date)
   end
-  
+
   configure_blacklight do |config|
- 
+
     # Blacklight OAI configurations.
     config.oai = OAI_CONFIG
 
@@ -25,7 +28,9 @@ class CatalogController < ApplicationController
 
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
     config.show.partials.insert(1, :openseadragon)
-    config.search_builder_class = Hyrax::CatalogSearchBuilder
+    # Change our search is murax
+    #config.search_builder_class = Hyrax::CatalogSearchBuilder
+    config.search_builder_class = Murax::CatalogSearchBuilder
 
     # Show gallery view
     config.view.gallery.partials = [:index_header, :index]
@@ -34,8 +39,9 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       qt: "search",
-      rows: 10,
-      qf: "title_tesim description_tesim creator_tesim keyword_tesim"
+      rows: 20,
+      ##qf: "title_tesim description_tesim nested_ordered_creator_label_tesim creator_tesim keyword_tesim"
+      qf: "title_tesim description_tesim nested_ordered_creator_label_tesim keyword_tesim"
     }
 
     # solr field configuration for document/show views
@@ -50,7 +56,13 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
     #config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5 #removing to show rtype as faceted field.  
     config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 5
-    config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
+    #config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
+    config.add_facet_field('date_facet_yearly_ssim') do |field|
+      field.label = 'Date'
+      field.range = true
+      field.include_in_advanced_search = false
+    end
+
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 7
