@@ -1,0 +1,42 @@
+class FetchAFile
+   @file_to_fetch = nil
+   def initialize(file_id_or_uri)
+      @file_to_fetch = file_id_or_uri
+      begin
+         raise ArgumentError.new("Missing required file id or URI.") if @file_to_fetch.nil?
+      rescue ArgumentError => e
+         puts e.message
+         false
+      end
+   end
+
+   def by_uri
+     return false if @file_to_fetch.nil?
+     begin
+        puts "by_uri: #{@file_to_fetch}"
+        fetched_file = 'tmp/'+@file_to_fetch.split('/')[-1]
+        bitstream = open(@file_to_fetch)
+        IO.copy_stream(bitstream,fetched_file)
+     rescue Timeout::Error => e
+        puts "time out error: " + e.message
+     rescue StandardError => e
+        puts e.message
+        return false
+     end
+   end
+
+   def by_file_id
+     return false if @file_to_fetch.nil?
+     begin
+         host = ENV['SITE_URL']
+         file_set = FileSet.find(@file_to_fetch)
+         ext = file_set.label.split('.')[-1]
+         uri = "https://#{host}/downloads/#{@file_to_fetch}.#{ext}"
+         @file_to_fetch = uri
+         self.by_uri
+     rescue StandardError => e
+         puts e.message
+         return false
+     end
+   end
+end
