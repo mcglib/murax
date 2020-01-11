@@ -19,39 +19,39 @@ class WriteEmbeddedMetadataToFile
    end
 
    def replace_metadata
+      message = ''
       begin
          # delete existing metadata
          cmd = "exiftool -all= '#{@the_file.realpath}'"
-         puts "cmd: #{cmd}"
-         result = `#{cmd}`
-         puts "result: " + result.to_s
+         result = system(cmd)
+         raise StandardError.new "Unable to remove existing file metadata." if !(result == true)
          # add new metadata
          # md_as_hash must use exiftool metadata tags, not field names, as hash keys
          # see output of FetchEmbeddedMetadataFromFile service as an example.
          @md_as_hash.each do |k,v|
             new_value = v.strip
             cmd = "exiftool -#{k}='#{new_value}' '#{@the_file.realpath}'"
-            puts "cmd: #{cmd}"
-            result = `#{cmd}`
-            puts "result: " + result.to_s
+            message += `#{cmd}`
          end
       rescue StandardError => e
          puts e.message
+         @md_as_hash = nil
       end
+      message
    end
 
    def update_fields
+      message = ''
       begin
          @md_as_hash.each do |k,v|
            new_value = v.strip
            cmd="exiftool -#{k}='#{new_value}' '#{@the_file.realpath}'"
-           puts "cmd: #{cmd}"
-           result = `#{cmd}`
-           puts "result: " + result.to_s
-           #raise RunTimeError.new("Unable to update #{k} field with new value: #{v}") if !result.nil?
+           message += `#{cmd}`
          end
       rescue StandardError => e
         puts e.message
+        @md_as_hash = nil
       end
+      message
    end
 end
