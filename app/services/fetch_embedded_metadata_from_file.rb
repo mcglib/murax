@@ -19,11 +19,13 @@ class FetchEmbeddedMetadataFromFile
       @md_hash = Hash.new()
       return @md_hash if @the_file.nil?
       begin
-         cmd = "exiftool -s '" + @the_file.to_s + "'"
+         cmd = "exiftool -s -u '" + @the_file.to_s + "'"
          md = `#{cmd}`
-         md.each_line do |l|
-            k,v = l.split(/:/,2)
-            @md_hash[k.strip]=v.strip
+         if /Unknown file type/.match(md).nil?
+           md.each_line do |l|
+             k,v = l.split(/:/,2)
+             @md_hash[k.strip]=v.strip
+           end
          end
          @md_hash
       rescue StandardError => e
