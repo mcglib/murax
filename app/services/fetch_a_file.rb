@@ -23,6 +23,26 @@ class FetchAFile
 
    def by_file_id(file_id)
      begin
+        raise ArgumentError.new("Missing required Samvera file id.") if file_id.nil?
+        this_host = ENV['SITE_URL']
+        file_set = FileSet.find(file_id)
+        raise StandardError.new("Samvera file id #{file_id} not found.") if file_set.nil?
+        original_filename = file_set.label
+        uri = "http://#{this_host}/downloads/#{file_id}"
+        puts "fetching with uri : #{uri}"
+        bitstream = open(uri)
+        @fetched_file = "tmp/#{original_filename}"
+        IO.copy_stream(bitstream,@fetched_file)
+     rescue ArgumentError, StandardError => e
+        @error_message = e.message
+        @fetched_file = nil
+        false
+     end
+   end
+
+
+   def by_file_id_ignore_visibility(file_id)
+     begin
          raise ArgumentError.new("Missing required Samvera file id.") if file_id.nil?
          uri = nil
          file_set = FileSet.find(file_id)
