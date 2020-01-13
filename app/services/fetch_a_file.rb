@@ -1,6 +1,6 @@
 class FetchAFile
    @file_to_fetch = nil
-   @error_message
+   @error_message = nil
    def initialize(file_id_or_uri)
       @file_to_fetch = file_id_or_uri
       begin
