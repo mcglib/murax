@@ -25,6 +25,6 @@
 //= require tableexport/jspdf.plugin.autotable.js
 //= require nested_field
 //= require ordered_creator
-//= require_tree .
+//= require openseadragon.js
 //= require hyrax
-//= attributes.js
+//= require_tree .
