@@ -51,7 +51,7 @@ class FetchAFile
          rdf_uri = file_set.uri.to_s
          rdf_file = open(rdf_uri)
          rdf_data = rdf_file.read
-         rdf_data.match(/ns006\:hasFile *<([^>]*)/) { |m| uri = m.captures[0] if !m.nil? }
+         rdf_data.match(/ns\d{3}\:hasFile *<([^>]*)/) { |m| uri = m.captures[0] if !m.nil? }
          raise StandardError.new("Unable to locate file for id #{file_id}.") if uri.nil?
          bitstream = open(uri)
          @fetched_file = "tmp/#{original_filename}"
