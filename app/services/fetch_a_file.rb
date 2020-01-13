@@ -52,7 +52,7 @@ class FetchAFile
          rdf_file = open(rdf_uri)
          rdf_data = rdf_file.read
          rdf_data.match(/ns006\:hasFile *<([^>]*)/) { |m| uri = m.captures[0] if !m.nil? }
-         raise StandardError.new("Unable to locate file for id #{@file_to_fetch}.") if uri.nil?
+         raise StandardError.new("Unable to locate file for id #{file_id}.") if uri.nil?
          bitstream = open(uri)
          @fetched_file = "tmp/#{original_filename}"
          IO.copy_stream(bitstream,@fetched_file)
