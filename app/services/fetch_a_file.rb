@@ -24,7 +24,7 @@ class FetchAFile
    def by_file_id(file_id)
      begin
         raise ArgumentError.new("Missing required Samvera file id.") if file_id.nil?
-        this_host = ENV['SITE_URL']
+        this_host = ENV['RAILS_HOST']
         file_set = FileSet.find(file_id)
         raise StandardError.new("Samvera file id #{file_id} not found.") if file_set.nil?
         original_filename = file_set.label
