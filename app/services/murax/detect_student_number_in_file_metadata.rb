@@ -32,7 +32,7 @@ module Murax
         @error_message
      end
 
-     def threw_error?
+     def detect_error?
         return !@error_message.nil?
      end
   end

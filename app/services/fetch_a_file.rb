@@ -1,5 +1,6 @@
 class FetchAFile
    @file_to_fetch = nil
+   @error_message
    def initialize(file_id_or_uri)
       @file_to_fetch = file_id_or_uri
       begin
@@ -12,15 +13,16 @@ class FetchAFile
 
    def by_uri
      return false if @file_to_fetch.nil?
+     byebug
      begin
         puts "by_uri: #{@file_to_fetch}"
         fetched_file = 'tmp/'+@file_to_fetch.split('/')[-1]
         bitstream = open(@file_to_fetch)
         IO.copy_stream(bitstream,fetched_file)
      rescue Timeout::Error => e
-        puts "time out error: " + e.message
+        @error_message = "time out error: " + e.message 
      rescue StandardError => e
-        puts e.message
+        @error_message = e.message
         return false
      end
    end
@@ -35,8 +37,16 @@ class FetchAFile
          @file_to_fetch = uri
          self.by_uri
      rescue StandardError => e
-         puts e.message
+         @error_message = e.message
          return false
      end
+   end
+
+   def fetch_error?
+      return !@error_message.nil?
+   end
+
+   def get_error_message
+      return @error_message
    end
 end
