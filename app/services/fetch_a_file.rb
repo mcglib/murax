@@ -13,7 +13,6 @@ class FetchAFile
 
    def by_uri
      return false if @file_to_fetch.nil?
-     byebug
      begin
         puts "by_uri: #{@file_to_fetch}"
         fetched_file = 'tmp/'+@file_to_fetch.split('/')[-1]
