@@ -1,0 +1,23 @@
+.multi_value {
+  ul.listing {
+     margin-left: 0px;
+     max-width: 100%;
+     &.abstract-listing {
+        .abstract-wrapper {
+            margin-bottom: 20px;
+             select.lang-selector {
+                width: 100%;
+                margin: 10px 0;
+             }
+             textarea.abstract-text-field {
+                width: 100%;
+                margin: 10px 0px;
+             }
+             span.field-controls {
+             
+             }
+        }
+     
+     }
+  }
+}
