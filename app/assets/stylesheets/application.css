@@ -17,5 +17,5 @@
  *= require nested_ordered
  *= require select2
  *= require_tree .
- *= require murax_homepage
+ *= require murax/homepage.scss
  */
