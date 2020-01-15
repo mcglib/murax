@@ -1,0 +1,6 @@
+/* This applies to the annoucement div on the murax homepage */
+div#announcement {
+  &.row {
+    padding-top: 0;
+  } 
+}
