@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [unreleased]
+## [1.1.2] - 2020-01-16
+### Changed
+* removed subject and identifier as required properties in ethesis profile form
+* fixed the bug with the whitespace on annoucmenet on home page
+* renamed the file to murax_homepage
+* renamed the file
+* made it fancy for the boss
+* added muraxs directory namespace in stylesheets
+
+## [unreleased]
 ## [1.1.1] - 2019-12-11
 ### Changed
 * Added a condition that checks if the presenter is an edrtor we can hide the user activity
