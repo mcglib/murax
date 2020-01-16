@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 RUN apt-get update
 RUN apt-get install locales
 
@@ -22,7 +22,7 @@ ENV BUNDLE_PATH "/storage/www/murax/shared/bundle"
 
 RUN apt-get update
 RUN apt-get install -qq wget unzip build-essential cmake gcc libcunit1-dev libudev-dev git redis-server curl \
-&& apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libcurl4-openssl-dev libpq-dev libsqlite3-dev
+&& apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libcurl4-openssl-dev libpq-dev libsqlite3-dev libimage-exiftool-perl
 
 # Install nodejs and npm
 RUN curl --silent --location https://deb.nodesource.com/setup_6.x | bash - \
@@ -34,7 +34,7 @@ RUN  apt-get install -qq dirmngr gnupg \
 && apt-get install -qq apt-transport-https ca-certificates
 
 
-RUN sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list' \
+RUN sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main > /etc/apt/sources.list.d/passenger.list' \
 &&  apt-get update \
 &&  apt-get install -qq libapache2-mod-passenger apache2
 
@@ -81,11 +81,9 @@ RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
 
 
 
-# install libreoffice and imagemagick
-RUN apt-get -qq install libreoffice imagemagick ffmpeg
-
-# for nokogiri
-RUN apt-get install -y libxml2-dev libxslt1-dev
+# install libreoffice and imagemagick / nokogiri / vim
+RUN apt-get -qq install libreoffice imagemagick ffmpeg libxml2-dev libxslt1-dev vim \
+&&  apt-get -qq install ghostscript poppler-utils  nano lynx libsaxon-java unzip zlib1g-dev tcsh telnet
 
 # for capybara-webkit
 #RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
@@ -100,7 +98,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 ENV FITS_VERSION 1.0.5
 ENV FITS_HOME /opt/$FITS_VERSION/install
 
-RUN apt-get -qq install ghostscript poppler-utils  nano lynx libsaxon-java unzip zlib1g-dev tcsh telnet
 
 RUN mkdir -p $FITS_HOME
 
@@ -119,9 +116,9 @@ ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
 # install pip and some of the requirements for Clara's script
-RUN apt-get install -y --no-install-recommends python-pip
+RUN apt-get install -y --no-install-recommends python-pip \
 # Install pip packages
-RUN pip install requests
+&& pip install requests
 
 # install global gems
 RUN gem install capistrano \
@@ -196,6 +193,10 @@ WORKDIR $APP_PATH
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
 
+# Create the log file to be able to run sidekiq
+RUN mkdir -p $APP_PATH/log
+RUN touch $APP_PATH/log/sidekiq.log
+
 RUN mkdir -p $STARTUP_PATH
 COPY ./docker/services/hyrax/startup.sh $STARTUP_PATH/startup.sh
 RUN chmod 0644 $STARTUP_PATH/startup.sh
@@ -211,4 +212,4 @@ RUN chmod +x /docker-entrypoint.sh
 
 
 ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
-CMD ['/bin/bash', "/docker/startup.sh"]
+CMD ["/bin/bash", "/docker/startup.sh"]

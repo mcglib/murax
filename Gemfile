@@ -114,7 +114,7 @@ gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
 gem 'rsolr'
 gem 'jquery-rails'
-gem 'sidekiq'
+gem 'sidekiq', '~> 5.2.7'
 gem 'sidekiq-limit_fetch'
 gem 'sidekiq-status'
 
@@ -124,5 +124,5 @@ gem 'sidekiq-status'
 
 gem 'riiif', '~> 2.0'
 
-# OAI provider Gem. 
+# OAI provider Gem.
 gem 'blacklight_oai_provider', '~> 6.0'
