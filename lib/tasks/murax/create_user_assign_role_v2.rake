@@ -24,9 +24,6 @@ namespace :murax do
       puts "Error: user #{args[:user_email]} already exists"
       exit
     end
-
-    #generate 10 character password
-    generated_password = Devise.friendly_token.first(10)
  
     #check if role exists
     existing_role = Role.find_by(name: args[:role])
@@ -35,15 +32,18 @@ namespace :murax do
       exit
     end
 
+    #Generate a secure 10-character password.
+    user_password = Devise.friendly_token.first(10)
+
     #create user
     start_time = Time.now
     puts "[#{start_time.to_s}] Creating the user: #{args[:user_email]}"
     u = User.new(email: args[:user_email])
     u.display_name = args[:user_email]
-    u.password = generated_password
+    u.password = user_password
     u.save
-
-    # add user to role
+   
+     # add user to role
     existing_role.users << u
     existing_role.save
 
@@ -51,7 +51,7 @@ namespace :murax do
 
     puts "Sending an email to #{u.email}."
 
-    UserCreationMailer.with(user_email: u.email, user_name: u.display_name, user_password: generated_password, assigned_role: existing_role).user_password_email.deliver_now
+    UserCreationMailer.with(user_email: u.email, user_name: u.display_name, user_password: user_password, assigned_role: existing_role).email_user_account_details.deliver_now
     puts "An email has been sent to #{u.email} with the password and assigned role info."
 
     exit
