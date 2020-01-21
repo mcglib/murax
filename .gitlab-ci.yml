@@ -1,5 +1,6 @@
 #image: registry.it.mcgill.ca/docker/rhel7-ansible
-image: ruby:2.5
+#image: ruby:2.5
+image: registry.it.mcgill.ca/lts/murax/base:latest
 services:
     - redis:latest
     - postgres:latest
@@ -24,9 +25,10 @@ before_script:
   - printenv
   - ruby -v
   - which ruby
+  - pwd
   # Check if the dependencies are ok, if not install what is missing
     # Install the gems
-  - bundle check || bundle install --jobs $(nproc) --path vendor
+    #- bundle check || bundle install --jobs $(nproc) --path vendor
   - yarn install
   # database.yml.ci file contains the configurations for the CI
   # server, so let's copy to the configuration file
