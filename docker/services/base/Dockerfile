@@ -30,13 +30,19 @@ RUN dpkg-reconfigure -f noninteractive tzdata
 
 # Install nodejs and npm
 RUN curl --silent --location https://deb.nodesource.com/setup_6.x | bash - \
-&& apt-get install -qq nodejs
+&& apt-get install -qq nodejs\
+&& apt-get install -qq apt-transport-https build-essential cmake nodejs software-properties-common unzip g++
 
 # install pip and some of the requirements for Clara's script
 RUN apt-get install -y --no-install-recommends python-pip \
 # Install pip packages
 && pip install requests
 
+
+# Install yarn
+RUN wget -q -O - https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+RUN apt-get install -y yarn
 
 RUN git clone git://github.com/rbenv/rbenv.git /usr/local/rbenv \
 && git clone git://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
@@ -94,7 +100,7 @@ RUN a2enmod passenger \
 RUN a2enmod ssl
 
 # install Gems that we need globally and not per app
-RUN gem install capistrano \
+RUN gem install capistrano  rake bundler \
  curb \
  therubyracer \
  rails-html-sanitizer \
