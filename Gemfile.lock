@@ -207,7 +207,6 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
-    curb (0.9.10)
     debug_inspector (0.0.3)
     declarative (0.0.10)
     declarative-option (0.1.0)
@@ -941,7 +940,6 @@ DEPENDENCIES
   capybara (~> 2.17.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
-  curb (~> 0.9.4)
   devise
   devise-guests (~> 0.6)
   devise-i18n
