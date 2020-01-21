@@ -95,7 +95,7 @@ RUN a2enmod ssl
 
 # install Gems that we need globally and not per app
 RUN gem install capistrano \
- curb
+ curb \
  therubyracer \
  rails-html-sanitizer \
  mini_portile2 \
