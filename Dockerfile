@@ -16,35 +16,8 @@ WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
-# install pip and some of the requirements for Clara's script
-RUN apt-get install -y --no-install-recommends python-pip \
-# Install pip packages
-&& pip install requests
-
-# Installm libcurl
-RUN  apt-get -qq install libcurl4 libcurl4-openssl-dev ruby-curb
-
-# Bundle exec for curb to used lib2
-RUN gem install curb 
 #RUN bundle update && bundle install --retry 5
 RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
-
-# Install Passenger and apache
-RUN  apt-get install -qq dirmngr gnupg \
-&& apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 \
-&& apt-get install -qq apt-transport-https ca-certificates
-
-
-RUN sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main > /etc/apt/sources.list.d/passenger.list' \
-&&  apt-get update \
-&&  apt-get install -qq libapache2-mod-passenger apache2
-
-# Enabled passenger and restart apache
-RUN a2enmod passenger \
-&& apachectl restart
-
-# Bundle installs with binstubs to our custom /bundle/bin volume path. Let system use those stubs.
-RUN a2enmod ssl
 
 # # Start various services
 ENV WAITFORIT_VERSION="v2.1.0"

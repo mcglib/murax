@@ -75,13 +75,13 @@ GEM
       activerecord (>= 4.0.0, < 7.0)
     awesome_print (1.8.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.264.0)
+    aws-partitions (1.266.0)
     aws-sdk-core (3.89.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.27.0)
+    aws-sdk-kms (1.28.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.60.1)
@@ -152,7 +152,7 @@ GEM
       sass-rails
       signet
     builder (3.2.4)
-    byebug (11.0.1)
+    byebug (11.1.0)
     cancancan (1.17.0)
     capistrano (3.9.0)
       airbrussh (>= 1.0.0)
@@ -207,7 +207,6 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
-    curb (0.9.10)
     debug_inspector (0.0.3)
     declarative (0.0.10)
     declarative-option (0.1.0)
@@ -291,7 +290,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday-encoding (0.0.4)
       faraday
-    faraday_middleware (0.13.1)
+    faraday_middleware (0.14.0)
       faraday (>= 0.7.4, < 1.0)
     fcrepo_wrapper (0.9.0)
       ruby-progressbar
@@ -825,7 +824,7 @@ GEM
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
-    slop (4.7.0)
+    slop (4.8.0)
     solr_wrapper (2.1.0)
       faraday
       retriable
@@ -873,7 +872,7 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    tinymce-rails (4.9.7)
+    tinymce-rails (4.9.7.1)
       railties (>= 3.1.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
@@ -941,7 +940,6 @@ DEPENDENCIES
   capybara (~> 2.17.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
-  curb (~> 0.9.4)
   devise
   devise-guests (~> 0.6)
   devise-i18n
