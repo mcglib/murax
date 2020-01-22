@@ -60,6 +60,7 @@ gem 'rubysl-open3'
 gem "haml-rails", "~> 2.0"
 gem "bootstrap-table-rails"
 
+
 group :development, :test do
   gem 'bixby'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -78,6 +79,8 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'awesome_print'
   gem 'capybara', '~> 2.17.0'
+  # Lint checker
+  gem pronto
 end
 
 group :test do

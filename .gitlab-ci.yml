@@ -1,6 +1,5 @@
-#image: registry.it.mcgill.ca/docker/rhel7-ansible
-#image: ruby:2.5
 image: registry.it.mcgill.ca/lts/murax/base:latest
+#image: ruby:2.5
 services:
     - redis:latest
     - postgres:latest
@@ -8,37 +7,39 @@ services:
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
   GIT_SUBMODULE_STRATEGY: recursive
-  ANSIBLE_CONFIG: /builds/lts/murax/ansible.cfg
+  POSTGRES_DB: ruby-getting-started_test
+  BUNDLE_PATH: vendor/bundle
+  DISABLE_SPRING: 1
+  DB_HOST: postgres
 
-# Cache gems in between builds
+  # Cache gems in between builds
 cache:
   paths:
-    - vendor/ruby
+    - vendor/
     - node_modules
 
 before_script:
   # Run the ssh-agent
   - eval $(ssh-agent -s)
-  # Load the SSH key used for GitLab role deploys.
-  #- ssh-add <(echo "$ROLE_DEPLOY_KEY")
-  # Configure our Ansible playbooka
   - printenv
   - ruby -v
   - which ruby
-  - pwd
-  # Check if the dependencies are ok, if not install what is missing
-    # Install the gems
-    #- bundle check || bundle install --jobs $(nproc) --path vendor
-  - yarn install
-  # database.yml.ci file contains the configurations for the CI
-  # server, so let's copy to the configuration file
+  - ls -la $(pwd)
+  - apt  remove cmdtest -y
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  - apt update
+  - apt -qq install yarn
+  - yarn
+  #- bundle check || bundle install --jobs $(nproc) --path vendor
   - cp config/database.yml.ci config/database.yml
-  - bundle exec rails db:create RAILS_ENV=test
-  - bundle exec rails db:schema:load RAILS_ENV=test
+  - bundle exec rails db:create RAILS_ENV=development
+  - bundle exec rails db:schema:load RAILS_ENV=development
   - bundle exec webpack
 
 stages:
   - test
+  - lint
   - deploy_dev
   - deploy_qa
   - deploy_prod
@@ -52,13 +53,23 @@ rspec:
     - azure
 
 rubocop:
-  tags:
-    - azure
   stage: test
   script:
     - bundle exec rubocop
   tags:
     - azure
+
+pronto:
+  stage: lint
+  allow_failure: true
+  except:
+    - master
+  script:
+    - bundle exec pronto run -f gitlab -c origin/master
+  tags:
+    - azure
+
+
 
 develop_deploy:
   tags:
