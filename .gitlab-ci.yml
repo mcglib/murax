@@ -25,6 +25,7 @@ before_script:
   - ruby -v
   - which ruby
   - ls -la $(pwd)
+  - yarn
   #- bundle check || bundle install --jobs $(nproc) --path vendor
   - cp config/database.yml.ci config/database.yml
   - bundle exec rails db:create RAILS_ENV=development
