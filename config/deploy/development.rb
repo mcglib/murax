@@ -1,6 +1,6 @@
 # For development
-set :stage, :production
-set :rails_env, 'production'
+set :stage, :development
+set :rails_env, 'development'
 set :repository_cache, "git_cache"
 set :branch, "develop"
 set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
