@@ -14,6 +14,7 @@ cache:
   paths:
     - vendor/ruby
     - node_modules
+    - log
 
 before_script:
   # Run the ssh-agent
