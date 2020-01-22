@@ -1,4 +1,4 @@
-FROM registry.it.mcgill.ca/lts/murax:latest
+FROM registry.it.mcgill.ca/lts/murax/base:latest
 # Different layer for gems installation
 ENV APP_PATH /storage/www/murax/current
 ENV BACKUP_PATH /root/backup
