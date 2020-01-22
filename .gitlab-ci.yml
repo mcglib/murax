@@ -24,8 +24,8 @@ before_script:
   - printenv
   - ruby -v
   - which ruby
-  - pwd
-  - bundle check || bundle install --jobs $(nproc) --path vendor
+  - ls -la $(pwd)
+  #- bundle check || bundle install --jobs $(nproc) --path vendor
   - cp config/database.yml.ci config/database.yml
   - bundle exec rails db:create RAILS_ENV=development
   - bundle exec rails db:schema:load RAILS_ENV=development
