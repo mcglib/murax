@@ -1,8 +1,6 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
-
-
 set :rbenv_ruby, '2.5.3'
 set :rbenv_type, :user
 
@@ -10,6 +8,7 @@ set :application, "murax"
 
 set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+# Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/storage/www/murax'
 set :rails_env, fetch(:stage).to_s
 set :ssh_options, keys: ['~/.ssh/id_rsa'] if File.exist?('~/.ssh/id_rsa')
@@ -28,7 +27,7 @@ set :default_env, {
 }
 
 set :log_level, :debug
-set :bundle_flags, '--deployment'
+#set :bundle_flags, '--deployment'
 
 set :bundle_env_variables, nokogiri_use_system_libraries: 1
 
@@ -40,11 +39,9 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 # Skip migration if files in db/migrate were not modified
 set :conditionally_migrate, true
 
-# Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/storage/www/murax'
 
 # Default value for :format is :airbrush.
-# set :format, :airbrussh
+# set :format, :airbrush
 
 # You can configure the Airbrush format using :format_options.
 # These are the defaults.
