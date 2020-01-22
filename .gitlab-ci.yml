@@ -42,7 +42,7 @@ before_script:
   - yarn install
   # database.yml.ci file contains the configurations for the CI
   # server, so let's copy to the configuration file
-  - cp config/database.yml.ci config/database.yml
+  #- cp config/database.yml.ci config/database.yml
   - bundle exec rails db:create RAILS_ENV=test
   - bundle exec rails db:schema:load RAILS_ENV=test
   - bundle exec webpack
