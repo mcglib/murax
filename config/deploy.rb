@@ -28,7 +28,7 @@ set :default_env, {
 }
 
 set :log_level, :debug
-set :bundle_flags, '--deployment'
+#set :bundle_flags, '--deployment'
 
 set :bundle_env_variables, nokogiri_use_system_libraries: 1
 
