@@ -80,7 +80,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'capybara', '~> 2.17.0'
   # Lint checker
-  gem pronto
+  gem 'pronto'
 end
 
 group :test do

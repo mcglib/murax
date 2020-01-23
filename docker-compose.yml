@@ -76,7 +76,7 @@ services:
     container_name: hyrax
     stdin_open: true
     build: .
-    image: hyrax:latest
+    image: registry.it.mcgill.ca/lts/murax/hyrax:latest
     volumes:
       - .:/storage/www/murax/current
       - data:/storage/www/murax/shared/bundle
