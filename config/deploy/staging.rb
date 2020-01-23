@@ -1,5 +1,6 @@
 # For staging (QA)
 set :stage, :production
+set :bundle_flags, '--deployment'
 set :rails_env, 'production'
 set :deploy_to, '/storage/www/murax'
 set :repository_cache, "git_cache"
