@@ -16,6 +16,14 @@ WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
+
+
+# Install the bundler version
+ENV BUNDLE_VERSION 2.1.4
+RUN eval "$(rbenv init -)"; gem install bundler -v $BUNDLE_VERSION -f \
+&& rm -rf /tmp/*
+
+
 #RUN bundle update && bundle install --retry 5
 RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 

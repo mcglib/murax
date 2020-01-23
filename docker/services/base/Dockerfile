@@ -79,35 +79,29 @@ ENV PATH /usr/local/rbenv/bin:$PATH
 ENV RBENV_ROOT /usr/local/rbenv
 ENV CONFIGURE_OPTS --disable-install-doc
 ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
-ENV RUBY_VERSION 2.5.3
 
 RUN git clone git://github.com/rbenv/rbenv.git /usr/local/rbenv \
 && git clone git://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
 && git clone git://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
 && /usr/local/rbenv/plugins/ruby-build/install.sh
-
 RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /etc/profile.d/rbenv.sh \
 && echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /etc/profile.d/rbenv.sh \
 && echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
-
 RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
 && echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /root/.bashrc \
 && echo 'eval "$(rbenv init -)"' >> /root/.bashrc
 
 
 # Install ruby versio $RUBY_VERSION
+ENV RUBY_VERSION 2.5.3
 RUN eval "$(rbenv init -)"; rbenv install $RUBY_VERSION \
 && eval "$(rbenv init -)"; rbenv global $RUBY_VERSION \
-&& eval "$(rbenv init -)"; gem update --system \
-&& eval "$(rbenv init -)"; gem install bundler -f \
-&& rm -rf /tmp/*
-RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
-&& echo 'eval "$(rbenv init -)"' >> /root/.bashrc
-
+&& eval "$(rbenv init -)"; gem update --system
 
 # install Gems that we need globally and not per app
-RUN gem install capistrano rake \
+RUN gem install capistrano \
  curb \
+ rake \
  therubyracer \
  rails-html-sanitizer \
  mini_portile2 \
