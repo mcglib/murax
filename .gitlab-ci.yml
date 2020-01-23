@@ -1,4 +1,4 @@
-image: registry.it.mcgill.ca/lts/murax/base:latest
+image: registry.it.mcgill.ca/lts/murax/hyrax:latest
 #image: ruby:2.5
 services:
     - redis:latest
@@ -32,7 +32,7 @@ before_script:
   - apt -qq install yarn
   - yarn
   #- bundle check || bundle install --jobs $(nproc) --path vendor
-  - cp config/database.yml.ci config/database.yml
+  #- cp config/database.yml.ci config/database.yml
   - bundle exec rails db:create RAILS_ENV=development
   - bundle exec rails db:schema:load RAILS_ENV=development
   - bundle exec webpack
