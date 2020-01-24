@@ -3,10 +3,10 @@ require 'optparse'
 require 'uri'
 
 namespace :murax do
-  desc 'Create a user and assign to a role'
-  task :create_user_assign_role_v2, [:user_email, :role] => :environment do |task, args|
+  desc 'Create a user and email the details to user'
+  task :create_and_email_user_details, [:user_email, :role] => :environment do |task, args|
     if args.count < 2
-      puts "Usage: bundle exec rake murax:create_user_assign_role['users-email-address','a-role-which-already-exists']"
+      puts "Usage: bundle exec rake murax:create_and_email_user_details['users-email-address','a-role-which-already-exists']"
       puts "       10-character random password will be generated and mailed to the user."
       puts "Expecting two arguments found #{args.count}"
       exit
