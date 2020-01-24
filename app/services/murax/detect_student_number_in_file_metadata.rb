@@ -1,5 +1,4 @@
 require 'pathname'
-
 module Murax
   class DetectStudentNumberInFileMetadata
      @error_message = nil

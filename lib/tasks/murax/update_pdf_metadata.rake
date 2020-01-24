@@ -8,8 +8,8 @@ namespace :murax do
         next
     end
     workids = args[:workids].split(' ')
-    faf = FetchAFile.new
-    faf.by_uri(f)
+    #faf = FetchAFile.new
+    #faf.by_uri(f)
     
     # start processing
     process_update_pdfs(workids) if workids.present?
@@ -28,12 +28,47 @@ namespace :murax do
       total_items = workids.count
 
       workids.each_with_index do | wkid, index |
-        puts wkid
         puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{index}/#{total_items}  : Processing the workid #{wkid}"
 
         begin
 
-          successes += 1
+
+          # Get representative fileid   from wkid
+          rep_file_set = GetRepresentativeFileSetByWorkId(wkid)
+
+          # download the file 
+          faf = FetchAFile.new
+          file_path = faf.fetched_file_name if faf.by_file_id_ignore_visibility(rep_file_set.id).present?
+          
+          # Detect if file has a student number
+          has_std_no = Murax::DetectStudentNumberInFileMetadata.new(file_path).title_contains_student_number?
+ 
+          # Move to the next workid if there is no std no detected         
+          next if !has_std_no
+
+          # Get the file metadata
+          file_metadata = FetchEmbeddedMetadataFromFile.new(file_path).fetch_as_hash if has_std_no
+            
+          # Remove file metadata ( cleanup the title )
+          # write file metadata
+          curr_title = file_metadata["Title"]
+          file_metadata["Title"] = curr_title.sub(/\d{9}/, "")
+
+          byebug
+          file_metadata = WriteEmbeddedMetadataToFile.new(file_path, file_metadata).update_fields if has_std_no
+          #stripped_file = Murax::StripStudentNumberFromFileMetadata.strip(file_path, file_metadata)
+
+          # update workid with new pdf file
+          #status = UpdateFileSetWithNewFile.update(file_path, changing_file_set) if stripped_file
+
+          # update the success status
+          successes += 1 if status
+
+        rescue ActiveFedora::ObjectNotFoundError => e
+           errors += 1
+           puts "Can't find Samvera work #{wkid}"
+           logger.error "Can't find Samvera work #{wkid}: #{e}"
+           next
         rescue StandardError => e
           errors += 1
           import_log.imported  = false
