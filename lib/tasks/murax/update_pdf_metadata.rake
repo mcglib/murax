@@ -31,10 +31,8 @@ namespace :murax do
         puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{index}/#{total_items}  : Processing the workid #{wkid}"
 
         begin
-
-
           # Get representative fileid   from wkid
-          rep_file_set = GetRepresentativeFileSetByWorkId(wkid)
+          rep_file_set = GetRepresentativeFileSetByWorkId.call(wkid)
 
           # download the file 
           faf = FetchAFile.new
@@ -52,17 +50,17 @@ namespace :murax do
           # Remove file metadata ( cleanup the title )
           # write file metadata
           curr_title = file_metadata["Title"]
-          file_metadata["Title"] = curr_title.sub(/\d{9}/, "")
+          new_hash = {"Title" => curr_title }
+          new_hash["Title"] = curr_title.sub(/\d{9}/, "")
 
-          byebug
-          file_metadata = WriteEmbeddedMetadataToFile.new(file_path, file_metadata).update_fields if has_std_no
+          WriteEmbeddedMetadataToFile.new(file_path, new_hash).update_fields if has_std_no
           #stripped_file = Murax::StripStudentNumberFromFileMetadata.strip(file_path, file_metadata)
 
           # update workid with new pdf file
-          #status = UpdateFileSetWithNewFile.update(file_path, changing_file_set) if stripped_file
+          status = UpdateFileSetWithNewFile.call(file_path, rep_file_set) 
 
           # update the success status
-          successes += 1 if status
+          #successes += 1 if status
 
         rescue ActiveFedora::ObjectNotFoundError => e
            errors += 1
@@ -71,9 +69,9 @@ namespace :murax do
            next
         rescue StandardError => e
           errors += 1
-          import_log.imported  = false
-          import_log.error = "#{e}: #{e.class.name} "
-          logger.error "Error updating the PDF file #{pid}: #{e}: #{e.class.name}"
+          logger.imported  = false
+          logger.error = "#{e}: #{e.class.name} "
+          logger.error "Error updating the PDF file #{file_path}: #{e}: #{e.class.name}"
         end
 
       end
@@ -82,7 +80,7 @@ namespace :murax do
       logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
       end_time = Time.now
       duration = (end_time - start_time) / 1.minute
-      puts "[#{end_time.to_s}] Finished the  migration of #{pids.map(&:inspect).join(', ')} in #{duration} minutes"
+      puts "[#{end_time.to_s}] Finished the  migration of #{wkids.map(&:inspect).join(', ')} in #{duration} minutes"
       logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
 
       # Return the workids
