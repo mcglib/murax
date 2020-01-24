@@ -21,6 +21,8 @@ class FetchAFile
      end
    end
 
+   # This function fetchs the actual file using the specified
+   # file_id from samvera and outputs it to /tmp
    def by_file_id(file_id)
      begin
         raise ArgumentError.new("Missing required Samvera file id.") if file_id.nil?
