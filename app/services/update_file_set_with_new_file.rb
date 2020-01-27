@@ -1,17 +1,20 @@
 class UpdateFileSetWithNewFile
-      def self.call(filepath, fileset)
-        byebug
-        samvera_work_ids = []
-        if !filename.nil?
-          active_fedora_relation = FileSet.search_with_conditions("label_ssi:#{filename}")
-          if active_fedora_relation.nil? || active_fedora_relation.empty?
-             puts "Can't find file #{filename}"
-          else
-             file_set = FileSet.find(active_fedora_relation.max_by { |r| r['_version_']}['id'])
-             samvera_work_ids = file_set.parent_work_ids.uniq
+      def self.call(filepath, fileset, depositor)
+        updated = true
+        if !filepath.nil?
+          begin
+            file_actor = ::Hyrax::Actors::FileSetActor.new(fileset, depositor)
+            file_actor.update_content(Hyrax::UploadedFile.create(file: File.open(filepath), user: depositor))
+          rescue Ldp::Gone => e
+            updated = false
+            puts "The file #{fileset} could not be attached to the fileset #{fileset.id}. Server error. See #{e}"
+          rescue  StandardError => e
+            updated = false
+            puts "The file #{fileset} could not be attached to the fileset #{fileset.id}. See #{e}"
           end
         end
-        samvera_work_ids
+
+        updated
       end
 
 end

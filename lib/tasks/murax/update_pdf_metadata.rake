@@ -3,22 +3,22 @@ require 'active_record'
 namespace :murax do
   desc 'Update a main representative pdf metadata for a given  workid(s). Multiple work ids can be passed'
   task :update_pdf_metadata, [:workids] => :environment do |task, args|
+    user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
     if args.count < 1
         puts 'Usage: bundle exec rake murax:update_pdf_metadata["<samvera-work-id>[ <samvera-work-id>]..."]'
         next
     end
     workids = args[:workids].split(' ')
-    #faf = FetchAFile.new
-    #faf.by_uri(f)
     
+    @depositor = User.where(email: user_email).first
     # start processing
-    process_update_pdfs(workids) if workids.present?
+    process_update_pdfs(workids, @depositor) if workids.present?
     
     # Email error report
-    send_error_report(workids, @depositor)
+    #send_error_report(workids, @depositor)
   end
 
-  def process_update_pdfs(workids)
+  def process_update_pdfs(workids, depositor)
       start_time = Time.now
       datetime_today = Time.now.strftime('%Y%m%d%H%M%S') # "20171021125903"
       logger = ActiveSupport::Logger.new("log/update-pdf-metadata-#{datetime_today}.log")
@@ -57,10 +57,11 @@ namespace :murax do
           #stripped_file = Murax::StripStudentNumberFromFileMetadata.strip(file_path, file_metadata)
 
           # update workid with new pdf file
-          status = UpdateFileSetWithNewFile.call(file_path, rep_file_set) 
+          # Get the user
+          status = UpdateFileSetWithNewFile.call(file_path, rep_file_set, depositor) 
 
           # update the success status
-          #successes += 1 if status
+          successes += 1 if status
 
         rescue ActiveFedora::ObjectNotFoundError => e
            errors += 1
@@ -80,7 +81,8 @@ namespace :murax do
       logger.info "Processed #{successes} work(s), #{errors} error(s) encountered"
       end_time = Time.now
       duration = (end_time - start_time) / 1.minute
-      puts "[#{end_time.to_s}] Finished the  migration of #{wkids.map(&:inspect).join(', ')} in #{duration} minutes"
+      puts "[#{end_time.to_s}] Finished the  migration of #{workids.map(&:inspect).join(', ')} in #{duration} minutes"
+      logger.info "[#{end_time.to_s}] Finished the  migration of #{workids.map(&:inspect).join(', ')} in #{duration} minutes"
       logger.info "Task finished at #{end_time} and lasted #{duration} minutes."
 
       # Return the workids
