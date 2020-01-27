@@ -39,8 +39,8 @@ before_script:
   - bundle exec webpack
 
 stages:
-  - test
   - lint
+  - test
   - deploy_dev
   - deploy_qa
   - deploy_prod
@@ -77,7 +77,7 @@ develop_deploy:
     - azure
   stage: deploy_dev
   script:
-    - cap development deploy
+    - bundle exec cap development deploy
   only:
     - develop
   tags:
@@ -86,7 +86,7 @@ develop_deploy:
 staging_deploy:
   stage: deploy_qa
   script:
-    - cap production deploy
+    - bundle exec cap staging deploy
   only:
     - master
   tags:
@@ -95,7 +95,7 @@ staging_deploy:
 production_deploy:
   stage: deploy_qa
   script:
-    - cap production deploy
+    - bundle exec cap production deploy
   only:
     - master
   when: manual
