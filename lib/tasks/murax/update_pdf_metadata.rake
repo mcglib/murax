@@ -42,7 +42,12 @@ namespace :murax do
           has_std_no = Murax::DetectStudentNumberInFileMetadata.new(file_path).title_contains_student_number?
  
           # Move to the next workid if there is no std no detected         
-          next if !has_std_no
+          if !has_std_no
+            puts "The work id #{wkid} has no student number in its title."
+            logger.info "The work id #{wkid} has no student number in its title."
+            successes += 1
+            next
+          end
 
           # Get the file metadata
           file_metadata = FetchEmbeddedMetadataFromFile.new(file_path).fetch_as_hash if has_std_no
