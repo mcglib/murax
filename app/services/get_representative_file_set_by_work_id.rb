@@ -7,9 +7,10 @@ class GetRepresentativeFileSetByWorkId
       rep_ids = file_sets.map { |p| p.id }
       file_sets.each do | fset|
         # get the main object to be changed
-        if fset.visibility == "open" && work.representative_id == fset.id
+        if work.representative_id == fset.id
              rep_file_set = fset
-          end
+        end
+
       end
     rescue ActiveFedora::ObjectNotFoundError => e
        puts "#{e}: #{e.class.name} "
