@@ -29,18 +29,24 @@ class ReportWorkidsService
         workid = nil
 
          begin
-           #file_sets = ActiveFedora::Base.search_by_id(wkid)['human_readable_type_tesim'].first.constantize.find(wkid).file_sets
-           results = ActiveFedora::Base.search_with_conditions({"relation_tesim" => "pid: #{pid}"})
-           byebug
-           if result.empty?
-            raise ActiveFedora::ObjectNotFoundError, "Object '#{pid}' not found in solr"
+           # We search for works with the pid #pid and have no label. Filesets have labels.
+           # We do this since we have not found a way to filter on everything that is not a fileset
+           # we could have used  "-has_model_ssim" => "FileSet", as a condition but that
+           # did not work
+           results = ActiveFedora::Base.search_with_conditions({"relation_tesim" => "pid: #{pid}", "label_ssi" => ""})
+           if results.empty?
+            raise ActiveFedora::ObjectNotFoundError, "No work with the pid '#{pid}'was  not found in solr"
+            Rails.logger.warn "No work with the pid '#{pid}'was  not found in solr"
            end 
+
+           workid = results.first.id
 
         rescue => e
             raise StandardError, "Error occured getting the work id for pid #{pid}: Error: #{stderr} #{e}"
-            Rails.logger.warn "Error occured getting the work id for pid #{pid}: Error: #{stderr} #{e}"
+            Rails.logger.warn "Error occured searching for the work id for pid #{pid}: Error: #{stderr} #{e}"
             nil
         end
+
         return false unless pid.present?
 
         workid
