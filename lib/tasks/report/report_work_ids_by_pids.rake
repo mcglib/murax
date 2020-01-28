@@ -5,18 +5,26 @@ namespace :report do
         puts 'Usage: bundle exec rake murax:report_work_ids_by_pid["<pid>[ <pid>]..."]'
         next
      end
-    
+
      pids = args[:pids].split(' ')
 
      successes = 0
      errors = 0
      total_items = pids.count
-     workids = {}
+     workids = []
      pids.each_with_index do | pid, index |
         puts "#{Time.now.strftime('%Y%-m%-d%-H%M%S') }:  #{index}/#{total_items}  : Processing the pid #{pid}"
         puts "fetching work ids from pid #{pid}"
         samvera_work_id = ReportWorkidsService.by_pid(pid)
         workids << samvera_work_id if samvera_work_id.present?
+        successes += 1 if samvera_work_id.present?
+      
+        if samvera_work_id.empty?
+          errors += 1
+          puts "Can't find Samvera work #{wkid} for pid #{pid}"
+          logger.error "Can't find Samvera work #{wkid} for pid #{pid}"
+        end
+
      end
 
      puts workids.join("\n")

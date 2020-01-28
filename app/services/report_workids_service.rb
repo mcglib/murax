@@ -28,7 +28,7 @@ class ReportWorkidsService
       def self.by_pid(pid)
         workid = nil
 
-         begin
+        begin
            # We search for works with the pid #pid and have no label. Filesets have labels.
            # We do this since we have not found a way to filter on everything that is not a fileset
            # we could have used  "-has_model_ssim" => "FileSet", as a condition but that
@@ -37,13 +37,13 @@ class ReportWorkidsService
            if results.empty?
             raise ActiveFedora::ObjectNotFoundError, "No work with the pid '#{pid}'was  not found in solr"
             Rails.logger.warn "No work with the pid '#{pid}'was  not found in solr"
-           end 
+           end
 
            workid = results.first.id
 
         rescue => e
-            raise StandardError, "Error occured getting the work id for pid #{pid}: Error: #{stderr} #{e}"
-            Rails.logger.warn "Error occured searching for the work id for pid #{pid}: Error: #{stderr} #{e}"
+            raise StandardError, "Error occured getting the work id for pid #{pid}: Error:  #{e}"
+            Rails.logger.warn "Error occured searching for the work id for pid #{pid}: Error:  #{e}"
             nil
         end
 
