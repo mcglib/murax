@@ -25,4 +25,24 @@ class ReportWorkidsService
         samvera_work_ids
       end
 
+      def self.by_pid(pid)
+        workid = nil
+
+         begin
+           #file_sets = ActiveFedora::Base.search_by_id(wkid)['human_readable_type_tesim'].first.constantize.find(wkid).file_sets
+           results = ActiveFedora::Base.search_with_conditions({"relation_tesim" => "pid: #{pid}"})
+           byebug
+           if result.empty?
+            raise ActiveFedora::ObjectNotFoundError, "Object '#{pid}' not found in solr"
+           end 
+
+        rescue => e
+            raise StandardError, "Error occured getting the work id for pid #{pid}: Error: #{stderr} #{e}"
+            Rails.logger.warn "Error occured getting the work id for pid #{pid}: Error: #{stderr} #{e}"
+            nil
+        end
+        return false unless pid.present?
+
+        workid
+      end
 end
