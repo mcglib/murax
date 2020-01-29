@@ -11,6 +11,7 @@ variables:
   BUNDLE_PATH: vendor/bundle
   DISABLE_SPRING: 1
   DB_HOST: postgres
+  BUNDLE_VERSION: 2.1.4
 
 # Cache gems in between builds
 cache:
@@ -21,11 +22,13 @@ cache:
 
 before_script:
   # Run the ssh-agent
-  #- eval $(ssh-agent -s)
-  #- printenv
-  #- ruby -v
-  #- which ruby
-  #- ls -la $(pwd)
+  - eval $(ssh-agent -s)
+  - gem install bundler -v $BUNDLE_VERSION -f
+  - printenv
+  - ruby -v
+  - which ruby
+  - ls -la $(pwd)
+  - gem install pronto pronto-rubocop pronto-flay
   #- apt  remove cmdtest -y
   #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   #- echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
