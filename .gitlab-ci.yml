@@ -1,5 +1,5 @@
-#image: registry.it.mcgill.ca/lts/murax/hyrax:latest
-image: ruby:2.5
+image: registry.it.mcgill.ca/lts/murax/hyrax:latest
+#image: ruby:2.5
 services:
     - redis:latest
     - postgres:latest
@@ -28,7 +28,6 @@ before_script:
   - ruby -v
   - which ruby
   - ls -la $(pwd)
-  - apt-get install cmake -y
   - gem install pronto pronto-rubocop pronto-flay
   #- apt  remove cmdtest -y
   #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -76,7 +75,7 @@ pronto:
     - azure
 
 lint:
-  image: ruby:2.5
+#  image: ruby:2.5
   variables:
     PRONTO_GITLAB_API_ENDPOINT: "https://gitlab.ncs.mcgill.ca/api/v4"
     PRONTO_GITLAB_API_PRIVATE_TOKEN: token
