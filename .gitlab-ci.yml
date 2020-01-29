@@ -70,6 +70,16 @@ pronto:
   tags:
     - azure
 
+lint:
+  image: ruby
+  variables:
+    PRONTO_GITLAB_API_ENDPOINT: "https://gitlab.ncs.mcgill.ca/api/v4"
+    PRONTO_GITLAB_API_PRIVATE_TOKEN: token
+  only:
+    - merge_requests
+  script:
+    - bundle install
+    - bundle exec pronto run -f gitlab_mr -c origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
 
 
 develop_deploy:
