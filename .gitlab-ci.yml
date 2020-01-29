@@ -12,7 +12,7 @@ variables:
   DISABLE_SPRING: 1
   DB_HOST: postgres
 
-  # Cache gems in between builds
+# Cache gems in between builds
 cache:
   paths:
     - vendor/
@@ -21,22 +21,22 @@ cache:
 
 before_script:
   # Run the ssh-agent
-  - eval $(ssh-agent -s)
-  - printenv
-  - ruby -v
-  - which ruby
-  - ls -la $(pwd)
-  - apt  remove cmdtest -y
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  - apt update
-  - apt -qq install yarn
-  - yarn
+  #- eval $(ssh-agent -s)
+  #- printenv
+  #- ruby -v
+  #- which ruby
+  #- ls -la $(pwd)
+  #- apt  remove cmdtest -y
+  #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  #- echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  #- apt update
+  #- apt -qq install yarn
+  #- yarn
   #- bundle check || bundle install --jobs $(nproc) --path vendor
   #- cp config/database.yml.ci config/database.yml
-  - bundle exec rails db:create RAILS_ENV=development
-  - bundle exec rails db:schema:load RAILS_ENV=development
-  - bundle exec webpack
+  #- bundle exec rails db:create RAILS_ENV=development
+  #- bundle exec rails db:schema:load RAILS_ENV=development
+  #- bundle exec webpack
 
 stages:
   - lint
@@ -71,7 +71,7 @@ pronto:
     - azure
 
 lint:
-  image: ruby
+  image: ruby:2.5
   variables:
     PRONTO_GITLAB_API_ENDPOINT: "https://gitlab.ncs.mcgill.ca/api/v4"
     PRONTO_GITLAB_API_PRIVATE_TOKEN: token
@@ -80,11 +80,10 @@ lint:
   script:
     - bundle install
     - bundle exec pronto run -f gitlab_mr -c origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-
-
-develop_deploy:
   tags:
     - azure
+
+develop_deploy:
   stage: deploy_dev
   script:
     - bundle exec cap development deploy
