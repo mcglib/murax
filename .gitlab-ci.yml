@@ -28,6 +28,7 @@ before_script:
   - ruby -v
   - which ruby
   - ls -la $(pwd)
+  - apt-get install cmake -y
   - gem install pronto pronto-rubocop pronto-flay
   #- apt  remove cmdtest -y
   #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
