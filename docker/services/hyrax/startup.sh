@@ -19,6 +19,11 @@ sleep 10
 waitforit -address=tcp://${DATABASE_HOST}:${DATABASE_PORT} -timeout=30 -debug -- printf "The Database is up!"
 export  PGPASSWORD=${DATABASE_PASSWORD}
 
+echo "Ensure all gems are installed"
+cd /storage/www/murax/current
+bundle check || bundle install --binstubs="$BUNDLE_BIN"
+# Ensure all gems installed. Add binstubs to bin which has been added to PATH in Dockerfile.
+
 echo "Run yarn install so that we can make sure we can compile assets"
 yarn install
 
