@@ -62,7 +62,11 @@ namespace :murax do
   end
 
   def email_report(user_email, logfilename, tod)
+     Mail.defaults do
+        delivery_method :sendmail, address: ENV['MAIL_HOST'], port: 25
+     end
      mail = Mail.new do
+        from ENV['ADMIN_EMAIL']
         to user_email
         subject "unembargo_files_by_work_id task report #{tod}"
         body File.read(logfilename)
