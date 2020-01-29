@@ -8,15 +8,24 @@ namespace :murax do
         next
      end
      workids = args[:workids].split(' ')
+     #user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
+     user_email = 'elizabeth.thomson@mcgill.ca'
+     tod = Time.now.strftime('%Y%m%d-%H%M%S')
+     logfilename = "log/unembargo_files_by_work_id-#{tod}.log"
+     logfile = File.new(logfilename, 'w')
 
      number_of_embargoes_deactivated = 0
      workids.each do |wid|
-         number_of_embargoes_deactivated += 1 if unembargo_files(wid.strip)
+         number_of_embargoes_deactivated += 1 if unembargo_files(wid.strip,logfile)
      end
-     puts "#{number_of_embargoes_deactivated} embargoes deactivated on " + workids.count.to_s + " works"
+     message = "#{number_of_embargoes_deactivated} embargoes deactivated on " + workids.count.to_s + " works"
+     puts message
+     logfile.puts message
+     logfile.close
+     email_report(user_email, logfilename, tod)
   end
 
-  def unembargo_files(work_id)
+  def unembargo_files(work_id,logfile)
      begin
        deactivated_an_embargo = false
        work = ActiveFedora::Base.find(work_id)
@@ -36,14 +45,28 @@ namespace :murax do
              f.save!
              work.save!
              deactivated_an_embargo = !f.under_embargo?
-             puts "unembargoed file #{f.id} in work #{work_id}"
+             message = "unembargoed file #{f.id} in work #{work_id}"
+             puts message
+             logfile.puts message
           end
-          puts "No files to unembargo for work id #{work_id}" if no_embargoed_files
+          message = "No files to unembargo for work id #{work_id}" 
+          puts message if no_embargoed_files
+          logfile.puts message if no_embargoed_files
        end
      rescue StandardError => e
        puts e.message
+       logfile.puts e.message
        false
      end
      deactivated_an_embargo
+  end
+
+  def email_report(user_email, logfilename, tod)
+     mail = Mail.new do
+        to user_email
+        subject "unembargo_files_by_work_id task report #{tod}"
+        body File.read(logfilename)
+     end
+     mail.deliver!
   end
 end
