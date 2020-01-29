@@ -23,8 +23,10 @@ namespace :murax do
        raise StandardError.new("Unable to locate work id: #{work_id}") if work.nil?
        file_sets = work.file_sets
        raise StandardError.new("No files found for work id #{work_id}") if file_sets.nil?
+       no_embargoed_files = true
        file_sets.each do |f|
           if f.under_embargo?
+             no_embargoed_files = false
              post_embargo_visibility = f.visibility_after_embargo
              f.deactivate_embargo!
              f.embargo.save!
@@ -34,7 +36,9 @@ namespace :murax do
              f.save!
              work.save!
              deactivated_an_embargo = !f.under_embargo?
+             puts "unembargoed file #{f.id} in work #{work_id}"
           end
+          puts "No files to unembargo for work id #{work_id}" if no_embargoed_files
        end
      rescue StandardError => e
        puts e.message
