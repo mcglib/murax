@@ -66,6 +66,7 @@ pronto:
   except:
     - master
   script:
+    - bundle install
     - bundle exec pronto run
   tags:
     - azure
