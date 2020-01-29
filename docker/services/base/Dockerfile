@@ -15,7 +15,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN apt-get install -qq wget unzip build-essential cmake gcc libcunit1-dev libudev-dev git redis-server curl \
-&& apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libpq-dev libsqlite3-dev libimage-exiftool-perl
+&& apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libpq-dev libsqlite3-dev libimage-exiftool-perl libio-compress-perl
 
 # install libreoffice and imagemagick / nokogiri / vim
 RUN apt-get -qq install libreoffice imagemagick ffmpeg libxml2-dev libxslt1-dev vim \

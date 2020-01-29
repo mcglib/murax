@@ -75,7 +75,6 @@ namespace :murax do
            next
         rescue StandardError => e
           errors += 1
-          logger.imported  = false
           logger.error = "#{e}: #{e.class.name} "
           logger.error "Error updating the PDF file #{file_path}: #{e}: #{e.class.name}"
         end
