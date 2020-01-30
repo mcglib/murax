@@ -8,8 +8,6 @@ namespace :murax do
         next
      end
      workids = args[:workids].split(' ')
-     #user_email = ENV['DEFAULT_DEPOSITOR_EMAIL'].tr('"','')
-     user_email = 'elizabeth.thomson@mcgill.ca'
      tod = Time.now.strftime('%Y%m%d-%H%M%S')
      logfilename = "log/unembargo_files_by_work_id-#{tod}.log"
      logfile = File.new(logfilename, 'w')
@@ -22,7 +20,7 @@ namespace :murax do
      puts message
      logfile.puts message
      logfile.close
-     email_report(user_email, logfilename, tod)
+     puts "Log available at : #{logfilename}"
   end
 
   def unembargo_files(work_id,logfile)
@@ -49,10 +47,10 @@ namespace :murax do
              puts message
              logfile.puts message
           end
-          message = "No files to unembargo for work id #{work_id}" 
-          puts message if no_embargoed_files
-          logfile.puts message if no_embargoed_files
        end
+       message = "No files to unembargo for work id #{work_id}" 
+       puts message if no_embargoed_files
+       logfile.puts message if no_embargoed_files
      rescue StandardError => e
        puts e.message
        logfile.puts e.message
@@ -61,16 +59,4 @@ namespace :murax do
      deactivated_an_embargo
   end
 
-  def email_report(user_email, logfilename, tod)
-     Mail.defaults do
-        delivery_method :sendmail, address: ENV['MAIL_HOST'], port: 25
-     end
-     mail = Mail.new do
-        from ENV['ADMIN_EMAIL']
-        to user_email
-        subject "unembargo_files_by_work_id task report #{tod}"
-        body File.read(logfilename)
-     end
-     mail.deliver!
-  end
 end
