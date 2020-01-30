@@ -25,7 +25,7 @@ RUN eval "$(rbenv init -)"; gem install bundler -v $BUNDLE_VERSION -f \
 
 
 #RUN bundle update && bundle install --retry 5
-RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
+RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --path $BUNDLE_PATH
 
 # # Start various services
 ENV WAITFORIT_VERSION="v2.1.0"
@@ -70,10 +70,6 @@ COPY ./docker/services/hyrax/config/apache_sslredirect_vhost.conf /etc/apache2/s
 COPY ./docker/services/hyrax/config/cert.crt /etc/ssl/private/cert.crt
 COPY ./docker/services/hyrax/config/cert.key /etc/ssl/private/cert.key
 COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.crt
-
-
-
-
 
 
 WORKDIR $APP_PATH

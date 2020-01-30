@@ -8,7 +8,7 @@ variables:
   # make sure that your .gitmodules file is configured to use relative paths!
   GIT_SUBMODULE_STRATEGY: recursive
   POSTGRES_DB: ruby-getting-started_test
-  BUNDLE_PATH: vendor/bundle
+  BUNDLE_PATH: /storage/www/murax/shared
   DISABLE_SPRING: 1
   DB_HOST: postgres
   BUNDLE_VERSION: 2.1.4
@@ -23,12 +23,12 @@ cache:
 before_script:
   # Run the ssh-agent
   - eval $(ssh-agent -s)
-  - gem install bundler -v $BUNDLE_VERSION -f
   - printenv
   - ruby -v
   - which ruby
   - ls -la $(pwd)
-  - gem install pronto pronto-rubocop pronto-flay
+  - gem install bundler -v $BUNDLE_VERSION -f --no-document
+  - bundle check || bundle install --path $BUNDLE_PATH --jobs $(nproc)  "${FLAGS[@]}"
   #- apt  remove cmdtest -y
   #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   #- echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -69,8 +69,8 @@ pronto:
   except:
     - master
   script:
-    - bundle install
-    - bundle exec pronto run
+    - git fetch
+    - bundle exec pronto run -c origin/master --exit-code
   tags:
     - azure
 
@@ -82,7 +82,8 @@ lint:
   only:
     - merge_requests
   script:
-    - bundle install
+      #- bundle install
+    - bundle check || bundle install --jobs $(nproc) --path $BUNDLE_PATH
     - bundle exec pronto run
   tags:
     - azure
