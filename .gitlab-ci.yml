@@ -70,7 +70,6 @@ pronto:
   except:
     - master
   script:
-    - git fetch
     - bundle exec pronto run -c origin/master --exit-code
   tags:
     - azure
@@ -81,6 +80,8 @@ lint:
     PRONTO_GITLAB_API_PRIVATE_TOKEN: token
   only:
     - merge_requests
+  script:
+    - git fetch
   tags:
     - azure
 
