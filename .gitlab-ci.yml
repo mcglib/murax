@@ -19,6 +19,7 @@ cache:
     - vendor/
     - node_modules
     - log
+    - /storage/www/murax/shared
 
 before_script:
   # Run the ssh-agent
@@ -75,16 +76,11 @@ pronto:
     - azure
 
 lint:
-#  image: ruby:2.5
   variables:
     PRONTO_GITLAB_API_ENDPOINT: "https://gitlab.ncs.mcgill.ca/api/v4"
     PRONTO_GITLAB_API_PRIVATE_TOKEN: token
   only:
     - merge_requests
-  script:
-      #- bundle install
-    - bundle check || bundle install --jobs $(nproc) --path $BUNDLE_PATH
-    - bundle exec pronto run
   tags:
     - azure
 

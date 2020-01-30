@@ -3,10 +3,14 @@
 set -e
 # Exit on fail
 
-echo "Starting sidekiq service"
+echo "Starting Apache service"
+service apache2 stop
+service apache2 start
 
+echo "Starting sidekiq service"
 cd ${APP_PATH}
 RAILS_ENV=${RAILS_ENV} bundle exec sidekiq -d -L ${APP_PATH}/log/sidekiq.log
+
 # Finally call command issued to the docker service
 # This is only for the Web container.
 echo "Checking that the db is up already!"
