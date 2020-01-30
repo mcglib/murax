@@ -25,4 +25,30 @@ class ReportWorkidsService
         samvera_work_ids
       end
 
+      def self.by_pid(pid)
+        workid = nil
+
+        begin
+           # We search for works with the pid #pid and have no label. Filesets have labels.
+           # We do this since we have not found a way to filter on everything that is not a fileset
+           # we could have used  "-has_model_ssim" => "FileSet", as a condition but that
+           # did not work
+           results = ActiveFedora::Base.search_with_conditions({"relation_tesim" => "pid: #{pid}", "label_ssi" => ""})
+           if results.empty?
+            raise ActiveFedora::ObjectNotFoundError, "No work with the pid '#{pid}'was  not found in solr"
+            Rails.logger.warn "No work with the pid '#{pid}'was  not found in solr"
+           end
+
+           workid = results.first.id
+
+        rescue => e
+            raise StandardError, "Error occured getting the work id for pid #{pid}: Error:  #{e}"
+            Rails.logger.warn "Error occured searching for the work id for pid #{pid}: Error:  #{e}"
+            nil
+        end
+
+        return false unless pid.present?
+
+        workid
+      end
 end

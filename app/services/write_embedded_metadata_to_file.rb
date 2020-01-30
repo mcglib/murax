@@ -6,7 +6,7 @@ class WriteEmbeddedMetadataToFile
         raise ArgumentError.new("Missing required file name argument.") if filepathname.nil?
         raise ArgumentError.new("Missing or invalid required metadata argument") if metadata.nil?
         raise ArgumentError.new("Invalid metadata format. Hash required.") if !metadata.instance_of? Hash
-        @the_file = Pathname.new("tmp/#{filepathname}")
+        @the_file = Pathname.new("#{filepathname}")
         if !(@the_file.exist? && @the_file.file?)
            raise Errno::ENOENT.new("#{@the_file.to_s} is not a valid file.")
         end
