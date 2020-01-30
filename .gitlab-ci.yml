@@ -82,7 +82,7 @@ lint:
     - merge_requests
   script:
     - git fetch
-    - bundle exec pronto run -c origin/master --exit-code
+    - bundle exec pronto run -f gitlab_mr -c origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   tags:
     - azure
 
