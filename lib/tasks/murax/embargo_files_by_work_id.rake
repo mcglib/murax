@@ -11,9 +11,9 @@ namespace :murax do
 
     embargo_release_date = DateTime.now.next_year.strftime('%Y-%m-%d')
     abort "0 files were embargoed because one or more invalid work ids were found. Please verify input values and ensure that work ids are submitted as a space separated list." if bad_ids_found(workids)
-    
+
     embargo_files(workids,embargo_release_date)
-    
+
   end
 
   def bad_ids_found(wids)

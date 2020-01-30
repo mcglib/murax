@@ -35,7 +35,7 @@ gem 'redis', '~> 4.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'curb', '~> 0.9.4'
+#gem 'curb', '~> 0.9.10'
 
 gem 'whenever', require: false
 gem 'xray-rails'
@@ -60,6 +60,7 @@ gem 'rubysl-open3'
 gem "haml-rails", "~> 2.0"
 gem "bootstrap-table-rails"
 
+
 group :development, :test do
   gem 'bixby'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -78,6 +79,8 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'awesome_print'
   gem 'capybara', '~> 2.17.0'
+  # Lint checker
+  #gem 'pronto'
 end
 
 group :test do
@@ -114,7 +117,7 @@ gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
 gem 'rsolr'
 gem 'jquery-rails'
-gem 'sidekiq'
+gem 'sidekiq', '~> 5.2.7'
 gem 'sidekiq-limit_fetch'
 gem 'sidekiq-status'
 
@@ -124,5 +127,5 @@ gem 'sidekiq-status'
 
 gem 'riiif', '~> 2.0'
 
-# OAI provider Gem. 
+# OAI provider Gem.
 gem 'blacklight_oai_provider', '~> 6.0'

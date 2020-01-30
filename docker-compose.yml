@@ -75,7 +75,8 @@ services:
   hyrax:
     container_name: hyrax
     stdin_open: true
-    build: .
+    #build: . Disabled building so we can use the pre-built image
+    image: registry.it.mcgill.ca/lts/murax/hyrax:latest
     volumes:
       - .:/storage/www/murax/current
       - data:/storage/www/murax/shared/bundle

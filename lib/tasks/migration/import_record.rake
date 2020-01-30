@@ -98,8 +98,8 @@ namespace :migration do
     end
 
     def send_error_report(batch, user)
-      @errors = batch.import_log.not_imported
+      #@errors = batch.import_log.not_imported
       # Find all items that are part of a given batch
-      ImportMailer.import_email(user,batch).deliver
+      #ImportMailer.import_email(user,batch).deliver
     end
 end
