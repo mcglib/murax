@@ -82,6 +82,7 @@ lint:
     - merge_requests
   script:
     - git fetch
+    - bundle exec pronto run -c origin/master --exit-code
   tags:
     - azure
 
