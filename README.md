@@ -5,7 +5,7 @@ Hyrax Version
 v2.5.1
 [changelog](https://github.com/samvera/hyrax/releases/tag/v2.5.1)
 
-* Currently using Hyrax version 2.5.1
+* Currently using Hyrax version [2.5.1](https://github.com/samvera/hyrax)
 * Currently in production
 * Hosts publications, scholarly works, and theses of McGill University faculty members, researchers, and students.
 
@@ -16,5 +16,8 @@ v2.5.1
 * Customized the abstracts to have a language tag at the end of the abstract.
 * Import scripts from Digitool (Exlibris) service
 
+### Licenses
+* Please see the license info [here](https://github.com/mcglib/murax/blob/master/LICENSE)
+
 #### Contact Information
-* Contact: escholarship@mcgill.ca
+* Contact: escholarship.library@mcgill.ca
