@@ -18,6 +18,10 @@ class WriteEmbeddedMetadataToFile
      end
    end
 
+   ## CAUTION: Use at your own risk!
+   ## Unless you know what you are doing, use the update_fields method to update only the fields you want to change.
+   ## exiftool can update tags which may have unintended consequences.  E.g. if you update the 'filename' tag, the file will be renamed.
+   ## See exiftool documentation on 'unsafe' tags here: https://exiftool.org/exiftool_pod.html
    def replace_metadata
       message = ''
       begin
