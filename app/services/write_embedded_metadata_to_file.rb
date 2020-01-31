@@ -34,8 +34,9 @@ class WriteEmbeddedMetadataToFile
          # see output of FetchEmbeddedMetadataFromFile service as an example.
          @md_as_hash.each do |k,v|
             new_value = v.strip
-            cmd = "exiftool -#{k}='#{new_value}' '#{@the_file.realpath}'"
-            message += `#{cmd}`
+            #cmd = "exiftool -#{k}='#{new_value}' '#{@the_file.realpath}'"
+            #message += `#{cmd}`
+            message += %x[exiftool -#{k}="#{new_value}" "#{@the_file.realpath}"]
          end
       rescue StandardError => e
          puts e.message
@@ -49,8 +50,9 @@ class WriteEmbeddedMetadataToFile
       begin
          @md_as_hash.each do |k,v|
            new_value = v.strip
-           cmd="exiftool -#{k}='#{new_value}' '#{@the_file.realpath}'"
-           message += `#{cmd}`
+           #cmd="exiftool -#{k}='#{new_value}' '#{@the_file.realpath}'"
+           #message += `#{cmd}`
+           message += %x[exiftool -#{k}="#{new_value}" "#{@the_file.realpath}"]
          end
       rescue StandardError => e
         puts e.message
