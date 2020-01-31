@@ -1,16 +1,19 @@
 # Murax
 
-#### Hyrax based system underlying the Escholarship@McGill repository
+#### Hyrax based system underlying the escholarship@McGill repository
+Hyrax Version
+v2.5.1
+[changelog](https://github.com/samvera/hyrax/releases/tag/v2.5.1)
 
 * Currently using Hyrax version 2.5.1
 * Currently in production
-* Hosts institutional electronic theses and faculty publication cntent at McGill University
+* Hosts publications, scholarly works, and theses of McGill University faculty members, researchers, and students.
 
 #### Customizations
 
-* Author ordering implementation based on repository
+* Author ordering implementation adapted from Oregon State University [Scholars Archive repository](https://github.com/osulp/Scholars-Archive)
 * Updated deposit/edit form with combined files and metadata tabs
 * Import scripts from Digitool (Exlibris) service
 
 #### Contact Information
-* Email: escholarship@mcgill.ca
+* Contact: escholarship@mcgill.ca

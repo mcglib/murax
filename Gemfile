@@ -60,6 +60,15 @@ gem 'rubysl-open3'
 gem "haml-rails", "~> 2.0"
 gem "bootstrap-table-rails"
 
+# Lint checker and code checks
+gem 'pronto'
+gem 'pronto-rubocop', require: false
+gem 'pronto-flay', require: false
+gem 'pronto-scss', require: false
+gem 'pronto-eslint', require: false
+gem 'pronto-brakeman', require: false
+gem 'pronto-rails_best_practices', require: false
+gem 'rubocop', require: false
 
 group :development, :test do
   gem 'bixby'
@@ -79,8 +88,6 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'awesome_print'
   gem 'capybara', '~> 2.17.0'
-  # Lint checker
-  #gem 'pronto'
 end
 
 group :test do
