@@ -13,6 +13,7 @@ v2.5.1
 
 * Author ordering implementation adapted from Oregon State University [Scholars Archive repository](https://github.com/osulp/Scholars-Archive)
 * Updated deposit/edit form with combined files and metadata tabs
+* Customized the abstracts to have a language tag at the end of the abstract.
 * Import scripts from Digitool (Exlibris) service
 
 #### Contact Information
