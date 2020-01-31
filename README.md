@@ -2,7 +2,6 @@
 
 [![pipeline status](https://gitlab.ncs.mcgill.ca/lts/murax/badges/master/pipeline.svg)](https://gitlab.ncs.mcgill.ca/lts/murax/commits/master)
 
-
 Hyrax Version
 v2.5.0
 [changelog](https://github.com/samvera/hyrax/releases/tag/v2.5.0)
