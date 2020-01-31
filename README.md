@@ -17,7 +17,7 @@ v2.5.1
 * Import scripts from Digitool (Exlibris) service
 
 ### Licenses
-* Please see the license info [here](https://github.com/mcglib/murax/blob/master/LICENSE)
+* Murax is available under the  [MIT License](https://github.com/mcglib/murax/blob/master/LICENSE)
 
 #### Contact Information
 * Contact: escholarship.library@mcgill.ca
