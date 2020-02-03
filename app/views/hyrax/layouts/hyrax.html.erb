@@ -33,9 +33,8 @@
     <!-- We add the google analytics on launch date -->
     <% launch_date = Date.new('2020-02-01') %>
     <% if Date.today > launch_date %>
-      <%= render 'shared/google_analytics' %>
     <% end %>
-
+    <%= render 'shared/google_analytics' %>
 
   </body>
 </html>
