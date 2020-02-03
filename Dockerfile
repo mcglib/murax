@@ -1,3 +1,5 @@
+# You can find the Dockerfile for the image below
+# in the /docker/services/base folder in this repository
 FROM registry.it.mcgill.ca/lts/murax/base:latest
 # Different layer for gems installation
 ENV APP_PATH /storage/www/murax/current
