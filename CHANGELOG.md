@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+## [1.1.5] - 2020-02-03
+### Changed
+* Added code for footer
+* Updated the google analytics code
+* Added google analytics for the launch
+* Code cleanup
+
 ## [1.1.4] - 2020-02-03
 ### Changed
 * Fixed a bug with the
