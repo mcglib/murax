@@ -5,11 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+## [1.1.4] - 2020-02-03
+### Changed
+* Fixed a bug with the
+* Updated the README with info re: customizations to the abstract language tagging
+* Updated the README and the license info
+* Fixing the language field for all works.
+
 ## [1.1.3] - 2020-01-30
 ### Changed
 * Removed Pronto from the Gemfile.lock file
 
-## [unreleased]
 ## [1.1.2] - 2020-01-16
 ### Changed
 * removed subject and identifier as required properties in ethesis profile form
@@ -19,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * made it fancy for the boss
 * added muraxs directory namespace in stylesheets
 
-## [unreleased]
 ## [1.1.1] - 2019-12-11
 ### Changed
 * Added a condition that checks if the presenter is an edrtor we can hide the user activity
