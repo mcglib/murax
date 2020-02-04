@@ -51,4 +51,21 @@ class ReportWorkidsService
 
         workid
       end
+
+      def self.by_metadata_search(pattern,field)
+        # search by metadata fields defined in app/models/concerns/murax/default_metadta.rb
+        samvera_work_ids = []
+        begin
+           raise ArgumentError.new("Missing required search pattern parameter.") if pattern.nil?
+           raise ArgumentError.new("Missing required metadata field parameter.") if field.nil?
+           solr_field = Solrizer.solr_name(field)
+           results = ActiveFedora::Base.search_with_conditions({solr_field => pattern})
+           results.each do |r|
+              samvera_work_ids << r.id
+           end
+        rescue ArgumentError, StandardError => e
+           puts e.message
+        end
+        samvera_work_ids
+      end
 end
