@@ -20,11 +20,11 @@
 //= require blacklight/blacklight
 //= require bootstrap-table
 //= require bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js
-//= require tableexport/tableExport.min.js
-//= require tableexport/jspdf.min.js
-//= require tableexport/jspdf.plugin.autotable.js
-//= require nested_field
-//= require ordered_creator
+//= require murax/tableexport/tableExport.min.js
+//= require murax/tableexport/jspdf.min.js
+//= require murax/tableexport/jspdf.plugin.autotable.js
+//= require murax/nested_field
+//= require murax/ordered_creator
 //= require openseadragon.js
 //= require hyrax
 //= require_tree .
