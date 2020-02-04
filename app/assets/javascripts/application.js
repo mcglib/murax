@@ -27,4 +27,5 @@
 //= require murax/ordered_creator
 //= require openseadragon.js
 //= require hyrax
+//= require murax/attributes.js
 //= require_tree .
