@@ -18,7 +18,7 @@ namespace :murax do
         works_of_interest.each do |wid|
           line = ''
           work = ActiveFedora::Base.find(wid)
-          next if work.resource_type.first.eql? 'FileSet'
+          next if work.instance_of? FileSet
           line += '"https://'+ENV['RAILS_HOST']+'/concern/'+work.resource_type.first.pluralize.downcase+'/'+wid+'",'
           line += '"'+work.title.first+'","'
           creators = ''
