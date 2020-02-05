@@ -1,7 +1,7 @@
 namespace :murax do
   desc 'List work ids of objects of type Article with no data in bibliographic citation'
   task :report_workids_of_articles_missing_bibcits => :environment do |t,args|
-     tod = Time.now.strftime('%Y%m%d=%H%M%S')
+     tod = Time.now.strftime('%Y%m%d-%H%M%S')
      logfilename = "log/articles-missing-bibcits-#{tod}.log"
      logfile = File.new(logfilename,'w')
      article_count=0
