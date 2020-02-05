@@ -14,17 +14,23 @@ namespace :murax do
         end
         works_of_interest = samvera_work_ids.flatten.sort.uniq
 
-        puts 'url,title,creator,department,year'
+        puts 'url,title,creator,department,year,bibliographic_citation'
         works_of_interest.each do |wid|
           line = ''
-          creators = ''
           work = ActiveFedora::Base.find(wid)
-          line += '"https://'+ENV['RAILS_HOST']+'/concern/'+work.resource_type.first.pluralize.downcase+'/'+work.id+'",'
+          line += '"https://'+ENV['RAILS_HOST']+'/concern/'+work.resource_type.first.pluralize.downcase+'/'+wid+'",'
           line += '"'+work.title.first+'","'
+          creators = ''
           work.nested_ordered_creator.each do |creator|
              creators += "#{creator.creator.first},"
           end
-          line += creators.delete_suffix(',')+'","'+work.date.first+'"'
+          line += creators.delete_suffix(',')+'",'
+          datestr = ''
+          datestr = work.date.first if !work.date.first.nil?
+          line += '"'+datestr+'",'
+          bibcit = ''
+          bibcit = work.bibliographic_citation.first if !work.bibliographic_citation.first.nil?
+          line += '"'+bibcit+'"'
           puts line
         end
       rescue ArgumentError, StandardError => e
