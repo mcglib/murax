@@ -53,13 +53,16 @@ class ReportWorkidsService
       end
 
       def self.by_metadata_search(pattern,field)
-        # search by metadata fields defined in app/models/concerns/murax/default_metadta.rb
+        # search by metadata fields defined as indexed.as stored_searchable in app/models/concerns/murax/default_metadta.rb
+        # search_value is passed as-is to solr
+        # returns a maximum of 10,000 rows
+        # example: ReportWorkidsService.by_metadata_search('tumor','title')
         samvera_work_ids = []
         begin
            raise ArgumentError.new("Missing required search pattern parameter.") if pattern.nil?
            raise ArgumentError.new("Missing required metadata field parameter.") if field.nil?
            solr_field = Solrizer.solr_name(field)
-           results = ActiveFedora::Base.search_with_conditions({solr_field => pattern})
+           results = ActiveFedora::Base.search_with_conditions({solr_field => pattern}, rows:10000)
            results.each do |r|
               samvera_work_ids << r.id
            end
