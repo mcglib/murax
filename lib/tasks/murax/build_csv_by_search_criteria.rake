@@ -16,6 +16,7 @@ namespace :murax do
 
         puts 'url,title,creator,department,year,bibliographic_citation'
         works_of_interest.each do |wid|
+          next if work.resource_type.first.eql? 'FileSet'
           line = ''
           work = ActiveFedora::Base.find(wid)
           line += '"https://'+ENV['RAILS_HOST']+'/concern/'+work.resource_type.first.pluralize.downcase+'/'+wid+'",'
