@@ -64,6 +64,7 @@ class ReportWorkidsService
            solr_field = Solrizer.solr_name(field)
            results = ActiveFedora::Base.search_with_conditions({solr_field => search_value}, rows:10000)
            results.each do |r|
+              next if r['has_model_ssim'].first.eql? 'FileSet'
               samvera_work_ids << r.id
            end
         rescue ArgumentError, StandardError => e
