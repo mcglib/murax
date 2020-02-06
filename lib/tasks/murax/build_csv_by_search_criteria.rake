@@ -35,6 +35,11 @@ namespace :murax do
              creators += "#{creator.creator.first},"
           end
           line += creators.delete_suffix(',')+'",'
+          deptstr = ''
+          work.department.each do |dept|
+            deptstr += "#{dept},"
+          end 
+          line += '"'+deptstr.delete_suffix(',')+'",'
           datestr = ''
           datestr = work.date.first if !work.date.first.nil?
           line += '"'+datestr+'",'
