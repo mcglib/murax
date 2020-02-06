@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+## [1.1.6] - 2020-02-04
+### Changed
+* report_workids_service: documented behaviour of by_metadata_search; increased rows to 10000
+* report_workids_service: renamed parameter of by_metadata_search from pattern to search_value for sake of clarity
+* Bump fstream from 1.0.11 to 1.0.12
+* Bump lodash.template from 4.4.0 to 4.5.0
+* Added murax-architecture.svg
+* Bump mixin-deep from 1.3.1 to 1.3.2
+
 ## [1.1.5] - 2020-02-03
 ### Changed
 * Added code for footer

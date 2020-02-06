@@ -13,8 +13,8 @@
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require bootstrap-table
  *= require_self
- *= require custom_attributes
- *= require nested_ordered
+ *= require murax/custom_attributes
+ *= require murax/nested_ordered
  *= require select2
  *= require_tree .
  *= require murax/homepage.scss
