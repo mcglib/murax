@@ -65,7 +65,8 @@ class ReportWorkidsService
            results = ActiveFedora::Base.search_with_conditions({solr_field => search_value}, rows:10000)
            results.each do |r|
               next if r['has_model_ssim'].first.eql? 'FileSet'
-              samvera_work_ids << r.id
+              # _tesim fields are not KeywordTokenized by solr, so a substring match is needed to return only exact matches
+              samvera_work_ids << r.id if r[solr_field].to_s.include? search_value
            end
         rescue ArgumentError, StandardError => e
            puts e.message
