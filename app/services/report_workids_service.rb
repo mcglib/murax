@@ -66,7 +66,7 @@ class ReportWorkidsService
            results.each do |r|
               next if r['has_model_ssim'].first.eql? 'FileSet'
               # _tesim fields are not KeywordTokenized by solr, so a substring match is needed to return only exact matches
-              samvera_work_ids << r.id if r[solr_field].include? search_value
+              samvera_work_ids << r.id if r[solr_field].to_s.include? search_value
            end
         rescue ArgumentError, StandardError => e
            puts e.message
