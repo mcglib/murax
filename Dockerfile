@@ -58,7 +58,7 @@ COPY ./docker/services/hyrax/config/apache_sslredirect_vhost.conf /etc/apache2/s
 # Setup the apache ssl
 COPY ./docker/services/hyrax/config/cert.crt /etc/ssl/private/cert.crt
 COPY ./docker/services/hyrax/config/cert.key /etc/ssl/private/cert.key
-COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.crt
+#COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.crt
 COPY ./docker/services/hyrax/startup.sh $STARTUP_PATH/startup.sh
 
 # Create the log file to be able to run tail
