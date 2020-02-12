@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [released]
+## [1.1.7] - 2020-02-11
+### Changed
+* report_workids_service: documented behaviour of by_metadata_search; increased rows to 10000
+* made changes to thesis and book worktype
+* Fixed bug with docker container and apache
+
 ## [unreleased]
 ## [1.1.6] - 2020-02-04
 ### Changed
