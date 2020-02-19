@@ -33,8 +33,8 @@ class CatalogController < ApplicationController
 
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
     config.show.partials.insert(1, :openseadragon)
-    config.search_builder_class = Hyrax::CatalogSearchBuilder
-    #config.search_builder_class = ScholarsArchive::CatalogSearchBuilder
+    #config.search_builder_class = Hyrax::CatalogSearchBuilder
+    config.search_builder_class = Murax::CatalogSearchBuilder
 
     # Show gallery view
     config.view.gallery.partials = [:index_header, :index]
