@@ -112,7 +112,7 @@ gem 'sshkit-sudo'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
 
-gem 'hyrax', '2.5.1'
+gem 'hyrax', '2.6.0'
 gem 'hydra-editor'
 gem 'hydra-role-management'
 gem "rdf-vocab"
