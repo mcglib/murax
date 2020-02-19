@@ -79,6 +79,8 @@ Rails.application.routes.draw do
   end
 
   mount Blacklight::Engine => '/'
+  mount BlacklightAdvancedSearch::Engine => '/'
+
 
   
 
