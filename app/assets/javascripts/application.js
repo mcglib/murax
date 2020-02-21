@@ -16,13 +16,13 @@
 //= require jquery
 //= require 'blacklight_advanced_search'
 
-
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require blacklight/blacklight
 //= require bootstrap-table
 //= require bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js
+//= require corejs-typeahead/dist/typeahead.bundle.min.js
 //= require murax/tableexport/tableExport.min.js
 //= require murax/tableexport/jspdf.min.js
 //= require murax/tableexport/jspdf.plugin.autotable.js
