@@ -2,6 +2,9 @@
 en:
   blacklight:
     search:
+      form:
+        search:
+          placeholder: "Enter search terms or select 'Go' to browse."
       fields:
         nested_related_items_label_ssim: "Related Items"
         nested_ordered_creator_label_ssim: "Creator"

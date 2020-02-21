@@ -108,7 +108,6 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
     config.add_index_field solr_name("creator", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable)
-    config.add_index_field solr_name('nested_ordered_creator_label', :stored_searchable), label: 'Creator', link_to_search: solr_name("creator", :facetable)
     config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
     config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
     config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link
@@ -202,8 +201,8 @@ class CatalogController < ApplicationController
     end
 
 
-    config.add_search_field('nested_ordered_creator_label') do |field|
-      solr_name = solr_name('nested_ordered_creator_label', :stored_searchable)
+    config.add_search_field('creator') do |field|
+      solr_name = solr_name('creator', :stored_searchable)
       field.label = 'Creator'
       field.solr_local_parameters = {
         qf: solr_name,
