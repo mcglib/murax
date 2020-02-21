@@ -4,7 +4,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [released]
+## [1.1.8] - 2020-02-11
+### Changed
+* Added a murax architecture svg file
+## [1.1.7] - 2020-02-11
+### Changed
+* report_workids_service: documented behaviour of by_metadata_search; increased rows to 10000
+* made changes to thesis and book worktype
+* Fixed bug with docker container and apache
+
+## [unreleased]
+## [1.1.6] - 2020-02-04
+### Changed
+* report_workids_service: documented behaviour of by_metadata_search; increased rows to 10000
+* report_workids_service: renamed parameter of by_metadata_search from pattern to search_value for sake of clarity
+* Bump fstream from 1.0.11 to 1.0.12
+* Bump lodash.template from 4.4.0 to 4.5.0
+* Added murax-architecture.svg
+* Bump mixin-deep from 1.3.1 to 1.3.2
+
+## [1.1.5] - 2020-02-03
+### Changed
+* Added code for footer
+* Updated the google analytics code
+* Added google analytics for the launch
+* Code cleanup
+
+## [1.1.4] - 2020-02-03
+### Changed
+* Fixed a bug with the
+* Updated the README with info re: customizations to the abstract language tagging
+* Updated the README and the license info
+* Fixing the language field for all works.
+
+## [1.1.3] - 2020-01-30
+### Changed
+* Removed Pronto from the Gemfile.lock file
+
+## [1.1.2] - 2020-01-16
+### Changed
+* removed subject and identifier as required properties in ethesis profile form
+* fixed the bug with the whitespace on annoucmenet on home page
+* renamed the file to murax_homepage
+* renamed the file
+* made it fancy for the boss
+* added muraxs directory namespace in stylesheets
+
 ## [1.1.1] - 2019-12-11
 ### Changed
 * Added a condition that checks if the presenter is an edrtor we can hide the user activity

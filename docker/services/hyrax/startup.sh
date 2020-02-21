@@ -3,10 +3,14 @@
 set -e
 # Exit on fail
 
-echo "Starting sidekiq service"
+echo "Starting Apache service"
+service apache2 stop
+service apache2 start
 
+echo "Starting sidekiq service"
 cd ${APP_PATH}
 RAILS_ENV=${RAILS_ENV} bundle exec sidekiq -d -L ${APP_PATH}/log/sidekiq.log
+
 # Finally call command issued to the docker service
 # This is only for the Web container.
 echo "Checking that the db is up already!"
@@ -18,6 +22,11 @@ echo "Sleeping for 10 seconds and then confirming that the db has booted"
 sleep 10
 waitforit -address=tcp://${DATABASE_HOST}:${DATABASE_PORT} -timeout=30 -debug -- printf "The Database is up!"
 export  PGPASSWORD=${DATABASE_PASSWORD}
+
+echo "Ensure all gems are installed"
+cd /storage/www/murax/current
+bundle check || bundle install --binstubs="$BUNDLE_BIN"
+# Ensure all gems installed. Add binstubs to bin which has been added to PATH in Dockerfile.
 
 echo "Run yarn install so that we can make sure we can compile assets"
 yarn install
