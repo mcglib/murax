@@ -89,8 +89,7 @@ class CatalogController < ApplicationController
     #config.add_facet_field solr_name("based_near_label", :facetable), limit: 5
     #config.add_facet_field solr_name("publisher", :facetable), limit: 5
     config.add_facet_field solr_name("file_format", :facetable), limit: 5
-
-    config.add_facet_field solr_name('member_of_collection_ids', :symbol), limit: 5, label: 'Collections', helper_method: :collection_title_by_id
+    #config.add_facet_field solr_name('member_of_collection_ids', :symbol), limit: 5, label: 'Collections', helper_method: :collection_title_by_id
     # McGill Custom
 
 
@@ -199,8 +198,6 @@ class CatalogController < ApplicationController
         pf: solr_name
       }
     end
-
-
     config.add_search_field('creator') do |field|
       solr_name = solr_name('creator', :stored_searchable)
       field.label = 'Creator'
@@ -368,8 +365,8 @@ class CatalogController < ApplicationController
     # except in the relevancy case).
     # label is key, solr field is value
     config.add_sort_field "score desc, #{uploaded_field} desc", label: "relevance"
-    #config.add_sort_field "#{title_field} asc", label: 'Title [A-Z]'
-    #config.add_sort_field "#{title_field} desc", label: 'Title [Z-A]'
+    config.add_sort_field "#{title_field} asc", label: 'Title [A-Z]'
+    config.add_sort_field "#{title_field} desc", label: 'Title [Z-A]'
     config.add_sort_field "#{uploaded_field} desc", label: "date uploaded \u25BC"
     config.add_sort_field "#{uploaded_field} asc", label: "date uploaded \u25B2"
     config.add_sort_field "#{modified_field} desc", label: "date modified \u25BC"
