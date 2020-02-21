@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  # OAI provider
   concern :oai_provider, BlacklightOaiProvider::Routes.new
 
   concern :bulk_operatable do
@@ -78,7 +80,10 @@ Rails.application.routes.draw do
     resources :collection_type_participants, only: [:create, :destroy]
   end
 
+  # Where to mount blacklight engine
   mount Blacklight::Engine => '/'
+  mount BlacklightAdvancedSearch::Engine => '/'
+
 
   
 
