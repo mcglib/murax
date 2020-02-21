@@ -2,18 +2,20 @@ class CatalogController < ApplicationController
   include BlacklightAdvancedSearch::Controller
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
+
   include BlacklightOaiProvider::Controller
+  
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
   def self.uploaded_field
-    solr_name('system_create', :stored_sortable, type: :date)
+    solr_name('date_uploaded', :stored_sortable, type: :date)
   end
 
   def self.modified_field
     solr_name('system_modified', :stored_sortable, type: :date)
   end
-  
+
   configure_blacklight do |config|
     # default advanced config values
     config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
@@ -22,7 +24,7 @@ class CatalogController < ApplicationController
     config.advanced_search[:query_parser] ||= 'dismax'
     config.advanced_search[:form_solr_parameters] ||= {}
 
- 
+
     # Blacklight OAI configurations.
     config.oai = OAI_CONFIG
 
@@ -61,7 +63,13 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
     #config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5 #removing to show rtype as faceted field.  
     config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 5
-    config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
+    #config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
+    config.add_facet_field('date_facet_yearly_ssim') do |field|
+      field.label = 'Date'
+      field.range = true
+      field.include_in_advanced_search = false
+    end
+
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 7
@@ -91,6 +99,7 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
     config.add_index_field solr_name("creator", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable)
+    config.add_index_field solr_name('nested_ordered_creator_label', :stored_searchable), label: 'Creator', link_to_search: solr_name("creator", :facetable)
     config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
     config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
     config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link
