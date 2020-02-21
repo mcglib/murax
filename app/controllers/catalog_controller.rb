@@ -17,10 +17,19 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     # default advanced config values
     config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
-    # config.advanced_search[:qt] ||= 'advanced'
+    #config.advanced_search[:qt] ||= 'advanced'
     config.advanced_search[:url_key] ||= 'advanced'
     config.advanced_search[:query_parser] ||= 'dismax'
-    config.advanced_search[:form_solr_parameters] ||= {}
+    config.advanced_search[:form_solr_parameters] ||= {
+      "facet.field" => ["format", "language_facet"],
+      "facet.limit" => -1, # return all facet values
+      "facet.sort" => "index" # sort by byte order of values
+    }
+    config.advanced_search[:form_facet_partial] ||= 'advanced_search_facets_as_select'
+
+    # Configuration for autocomplete suggestor
+    config.autocomplete_enabled = true
+    config.autocomplete_path = 'suggest'
 
  
     # Blacklight OAI configurations.
@@ -44,7 +53,7 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       qt: "search",
       rows: 20,
-      qf: "title_tesim nested_ordered_creator_label_tesim description_tesim creator_tesim keyword_tesim"
+      qf: "title_tesim nested_ordered_creator_label_tesim description_tesim keyword_tesim"
     }
 
     # solr field configuration for document/show views
@@ -159,7 +168,7 @@ class CatalogController < ApplicationController
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
-        qf: "#{all_names} file_format_tesim all_text_timv nested_ordered_creator_label_tesim",
+        qf: "#{all_names} title_tesim file_format_tesim all_text_timv nested_ordered_creator_label_tesim",
         pf: title_name.to_s
       }
     end
@@ -183,13 +192,6 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('creator') do |field|
-      solr_name = solr_name("creator", :stored_searchable)
-      field.solr_local_parameters = {
-        qf: solr_name,
-        pf: solr_name
-      }
-    end
 
     config.add_search_field('nested_ordered_creator_label') do |field|
       solr_name = solr_name('nested_ordered_creator_label', :stored_searchable)
@@ -226,6 +228,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('date_created') do |field|
+      field.include_in_advanced_search = false
       solr_name = solr_name("created", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -242,6 +245,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('language') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("language", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -250,6 +255,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('resource_type') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("resource_type", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -258,6 +265,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('format') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("format", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -266,6 +275,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('identifier') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("id", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -274,6 +285,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('based_near') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       field.label = "Location"
       solr_name = solr_name("based_near_label", :stored_searchable)
       field.solr_local_parameters = {
@@ -292,6 +305,8 @@ class CatalogController < ApplicationController
     end
     
     config.add_search_field('relation') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       field.label = "Relation"
       solr_name = solr_name("relation", :stored_searchable)
       field.solr_local_parameters = {
@@ -301,6 +316,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('depositor') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("depositor", :symbol)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -309,6 +326,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('rights_statement') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("rights_statement", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -317,12 +336,23 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('license') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("license", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
       }
     end
+    
+    #config.add_search_field('creator') do |field|
+    #  solr_name = solr_name("creator", :stored_searchable)
+    #  field.include_in_simple_select = false
+    #  field.solr_local_parameters = {
+    #    qf: solr_name,
+    #    pf: solr_name
+    #  }
+    #end
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
@@ -330,6 +360,8 @@ class CatalogController < ApplicationController
     # except in the relevancy case).
     # label is key, solr field is value
     config.add_sort_field "score desc, #{uploaded_field} desc", label: "relevance"
+    #config.add_sort_field "#{title_field} asc", label: 'Title [A-Z]'
+    #config.add_sort_field "#{title_field} desc", label: 'Title [Z-A]'
     config.add_sort_field "#{uploaded_field} desc", label: "date uploaded \u25BC"
     config.add_sort_field "#{uploaded_field} asc", label: "date uploaded \u25B2"
     config.add_sort_field "#{modified_field} desc", label: "date modified \u25BC"
