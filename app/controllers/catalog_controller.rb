@@ -32,7 +32,7 @@ class CatalogController < ApplicationController
     config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
     #config.advanced_search[:qt] ||= 'advanced'
     config.advanced_search[:url_key] ||= 'advanced'
-    config.advanced_search[:query_parser] ||= 'dismax'
+    config.advanced_search[:query_parser] ||= 'edismax'
     config.advanced_search[:form_solr_parameters] ||= {
       "facet.field" => ["format", "language_facet"],
       "facet.limit" => -1, # return all facet values
@@ -62,7 +62,7 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       qt: "search",
       rows: 20,
-      qf: "title_tesim creator_sim nested_ordered_creator_label_tesim description_tesim keyword_tesim"
+      qf: "title_tesim creator_sim nested_ordered_creator_label_tesim description_tesim keyword_tesim",
     }
 
     # solr field configuration for document/show views
@@ -180,8 +180,9 @@ class CatalogController < ApplicationController
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
-        qf: "#{all_names} title_tesim creator_sim file_format_tesim all_text_timv nested_ordered_creator_label_tesim",
-        pf: title_name.to_s
+        qf: "#{all_names}",
+        pf: title_name,
+        rows: 20,
       }
     end
 
@@ -317,6 +318,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('keyword') do |field|
+      field.include_in_advanced_search = false
       field.label = "Keyword"
       solr_name = solr_name("keyword", :stored_searchable)
       field.solr_local_parameters = {
