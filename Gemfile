@@ -136,3 +136,7 @@ gem 'riiif', '~> 2.0'
 
 # OAI provider Gem.
 gem 'blacklight_oai_provider', '~> 6.0'
+
+# Blacklight advanced search
+gem "blacklight_advanced_search"
+

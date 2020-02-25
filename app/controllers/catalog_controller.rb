@@ -1,22 +1,50 @@
 class CatalogController < ApplicationController
+  include BlacklightAdvancedSearch::Controller
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
+
   include BlacklightOaiProvider::Controller
+  
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
   def self.uploaded_field
-    solr_name('system_create', :stored_sortable, type: :date)
+    solr_name('date_uploaded', :stored_sortable, type: :date)
   end
 
   def self.modified_field
     solr_name('system_modified', :stored_sortable, type: :date)
   end
-  
+
+  def self.title_field
+    solr_name('title', :stored_sortable)
+  end
+
   configure_blacklight do |config|
- 
+    
+    #config.search_builder_class = Hyrax::CatalogSearchBuilder
+    config.search_builder_class = Murax::CatalogSearchBuilder
+    
     # Blacklight OAI configurations.
     config.oai = OAI_CONFIG
+    
+    # default advanced config values
+    config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
+    #config.advanced_search[:qt] ||= 'advanced'
+    config.advanced_search[:url_key] ||= 'advanced'
+    config.advanced_search[:query_parser] ||= 'edismax'
+    config.advanced_search[:form_solr_parameters] ||= {
+      "facet.field" => ["format", "language_facet"],
+      "facet.limit" => -1, # return all facet values
+      "facet.sort" => "index" # sort by byte order of values
+    }
+    config.advanced_search[:form_facet_partial] ||= 'advanced_search_facets_as_select'
+
+    # Configuration for autocomplete suggestor
+    config.autocomplete_enabled = true
+    config.autocomplete_path = 'suggest'
+
+
 
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
@@ -25,7 +53,6 @@ class CatalogController < ApplicationController
 
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
     config.show.partials.insert(1, :openseadragon)
-    config.search_builder_class = Hyrax::CatalogSearchBuilder
 
     # Show gallery view
     config.view.gallery.partials = [:index_header, :index]
@@ -34,36 +61,41 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       qt: "search",
-      rows: 10,
-      qf: "title_tesim description_tesim creator_tesim keyword_tesim"
+      rows: 20,
+      qf: "title_tesim creator_sim nested_ordered_creator_label_tesim description_tesim keyword_tesim",
     }
 
     # solr field configuration for document/show views
     config.index.title_field = solr_name("title", :stored_searchable)
     config.index.display_type_field = solr_name("has_model", :symbol)
     config.index.thumbnail_field = 'thumbnail_path_ss'
+    config.index.creator_field = solr_name('nested_ordered_creator_label', :stored_searchable)
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
    # config.add_facet_field solr_name("creator", :facetable), limit: 5
-    config.add_facet_field 'creator_sim', label: 'Creator', limit: 5
-    config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
+    config.add_facet_field 'creator_sim', label: 'Creator', limit: 10
+    config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 10
     #config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5 #removing to show rtype as faceted field.  
-    config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 5
+    config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 10
     config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
+    #config.add_facet_field('date_facet_yearly_ssim') do |field|
+    #  field.label = 'Date'
+    #  field.include_in_advanced_search = true
+    #end
+
+    # McGill Custom
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
-    config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
-    config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 7
-    config.add_facet_field solr_name("language", :facetable), helper_method: :language_links_facets, limit: 5
-    config.add_facet_field solr_name("subject", :facetable), limit: 5
+    config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 10
+    config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 10
+    config.add_facet_field solr_name("language", :facetable), helper_method: :language_links_facets, limit: 10
+    config.add_facet_field solr_name("subject", :facetable), limit: 10
+    config.add_facet_field solr_name("file_format", :facetable), limit: 5
+    config.add_facet_field solr_name('member_of_collection_ids', :symbol), limit: 10, label: 'Collections', helper_method: :collection_title_by_id
     #config.add_facet_field solr_name("resource_type", :facetable), label: "Resource Type", limit: 5
     #config.add_facet_field solr_name("relation", :facetable), limit: 5
     #config.add_facet_field solr_name("based_near_label", :facetable), limit: 5
     #config.add_facet_field solr_name("publisher", :facetable), limit: 5
-    config.add_facet_field solr_name("file_format", :facetable), limit: 5
-
-    config.add_facet_field solr_name('member_of_collection_ids', :symbol), limit: 5, label: 'Collections', helper_method: :collection_title_by_id
-    # McGill Custom
 
 
 
@@ -148,8 +180,9 @@ class CatalogController < ApplicationController
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
-        qf: "#{all_names} file_format_tesim all_text_timv nested_ordered_creator_label_tesim",
-        pf: title_name.to_s
+        qf: "#{all_names}",
+        pf: title_name,
+        rows: 20,
       }
     end
 
@@ -171,9 +204,9 @@ class CatalogController < ApplicationController
         pf: solr_name
       }
     end
-
     config.add_search_field('creator') do |field|
-      solr_name = solr_name("creator", :stored_searchable)
+      solr_name = solr_name('creator', :stored_searchable)
+      #field.label = 'Creator'
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
@@ -185,9 +218,11 @@ class CatalogController < ApplicationController
       field.label = 'Creator'
       field.solr_local_parameters = {
         qf: solr_name,
-          pf: solr_name
+        pf: solr_name
       }
     end
+
+
 
     config.add_search_field('title') do |field|
       solr_name = solr_name("title", :stored_searchable)
@@ -215,6 +250,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('date_created') do |field|
+      field.include_in_advanced_search = false
       solr_name = solr_name("created", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -231,6 +267,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('language') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("language", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -239,6 +277,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('resource_type') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("resource_type", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -247,6 +287,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('format') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("format", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -255,6 +297,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('identifier') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("id", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -263,6 +307,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('based_near') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       field.label = "Location"
       solr_name = solr_name("based_near_label", :stored_searchable)
       field.solr_local_parameters = {
@@ -272,6 +318,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('keyword') do |field|
+      field.include_in_advanced_search = false
       field.label = "Keyword"
       solr_name = solr_name("keyword", :stored_searchable)
       field.solr_local_parameters = {
@@ -281,6 +328,8 @@ class CatalogController < ApplicationController
     end
     
     config.add_search_field('relation') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       field.label = "Relation"
       solr_name = solr_name("relation", :stored_searchable)
       field.solr_local_parameters = {
@@ -290,6 +339,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('depositor') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("depositor", :symbol)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -298,6 +349,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('rights_statement') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("rights_statement", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -306,12 +359,23 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('license') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name("license", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
       }
     end
+    
+    #config.add_search_field('creator') do |field|
+    #  solr_name = solr_name("creator", :stored_searchable)
+    #  field.include_in_simple_select = false
+    #  field.solr_local_parameters = {
+    #    qf: solr_name,
+    #    pf: solr_name
+    #  }
+    #end
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
@@ -319,6 +383,8 @@ class CatalogController < ApplicationController
     # except in the relevancy case).
     # label is key, solr field is value
     config.add_sort_field "score desc, #{uploaded_field} desc", label: "relevance"
+    #config.add_sort_field "#{title_field} asc", label: 'Title [A-Z]'
+    #config.add_sort_field "#{title_field} desc", label: 'Title [Z-A]'
     config.add_sort_field "#{uploaded_field} desc", label: "date uploaded \u25BC"
     config.add_sort_field "#{uploaded_field} asc", label: "date uploaded \u25B2"
     config.add_sort_field "#{modified_field} desc", label: "date modified \u25BC"

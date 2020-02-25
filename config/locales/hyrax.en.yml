@@ -2,7 +2,13 @@
 en:
   blacklight:
     search:
+      form:
+        search:
+          placeholder: "Enter search terms or select 'Go' to browse."
       fields:
+        nested_related_items_label_ssim: "Related Items"
+        nested_ordered_creator_label_ssim: "Creator"
+        nested_ordered_contributor_label_ssim: "Contributor"
         facet:
           based_near_label_sim: Location
           creator_sim: Creator
@@ -28,6 +34,9 @@ en:
           publisher_tesim: Publisher
           rights_statement_tesim: Rights Statement
           subject_tesim: Subject
+          nested_related_items_label_ssim: "Related Items"
+          nested_ordered_creator_label_ssim: "Creator"
+          nested_ordered_contributor_label_ssim: "Contributor"
         show:
           based_near_tesim: Location
           contributor_tesim: Contributor
@@ -45,6 +54,13 @@ en:
           rights_statement_tesim: Rights Statement
           subject_tesim: Subject
           title_tesim: Title
+          nested_related_items_label_ssim: "Related Items"
+          nested_ordered_creator_label_ssim: "Creator"
+          nested_ordered_contributor_label_ssim: "Contributor"
+  mailboxer:
+    message_mailer:
+      subject_new: "eScholarship@McGill Message: %{subject}"
+      subject_reply: "eScholarship@McGill Reply: %{subject}"
   hyrax:
     admin:
       import_logs:
