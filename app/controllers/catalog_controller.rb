@@ -78,12 +78,11 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 10
     #config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5 #removing to show rtype as faceted field.  
     config.add_facet_field solr_name("rtype", :facetable), label: "Type", limit: 10
-    #config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
-    config.add_facet_field('date_facet_yearly_ssim') do |field|
-      field.label = 'Date'
-      field.range = true
-      field.include_in_advanced_search = true
-    end
+    config.add_facet_field solr_name("date", :facetable), label: "Year", limit: 5
+    #config.add_facet_field('date_facet_yearly_ssim') do |field|
+    #  field.label = 'Date'
+    #  field.include_in_advanced_search = true
+    #end
 
     # McGill Custom
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
