@@ -9,7 +9,7 @@ class CatalogController < ApplicationController
   before_action :enforce_show_permissions, only: :show
 
   def self.uploaded_field
-    solr_name('date_uploaded', :stored_sortable, type: :date)
+    solr_name('system_create', :stored_sortable, type: :date)
   end
 
   def self.modified_field
@@ -21,13 +21,13 @@ class CatalogController < ApplicationController
   end
 
   configure_blacklight do |config|
-    
+
     #config.search_builder_class = Hyrax::CatalogSearchBuilder
     config.search_builder_class = Murax::CatalogSearchBuilder
-    
+
     # Blacklight OAI configurations.
     config.oai = OAI_CONFIG
-    
+
     # default advanced config values
     config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
     #config.advanced_search[:qt] ||= 'advanced'
