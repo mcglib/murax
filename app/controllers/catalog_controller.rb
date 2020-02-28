@@ -61,7 +61,7 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       qt: "search",
-      rows: 20,
+      rows: 25,
       qf: "title_tesim creator_sim nested_ordered_creator_label_tesim description_tesim keyword_tesim",
     }
 
@@ -111,12 +111,14 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field solr_name("creator", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable), highlight: true
-    config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable), highlight: true
-    config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false, highlight: true
-    config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link, highlight: true
+    config.add_index_field solr_name("creator", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable)
+    #config.add_index_field solr_name("nested_ordered_creator_label", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable)
+    config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
+    config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
+    config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link, label: "Description"
+    config.add_index_field solr_name("abstract", :stored_searchable), itemprop: 'abstract', label: "Abstract", highlight: true
    # config.add_index_field solr_name("relation", :stored_searchable), itemprop: 'relation', link_to_search: solr_name("relation", :facetable), label: "Relation"
-    config.add_index_field solr_name("subject", :stored_searchable), itemprop: 'about', link_to_search: solr_name("subject", :facetable), hightlight: true
+    config.add_index_field solr_name("subject", :stored_searchable), itemprop: 'about', link_to_search: solr_name("subject", :facetable)
     config.add_index_field solr_name("proxy_depositor", :symbol), label: "Depositor", helper_method: :link_to_profile
    # config.add_index_field solr_name("depositor"), label: "Owner", helper_method: :link_to_profile
     config.add_index_field solr_name("publisher", :stored_searchable), itemprop: 'publisher', link_to_search: solr_name("publisher", :facetable)
@@ -124,7 +126,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("language", :stored_searchable), itemprop: 'inLanguage', link_to_search: solr_name("language", :facetable), helper_method: :language_links
     config.add_index_field solr_name("date_uploaded", :stored_sortable, type: :date), itemprop: 'datePublished', helper_method: :human_readable_date
     config.add_index_field solr_name("date_modified", :stored_sortable, type: :date), itemprop: 'dateModified', helper_method: :human_readable_date
-    config.add_index_field solr_name("date_created", :stored_searchable), itemprop: 'dateCreated'
+    config.add_index_field solr_name("date_created", :stored_searchable), itemprop: 'dateCreated', helper_method: :human_readable_date
     config.add_index_field solr_name("date", :stored_searchable), label: "Year"
     config.add_index_field solr_name("rights_statement", :stored_searchable), helper_method: :rights_statement_links
     config.add_index_field solr_name("rights", :stored_searchable), link_to_search: solr_name("rights"), label: "Rights"
@@ -136,6 +138,9 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("identifier", :stored_searchable), helper_method: :iconify_auto_link, field_name: 'identifier'
     config.add_index_field solr_name("embargo_release_date", :stored_sortable, type: :date), label: "Embargo release date", helper_method: :human_readable_date
     config.add_index_field solr_name("lease_expiration_date", :stored_sortable, type: :date), label: "Lease expiration date", helper_method: :human_readable_date
+
+
+
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -178,10 +183,11 @@ class CatalogController < ApplicationController
     # since we aren't specifying it otherwise.
     config.add_search_field('all_fields', label: 'All Fields') do |field|
       all_names = config.show_fields.values.map(&:field).join(" ")
+      puts all_names
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
-        qf: "#{all_names}",
-        pf: title_name,
+        qf: "#{all_names} abstract_tesim department_tesim nested_ordered_creator_label_tesim description_tesim keyword_tesim degree_tesim faculty_tesim all_text_timv publisher_tesim subject_tesim date_tesim",
+        pf: title_name.to_s,
         rows: 20,
       }
     end
@@ -295,6 +301,38 @@ class CatalogController < ApplicationController
         pf: solr_name
       }
     end
+    
+    config.add_search_field('department') do |field|
+      field.include_in_advanced_search = true
+      field.include_in_simple_select = false
+      solr_name = solr_name("department", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+    
+    config.add_search_field('faculty') do |field|
+      field.include_in_advanced_search = true
+      field.include_in_simple_select = false
+      solr_name = solr_name("faculty", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('date') do |field|
+      field.include_in_advanced_search = true
+      field.include_in_simple_select = false
+      solr_name = solr_name("date", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+
 
     config.add_search_field('identifier') do |field|
       field.include_in_advanced_search = false
