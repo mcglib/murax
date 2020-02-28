@@ -8,11 +8,11 @@ OAI_CONFIG ={
   },
   document: {
     limit: ENV['OAI_DOCUMENT_LIMIT'].to_i,
-    set_fields: [{ solr_field: 'has_model_ssim' }],
+    set_fields: [{ label: 'DocumentType', solr_field: 'has_model_ssim' }, { label: 'Collection', solr_field: 'nesting_collection__parent_ids_ssim'}],
     set_class: '::OaiSet',
     format_filters: {
-      'etdms': ['has_model_ssim:"Thesis"'],
+      'oai_etdms': ['has_model_ssim:"Thesis"'],
     },
-    supported_formats: ['oai_dc','etdms']
+    supported_formats: ['oai_dc','oai_etdms']
   }
 }
