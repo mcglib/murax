@@ -22,7 +22,9 @@ services:
     container_name: postgres
     build:
       context: ./docker/services/postgres
-    image: db
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_PASSWORD: murax123
     ports:
         - "5432:5432"
     networks:
