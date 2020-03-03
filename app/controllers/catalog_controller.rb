@@ -4,7 +4,6 @@ class CatalogController < ApplicationController
   include Hydra::Controller::ControllerBehavior
 
   include BlacklightOaiProvider::Controller
-  
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
@@ -30,7 +29,6 @@ class CatalogController < ApplicationController
 
     # default advanced config values
     config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
-    #config.advanced_search[:qt] ||= 'advanced'
     config.advanced_search[:url_key] ||= 'advanced'
     config.advanced_search[:query_parser] ||= 'edismax'
     config.advanced_search[:form_solr_parameters] ||= {
