@@ -46,8 +46,9 @@ namespace :murax do
       exit
     end
      
-    #Hyrax collection service adds the owner as manager by default in Hyrax::PermissionTemplate for each Collection. 
-    dev_user = User.find_by_user_key("dev.library@mcgill.ca")
+    #Hyrax collection service adds the owner as manager by default in Hyrax::PermissionTemplate for each Collection.
+    admin_email = ENV['ADMIN_EMAIL'] 
+    dev_user = User.find_by_user_key(admin_email)
     
     #Each collection is assigned one PermissionTemplate which then is used for PermissionTemplateAccess.
     if Hyrax::PermissionTemplate.find_by(source_id: args[:collection_id]) == nil
