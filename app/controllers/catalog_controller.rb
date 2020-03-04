@@ -218,6 +218,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('nested_ordered_creator_label') do |field|
+      field.include_in_advanced_search = false
+      field.include_in_simple_select = false
       solr_name = solr_name('nested_ordered_creator_label', :stored_searchable)
       field.label = 'Creator'
       field.solr_local_parameters = {
