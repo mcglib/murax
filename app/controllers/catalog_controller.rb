@@ -321,9 +321,19 @@ class CatalogController < ApplicationController
         pf: solr_name
       }
     end
+    
+    config.add_search_field('degree') do |field|
+      field.include_in_advanced_search = true
+      field.include_in_simple_select = false
+      solr_name = solr_name("degree", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
 
     config.add_search_field('date') do |field|
-      field.include_in_advanced_search = true
+      field.include_in_advanced_search = false
       field.include_in_simple_select = false
       solr_name = solr_name("date", :stored_searchable)
       field.solr_local_parameters = {
