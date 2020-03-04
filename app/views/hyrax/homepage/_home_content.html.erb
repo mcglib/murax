@@ -28,8 +28,9 @@
   <div class="row">
     <div class="col-sm-12 text-center" style="border: 1px solid;border-radius:5px;height:23rem;">
       <p class="lead" style="padding-top:5%;"> Questions?</p>
-      <p> Contact <a href="mailto:escholarship.library@mcgill.ca">escholarship.library@mcgill.ca</a> </p>
-      <p style="margin-top:5%;"> eScholarship is hosted and maintained by McGill University Library & Archives </p> 
+      <p> Contact <a href="mailto:<%= ENV['CONTACT_US_EMAIL'] %>"><%= ENV["CONTACT_US_EMAIL"] %></a> </p>
+      <p><%= t('hyrax.murax_faq_html') %></p>
+      <p> eScholarship is hosted and maintained by McGill University Library & Archives </p> 
       <p><%= link_to t(:'hyrax.pages.tabs.terms_page'), hyrax.terms_path  %></p> 
     </div>
   </div>
