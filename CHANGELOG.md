@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.1.21] - 2020-03-04
+### Changed
+* Updated the classiq controller
+* Fixing the search controller
+* minor tweaks to docker-compose file
+* Added the degree, department and faculty to advanced search
+* Disabled nested creator from the advanced search
+* added a new task that adds the role to collections
+* added ENV variable for admin user
+
 ## [1.1.20] - 2020-02-25
 ### Changed
 * Changing the core search engine functionality
