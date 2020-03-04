@@ -22,7 +22,9 @@ services:
     container_name: postgres
     build:
       context: ./docker/services/postgres
-    image: db
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_PASSWORD: murax123
     ports:
         - "5432:5432"
     networks:
@@ -62,7 +64,7 @@ services:
         FEDORA_VERSION: 4.7.5
         FEDORA_TAG: 4.7.5
         ModeshapeConfig: jdbc-postgresql
-        JDBCConfig: -Dfcrepo.postgresql.username=fedora -Dfcrepo.postgresql.password=fedora123 -Dfcrepo.postgresql.host=postgres.docker.local -Dfcrepo.postgresql.port=5432 
+        JDBCConfig: -Dfcrepo.postgresql.username=fedora -Dfcrepo.postgresql.password=fedora123 -Dfcrepo.postgresql.host=postgres.docker.local -Dfcrepo.postgresql.port=5432
     image: fcrepo
     ports:
       - "8888:8080"

@@ -23,12 +23,16 @@ class SolrDocument
   # Recommendation: Use field names from Dublin Core
   use_extension(Blacklight::Document::DublinCore)
 
+  # etdms adds the following fields: institution, department, degree
+  use_extension(Blacklight::Document::Etdms)
+
   # Do content negotiation for AF models. 
   use_extension( Hydra::ContentNegotiation )
 
  
   field_semantics.merge!(
     description: "description_tesim",
+    abstract: "abstract_tesim",
     creator: "creator_tesim",
     contributor: "contributor_tesim",
     date: "date_tesim",
@@ -39,6 +43,8 @@ class SolrDocument
     source: "source_tesim",
     relation: "relation_tesim",
     institution: "institution_tesim",
+    department: "department_tesim",
+    publisher: "publisher_tesim",
     type: "rtype_tesim",
     rights: 'rights_tesim',
     identifier:  "oai_identifier"
@@ -53,8 +59,8 @@ class SolrDocument
   def oai_identifier
     if self['has_model_ssim'].first.to_s == 'Collection'
       Hyrax::Engine.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: 'hyrax/collections', id: id)
-    elsif self['has_model_ssim'].first.to_s == 'Thesis'
-      Rails.application.routes.url_helpers.url_for(only_path: false, action: 'file_manager', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
+    #elsif self['has_model_ssim'].first.to_s == 'Thesis'
+    #  Rails.application.routes.url_helpers.url_for(only_path: false, action: 'file_manager', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
     else
       Rails.application.routes.url_helpers.url_for(only_path: false, action: 'show', host: CatalogController.blacklight_config.oai[:provider][:repository_url], controller: "hyrax/#{self['has_model_ssim'].first.to_s.underscore.pluralize}", id: id)
     end
@@ -62,6 +68,10 @@ class SolrDocument
 
   def sets
     fetch('isPartOf', []).map { |m| BlacklightOaiProvider::Set.new("isPartOf_ssim:#{m}") }
+  end
+
+  def to_oai_etdms
+    export_as('oai_etdms_xml')
   end
 
   def nested_ordered_creator_label
