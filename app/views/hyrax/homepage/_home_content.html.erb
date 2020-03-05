@@ -25,12 +25,11 @@
   </div>
 
 
-  <div class="row">
+  <div class="row homepage-questions">
     <div class="col-sm-12 text-center" style="border: 1px solid;border-radius:5px;height:23rem;">
-      <p class="lead" style="padding-top:5%;"> Questions?</p>
-      <p> Contact <a href="mailto:<%= ENV['CONTACT_US_EMAIL'] %>"><%= ENV["CONTACT_US_EMAIL"] %></a> </p>
-      <p><%= t('hyrax.murax_faq_html') %></p>
-      <p> eScholarship is hosted and maintained by McGill University Library & Archives </p> 
+      <h3 class="homepage-faq"> <%= t('hyrax.murax_faq_html') %> </h3>
+      <p class="contact"> Contact <a href="mailto:<%= ENV['CONTACT_US_EMAIL'] %>"><%= ENV["CONTACT_US_EMAIL"] %></a> </p>
+      <p class="info"> eScholarship is hosted and maintained by McGill University Library & Archives </p> 
       <p><%= link_to t(:'hyrax.pages.tabs.terms_page'), hyrax.terms_path  %></p> 
     </div>
   </div>
