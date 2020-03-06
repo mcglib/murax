@@ -3,7 +3,7 @@ require 'builder'
 
 module Blacklight::Document::Etdms
   def self.extended(document)
-    Blacklight::Document::Etdms.register_export_formats(document)
+    Blacklight::Document::Etdms.register_export_formats(document) if Blacklight::Document::Etdms.is_a_thesis(document) 
   end
 
   def self.register_export_formats(document)
@@ -11,12 +11,26 @@ module Blacklight::Document::Etdms
     document.will_export_as(:etdms_xml, "text/xml")
     document.will_export_as(:oai_etdms_xml, "text/xml")
   end
-  
+
   def etdms_field_names
      [:contributor, :creator, :date, :abstract, :identifier, :language, :publisher, :rights, :subject, :title, :type, :degree, :department, :institution]
   end
 
+  def self.is_a_thesis(document)
+    return false if document.nil?
+    is_not_a_thesis_object = true
+    document._source.select { |field,values| field.to_s.eql? 'type' }.each do |field,values|
+       is_not_a_thesis_object = false if values.first.include? 'Thesis'
+    end
+    !is_not_a_thesis_object
+  end
+
   def export_as_oai_etdms_xml
+    is_not_a_thesis_object = true
+    self.to_semantic_values.select { |field,values| field.to_s.eql? 'type' }.each do |field,values|
+       is_not_a_thesis_object = false if values.first.include? 'Thesis'
+    end
+    raise OAI::FormatException.new if is_not_a_thesis_object
     xml = Builder::XmlMarkup.new
     xml.tag!("oai_etdms:thesis",
              'xmlns:oai_etdms' => "http://www.ndltd.org/standards/metadata/etdms/1-0/",
