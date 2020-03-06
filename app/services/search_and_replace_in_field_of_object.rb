@@ -14,6 +14,7 @@ class SearchAndReplaceInFieldOfObject
        @replace_val = replace
        @field_name = field
        @samvera_object = object
+       raise ArgumentError.new("Updates to the #{@field_name} field are not yet supported") if @field_name.include? 'creator'
        search_and_replace_in_field_of_object
      rescue ArgumentError => e
        puts e.message
