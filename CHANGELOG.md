@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.1.22] - 2020-03-09
+### Changed
+* Update metadata field service: report that creator field is not yet supported
+* Updated the readme
+* OAI: suppress etdms output for non-thesis records
+* GPSO import: embargo files with student nos in embedded file metadata during import
+* Changed ENV to development for apache+passenger on the docker containers
+* Added FAQ items for the Homepage
+
 ## [1.1.21] - 2020-03-04
 ### Changed
 * Updated the classiq controller
