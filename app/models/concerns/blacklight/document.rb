@@ -23,7 +23,7 @@ module Blacklight::Document
   autoload :SchemaOrg, 'blacklight/document/schema_org'
   autoload :CacheKey, 'blacklight/document/cache_key'
   autoload :DublinCore, 'blacklight/document/dublin_core'
-  autoload :Edtms, 'blacklight/document/etdms'
+  #autoload :Etdms, 'blacklight/document/etdms'
   autoload :Email, 'blacklight/document/email'
   autoload :SemanticFields, 'blacklight/document/semantic_fields'
   autoload :Sms, 'blacklight/document/sms'

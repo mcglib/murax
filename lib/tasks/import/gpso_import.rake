@@ -82,6 +82,7 @@ namespace :import do
       errors = 0
       total_items = amount_to_import
       increment=0
+      list_of_embargoed_works = ''
       theses.root.children.each do |node|
         if node.name == 'record'
           increment+=1
@@ -123,6 +124,15 @@ namespace :import do
             file_attributes = import_service.create_a_file_record
             success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_thesis_filename,@tmp_file_location) if !gpso_thesis.get_thesis_filename.nil?
             raise StandardError.new "Error reading or writing thesis file #{gpso_thesis.get_thesis_filename}" if !success
+            # embargo this thesis if gpso_thesis.get_thesis_filename contains student number in embedded metadata
+            embargoed_this_thesis = ''
+            if Murax::DetectStudentNumberInFileMetadata.new("#{@tmp_file_location}/#{new_thesis.id}/#{gpso_thesis.get_thesis_filename.split('/')[-1]}").title_contains_student_number?
+               file_set = GetRepresentativeFileSetByWorkId.call(new_thesis.id)
+               file_set.apply_embargo(DateTime.now.next_year.strftime('%Y-%m-%d'),'restricted','open')
+               file_set.save!
+               embargoed_this_thesis = '(embargoed) '
+               list_of_embargoed_works += "#{new_thesis.id} "
+            end
             success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_waiver_filename,@tmp_file_location) if !gpso_thesis.get_waiver_filename.nil?
             raise StandardError.new "Error reading or writing waiver file #{gpso_thesis.get_waiver_filename}" if !success
             success = import_service.add_a_thesis_file_set(file_attributes,gpso_thesis.get_multimedia_filename,@tmp_file_location) if !gpso_thesis.get_multimedia_filename.nil?
@@ -146,11 +156,11 @@ namespace :import do
                 collection_id: 'theses',
                 digitool_collection_code: 'N/A',
                 pid: student_id,
-                title: new_thesis.title.first, work_type: 'Thesis', raw_xml: node.to_s
+                title: embargoed_this_thesis + new_thesis.title.first, work_type: 'Thesis', raw_xml: node.to_s
             }
             import_log.attributes = import_record
 
-            logger.info("added #{filename}")
+            logger.info("added #{filename} #{new_thesis.id} #{embargoed_this_thesis}")
             successes += 1
             import_log.imported = true
 
@@ -174,6 +184,7 @@ namespace :import do
         import_log.save
       end
       puts "Imported #{successes} work(s), #{errors} error(s) encountered"
+      logger.info "The following works were embargoed: #{list_of_embargoed_works}"
       logger.info "Imported #{successes} work(s), #{errors} error(s) encountered"
       theses
     end

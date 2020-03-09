@@ -67,6 +67,7 @@ en:
         header: Digitool import logs for batch %{batch_id}
     account_name: My Institution Account Id
     short_about: "eScholarship is McGill University’s institutional digital repository featuring electronic, open access, outputs of McGill researchers and students."
+    murax_faq_html: <a class="homepage-faq-link" href="https://www.mcgill.ca/library/find/escholarship/escholarship-faq" target="_blank">Frequently Asked Questions</a>
     directory:
       suffix: "@example.org"
     footer:

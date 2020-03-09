@@ -31,7 +31,7 @@ class GpsoItem
 
       work_attributes['note'] = []
       work_attributes['note'] << thesis_xml.xpath('isPartOf').text.strip
-      work_attributes['note'] << 'Date first available online: ' + Time.now.strftime("%Y-%m-%d") 
+      #work_attributes['note'] << 'Date first available online: ' + Time.now.strftime("%Y-%m-%d") 
 
       work_attributes['title'] = []
       work_attributes['title'] << thesis_xml.xpath('title').text.strip
