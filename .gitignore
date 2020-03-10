@@ -43,3 +43,4 @@ spf13-vim.sh
 dc_deploy.sh
 murax_container.sh
 fits.log
+lib/tasks/test
