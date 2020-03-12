@@ -3,10 +3,17 @@ require 'optparse'
 
 namespace :murax do
   desc 'Report ids of works with abstracts carrying a two-letter lang tag.'
-  task :report_two_letter_lang_tags_in_abstracts => :environment do |task, args|
+  task :report_two_letter_lang_tags_in_abstracts, [:concern] => :environment do |task, args|
 
+   concerns_to_check = Array.new
+   concern_argument = args[:concern]
+   if concern_argument.nil?
+      concerns_to_check = Hyrax.config.curation_concerns
+   else
+      concerns_to_check << concern_argument.constantize
+   end
    puts "Starting the check for abstracts with two-letter language tags. This might take a while."   
-   Hyrax.config.curation_concerns.each do |concern|
+   concerns_to_check.each do |concern|
      puts "Checking the worktype #{concern} "
      concern.all.pluck(:abstract, :head, :title).each do |abs, head, title|
        if abs.respond_to? :each
