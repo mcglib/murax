@@ -48,6 +48,7 @@ namespace :murax do
       revised_abstract = abstract
       english = {'2' => 'en', '3' => 'eng'}
       french =  {'2' => 'fr', '3' => 'fre'}
+      spanish = {'2' => 'es', '3' => 'spa'}
       lang_code = abstract.match(/\"@(\w{2,3})$/) {|m| m.captures}
       if !lang_code.nil?
          case lang_code.first.downcase
@@ -55,6 +56,8 @@ namespace :murax do
              new_code = english[target]
            when "fr","fre"
              new_code = french[target]
+           when "es","spa"
+             new_code = spanish[target]
            else
              new_code = lang_code.first.downcase
          end
