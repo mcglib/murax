@@ -23,6 +23,9 @@
     
   </div>
 <% end %>
-<!--<div class="navbar-form searchbar-right navbar-right col-sm-12">
-  <% link_to 'Advanced search', blacklight_advanced_search_engine.advanced_search_path(search_state.to_h), class: 'advanced_search'%>
-</div>-->
+<!-- added a conditional check when we are in dev, we can show the advanced search link -->
+<% if ENV["RAILS_ENV"] == "development" %>
+<div class="navbar-form searchbar-right navbar-right col-sm-12">
+  <%= link_to 'Advanced search', blacklight_advanced_search_engine.advanced_search_path(search_state.to_h), class: 'advanced_search'%>
+</div>
+<% end %>
