@@ -9,6 +9,7 @@ namespace :murax do
    concern_argument = args[:concern]
    if concern_argument.nil?
       concerns_to_check = Hyrax.config.curation_concerns
+      concerns_to_check.delete(GenericWork)
    else
       concerns_to_check << concern_argument.constantize
    end
