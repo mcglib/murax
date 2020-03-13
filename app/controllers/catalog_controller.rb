@@ -181,7 +181,6 @@ class CatalogController < ApplicationController
     # since we aren't specifying it otherwise.
     config.add_search_field('all_fields', label: 'All Fields') do |field|
       all_names = config.show_fields.values.map(&:field).join(" ")
-      puts all_names
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
         qf: "#{all_names} abstract_tesim department_tesim nested_ordered_creator_label_tesim description_tesim keyword_tesim degree_tesim faculty_tesim all_text_timv publisher_tesim subject_tesim date_tesim",
@@ -336,6 +335,7 @@ class CatalogController < ApplicationController
       field.include_in_advanced_search = true
       field.include_in_simple_select = false
       solr_name = solr_name("date", :stored_searchable)
+      field.label = 'Year'
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
