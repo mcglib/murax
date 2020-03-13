@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.1.23] - 2020-03-10
+### Changed
+* Disabled the advanced search link on the top of page
+
 ## [1.1.22] - 2020-03-09
 ### Changed
 * Update metadata field service: report that creator field is not yet supported

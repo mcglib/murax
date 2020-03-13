@@ -45,6 +45,10 @@ module Blacklight::Document::Etdms
             if !lac_url.nil?
               xml.tag! "#{field}", lac_url
             end
+            record_url = build_canonical_url(v)
+            if !record_url.nil?
+              xml.tag! "#{field}", record_url
+            end
           end
         end
         if field.to_s.include? 'language'
@@ -65,6 +69,7 @@ module Blacklight::Document::Etdms
         next if field.to_s.include? 'degree'
         next if field.to_s.include? 'department'
         next if field.to_s.include? 'institution'
+        next if field.to_s.include? 'identifier'
         Array.wrap(values).each do |v|
            xml.tag! "#{field}", v
         end
@@ -88,14 +93,20 @@ module Blacklight::Document::Etdms
     etdms_field_names.include? field.to_sym
   end
 
+  def build_canonical_url(identifier)
+    canonical_url = identifier.gsub(/catalog\/oai\//,'')
+    canonical_url
+  end
+
   def fetch_file_url_from_identifier(identifier)
-     protocol, empty, host_str, concern_str, model_str, wid_str, fmngr_str = identifier.split('/')
+     protocol_str, empty_str, host_str, catalog_str, oai_str, concern_str, model_str, wid_str, fmngr_str = identifier.split('/')
      return if host_str.nil?
      return if !model_str.eql? 'theses'
      file_set = GetRepresentativeFileSetByWorkId.call(wid_str)
+     return if file_set.nil?
      file_name_components = file_set.label.split('.')
      file_ext = file_name_components[-1]
-     url = protocol+'//'+host_str+'/downloads/'+file_set.id+'.'+file_ext
+     url = protocol_str+'//'+host_str+'/downloads/'+file_set.id+'.'+file_ext
      url
   end
 end
