@@ -15,13 +15,13 @@ namespace :murax do
    puts "Starting the check for abstracts with two-letter language tags. This might take a while."   
    concerns_to_check.each do |concern|
      puts "Checking the worktype #{concern} "
-     concern.all.pluck(:abstract, :head, :title).each do |abs, head, title|
+     concern.all.pluck(:abstract, :title, :creator_x).each do |abs, title, cx|
        if abs.respond_to? :each
           abs.each do |abstract|
             lang_code = abstract.match(/\"@(\w{2,3})$/) {|m| m.captures}
             begin
-               raise StandardError.new("problem reading head for: #{title}") if head.first.nil?
-               puts "#{head.first.id.split('/')[-2]} #{lang_code}" if !lang_code.nil? && lang_code.first.length == 2 
+               raise StandardError.new("problem reading creator_x for: #{title}") if cx.first.nil?
+               puts "#{cx.first.first.subject.to_s.split('/')[-1].split('#').first} #{lang_code}" if !lang_code.nil? && lang_code.first.length == 2 
             rescue StandardError => e
                puts "#{e}"
             end
@@ -29,8 +29,8 @@ namespace :murax do
        else
           lang_code = abs.match(/\"@(\w{2,3})$/) {|m| m.captures}
           begin
-             raise StandardError.new("problem reading head for #{title}") if head.first.nil?
-             puts "#{head.first.id.split('/')[-2]} #{lang_code}" if ! lang_code.nil? && lang_code.first.length == 2
+             raise StandardError.new("problem reading creator_x for #{title}") if cx.first.nil?
+             puts "#{cx.first.first.subject.to_s.split('/')[-1].split('#').first} #{lang_code}" if ! lang_code.nil? && lang_code.first.length == 2
           rescue StandardError => e
              puts "#{e}"
           end
