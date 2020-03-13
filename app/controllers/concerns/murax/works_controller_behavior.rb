@@ -13,7 +13,7 @@ module Murax
         redirect_to(main_app.polymorphic_path(curation_concern), status: :moved_permanently) and return if curation_concern.class != _curation_concern_type
       end
     end 
-  
+
     def new
       # Set the default values
       curation_concern.publisher = ['McGill University']
@@ -24,8 +24,8 @@ module Murax
 
     def show
       super
-
     end
+
     def edit
       #parse_geo
       #get_other_option_values
@@ -145,8 +145,8 @@ module Murax
           geo.point_lon = point_array[1]
           geo.type = :point.to_s
         end
-      end
-    end
+     end
+   end
 
     def get_other_options(property)
       OtherOption.find_by(work_id: curation_concern.id, property_name: property)
@@ -158,37 +158,3 @@ module Murax
 
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
