@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [released]
+## [1.1.25] - 2020-03-12
+### Changed
+* Enabled department, language and degree to be searchable
+* Disabled the abstract from showing in the index results
+
+## [1.1.24] - 2020-03-10
+### Changed
+* Enabled department, language and degree to be searchable
+* Disabled the abstract from showing in the index results
+
+## [released]
 ## [1.1.23] - 2020-03-10
 ### Changed
 * Disabled the advanced search link on the top of page
