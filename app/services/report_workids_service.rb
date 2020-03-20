@@ -73,4 +73,18 @@ class ReportWorkidsService
         end
         samvera_work_ids
       end
+
+      def self.by_concern(concern)
+        samvera_work_ids = []
+        begin
+           raise ArgumentError.new("Missing required Hyrax concern (work type) parameter") if concern.nil?
+           hyrax_concern = concern.constantize
+           hyrax_concern.all.each do |c|
+              samvera_work_ids << c.id
+           end
+        rescue ArgumentError, StandardError => e
+           puts e.message
+        end
+        samvera_work_ids
+      end
 end
