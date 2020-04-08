@@ -3,6 +3,7 @@
     <div class="navbar-text text-left">
         <p><%= t('hyrax.footer.service_html') %></p>
         <p><%= t('hyrax.product_name') %> v<%= Hyrax::VERSION %></p>
+        <p>Code release version:  v<%= Hyrax::VERSION %></p>
     </div>
     <div class="navbar-right">
       <div class="navbar-text text-right">
@@ -22,7 +23,7 @@
   </div>
 </footer>
 <!-- Only load google analytics afyer launch of 2020-02-10 -->
-<% if Date.today >= Date.new(2020, 02, 10) %>
+<% if Date.today >= Date.new(2020, 02, 10) and on_live_site %>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146667563-1"></script>
   <script>
