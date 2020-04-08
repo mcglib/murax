@@ -25,4 +25,12 @@ module ApplicationHelper
     end
     return color
   end
+
+  # This helper checks if you are in the LIVE site i.e in PROD
+  def on_live_site
+    # for now we use an env variable
+    live =  ENV['IS_LIVE'].downcase == "true" ?  TRUE : FALSE
+    return live
+  end
+
 end
