@@ -15,6 +15,7 @@ namespace :murax do
         count=0
         workids.each do |wid|
            begin 
+             puts "Processing #{wid}"
              solr_hit = ActiveFedora::Base.search_by_id(wid)
              if solr_hit.nil?
                 puts "#{wid} not found"
