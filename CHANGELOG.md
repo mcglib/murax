@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.3] - 2020-04-14
 ### Changed
-* Upgraded to v2.7.1 of hyra
+* Upgraded to v2.7.1 of hyrax
 
 ## [1.2.2] - 2020-04-08
 ### Changed
