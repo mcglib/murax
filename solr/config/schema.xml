@@ -117,7 +117,6 @@
     <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-        <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false" />
         <filter class="solr.TrimFilterFactory"/>
       </analyzer>
     </fieldType>
@@ -134,8 +133,6 @@
     <!-- A text field with defaults appropriate for English -->
     <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
-        <!-- added charFilter to enable search of super/subscripts as regular chars. But this renders the word carrying super/subscripts unsearchable -->
-        <!-- <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/> -->
         <tokenizer class="solr.ICUTokenizerFactory"/>
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.EnglishPossessiveFilterFactory"/>
