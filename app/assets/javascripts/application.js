@@ -31,4 +31,5 @@
 //= require openseadragon.js
 //= require hyrax
 //= require murax/attributes.js
+//= require murax/flot_stats.js
 //= require_tree .
