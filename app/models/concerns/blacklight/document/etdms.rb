@@ -34,7 +34,6 @@ module Blacklight::Document::Etdms
     xml = Builder::XmlMarkup.new
     xml.tag!("oai_etdms:thesis",
              'xmlns:oai_etdms' => "http://www.ndltd.org/standards/metadata/etdms/1-0/",
-             'xmlns:etdms' => "http://www.ndltd.org/standards/metadata/etdms/1-0/",
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => %(http://www.ndltd.org/standards/metadata/etdms/1-0/ http://www.ndltd.org/standards/metadata/etdms/1-0/etdms.xsd)) do
       self.to_semantic_values.select { |field, values| etdms_field_name? field  }.each do |field,values|
