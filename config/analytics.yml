@@ -1,9 +1,9 @@
 #
 # To integrate your app with Google Analytics, uncomment the lines below and add your API key information.
 #
-# analytics:
-#   app_name: GOOGLE_OAUTH_APP_NAME
-#   app_version: GOOGLE_OAUTH_APP_VERSION
-#   privkey_path: GOOGLE_OAUTH_PRIVATE_KEY_PATH
-#   privkey_secret: GOOGLE_OAUTH_PRIVATE_KEY_SECRET
-#   client_email: GOOGLE_OAUTH_CLIENT_EMAIL
+ analytics:
+   app_name: escholarship
+   app_version: 1.0
+   privkey_path: /storage/www/murax/current/escholarship-4189a4c11f03.p12
+   privkey_secret: 4189a4c11f036ed13486b009b2695bab0d11216a
+   client_email: escholarship@escholarship.iam.gserviceaccount.com
