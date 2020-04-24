@@ -55,12 +55,12 @@ Hyrax.config do |config|
   # Requires a Google Analytics id and OAuth2 keyfile.  See README for more info.
   # Oauth2 file provided by Google API has to be in P12 format. 
   # We will use env to make sure we collect stats only on PROD.
-  config.analytics = true
-  #if ENV['IS_LIVE'].downcase == "true"
-   # config.analytics = true
-  #else
-   # config.analytics = false
-  #end
+  #config.analytics = true
+  if ENV['IS_LIVE'].downcase != "true"
+    config.analytics = false
+  else
+    config.analytics = true
+  end
 
   # Google Analytics tracking ID to gather usage statistics
   config.google_analytics_id = 'UA-146667563-1'
