@@ -145,6 +145,18 @@
       </analyzer>
     </fieldType>
         
+   <!-- try using copyfield further down to make super/subscripts searchable as regular characters -->
+    <fieldType name="text_copy" class="solr.TextField">
+      <analyzer>
+       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
+       <tokenizer class="solr.ICUTokenizerFactory"/>
+       <filter class="solr.ICUFoldingFilterFactory"/>
+       <filter class="solr.EnglishPossessiveFilterFactory"/>
+       <filter class="solr.EnglishMinimalStemFilterFactory"/>
+       <filter class="solr.TrimFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
     <!-- queries for paths match documents at that path, or in descendent paths -->
     <fieldType name="descendent_path" class="solr.TextField">
       <analyzer type="index">
@@ -187,6 +199,15 @@
     
     <field name="lat" type="tdouble" stored="true" indexed="true" multiValued="false"/>
     <field name="lng" type="tdouble" stored="true" indexed="true" multiValued="false"/>
+
+    <!-- support for searching super/subscripts as regular characters -->
+    <field name="titlecopy_tesim" type="text_copy" indexed="true" multiValued="true"/>
+    <field name="abstractcopy_tesim" type="text_copy" indexed="true" multiValued="true"/>
+    <!-- copyField to support searching super/subscripts as regular characters -->
+    <copyField source="title_tesim" dest="titlecopy_tesim"/>
+    <copyField source="abstract_tesim" dest="abstractcopy_tesim"/>
+
+
 
     <!-- NOTE:  not all possible Solr field types are represented in the dynamic fields -->
 
