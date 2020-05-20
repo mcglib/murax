@@ -16,7 +16,7 @@ module Murax
 
     def new
       # Set the default values
-      curation_concern.publisher = ['McGill University']
+      #curation_concern.publisher = ['McGill University']
       curation_concern.rights_statement = ['http://rightsstatements.org/vocab/InC/1.0/']
       curation_concern.degree_grantors = 'http://id.loc.gov/authorities/names/n80017721' if curation_concern.respond_to?(:degree_grantors)
       super

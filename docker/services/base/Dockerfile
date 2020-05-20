@@ -6,16 +6,15 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 ENV GEM_HOME="/usr/local/bundle"
 ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
-ENV RUBY_VERSION 2.5.3
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=en_US.UTF-8
 
 RUN apt-get update \
  && apt-get install -qq locales wget unzip build-essential cmake gcc libcunit1-dev libudev-dev git redis-server curl \
- && apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libpq-dev libsqlite3-dev libimage-exiftool-perl
+ && apt-get install -qq libssl-dev libreadline-dev zlib1g-dev clamav  libclamav-dev openssl tzdata libpq-dev libsqlite3-dev libimage-exiftool-perl \
  && apt-get -qq install libreoffice imagemagick ffmpeg libxml2-dev libxslt1-dev vim \
  && apt-get -qq install ghostscript poppler-utils  nano lynx libsaxon-java unzip zlib1g-dev tcsh telnet \
- && apt-get -qq install libcurl4 libcurl4-openssl-dev ruby-curb
+ && apt-get -qq install libcurl4 libcurl4-openssl-dev ruby-curb \
  && rm -rf /var/lib/apt/lists/*
 
 # Change default locale to en-US.UTF-8
@@ -27,8 +26,8 @@ RUN locale-gen en_US.UTF-8 \
 
 # Install nodejs and npm
 RUN curl --silent --location https://deb.nodesource.com/setup_6.x | bash - \
- && apt-get install -qq nodejs\
- && apt-get install -qq apt-transport-https build-essential cmake nodejs software-properties-common unzip g++
+ && apt-get install -qq nodejs \
+ && apt-get install -qq apt-transport-https build-essential cmake nodejs software-properties-common unzip g++ \
  # install pip and some of the requirements for python script
  && apt-get install -y --no-install-recommends python-pip \
  # Install pip packages
@@ -43,7 +42,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 # Install Passenger and apache
 RUN  apt-get install -qq dirmngr gnupg \
  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 \
- && apt-get install -qq apt-transport-https ca-certificates
+ && apt-get install -qq apt-transport-https ca-certificates \
  && sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main > /etc/apt/sources.list.d/passenger.list' \
  &&  apt-get update \
  &&  apt-get install -qq libapache2-mod-passenger apache2 \
@@ -51,7 +50,7 @@ RUN  apt-get install -qq dirmngr gnupg \
 
 # Enabled passenger and restart apache
 RUN a2enmod passenger \
- && apachectl restart
+ && apachectl restart \
  && a2enmod ssl
 
 # Install rbenv
@@ -72,45 +71,3 @@ RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
  && echo 'eval "$(rbenv init -)"' >> /root/.bashrc
 
 
-# Install ruby versio $RUBY_VERSION
-RUN eval "$(rbenv init -)"; rbenv install $RUBY_VERSION \
-&& eval "$(rbenv init -)"; rbenv global $RUBY_VERSION \
-&& eval "$(rbenv init -)"; gem update --system
-
-# install Gems that we need globally and not per app
-RUN gem install capistrano \
- curb \
- rake \
- therubyracer \
- rails-html-sanitizer \
- mini_portile2 \
- crass \
- rails-dom-testing \
- builder \
- erubi \
- thor \
- method_source \
- i18n \
- concurrent-ruby \
- tzinfo \
- thread_safe \
- rack \
- i18n \
- concurrent-ruby \
- tzinfo \
- thread_safe \
- rack \
- rack-test \
- loofah \
- nokogiri \
- nio4r \
- websocket-extensions \
- globalid \
- mini_mime \
- mail \
- sprockets \
- sprockets-rails \
- redis \
- connection_pool \
- rack-protection \
- whenever
