@@ -59,7 +59,7 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       qt: "search",
-      rows: 25,
+      #rows: 25,
       qf: "title_tesim creator_sim nested_ordered_creator_label_tesim description_tesim keyword_tesim",
     }
 
@@ -185,7 +185,7 @@ class CatalogController < ApplicationController
       field.solr_parameters = {
         qf: "#{all_names} abstract_tesim department_tesim nested_ordered_creator_label_tesim description_tesim keyword_tesim degree_tesim faculty_tesim all_text_timv publisher_tesim subject_tesim date_tesim titlecopy_tesim abstractcopy_tesim",
         pf: title_name.to_s,
-        rows: 20,
+        #rows: 20,
       }
     end
 
