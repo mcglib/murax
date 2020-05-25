@@ -32,8 +32,8 @@ module Blacklight::Document::Etdms
     end
     raise OAI::FormatException.new if is_not_a_thesis_object
     xml = Builder::XmlMarkup.new
-    xml.tag!("oai_etdms:thesis",
-             'xmlns:oai_etdms' => "http://www.ndltd.org/standards/metadata/etdms/1-0/",
+    xml.tag!("thesis",
+             'xmlns' => "http://www.ndltd.org/standards/metadata/etdms/1-0/",
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => %(http://www.ndltd.org/standards/metadata/etdms/1-0/ http://www.ndltd.org/standards/metadata/etdms/1-0/etdms.xsd)) do
       self.to_semantic_values.select { |field, values| etdms_field_name? field  }.each do |field,values|
