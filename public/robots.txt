@@ -1,1 +1,63 @@
 # See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+User-agent: *
+Disallow: /catalog
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+Disallow: /oai
+Disallow: /concern
+
+User-agent: Googlebot
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: Bingbot
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: Slurp
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: DuckDuckBot
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: Baiduspider
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: Exabot
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: facebot
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
+
+User-agent: ia_archiver
+Allow: /catalog
+Allow: /concern
+Allow: /oai
+Disallow: /files/*/stats
+Disallow: /works/*/stats
