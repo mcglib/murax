@@ -15,6 +15,7 @@ ENV BUNDLE_VERSION 2.1.4
 ENV WAITFORIT_VERSION="v2.1.0"
 ENV FITS_VERSION 1.0.5
 ENV FITS_HOME /opt/$FITS_VERSION/install
+ENV RUBY_VERSION 2.5.8
 
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
@@ -23,9 +24,54 @@ ADD Gemfile.lock $APP_PATH
 RUN curl -o /usr/local/bin/waitforit -sSL https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 && \
     chmod +x /usr/local/bin/waitforit
 
+# Install ruby versio $RUBY_VERSION
+RUN eval "$(rbenv init -)"; rbenv install $RUBY_VERSION \
+&& eval "$(rbenv init -)"; rbenv global $RUBY_VERSION \
+&& eval "$(rbenv init -)"; gem update --system
+
 RUN eval "$(rbenv init -)"; gem install bundler -v $BUNDLE_VERSION -f \
  && bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --path $BUNDLE_PATH \
  && rm -rf /tmp/*
+
+# install Gems that we need globally and not per app
+RUN gem install capistrano \
+ curb \
+ rake \
+ therubyracer \
+ rails-html-sanitizer \
+ mini_portile2 \
+ crass \
+ rails-dom-testing \
+ builder \
+ erubi \
+ thor \
+ method_source \
+ i18n \
+ concurrent-ruby \
+ tzinfo \
+ thread_safe \
+ rack \
+ i18n \
+ concurrent-ruby \
+ tzinfo \
+ thread_safe \
+ rack \
+ rack-test \
+ loofah \
+ nokogiri \
+ nio4r \
+ websocket-extensions \
+ globalid \
+ mini_mime \
+ mail \
+ sprockets \
+ sprockets-rails \
+ redis \
+ connection_pool \
+ rack-protection \
+ whenever
+
+
 
 # Install YARN
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
