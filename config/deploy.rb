@@ -118,6 +118,10 @@ namespace :deploy do
     end
   end
 
+  on roles(:web) do
+    execute :rake, sitemap:refresh
+  end
+
   after :finishing, :restart_apache do
     on roles(:app) do
       sudo :systemctl, :reload, :httpd

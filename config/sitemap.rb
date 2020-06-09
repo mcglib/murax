@@ -1,8 +1,8 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "https://escholarship.mcgill.ca"
+SitemapGenerator::Sitemap.default_host = "https://#{ ENV['RAILS_HOST'] }"
 SitemapGenerator::Sitemap.create_index = true
 SitemapGenerator::Sitemap.compress = :all_but_first
-SitemapGenerator::Sitemap.sitemaps_path = 'sitemap/'
+SitemapGenerator::Sitemap.sitemaps_path = 'shared/'
 SitemapGenerator::Sitemap.create do
   # Put links creation logic here.
   #
