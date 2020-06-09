@@ -140,3 +140,5 @@ gem 'blacklight_oai_provider', '~> 6.0'
 # Blacklight advanced search
 gem "blacklight_advanced_search"
 
+# Sitemap generator
+gem "sitemap_generator"

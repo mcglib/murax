@@ -895,6 +895,8 @@ GEM
     simple_form (5.0.2)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
+    sitemap_generator (6.1.2)
+      builder (~> 3.0)
     slop (4.8.1)
     solr_wrapper (2.1.0)
       faraday
@@ -1055,6 +1057,7 @@ DEPENDENCIES
   sidekiq (~> 5.2.7)
   sidekiq-limit_fetch
   sidekiq-status
+  sitemap_generator
   solr_wrapper (>= 0.3)
   spring
   spring-watcher-listen (~> 2.0.0)
