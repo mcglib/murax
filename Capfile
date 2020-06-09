@@ -41,3 +41,6 @@ require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
 
+# to create sitemap
+require 'capistrano/sitemap_generator'
+
