@@ -140,6 +140,6 @@ namespace :deploy do
 
   before "deploy:assets:precompile", "deploy:npm_install"
   after  "deploy:npm_install", "deploy:yarn_install"
-  after "deploy:update_code", "deploy:copy_old_sitemap"
+  after "deploy:assets:precompile", "deploy:copy_old_sitemap"
 
 end
