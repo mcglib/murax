@@ -122,7 +122,7 @@ namespace :deploy do
     on roles(:web) do
       within "#{current_path}" do
         with rails_env: "#{fetch(:stage)}" do
-          execute("RAILS_ENV=production bundle exec rake sitemap:refresh")
+          execute("cd #{current_path} &&  RAILS_ENV=production bundle exec rake sitemap:refresh")
         end
       end  
     end
