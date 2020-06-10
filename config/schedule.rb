@@ -52,6 +52,12 @@ every :sunday, at: '3:00am' do
   rake "murax:fixity_check"
 end
 
+
+# update sitemaps
+every 1.day, :at => '5:00 am' do
+  rake "-s sitemap:refresh"
+end
+
 # Update user stats on a daily basis
 # Disabling this as we are not running user stats no
 # Disabling this as we are not running user stats noww
