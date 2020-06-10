@@ -118,8 +118,14 @@ namespace :deploy do
     end
   end
 
-  task :copy_old_sitemap do
-    execute "if [ -e #{previous_release}/public/shared/sitemap.xml.gz ]; then cp #{previous_release}/public/shared/sitemap* #{current_release}/public/shared/; fi"
+  task :refresh_sitemaps do
+    on roles(:web) do
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+          execute :rake, 'sitemap:refresh'
+        end
+      end  
+    end
   end
 
   after :finishing, :restart_apache do
@@ -140,6 +146,6 @@ namespace :deploy do
 
   before "deploy:assets:precompile", "deploy:npm_install"
   after  "deploy:npm_install", "deploy:yarn_install"
-  after "deploy:assets:precompile", "deploy:copy_old_sitemap"
+  after "deploy:assets:precompile", "deploy:refresh_sitemaps"
 
 end
