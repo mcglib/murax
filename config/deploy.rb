@@ -119,7 +119,7 @@ namespace :deploy do
   end
 
   task :copy_old_sitemap do
-    run "if [ -e #{previous_release}/public/shared/sitemap.xml.gz ]; then cp #{previous_release}/public/shared/sitemap* #{current_release}/public/shared/; fi"
+    execute "if [ -e #{previous_release}/public/shared/sitemap.xml.gz ]; then cp #{previous_release}/public/shared/sitemap* #{current_release}/public/shared/; fi"
   end
 
   after :finishing, :restart_apache do
