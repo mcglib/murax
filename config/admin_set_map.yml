@@ -1,0 +1,11 @@
+#This file is in the order of `ModelName: "Admin Set Name"`
+#If changes are being made to this file, please follow this order
+
+Article: "Article"
+Book: "Book"
+Paper: "Paper"
+Presentation: "Presentation"
+Report: "Report"
+Thesis: "Thesis/Dissertation"
+
+

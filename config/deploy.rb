@@ -62,7 +62,8 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 append :linked_dirs, "public/assets"
 append :linked_dirs, "tmp/sockets"
 
-
+# role for sitemap_generator
+set :sitemap_roles, :web
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
@@ -117,6 +118,16 @@ namespace :deploy do
     end
   end
 
+  task :refresh_sitemaps do
+    on roles(:web) do
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+          execute("cd #{current_path} &&  RAILS_ENV=production bundle exec rake sitemap:refresh")
+        end
+      end  
+    end
+  end
+
   after :finishing, :restart_apache do
     on roles(:app) do
       sudo :systemctl, :reload, :httpd
@@ -135,5 +146,6 @@ namespace :deploy do
 
   before "deploy:assets:precompile", "deploy:npm_install"
   after  "deploy:npm_install", "deploy:yarn_install"
+  after "deploy:finishing", "deploy:refresh_sitemaps"
 
 end
