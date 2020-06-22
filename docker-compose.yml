@@ -46,12 +46,16 @@ services:
             - adminer.docker.local
   solr:
     container_name: solr
-    image: solr:7.0
+    image: solr:7.2
     ports:
-      - "8983:8983"
+      - "8982:8983"
     volumes:
-      - ./solr/config/:/myconfig
-    command: solr-create -c murax -d /myconfig
+      - data:/var/solr
+      - ./solr:/opt/solr/server/solr/configsets/myconfig
+    command:
+      - solr-precreate
+      - murax
+      - /opt/solr/server/solr/configsets/myconfig
     networks:
       appnetwork:
         aliases:
