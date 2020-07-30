@@ -24,7 +24,7 @@ namespace :murax do
     # We assume that nested ordered elements are always stored as hashes with one key always called 'index' (the value is an int specifying output order)
     #  and a second key which is the name of the ordered field (the value is the value of the ordered field). Therefore we only store the name of the second key in the hash below 
     nested_ordered_elements = { "nested_ordered_creator"=>"creator" }
-    ignored_elements = ["head","tail","creator_x"]
+    ignored_elements = ["head","tail","creator_x","date_modified"]
 
     ordered_field_regex = /<([a-z-]+)([0-9]+)>([^<]+)/i
 
