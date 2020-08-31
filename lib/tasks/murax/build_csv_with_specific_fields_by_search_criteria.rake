@@ -38,7 +38,9 @@ namespace :murax do
           work = ActiveFedora::Base.find(wid)
           next if work.instance_of? FileSet
           @output_field_list.each do |output_field|
-             if output_field == 'url'
+             if work.public_send(output_field).nil?
+                line += '"",'
+             elsif output_field == 'url'
                 line += '"https://'+ENV['RAILS_HOST']+'/concern/'+work.resource_type.first.pluralize.downcase+'/'+wid+'",'
              elsif output_field == 'creator'
                creators = ''
