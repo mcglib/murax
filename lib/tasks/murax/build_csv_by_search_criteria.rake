@@ -34,7 +34,7 @@ namespace :murax do
           work.nested_ordered_creator.each do |creator|
              creators += "#{creator.creator.first},"
           end
-          line += creators.delete_suffix(',')+'",'
+          line += '"'+creators.delete_suffix(',')+'",'
           deptstr = ''
           work.department.each do |dept|
             deptstr += "#{dept},"
