@@ -19,6 +19,7 @@ namespace :report do
       collection = Collection.find(cid)
 
       collection.member_objects.each do |object|
+        next if object.is_a? Collection
         wid = object.id
         file_sets = ActiveFedora::Base.search_by_id(wid)['human_readable_type_tesim'].first.constantize.find(wid).file_sets
         file_sets.each do |file_set|
