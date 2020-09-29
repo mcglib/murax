@@ -47,7 +47,7 @@ namespace :murax do
                work.nested_ordered_creator.each do |creator|
                   creators += "#{creator.creator.first},"
                end
-               line += creators.delete_suffix(',')+'",'
+               line += '"'+creators.delete_suffix(',')+'",'
              elsif work.public_send(output_field).respond_to?(:each)
                fieldstr = ''
                work.public_send(output_field).each do |field|
