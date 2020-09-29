@@ -33,7 +33,7 @@ namespace :report do
           @total_filesize += file_set.file_size.first.to_i 
         end
       end
-      f='tmp/'+cid+'-total-filesize.txt'
+      f='tmp/'+cid+'-total-filesize-for-'+ftype+'-'+fformat+'-'+faccess+'.txt'
       o=File.open(f,'w')
       o.puts "total filesize for #{cid} (#{ftype}, #{fformat}, #{faccess}): #{@total_filesize}"
       o.close
