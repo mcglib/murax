@@ -7,12 +7,10 @@ class ReportFilesize
       if !(@the_file.exist? && @the_file.file?)
          raise Errno::ENOENT.new("#{file_id} does not exist or is not a file")
       end
-      puts @the_file.file_size.first
-      true
+      @the_file.file_size.first.to_i
     rescue ArgumentError, Errno::ENOENT, StandardError => e
       puts e.message
       @the_file = nil
-      false
     end
   end
 
