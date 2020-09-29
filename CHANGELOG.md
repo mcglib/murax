@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [1.2.11] - 2020-09-29
+### Added
+* New rake task report:report_filesize_by_workid['representative_media-or-other, fileformat, fileaccessibility, workid']
+* New rake task report:report_total_filesize_by_collectionid['representative_media-or-other, fileformat, fileaccessibility, collectionid']
+* New service to report filesize for specified file id
+### Changed
+* rake task murax:export_metadata_records_as_xml now correctly encodes entities
+
 # [1.2.10] - 2020-09-04
 ### Changed
 * murax:build_csv_with_specific_fields_by_search_criteria now handles nil attributes
