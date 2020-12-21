@@ -14,7 +14,7 @@ class PresentationIndexer < Hyrax::WorkIndexer
    super.tap do |solr_doc|
   #  solr_doc['my_custom_field_ssim'] = object.my_custom_property
      if ! object.file_sets.first.nil?
-       solr_doc['all_text_timv'] = FileSet.find(object.file_sets.first.representative_id).extracted_text.content if FileSet.find(object.file_sets.first.representative_id).extracted_text.present?
+       solr_doc['all_text_timv'] = FileSet.find(object.representative_id).extracted_text.content if FileSet.find(object.representative_id).extracted_text.present?
      end
    end
   end
