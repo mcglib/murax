@@ -48,9 +48,10 @@ every :day, at: '1:00am' do
 end
 
 # Run Fixity checking on a weekly basis instead of daily
-every :sunday, at: '3:00am' do
-  rake "murax:fixity_check"
-end
+# Disabled running fixity checks
+#every :sunday, at: '3:00am' do
+#  rake "murax:fixity_check"
+#end
 
 
 # update sitemaps
