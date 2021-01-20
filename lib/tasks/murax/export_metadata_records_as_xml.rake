@@ -89,8 +89,11 @@ namespace :murax do
      # apply XSLT transform
      noko_doc = Nokogiri::XML(xml_out,nil,nil,options=Nokogiri::XML::ParseOptions.new.noent)
      noko_xsl = Nokogiri::XSLT(File.read(stylesheet))
-     o.puts HTMLEntities.new.decode noko_xsl.transform(noko_doc)
-
+     ##
+     #o.puts HTMLEntities.new.decode noko_xsl.transform(noko_doc)
+     ##using only transofrm doesnt searliaze the xml reserved chars, using both does.
+     ##
+     o.puts noko_xsl.serialize(noko_xsl.transform(noko_doc))
      o.close
      exit
    end
