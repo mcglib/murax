@@ -24,5 +24,7 @@ module HyraxDemo
 
     # We handle our own exceptions for 404 and 422 and 500
     config.exceptions_app = self.routes
+
+    config.i18n.available_locales = [:en, :fr]
   end
 end

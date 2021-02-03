@@ -4,6 +4,8 @@ lock "3.9.0"
 set :rbenv_ruby, '2.5.8'
 set :rbenv_type, :user
 
+# Set our own instance of sidekiq.
+
 set :application, "murax"
 
 set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
@@ -80,26 +82,6 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 #Rake::Task["sidekiq:stop"].clear_actions
 #Rake::Task["sidekiq:start"].clear_actions
 #Rake::Task["sidekiq:restart"].clear_actions
-namespace :sidekiq do
-  task :stop do
-    on roles(:app) do
-      execute :sudo, :systemctl, :stop, :sidekiq
-      #sudo :systemctl, :stop, :sidekiq
-    end
-  end
-  task :start do
-    on roles(:app) do
-      execute :sudo, :systemctl, :start, :sidekiq
-      #sudo :systemctl, :start, :sidekiq
-    end
-  end
-  task :restart do
-    on roles(:app) do
-      execute :sudo, :systemctl, :restart, :sidekiq
-      #sudo :systemctl, :restart, :sidekiq
-    end
-  end
-end
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
@@ -135,17 +117,18 @@ namespace :deploy do
   end
   after :finishing, :stop_sidekiq do
     on roles(:app) do
-      sudo :systemctl, :stop, :sidekiq
+      sudo :systemctl, :stop, 'sidekiq-murax'
     end
   end
+
   after :finishing, :start_sidekiq do
     on roles(:app) do
-      sudo :systemctl, :start, :sidekiq
+      sudo :systemctl, :start, 'sidekiq-murax'
     end
   end
 
   before "deploy:assets:precompile", "deploy:npm_install"
   after  "deploy:npm_install", "deploy:yarn_install"
-  after "deploy:finishing", "deploy:refresh_sitemaps"
+  after "deploy:cleanup", "deploy:refresh_sitemaps"
 
 end
