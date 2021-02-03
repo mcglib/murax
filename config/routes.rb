@@ -100,4 +100,6 @@ Rails.application.routes.draw do
   get '/422', to: "errors#unacceptable"
   get '/500', to: "errors#internal_server_error"
 
+  get "/en", to: redirect(path: '/catalog')
+
 end
