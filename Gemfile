@@ -142,3 +142,5 @@ gem "blacklight_advanced_search"
 
 # Sitemap generator
 gem "sitemap_generator"
+
+gem "nokogiri", ">= 1.11.0"
