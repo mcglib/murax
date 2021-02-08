@@ -18,6 +18,7 @@ namespace :murax do
 
   def index_works(wkids)
    begin
+     indexer=IndexAWork.new
      start_time = Time.now.strftime('%Y%m%d%H%M%S')
      logger = ActiveSupport::Logger.new("log/reindex-works-#{start_time}.log")
      logger.info "Task started at #{start_time}"
@@ -25,14 +26,18 @@ namespace :murax do
      success = 0
      errors = 0
      wkids.each do |work_id|
-       work = ActiveFedora::Base.find(work_id)
-       raise StandardError.new("Unable to locate work id: #{work_id}") if work.nil?
-       work.update_index
-       logger.info work_id
+       #work = ActiveFedora::Base.find(work_id)
+       #raise StandardError.new("Unable to locate work id: #{work_id}") if work.nil?
+       indexer.by_work_id(work_id)
+       if indexer.get_status()
+         logger.info work_id
+       else
+         logger.error "Can't update index for #{work_id}"
+       end
      end
      end_time = Time.now.strftime('%Y%m%d%H%M%S')
      job_time=end_time.to_i-start_time.to_i
-     logger.info "job ended at #{end_time} (#{job_time.to_s secs})"
+     logger.info "job ended at #{end_time} (#{job_time.to_s} secs)"
    rescue StandardError => e
      puts e.message
      logger.error e.message
