@@ -26,8 +26,6 @@ namespace :murax do
      success = 0
      errors = 0
      wkids.each do |work_id|
-       #work = ActiveFedora::Base.find(work_id)
-       #raise StandardError.new("Unable to locate work id: #{work_id}") if work.nil?
        indexer.by_work_id(work_id)
        if indexer.get_status()
          logger.info work_id
