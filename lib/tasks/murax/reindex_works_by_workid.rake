@@ -18,7 +18,7 @@ namespace :murax do
 
   def index_works(wkids)
    begin
-     indexer=IndexAWork.new
+     reindex_service=IndexAnObject.new
      start_time = Time.now.strftime('%Y%m%d%H%M%S')
      logger = ActiveSupport::Logger.new("log/reindex-works-#{start_time}.log")
      logger.info "Task started at #{start_time}"
@@ -26,8 +26,8 @@ namespace :murax do
      success = 0
      errors = 0
      wkids.each do |work_id|
-       indexer.by_work_id(work_id)
-       if indexer.get_status()
+       reindex_service.by_object_id(work_id)
+       if reindex_service.get_status()
          logger.info work_id
        else
          logger.error "Can't update index for #{work_id}"

@@ -1,18 +1,18 @@
-class IndexAWork
+class IndexAnObject
 
    def initialize
       @error_message = nil
       @status = nil
-      @work = nil
+      @object = nil
    end
 
-   def by_work_id(id)
+   def by_object_id(id)
      @status = nil
      begin
-        raise ArgumentError.new("Missing required work id.") if id.nil?
-        @work = ActiveFedora::Base.find(id)
-        raise StandardError.new("Can't find a work with id #{id}") if @work.nil?
-        response = @work.update_index
+        raise ArgumentError.new("Missing required object id.") if id.nil?
+        @object = ActiveFedora::Base.find(id)
+        raise StandardError.new("Can't find an object with id #{id}") if @object.nil?
+        response = @object.update_index
         @status = (response["responseHeader"]["status"] == 0)
      rescue ArgumentError, StandardError => e
         @error_message = e.message
