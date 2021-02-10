@@ -28,14 +28,18 @@ namespace :murax do
      wkids.each do |work_id|
        reindex_service.by_object_id(work_id)
        if reindex_service.get_status()
+         success+=1
          logger.info work_id
        else
+         errors+=1
          logger.error "Can't update index for #{work_id}"
        end
      end
+     logger.info "#{wkids.length} works processed"
+     logger.info "#{success} works successfully reindexed"
+     logger.info "#{errors} works failed to reindex"
      end_time = Time.now.strftime('%Y%m%d%H%M%S')
-     job_time=end_time.to_i-start_time.to_i
-     logger.info "job ended at #{end_time} (#{job_time.to_s} secs)"
+     logger.info "job ended at #{end_time}"
    rescue StandardError => e
      puts e.message
      logger.error e.message
