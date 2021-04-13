@@ -47,6 +47,12 @@ every :day, at: '1:00am' do
   command "/usr/bin/find /storage/www/tmp -type f -mtime +7 -user dev.library -execdir /bin/rm -- {} \\;"
 end
 
+# Reindex works added with the past 7 days
+every :monday, at: '4:00am' do
+  rake "murax:reindex_recent_works[7]"
+end
+
+
 # Run Fixity checking on a weekly basis instead of daily
 # Disabled running fixity checks
 #every :sunday, at: '3:00am' do
