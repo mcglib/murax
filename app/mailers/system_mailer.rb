@@ -1,9 +1,9 @@
 class SystemMailer < ApplicationMailer
   default from: ENV['ADMIN_EMAIL']
 
-  invalid_user_message = "User does not exist (does the recipient have an account in eScholarship?"
-  missing_subject_message = "A subject line is required in order to send an email."
-  missing_message = "You must provide text for the body of the email"
+  @invalid_user_message = "User does not exist (does the recipient have an account in eScholarship?"
+  @missing_subject_message = "A subject line is required in order to send an email."
+  @missing_message = "You must provide text for the body of the email"
 
   # @param user [String] email address of user to whom the message will be sent. The user must have a valid account in Samvera.
   # @param subject [String] text to use as subject line of email
@@ -13,9 +13,9 @@ class SystemMailer < ApplicationMailer
         @user = User.find_by_user_key(user)
         @subject = subject
         @message = body_text if !body_text.nil?
-        raise ArgumentError.new("#{invalid_user_message} #{user}") if @user.nil?
-        raise ArgumentError.new("#{missing_subject_message}") if @subject.nil? || @subject.empty?
-        raise ArgumentError.new("#{missing_message}") if @message.nil?
+        raise ArgumentError.new("#{@invalid_user_message} #{user}") if @user.nil?
+        raise ArgumentError.new("#{@missing_subject_message}") if @subject.nil? || @subject.empty?
+        raise ArgumentError.new("#{@missing_message}") if @message.nil?
         mail(to: @user.email, 
              subject: @subject
         )
@@ -36,9 +36,9 @@ class SystemMailer < ApplicationMailer
         @message = body_text if !body_text.nil?
         @filepaths = filepaths if !filepaths.nil?
         @separator = separator
-        raise ArgumentError.new("#{invalid_user_message} #{user}") if @user.nil?
-        raise ArgumentError.new("#{missing_subject_message}") if @subject.nil? || @subject.empty?
-        raise ArgumentError.new("#{missing_message}") if @message.nil?
+        raise ArgumentError.new("#{@invalid_user_message} #{user}") if @user.nil?
+        raise ArgumentError.new("#{@missing_subject_message}") if @subject.nil? || @subject.empty?
+        raise ArgumentError.new("#{@missing_message}") if @message.nil?
         raise ArgumentError.new("At least one filename must be specified when using method system_email_with_attachment") if @filepaths.nil?
         @filepaths = @filepaths.split(@separator) if @filepaths.include? @separator
         if @filepaths.respond_to? :each
