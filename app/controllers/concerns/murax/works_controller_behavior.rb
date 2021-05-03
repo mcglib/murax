@@ -5,7 +5,7 @@ module Murax
     extend ActiveSupport::Concern
     include Hyrax::WorksControllerBehavior
     included do
-      before_action :redirect_mismatched_work, only: [:show]
+      #before_action :redirect_mismatched_work, only: [:show]
       #before_action :scrub_params, only: %i[update create]
 
       def redirect_mismatched_work
@@ -19,10 +19,6 @@ module Murax
       #curation_concern.publisher = ['McGill University']
       curation_concern.rights_statement = ['http://rightsstatements.org/vocab/InC/1.0/']
       curation_concern.degree_grantors = 'http://id.loc.gov/authorities/names/n80017721' if curation_concern.respond_to?(:degree_grantors)
-      super
-    end
-
-    def show
       super
     end
 
