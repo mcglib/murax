@@ -44,3 +44,6 @@ dc_deploy.sh
 murax_container.sh
 fits.log
 lib/tasks/test
+
+/public/shared/sitemap.xml
+/public/shared/sitemap1.xml.gz
