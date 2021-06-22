@@ -6,4 +6,4 @@ set :bundle_flags, '--deployment'
 set :repository_cache, "git_cache"
 set :branch, "master"
 set :ssh_options, keys: ['id_rsa'] if File.exist?('id_rsa')
-server 'plirap.library.mcgill.ca', user: 'dev.library', roles: [:web, :app, :db]
+server 'plirap.library.mcgill.ca', user: 'dev.library@mcgill.ca', roles: [:web, :app, :db]
