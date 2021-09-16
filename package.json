@@ -20,7 +20,7 @@
     "node-sass": "^4.13.1",
     "rails-erb-loader": "^5.5.2",
     "serialize-javascript": "^3.1.0",
-    "set-value": "^2.0.1",
+    "set-value": "^4.0.1",
     "websocket-extensions": "^0.1.4",
     "yargs-parser": "^5.0.0-security.0"
   },
