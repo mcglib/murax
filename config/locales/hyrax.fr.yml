@@ -46,6 +46,9 @@ fr:
           subject_tesim: Assujettir
           title_tesim: Titre
   hyrax:
+    users:
+      change_password: Changer le mot de passe
+    
     account_name: L'ID de compte de mon établissement
     directory:
       suffix: "@ Example.org"
