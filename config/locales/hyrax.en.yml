@@ -85,6 +85,8 @@ en:
     base:
       show:
         rtype: Type
+    users:
+      change_password: Change Password
 
     search:
       button:
