@@ -15,7 +15,7 @@ gem 'sqlite3'
 # Use postgresql on the sandbox
 gem 'pg', '~> 0.21.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.12.4'
+gem 'puma', '~> 4.3.9'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
