@@ -1,121 +1,62 @@
-# You can find the Dockerfile for the image below
-# in the /docker/services/base folder in this repository
-FROM registry.it.mcgill.ca/lts/murax/base:latest
-# Different layer for gems installation
-ENV APP_PATH /storage/www/murax/current
-ENV BACKUP_PATH /root/backup
-ENV MODEL_PATH $BACKUP_PATH/models
-ENV VENDOR_PATH /vendor
+FROM centos:centos7
+LABEL maintainer "Library AppDev"
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG arch=arm64
+
+ENV APP_PATH /usr/src/app
+ENV BUNDLE_PATH /vendor/bundle
 ENV BUNDLER_CACHE_PATH /vendor/cache
-ENV STARTUP_PATH /docker
-ENV GEM_HOME="/usr/local/bundle"
-ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
-ENV BUNDLE_PATH "/storage/www/murax/shared/bundle"
 ENV BUNDLE_VERSION 2.1.4
-ENV WAITFORIT_VERSION="v2.1.0"
+ENV LANG=en_CA.UTF-8
+ENV RUBY_VERSION 2.6.8
+ENV PATH /usr/local/rbenv/bin:$PATH
+ENV RBENV_ROOT /usr/local/rbenv
+ENV CONFIGURE_OPTS --disable-install-doc
+ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
+
 ENV FITS_VERSION 1.0.5
 ENV FITS_HOME /opt/$FITS_VERSION/install
-ENV RUBY_VERSION 2.5.8
+ENV RUBY_VERSION 2.6.8
 
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
+# Install packages
+RUN yum -y  groupinstall "Development Tools" && \
+	yum -y install \
+	gcc \
+	nodejs \
+	yarn  \
+	wget \
+	mysql \
+	redis \
+	curl \
+	readline-devel \
+	libffi-devel \
+	libxslt-devel \
+	zlib-devel \
+	openssl-devel \
+	mysql-devel \
+	postgresql-libs \ 
+	postgresql-devel \ 
+	ffmpeg \ 
+	unzip \ 
+	ghostscript \ 
+	gnupg \ 
+	vim \
+	apache2 \
+	ca-certificates \
+	sqlite-devel && \
+	yum clean all
+
+RUN yum -y install ImageMagick
+
+RUN rm -f /etc/ssl/certs/ca-bundle.crt && yum reinstall -y ca-certificates
+
+
 RUN curl -o /usr/local/bin/waitforit -sSL https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 && \
     chmod +x /usr/local/bin/waitforit
-
-# Install ruby versio $RUBY_VERSION
-RUN eval "$(rbenv init -)"; rbenv install $RUBY_VERSION \
-&& eval "$(rbenv init -)"; rbenv global $RUBY_VERSION \
-&& eval "$(rbenv init -)"; gem update --system
-
-RUN eval "$(rbenv init -)"; gem install bundler -v $BUNDLE_VERSION -f \
- && bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --path $BUNDLE_PATH \
- && rm -rf /tmp/*
-
-# install Gems that we need globally and not per app
-RUN gem install capistrano \
- curb \
- rake \
- therubyracer \
- rails-html-sanitizer \
- mini_portile2 \
- crass \
- rails-dom-testing \
- builder \
- erubi \
- thor \
- method_source \
- i18n \
- concurrent-ruby \
- tzinfo \
- thread_safe \
- rack \
- i18n \
- concurrent-ruby \
- tzinfo \
- thread_safe \
- rack \
- rack-test \
- loofah \
- nokogiri \
- nio4r \
- websocket-extensions \
- globalid \
- mini_mime \
- mail \
- sprockets \
- sprockets-rails \
- redis \
- connection_pool \
- rack-protection \
- whenever
-
-
-
-# Install YARN
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
- && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
- && apt-get -qq update && apt-get -qq install yarn \
- && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p $FITS_HOME \
- && cd $FITS_HOME \
- && wget  http://projects.iq.harvard.edu/files/fits/files/fits-$FITS_VERSION.zip \
- && unzip fits-$FITS_VERSION.zip \
- && chmod 755 $FITS_HOME/fits-$FITS_VERSION/fits.sh \
- && cp -r $FITS_HOME/fits-$FITS_VERSION /usr/local/lib \
- && ln -s $FITS_HOME/fits-$FITS_VERSION/fits.sh /usr/local/bin/fits.sh
-
-
-COPY ./docker/services/hyrax/config/sidekiq_systemd.init /etc/init.d/sidekiq
-
-RUN mkdir -p /storage/www/murax/public \
- && mkdir -p /storage/www/murax/releases \
- && mkdir -p /storage/www/tmp \
- && mkdir -p /storage/www/uploads \
- && mkdir -p /storage/www/derivatives \
- && mkdir -p /var/log/apache2/murax
-
-# Setup apache + passenger
-COPY ./docker/services/hyrax/config/apache_vhost.conf /etc/apache2/sites-available/000-default.conf 
-COPY ./docker/services/hyrax/config/apache_sslredirect_vhost.conf /etc/apache2/sites-enabled/redirect.conf
-
-# Setup the apache ssl
-COPY ./docker/services/hyrax/config/cert.crt /etc/ssl/private/cert.crt
-COPY ./docker/services/hyrax/config/cert.key /etc/ssl/private/cert.key
-#COPY ./docker/services/hyrax/config/DigiCertCA.crt /etc/ssl/private/DigiCertCA.crt
-COPY ./docker/services/hyrax/startup.sh $STARTUP_PATH/startup.sh
-
-# Create the log file to be able to run tail
-RUN touch /var/log/cron.log \
- && mkdir -p $APP_PATH/log \
- && touch $APP_PATH/log/sidekiq.log \
- && mkdir -p $STARTUP_PATH \
- && chmod 0644 $STARTUP_PATH/startup.sh
-
-COPY ./docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
 
 EXPOSE 80
 EXPOSE 443
