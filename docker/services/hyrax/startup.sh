@@ -4,32 +4,30 @@ set -e
 # Exit on fail
 
 echo "Starting Apache service"
-service apache2 stop
-service apache2 start
 
-echo "Starting sidekiq service"
-cd ${APP_PATH}
-RAILS_ENV=${RAILS_ENV} bundle exec sidekiq -d -L ${APP_PATH}/log/sidekiq.log
 
 # Finally call command issued to the docker service
 # This is only for the Web container.
 echo "Checking that the db is up already!"
 #sh ./wait-for-it.sh ${DATABASE_HOST}:${DATABASE_PORT} -t 30 --strict -- echo "Database is up!"
-waitforit -address=tcp://${DATABASE_HOST}:${DATABASE_PORT} -timeout=30 -debug -- printf "The Database is up!"
 export  PGPASSWORD=${DATABASE_PASSWORD}
 
 echo "Sleeping for 10 seconds and then confirming that the db has booted"
 sleep 10
-waitforit -address=tcp://${DATABASE_HOST}:${DATABASE_PORT} -timeout=30 -debug -- printf "The Database is up!"
 export  PGPASSWORD=${DATABASE_PASSWORD}
 
 echo "Ensure all gems are installed"
-cd /storage/www/murax/current
+cd ${APP_PATH}
 bundle check || bundle install --binstubs="$BUNDLE_BIN"
 # Ensure all gems installed. Add binstubs to bin which has been added to PATH in Dockerfile.
 
 echo "Run yarn install so that we can make sure we can compile assets"
-yarn install
+#yarn install
+
+
+echo "Starting sidekiq service"
+cd ${APP_PATH}
+RAILS_ENV=${RAILS_ENV} bundle exec sidekiq -d -L ${APP_PATH}/log/sidekiq.log
 
 echo "Checking if the database has been initialized"
 echo "bundle exec rake db:exists RAILS_ENV=${RAILS_ENV} > /tmp/stderr.txt"
@@ -83,7 +81,7 @@ rm /tmp/stderr.txt
 
 #cd /root/Backup && bundle exec backup perform -t filebackup,databasebackup
 echo "Writing out the crontask from whenever gem"
-whenever -w
+#whenever -w
 
 echo "Set the writing permissions on the ${UPLOAD_PATH}  and ${WORKING_PATH}"
 chmod a+rwx -R ${UPLOAD_PATH}

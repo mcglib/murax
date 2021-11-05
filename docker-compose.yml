@@ -1,7 +1,12 @@
-version: '3.3'
+version: '3.4'
 
 volumes:
   data:
+  data-npm:
+  db:
+  solr_repo:
+  solr_index:
+
 
 networks:
     appnetwork:
@@ -78,14 +83,14 @@ services:
       appnetwork:
         aliases:
             - fcrepo.docker.local
-  hyrax:
-    container_name: hyrax
-    stdin_open: true
-    #build: . Disabled building so we can use the pre-built image
+  murax:
     image: registry.it.mcgill.ca/lts/murax/hyrax:latest
+    container_name: murax
+    stdin_open: true
     volumes:
       - .:/storage/www/murax/current
       - data:/storage/www/murax/shared/bundle
+      - data-npm:/storage/www/murax/node_modules
     command: bash /docker/startup.sh
     depends_on:
       - postgres
@@ -101,4 +106,4 @@ services:
     networks:
       appnetwork:
         aliases:
-            - hyrax.docker.local
+            - murax.docker.local
