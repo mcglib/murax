@@ -15,7 +15,7 @@ gem 'sqlite3'
 # Use postgresql on the sandbox
 gem 'pg', '~> 0.21.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.12.4'
+gem "puma", ">= 4.3.9"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
@@ -101,7 +101,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'better_errors'
+  gem "better_errors", ">= 2.8.0"
   gem 'binding_of_caller'
   gem 'pry'
   gem 'pry-byebug'
