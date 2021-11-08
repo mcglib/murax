@@ -61,7 +61,7 @@ gem "haml-rails", "~> 2.0"
 gem "bootstrap-table-rails"
 
 # Lint checker and code checks
-gem 'pronto'
+gem 'pronto', "~> 0.10.0"
 gem 'pronto-rubocop', require: false
 gem 'pronto-flay', require: false
 gem 'pronto-scss', require: false
