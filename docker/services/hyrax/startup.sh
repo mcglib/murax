@@ -97,9 +97,8 @@ chmod a+rwx -R ${TMP_PATH}
 
 
 echo "Starting the cron service"
-cron
+#cron
 cd ${APP_PATH}
-
 
 rm -rf ${APP_PATH}/tmp/pids/server.pid
 

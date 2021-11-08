@@ -22,15 +22,19 @@ WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
 
+RUN yum -y update
+RUN yum -y install epel-release yum-utils && \
+	yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+	yum-config-manager --enable remi
 # Install packages
 RUN yum -y  groupinstall "Development Tools" && \
 	yum -y install \
 	gcc \
+	redis \
 	nodejs \
 	yarn  \
 	wget \
 	mysql \
-	redis \
 	curl \
 	readline-devel \
 	libffi-devel \
@@ -107,8 +111,10 @@ WORKDIR $APP_PATH
 
  RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --path $BUNDLE_PATH
 
-RUN curl --silent --location https://rpm.nodesource.com/setup_14.x | bash - && \
-	yum install -y nodejs
+
+RUN yum -y remove nodejs && \
+	curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
+RUN yum install -y nodejs
 
  RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
  	yum -y install yarn
@@ -126,11 +132,23 @@ COPY . $APP_PATH
 ENV STARTUP_PATH /docker
 COPY ./docker/services/hyrax/startup.sh $STARTUP_PATH/startup.sh
 
+COPY ./docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+
+
+RUN mkdir -p /storage/www/murax/public \
+ && mkdir -p /storage/www/murax/releases \
+ && mkdir -p /storage/www/tmp \
+ && mkdir -p /storage/www/uploads \
+ && mkdir -p /storage/www/derivatives \
+ && mkdir -p /var/log/apache2/murax
+
+
 EXPOSE 80
 EXPOSE 443
 EXPOSE 3000
 
 WORKDIR $APP_PATH
 
+ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
 CMD ["/bin/bash", "/docker/startup.sh"]
-#ENTRYPOINT ["/bin/bash", "-l", "-c"]
