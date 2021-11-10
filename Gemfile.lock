@@ -1098,6 +1098,3 @@ DEPENDENCIES
   whenever
   xray-rails
   yard
-
-BUNDLED WITH
-   2.1.4
