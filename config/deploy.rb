@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
-set :rbenv_ruby, '2.5.8'
+set :rbenv_ruby, '2.6.8'
 set :rbenv_type, :user
 
 # Set our own instance of sidekiq.
