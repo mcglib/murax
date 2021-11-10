@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+# [1.3.0] - 2021-11-10
+### Changed
+* Upgraded to version 2.6.8 of ruby
+* Updated several rails gems including upgrade to rails 5.2.4.6
+* Rebuilt the dockerfile to use an CentOS docker image
+* Updated the package.json file
+* Updated various gems and nodejs modules
+* Downgraded set-value to 3.0.2
+* Removing references to proxies
+
 # [1.2.27] - 2021-09-29
 ### Added
 * Added a link to change user's password in dashboard profile.

@@ -23,9 +23,6 @@ set :default_stage, "development"
 
 # Default value for default_env is {}
 set :default_env, {
-   'http_proxy' => 'http://mirage.ncs.mcgill.ca:3128',
-   'https_proxy' => 'http://mirage.ncs.mcgill.ca:3128',
-   'HTTPS_PROXY_REQUEST_FULLURI' => 'false',
 }
 
 set :log_level, :debug
