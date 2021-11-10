@@ -6,7 +6,7 @@ module Hyrax
     include SingleValuedForm
     include Hyrax::NestedBehavior
     self.model_class = ::Thesis
-    self.terms += [:title, :degree, :institution, :faculty, :rights,
+    self.terms += [:title, :alternative_title, :degree, :institution, :faculty, :rights,
                    :nested_ordered_creator, :note, :extent, :abstract, :department,
                    :date, :date_accepted,  :rights, :rtype, :orcidid, :relation ]
     self.terms -= [ :keyword, :creator, :rights_statement, :date_created, :resource_type, :bibliographic_citation, :import_url, :relative_path, :based_near]
