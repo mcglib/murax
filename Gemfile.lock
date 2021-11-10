@@ -1084,7 +1084,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (>= 4.3.9)
-  rails (~> 5.2.4.3)
+  rails (~> 5.2.4.6)
   rdf-vocab
   redis (~> 4.0)
   riiif (~> 2.0)
