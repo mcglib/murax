@@ -9,13 +9,13 @@ end
 gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.4.3'
+gem 'rails', '~> 5.2.4.3'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use postgresql on the sandbox
 gem 'pg', '~> 0.21.0'
 # Use Puma as the app server
-gem "puma", ">= 4.3.9"
+gem 'puma', '~> 3.12.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
@@ -61,13 +61,13 @@ gem "haml-rails", "~> 2.0"
 gem "bootstrap-table-rails"
 
 # Lint checker and code checks
-#gem 'pronto', "~> 0.10.0"
-#gem 'pronto-rubocop', require: false
-#gem 'pronto-flay', require: false
-#gem 'pronto-scss', require: false
-#gem 'pronto-eslint', require: false
-#gem 'pronto-brakeman', require: false
-#gem 'pronto-rails_best_practices', require: false
+gem 'pronto'
+gem 'pronto-rubocop', require: false
+gem 'pronto-flay', require: false
+gem 'pronto-scss', require: false
+gem 'pronto-eslint', require: false
+gem 'pronto-brakeman', require: false
+gem 'pronto-rails_best_practices', require: false
 gem 'rubocop', require: false
 
 group :development, :test do
@@ -101,7 +101,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem "better_errors", ">= 2.8.0"
+  gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry'
   gem 'pry-byebug'
