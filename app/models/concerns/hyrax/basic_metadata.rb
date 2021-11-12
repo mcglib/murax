@@ -12,7 +12,7 @@ module Hyrax
       property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
 
       property :alternative_title,  predicate: RDF::Vocab::DC.alternative, multiple: true do | index |
-              index.as :stored_searchable, :facetable
+              index.as :stored_searchable
       end
 
       property :creator,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
