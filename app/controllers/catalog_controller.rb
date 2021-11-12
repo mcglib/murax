@@ -113,7 +113,7 @@ class CatalogController < ApplicationController
     #config.add_index_field solr_name("nested_ordered_creator_label", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable)
     config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
     config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
-    config.add_index_field solr_name("alternative_title", :stored_searchable), label: "Alternative Title", itemprop: 'name', link_to_search: solr_name("alternative_title", :facetable)
+    config.add_index_field solr_name("alternative_title", :stored_searchable), label: "Alternative Title", itemprop: 'name'
     config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link, label: "Description"
     # config.add_index_field solr_name("abstract", :stored_searchable), itemprop: 'abstract', label: "Abstract"
     # config.add_index_field solr_name("relation", :stored_searchable), itemprop: 'relation', link_to_search: solr_name("relation", :facetable), label: "Relation"
