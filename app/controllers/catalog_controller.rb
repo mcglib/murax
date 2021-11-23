@@ -85,6 +85,8 @@ class CatalogController < ApplicationController
     # McGill Custom
     config.add_facet_field solr_name("faculty", :facetable), label: "Faculty", limit: 10
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 10
+    config.add_facet_field solr_name("research_unit", :facetable), label: "Research unit", limit: 10
+    config.add_facet_field solr_name("local_affiliated_centre", :facetable), label: "Local affiliated centre", limit: 10
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 10
     config.add_facet_field solr_name("language", :facetable), helper_method: :language_links_facets, limit: 10
     config.add_facet_field solr_name("subject", :facetable), limit: 10
@@ -184,7 +186,7 @@ class CatalogController < ApplicationController
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
-        qf: "#{all_names} abstract_tesim alternative_title_tesim department_tesim nested_ordered_creator_label_tesim description_tesim keyword_tesim degree_tesim faculty_tesim all_text_timv publisher_tesim subject_tesim date_tesim titlecopy_tesim abstractcopy_tesim",
+        qf: "#{all_names} abstract_tesim research_unit_tesim local_affiliated_centre_tesim  alternative_title_tesim department_tesim nested_ordered_creator_label_tesim description_tesim keyword_tesim degree_tesim faculty_tesim all_text_timv publisher_tesim subject_tesim date_tesim titlecopy_tesim abstractcopy_tesim",
         pf: title_name.to_s,
         #rows: 20,
       }
@@ -314,6 +316,26 @@ class CatalogController < ApplicationController
       field.include_in_advanced_search = true
       field.include_in_simple_select = false
       solr_name = solr_name("department", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('research_unit') do |field|
+      field.include_in_advanced_search = true
+      field.include_in_simple_select = false
+      solr_name = solr_name("research_unit", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('local_affiliated_centre') do |field|
+      field.include_in_advanced_search = true
+      field.include_in_simple_select = false
+      solr_name = solr_name("local_affiliated_centre", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name
