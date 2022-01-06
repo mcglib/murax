@@ -162,8 +162,8 @@ en:
         title: Enter title as listed on front matter. Capitalise the first non-article only.
         alternative_title: When an alternate or short title exists according to the metadata/front matter, enter it here.
         date: Enter as YYYY-MM-DD. Where no full date available enter XXXX. In cases of approximate decade use ? (e.g. 198?). 
-        faculty: Enter as full name (e.g. Faculty of Arts)
-        department: Enter what is listed on the item.
+        faculty: Enter subject only (e.g. enter Arts for Faculty of Arts).
+        department: Enter as Department of X (e.g. Department of Political Science).
         bibliographic_citation: Use citation obtained from publisher website.
         report_number: Enter alpha-numeric value only (e.g. G19-06)
         source: Enter link to journal website.
