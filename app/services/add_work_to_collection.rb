@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWorkToCollection
   def self.call(wkid, wk_type, collection_id)
     attached = true
@@ -7,8 +9,8 @@ class AddWorkToCollection
     collectionObj.reindex_extent = Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX
 
     begin
-      attached = AttachWorkToCollection.call(wkid, wk_type,collectionObj)
-    rescue => e
+      attached = AttachWorkToCollection.call(wkid, wk_type, collectionObj)
+    rescue StandardError => e
       attached = false
       puts "Failed to attach work #{wkid} to #{collectionObj.name}: #{e}"
     end
