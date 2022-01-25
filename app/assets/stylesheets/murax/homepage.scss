@@ -20,6 +20,10 @@ div#announcement {
   }
 }
 .image-masthead {
+  .background-container {
+    -webkit-filter: none;
+    filter: none !important;
+  }
   .background-container-gradient {
     background: none !important;
   }
