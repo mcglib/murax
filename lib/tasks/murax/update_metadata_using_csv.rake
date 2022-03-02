@@ -14,9 +14,12 @@ namespace :murax do
     end
     @user_email = args.user_email
     csv_file = args.csv_file
+    
     @nested_ordered_elements = { 'nested_ordered_creator' => 'creator' }
+
     start_time = Time.now
     datetime_today = Time.now.strftime('%Y%m%d%H%M%S')
+
     @logger = ActiveSupport::Logger.new("log/update_metadata_using_csv-#{datetime_today}.log")
     @logger.info "Task started at #{start_time}"
 
@@ -36,57 +39,82 @@ end
 
 def process_csv(filename)
   action = []
-  # Read the csv file
+  # Read the csv file into the works_info array
+  works_info = []
+  headers = nil
 
-  table = CSV.parse(File.read(filename), headers: true)
-  action = table[0]
-  table.each do |row|
-    next if row['id'] == action['id']
-
-    workid = row['id']
-    byebug
-    work = ActiveFedora::Base.find(workid)
-    work.attributes.each do |field, _value|
-      next unless table.headers.include?(field)
-      next if action[field] == 'Info'
-
-      if action[field] == 'Overwrite'
-        overwrite_field(field, row[field], workid)
-      elsif action[field] == 'Appended'
-        append_to_field(field, row[field], workid)
-      else
-        puts "Unrecognized action #{action[field]}"
-      end
-    end
+  CSV.foreach(filename, headers: true, header_converters: :symbol) do |row|
+    headers ||= row.headers
+    works_info << row
   end
+  works_info.each do |row|
+    update_work(row)
+    byebug
+  end
+
+  #table = CSV.parse(File.read(filename), headers: true, :header_converters => :symbol)
+  #action = table[0]
+  # table.each do |row|
+  #   next if row['id'] == action['id']
+
+  #   workid = row['id']
+  #   byebug
+  #   work = ActiveFedora::Base.find(workid)
+  #   work.attributes.each do |field, _value|
+  #     next unless table.headers.include?(field)
+  #     next if action[field] == 'Info'
+
+  #     if action[field] == 'Overwrite'
+  #       overwrite_field(field, row[field], workid)
+  #     elsif action[field] == 'Append'
+  #       append_to_field(field, row[field], workid)
+  #     else
+  #       puts "Unrecognized action #{action[field]}"
+  #     end
+  #   end
+  # end
+end
+
+def update_work(row)
+  success = true
+  byebug
+  work = ActiveFedora::Base.find(row[:id])
+  byebug
+
+  success
 end
 
 def overwrite_field(fieldname, csv_value, work_id)
   @logger.info "Overwrite #{fieldname} for work id #{work_id} with #{csv_value}"
+  puts "Overwrite #{fieldname} for work id #{work_id} with #{csv_value}"
   if csv_value.include? '|'
     @logger.info "skip to multivalue function for #{fieldname}"
     overwrite_field_with_multivalue(fieldname, csv_value, work_id)
   else
     work_object = ActiveFedora::Base.find(work_id)
     if @nested_ordered_elements.has_key?(fieldname)
+      
       # update of nested_ordered_elements is not working
       @logger.info "update a nested ordered element #{fieldname} with #{csv_value}"
+      
       work_object[fieldname].clear
       # we have only one nested_ordered_element to create
       new_field = { index: '0', @nested_ordered_elements[fieldname].to_sym => csv_value }
+
       begin
         work_field = work_object[fieldname]
         work_field.build(new_field)
         work_object.save!
       rescue StandardError => e
         puts "error was #{e.message}"
+        @logger.error "Error was #{e.message}"
       end
     elsif work_object[fieldname].instance_of? String
-      @logger.info 'update a string'
+      @logger.info "update a string for the field #{fieldname}"
       work_object[fieldname] = csv_value
       work_object.save!
     else
-      @logger.info 'update something which is not a string'
+      @logger.info 'update something which is not of type string'
       begin
         # this isn't working either
         new_field = []
