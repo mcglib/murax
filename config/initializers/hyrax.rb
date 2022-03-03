@@ -185,14 +185,11 @@ Hyrax.config do |config|
   # config.audit_user_key = 'audituser@example.com'
   #
   # The banner image. Should be 5000px wide by 1000px tall
-  #config.banner_image = 'https://digitool.library.mcgill.ca/icon/library_en.jpg'
   config.banner_image = Rails.root.join('app','assets', 'images', 'banner-small.jpg')
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately
-  #config.upload_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads') }
   config.upload_path = ->() { Pathname.new ENV['UPLOAD_PATH'] }
-  #config.cache_path = ->() { Rails.root.join('..', '..', 'shared', 'uploads', 'cache') }
   config.cache_path = ->() { Pathname.new ENV['UPLOAD_PATH'] + '/cache' }
 
   # Location on local file system where derivatives will be stored
@@ -200,7 +197,7 @@ Hyrax.config do |config|
   config.derivatives_path = ENV['DERIVATIVES_PATH'] || '/storage/www/derivatives'
 
   # Should schema.org microdata be displayed?
-  # config.display_microdata = true
+  config.display_microdata = true
 
   # What default microdata type should be used if a more appropriate
   # type can not be found in the locale file?
