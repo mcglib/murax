@@ -2252,10 +2252,13 @@ codem-isoboxer@0.3.5:
   resolved "https://registry.yarnpkg.com/codem-isoboxer/-/codem-isoboxer-0.3.5.tgz#71f1cd1267d0e1210331b2c0e7bf99ef05d7717c"
   integrity sha512-F+OY4gCwxe+YnsqOkQTPrnRqoncAUmxqXNdgmuCE3Omvl3WQ9WLvhSJUZ0IGJljoxkdwpCQdPdcdMEPJnOQ1Ow==
 
-coffee-loader@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/coffee-loader/-/coffee-loader-3.0.0.tgz#c81821c10e2e5625aa5c78e8d18c30704f2b8a7e"
-  integrity sha512-2UPQNXfMAt4RmI/K9VxnLyrXdYdHPHQuEFiGcb70pTsVPmrV9M6Xg3p9ub7t1ettZZqvXUujjHozp22uTfLkzg==
+coffee-loader@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/coffee-loader/-/coffee-loader-1.0.1.tgz#f672c4b2ea358e039f702ad590148f7a1dda77f0"
+  integrity sha512-l3lcWeyNE11ZXNYEpkIkerrvBdSpT06/kcR7MyY+0ys38MOuqzhr+s+s7Tsvv2QH1+qEmhvG8mGuUWIO2zH7Bg==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
 
 coffeescript@^1.0.1:
   version "1.12.7"
