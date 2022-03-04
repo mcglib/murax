@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "5.4.3",
     "acorn": "^8.7.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap-table": "^1.15.5",
     "coffee-loader": "1.0.1",
     "coffeescript": "^1.0.1",
