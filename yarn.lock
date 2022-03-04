@@ -2257,10 +2257,10 @@ coffee-loader@^3.0.0:
   resolved "https://registry.yarnpkg.com/coffee-loader/-/coffee-loader-3.0.0.tgz#c81821c10e2e5625aa5c78e8d18c30704f2b8a7e"
   integrity sha512-2UPQNXfMAt4RmI/K9VxnLyrXdYdHPHQuEFiGcb70pTsVPmrV9M6Xg3p9ub7t1ettZZqvXUujjHozp22uTfLkzg==
 
-coffeescript@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-2.6.1.tgz#f9e5d4930e1b8a1c5cfba7f95eebd18694ce58fd"
-  integrity sha512-GG5nkF93qII8HmHqnnibkgpp/SV7PSnSPiWsbinwya7nNOe95aE/x2xrKZJFks8Qpko3TNrC+/LahaKgrz5YCg==
+coffeescript@^1.0.1:
+  version "1.12.7"
+  resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-1.12.7.tgz#e57ee4c4867cf7f606bfc4a0f2d550c0981ddd27"
+  integrity sha512-pLXHFxQMPklVoEekowk8b3erNynC+DVJzChxS/LCBBgR6/8AJkHivkm//zbowcfc7BTCAjryuhx6gPqPRfsFoA==
 
 collection-visit@^1.0.0:
   version "1.0.0"
