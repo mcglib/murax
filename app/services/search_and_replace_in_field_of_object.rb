@@ -1,11 +1,11 @@
+
 class SearchAndReplaceInFieldOfObject
-     @search_val = nil
-     @replace_val = nil
-     @field = nil
-     @object = nil
+  @search_val = nil
+  @replace_val = nil
+  @field = nil
+  @object = nil
 
   def initialize(search,replace,field,object)
-     begin
        raise ArgumentError.new("Missing required search argument.") if search.nil?
        raise ArgumentError.new("Missing required replace argument.") if replace.nil?
        raise ArgumentError.new("Missing required field argument.") if field.nil?
@@ -19,7 +19,7 @@ class SearchAndReplaceInFieldOfObject
      rescue ArgumentError => e
        puts e.message
      end
-  end
+   end
 
   def search_and_replace_in_field_of_object
      if @samvera_object.attribute_names.include? @field_name
