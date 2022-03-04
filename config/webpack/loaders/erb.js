@@ -7,6 +7,5 @@ module.exports = {
           loader: 'rails-erb-loader'
         },
       ]
-    }
   }
 }
