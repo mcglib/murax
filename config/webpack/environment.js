@@ -3,5 +3,5 @@ const erb =  require('./loaders/erb')
 const coffee =  require('./loaders/coffee')
 
 environment.loaders.append('coffee', coffee)
-environment.loaders.append('erb', erb)
+environment.loaders.preprend('erb', erb)
 module.exports = environment
