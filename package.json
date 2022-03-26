@@ -15,7 +15,7 @@
     "kind-of": "^6.0.3",
     "lodash": "^4.17.19",
     "lodash.mergewith": "^4.6.2",
-    "minimist": "^1.2.3",
+    "minimist": "^1.2.6",
     "node-forge": "^0.10.0",
     "node-sass": "^4.13.1",
     "rails-erb-loader": "^5.5.2",
