@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_record'
+require 'active_triple'
 require 'csv'
 
 namespace :murax do
@@ -42,7 +43,7 @@ namespace :murax do
         #log_file.close
     end
     if File.file?(csvfile_path)
-      process_csv(csvfile_path)
+      process_csv(csvfile_path, @logger)
     else
       msg = "Can't find #{csv_file} in #{tmp_dir} directory."
       @logger.warn msg
@@ -53,7 +54,7 @@ namespace :murax do
   end
 end
 
-def process_csv(filename)
+def process_csv(filename, logger)
   # Read the csv file into the works_info array
   works_info = []
   headers = nil

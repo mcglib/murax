@@ -10,6 +10,7 @@ module Murax
 
         def initialize(fieldname, value, pid, work_object)
             @nested_ordered_elements =  { 'nested_ordered_creator' => 'nested_ordered_creator_attributes' }
+             @logger = Logger.new(File.join(Rails.root, 'log', 'update-fields-updates.log'))
             begin
                 raise ArgumentError.new("Missing required argument work_object.") if work_object.nil?
                 raise ArgumentError.new("Updates to the #{@field_name} field are not yet supported") if @field_name == 'creator'
@@ -27,7 +28,7 @@ module Murax
             puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
             # Here we pass to the object service to update a single fieldname
             begin
-                if @nested_ordered_elements.key?(@fieldname)
+                if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
                     status = update_nested_field 
                 elsif @work_object[@fieldname].instance_of? String
                     status = update_basic_field
@@ -52,12 +53,14 @@ module Murax
             byebug
             status = true
             puts "update a nested ordered element #{@fieldname} with value:  #{@csv_value}"
-            @work_object[@fieldname].clear
-            new_field = { index: '0', nested_fieldname.to_sym => @csv_value }
-            
+            indexed_values = []
+            @csv_value.split('|').each_with_index do |v, i|
+                new_field = { "index": i, nested_fieldname.to_sym => v }
+                indexed_values << process_ordered_field(nested_fieldname, new_field)
+            end
             begin
-                work_field = work_object[@fieldname]
-                work_field.build(new_field)
+                @work_object[@fieldname] = nil
+                @work_object.nested_ordered_creator = indexed_values
                 @work_object.save!
             rescue StandardError => e
                 puts "error was #{e.message}"
@@ -66,6 +69,17 @@ module Murax
             end
 
             status
+        end
+
+        def process_ordered_field(field_name, field)
+            new_nested_item = nil
+            case field_name
+            when 'creator'
+                new_nested_item = @work.nested_ordered_creator_build(field)
+            else
+                @logger.error("#{@work.class} #{@work_id} #{field_name]} unable to handle this type of ordered_*, rake task requires work to process these updates.")
+            end
+            new_nested_item
         end
 
         def update_basic_field
