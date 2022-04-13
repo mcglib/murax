@@ -9,7 +9,7 @@ module Murax
         attr_reader :work_object, :pid, :csv_value, :fieldname
 
         def initialize(fieldname, value, pid, work_object)
-            @nested_ordered_elements =  { 'nested_ordered_creator' => 'nested_ordered_creator_attributes' }
+            @nested_ordered_elements =  { 'nested_ordered_creator' => 'nested_ordered_creator' }
              @logger = Logger.new(File.join(Rails.root, 'log', 'update-fields-updates.log'))
             begin
                 raise ArgumentError.new("Missing required argument work_object.") if work_object.nil?
