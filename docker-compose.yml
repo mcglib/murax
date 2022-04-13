@@ -6,8 +6,7 @@ volumes:
   db:
   solr_repo:
   solr_index:
-
-
+  
 networks:
     appnetwork:
       driver: bridge
