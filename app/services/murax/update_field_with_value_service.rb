@@ -77,7 +77,7 @@ module Murax
             when 'creator'
                 new_nested_item = @work.nested_ordered_creator_build(field)
             else
-                @logger.error("#{@work.class} #{@work_id} #{field_name]} unable to handle this type of ordered_*, rake task requires work to process these updates.")
+                @logger.error("#{@work.class} #{@work_id} #{field_name} unable to handle this type of ordered_*, rake task requires work to process these updates.")
             end
             new_nested_item
         end
