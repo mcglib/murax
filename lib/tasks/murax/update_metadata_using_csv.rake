@@ -41,10 +41,6 @@ namespace :murax do
         #csv_file.close
         #log_file.close
     end
-    @nested_ordered_elements = { 'nested_ordered_creator' => 'creator' }
-
-
-
     if File.file?(csvfile_path)
       process_csv(csvfile_path)
     else
@@ -66,53 +62,56 @@ def process_csv(filename)
     headers ||= row.headers
     works_info << row
   end
-  works_info.each do |row|
-    update_work(row) unless row[:id] == 'Info'
+  # headers are giving me the list of fields
+  # [:id, :title, :nested_ordered_creator, :contributor, :department, :faculty, :relation]
+  
+  # the action column
+  actions = works_info[0]
+
+  # remove the 2nd row
+  works_info.shift
+  works_info.each do |myrow|
+    # We fix the row to a format that 
+    # allows us to loop through all the fields in the row
+    puts "Updating row #: #{myrow[:id]}"
+
+    update_work(myrow, myrow[:id], actions.to_h) unless myrow[:id] == 'Info'
   end
-
-  # table = CSV.parse(File.read(filename), headers: true, :header_converters => :symbol)
-  # action = table[0]
-  # table.each do |row|
-  #   next if row['id'] == action['id']
-
-  #   workid = row['id']
-  #   byebug
-  #   work = ActiveFedora::Base.find(workid)
-  #   work.attributes.each do |field, _value|
-  #     next unless table.headers.include?(field)
-  #     next if action[field] == 'Info'
-
-  #     if action[field] == 'Overwrite'
-  #       overwrite_field(field, row[field], workid)
-  #     elsif action[field] == 'Append'
-  #       append_to_field(field, row[field], workid)
-  #     else
-  #       puts "Unrecognized action #{action[field]}"
-  #     end
-  #   end
-  # end
 end
 
-def update_work(row)
+def update_field(row, work_object)
+  success  = true
+
+  case row[:action].downcase
+  when 'overwrite'
+    puts "It's an overwrite for the field #{row[:attribute_field]}"
+    Murax::UpdateFieldWithValueService.new(row[:attribute_field], row[:value], row[:id], work_object).update
+  when 'append'
+    puts "It's an append for the field #{row[:attribute_field]}"
+    Murax::AppendFieldWithValueService.new(row[:attribute_field], row[:value], row[:id], work_object).append
+  else
+    @logger.error "You gave the action #{row[:action]} -- I have no idea what to do with that."
+    success = false
+  end
+
+  success
+end
+
+def update_work(row, id, actions)
   success = true
-
-  work_object = ActiveFedora::Base.find(row[:id])
-  attribute_field = row[:fieldname]
-
-  #work_object.attributes.each do |field|
-    case row[:action].downcase
-    when 'overwrite'
-      puts "It's an overwrite for the field #{attribute_field}"
-      Murax::UpdateFieldWithValueService.new(attribute_field, row[:value], row[:id], work_object).update
-    when 'append'
-      puts "It's an apppend"
-      #append_to_field(attribute_field, row[:value], row[:id], work_object)
-      Murax::AppendFieldWithValueService.new(attribute_field, row[:value], row[:id], work_object).append
-    else
-      @logger.error "You gave the action #{row[:action]} -- I have no idea what to do with that."
-      success = false
-    end
-  #end
+  # convert my csv row to a hash 
+  row_hash = row.to_h
+  # loop through the hash to process each field
+  work_object = ActiveFedora::Base.find(id)
+  row_hash.map do | k,v|
+    field_hash = {
+      id: id,
+      value: v,
+      attribute_field: k,
+      action: actions[k.to_sym]
+    }
+    update_field(field_hash, work_object)
+  end
 
   success
 end

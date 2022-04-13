@@ -9,14 +9,14 @@ module Murax
         attr_reader :work_object, :pid, :csv_value, :fieldname
 
         def initialize(fieldname, value, pid, work_object)
-            @nested_ordered_elements =  { 'nested_ordered_creator' => 'creator_x' }
+            @nested_ordered_elements =  { 'nested_ordered_creator' => 'nested_ordered_creator_attributes' }
             begin
                 raise ArgumentError.new("Missing required argument work_object.") if work_object.nil?
                 raise ArgumentError.new("Updates to the #{@field_name} field are not yet supported") if @field_name == 'creator'
                 @work_object = work_object
                 @work_id = pid
                 @csv_value = value
-                @fieldname = fieldname
+                @fieldname = fieldname.to_s
             rescue ArgumentError, Errno::ENOENT, StandardError => e
                 puts e.message
             end
@@ -49,6 +49,7 @@ module Murax
 
         def update_nested_field
             nested_fieldname = @nested_ordered_elements[@fieldname]
+            byebug
             status = true
             puts "update a nested ordered element #{@fieldname} with value:  #{@csv_value}"
             @work_object[@fieldname].clear
