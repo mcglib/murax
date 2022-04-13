@@ -14,22 +14,38 @@ namespace :murax do
     end
     @user_email = args.user_email
     csv_file = args.csv_file
+
+    begin
+      start_time = Time.now
+      datetime_today = Time.now.strftime('%Y%m%d%H%M%S')
+      @logger = ActiveSupport::Logger.new("log/update_metadata_using_csv-#{datetime_today}.log")
+      @logger.info "Task started at #{start_time}"
+
+      csvfile_path = File.join Rails.root, 'tmp', csv_file
+      tmp_dir = File.join Rails.root, 'tmp'
+      if File.file?(csvfile_path)
+        process_csv(csvfile_path)
+      else
+        msg = "Can't find #{csv_file} in #{tmp_dir} directory."
+        @logger.warn msg
+        puts 'bye'
+        exit
+      end
+      send_notification_email(@user_email) if @user_email.present?
     
-    @nested_ordered_elements = { 'nested_ordered_creator' => 'creator' }
-
-    start_time = Time.now
-    datetime_today = Time.now.strftime('%Y%m%d%H%M%S')
-
-    @logger = ActiveSupport::Logger.new("log/update_metadata_using_csv-#{datetime_today}.log")
-    @logger.info "Task started at #{start_time}"
-
-    csvfile_path = File.join Rails.root, 'tmp', csv_file
-    tmp_dir = File.join Rails.root, 'tmp'
-
+    rescue ArgumentError => e
+    
+    rescue StandardError => e
+    
+    ensure
+        #csv_file.close
+        #log_file.close
+    end
     if File.file?(csvfile_path)
       process_csv(csvfile_path)
     else
-      puts "Can't find #{csv_file} in #{tmp_dir} directory."
+      msg = "Can't find #{csv_file} in #{tmp_dir} directory."
+      @logger.warn msg
       puts 'bye'
       exit
     end
@@ -38,7 +54,6 @@ namespace :murax do
 end
 
 def process_csv(filename)
-  action = []
   # Read the csv file into the works_info array
   works_info = []
   headers = nil
@@ -47,56 +62,76 @@ def process_csv(filename)
     headers ||= row.headers
     works_info << row
   end
-  works_info.each do |row|
-    update_work(row)
-    byebug
+  # headers are giving me the list of fields
+  # [:id, :title, :nested_ordered_creator, :contributor, :department, :faculty, :relation]
+  
+  # the action column
+  actions = works_info[0]
+
+  # remove the 2nd row
+  works_info.shift
+  works_info.each do |myrow|
+    # We fix the row to a format that 
+    # allows us to loop through all the fields in the row
+    puts "Updating row #: #{myrow[:id]}"
+
+    update_work(myrow, myrow[:id], actions.to_h) unless myrow[:id] == 'Info'
   end
-
-  #table = CSV.parse(File.read(filename), headers: true, :header_converters => :symbol)
-  #action = table[0]
-  # table.each do |row|
-  #   next if row['id'] == action['id']
-
-  #   workid = row['id']
-  #   byebug
-  #   work = ActiveFedora::Base.find(workid)
-  #   work.attributes.each do |field, _value|
-  #     next unless table.headers.include?(field)
-  #     next if action[field] == 'Info'
-
-  #     if action[field] == 'Overwrite'
-  #       overwrite_field(field, row[field], workid)
-  #     elsif action[field] == 'Append'
-  #       append_to_field(field, row[field], workid)
-  #     else
-  #       puts "Unrecognized action #{action[field]}"
-  #     end
-  #   end
-  # end
 end
 
-def update_work(row)
-  success = true
-  byebug
-  work = ActiveFedora::Base.find(row[:id])
-  byebug
+def update_field(row, work_object)
+  success  = true
+
+  case row[:action].downcase
+  when 'overwrite'
+    puts "It's an overwrite for the field #{row[:attribute_field]}"
+    Murax::UpdateFieldWithValueService.new(row[:attribute_field], row[:value], row[:id], work_object).update
+  when 'append'
+    puts "It's an append for the field #{row[:attribute_field]}"
+    Murax::AppendFieldWithValueService.new(row[:attribute_field], row[:value], row[:id], work_object).append
+  else
+    @logger.error "You gave the action #{row[:action]} -- I have no idea what to do with that."
+    success = false
+  end
 
   success
 end
 
-def overwrite_field(fieldname, csv_value, work_id)
+def update_work(row, id, actions)
+  success = true
+  # convert my csv row to a hash 
+  row_hash = row.to_h
+  # loop through the hash to process each field
+  work_object = ActiveFedora::Base.find(id)
+  row_hash.map do | k,v|
+    field_hash = {
+      id: id,
+      value: v,
+      attribute_field: k,
+      action: actions[k.to_sym]
+    }
+    update_field(field_hash, work_object)
+  end
+
+  success
+end
+
+def overwrite_field(fieldname, csv_value, work_id, work_object)
+  byebug
   @logger.info "Overwrite #{fieldname} for work id #{work_id} with #{csv_value}"
   puts "Overwrite #{fieldname} for work id #{work_id} with #{csv_value}"
+  # Here we pass to the object service to update a single field
+
   if csv_value.include? '|'
     @logger.info "skip to multivalue function for #{fieldname}"
     overwrite_field_with_multivalue(fieldname, csv_value, work_id)
   else
     work_object = ActiveFedora::Base.find(work_id)
-    if @nested_ordered_elements.has_key?(fieldname)
-      
+    if @nested_ordered_elements.key?(fieldname)
+
       # update of nested_ordered_elements is not working
       @logger.info "update a nested ordered element #{fieldname} with #{csv_value}"
-      
+
       work_object[fieldname].clear
       # we have only one nested_ordered_element to create
       new_field = { index: '0', @nested_ordered_elements[fieldname].to_sym => csv_value }
@@ -134,7 +169,7 @@ def overwrite_field_with_multivalue(fieldname, csv_value, work_id)
   csv_values = csv_value.split '|'
   work_object = ActiveFedora::Base.find(work_id)
   work_object.attributes[fieldname] = nil
-  if @nested_ordered_elements.has_key?(fieldname)
+  if @nested_ordered_elements.key?(fieldname)
     # update of nested_ordered_elements is not working
     csv_values.each_with_index do |v, i|
       work_object.attributes[fieldname] << { index: i.to_s, @nested_ordered_elements[fieldname].to_sym => v }
@@ -158,7 +193,7 @@ def append_to_field(fieldname, csv_value, work_id)
   else
     work_object = ActiveFedora::Base.find(work_id)
     work_value = work_object.attributes[fieldname]
-    if @nested_ordered_elements.has_key?(fieldname)
+    if @nested_ordered_elements.key?(fieldname)
       # update of nested_ordered_elements is not working
       if work_value.entries.count > 1
         @logger.info "work #{work_object['id']} has more than one #{fieldname} field. Cannot append."
