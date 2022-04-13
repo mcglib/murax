@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'active_record'
-require 'active_triple'
 require 'csv'
 
 namespace :murax do
