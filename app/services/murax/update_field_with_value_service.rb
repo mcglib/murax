@@ -28,7 +28,8 @@ module Murax
             puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
             # Here we pass to the object service to update a single fieldname
             begin
-                if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
+                #if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
+                if @nested_ordered_elements.key?(fieldname)
                     status = update_nested_field 
                 elsif @work_object[@fieldname].instance_of? String
                     status = update_basic_field
@@ -72,12 +73,13 @@ module Murax
         end
 
         def process_ordered_field(field_name, field)
+            byebug
             new_nested_item = nil
             case field_name
-            when 'creator'
-                new_nested_item = @work.nested_ordered_creator_build(field)
+            when 'nested_ordered_creator'
+                new_nested_item = @work_object.nested_ordered_creator.build(field)
             else
-                @logger.error("#{@work.class} #{@work_id} #{field_name} unable to handle this type of ordered_*, rake task requires work to process these updates.")
+                @logger.error("#{@work_object.class} #{@work_id} #{field_name} unable to handle this type of ordered_*, rake task requires work to process these updates.")
             end
             new_nested_item
         end
