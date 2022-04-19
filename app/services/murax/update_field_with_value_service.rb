@@ -82,17 +82,6 @@ module Murax
             status
         end
 
-        def process_ordered_field(field_name, field)
-            new_nested_item = nil
-            case field_name
-            when 'nested_ordered_creator'
-                new_nested_item = @work_object.nested_ordered_creator.build(field)
-            else
-                @logger.error("#{@work_object.class} #{@work_id} #{field_name} unable to handle this type of ordered_*, rake task requires work to process these updates.")
-            end
-            new_nested_item
-        end
-
         def update_basic_field
             status = true
             begin

@@ -46,6 +46,7 @@ namespace :murax do
     else
       msg = "Can't find #{csv_file} in #{tmp_dir} directory."
       @logger.warn msg
+      puts msg
       puts 'bye'
       exit
     end
