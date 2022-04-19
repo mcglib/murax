@@ -117,7 +117,6 @@ def update_work(row, id, actions)
 end
 
 def overwrite_field(fieldname, csv_value, work_id, work_object)
-  byebug
   @logger.info "Overwrite #{fieldname} for work id #{work_id} with #{csv_value}"
   puts "Overwrite #{fieldname} for work id #{work_id} with #{csv_value}"
   # Here we pass to the object service to update a single field

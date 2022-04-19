@@ -25,25 +25,26 @@ module Murax
 
         def update
             status = false
-            puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
+            #puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
             # Here we pass to the object service to update a single fieldname
+
             begin
                 #if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
-                if @nested_ordered_elements.key?(fieldname)
-                    status = update_nested_field 
-                elsif @work_object[@fieldname].instance_of? String
-                    status = update_basic_field
-                else
-                    status = updated_multivalued_field
+                unless @csv_value.nil? 
+                    if @nested_ordered_elements.key?(fieldname)
+                        status = update_nested_field 
+                    elsif @work_object[@fieldname].instance_of? String
+                        status = update_basic_field
+                    else
+                        status = updated_multivalued_field
+                    end
+
+                    raise StandardError if !status
                 end
-
-                raise StandardError if !status
-
                 # Return the updated object
             rescue StandardError => e
                 puts "error was #{e.message}"
-                ##@logger.error "Error was #{e.message}"
-
+                @logger.error "Error was #{e.message}"
             end
 
             status
@@ -51,21 +52,30 @@ module Murax
 
         def update_nested_field
             nested_fieldname = @nested_ordered_elements[@fieldname]
-            byebug
             status = true
-            puts "update a nested ordered element #{@fieldname} with value:  #{@csv_value}"
             indexed_values = []
-            @csv_value.split('|').each_with_index do |v, i|
-                new_field = { "index": i, nested_fieldname.to_sym => v }
-                indexed_values << process_ordered_field(nested_fieldname, new_field)
+            @csv_value.split('|').each_with_index do |obj_value, obj_i|
+                new_field = { index: obj_i.to_s, creator: obj_value }
+                #indexed_values << process_ordered_field(nested_fieldname, new_field)
+                indexed_values << new_field
             end
+
             begin
-                @work_object[@fieldname] = nil
-                @work_object.nested_ordered_creator = indexed_values
+                case @fieldname
+                when 'nested_ordered_creator'
+                    @work_object.nested_ordered_creator = nil
+                    @csv_value.split('|').each_with_index do |obj_value, obj_i|
+                        new_field = { index: obj_i.to_s, creator: obj_value }
+                        new_nested_item = @work_object.nested_ordered_creator.build(new_field)
+                        @work_object.nested_ordered_creator <<  new_nested_item
+                    end
+                else
+                    @logger.error("#{@work_object.class} #{@work_id} #{field_name} unable to handle this type of ordered_*, rake task requires work to process these updates.")
+                end
                 @work_object.save!
             rescue StandardError => e
                 puts "error was #{e.message}"
-                #@logger.error "Error was #{e.message}"
+                @logger.error "Error was #{e.message}"
                 status = false
             end
 
@@ -73,7 +83,6 @@ module Murax
         end
 
         def process_ordered_field(field_name, field)
-            byebug
             new_nested_item = nil
             case field_name
             when 'nested_ordered_creator'
@@ -86,7 +95,6 @@ module Murax
 
         def update_basic_field
             status = true
-            puts "update a string for the field #{fieldname}"
             begin
                 @work_object[fieldname] = csv_value
                 @work_object.save!
@@ -102,7 +110,7 @@ module Murax
         
         def updated_multivalued_field
             status = true
-            puts "update a multivalued field #{@fieldname}"
+            #puts "update a multivalued field #{@fieldname}"
             values = setup_values(@csv_value)
             begin
                 @work_object[@fieldname] = values
@@ -120,17 +128,12 @@ module Murax
 
         def setup_values(csv_string)
             values = []
-            if csv_string.include? '|'
-              csv_values = csv_string.split '|' 
-              csv_values.each_with_index do |v, i|
+              @csv_value.split('|').each_with_index do |v, i|
                 values << v
               end
-            else
-                values << csv_string
-            end
-
             values
         end
+
         def update_multiple(fieldname, value, pid, work_object)
             status = true
             byebug
