@@ -59,12 +59,13 @@ module Murax
             indexed_values = []
 
             work_value = @work_object.attributes[@fieldname]
+            first_value = work_value.entries.first.creator
             begin
                 case @fieldname
                 when 'nested_ordered_creator'
                     @work_object.nested_ordered_creator = nil
                     @csv_value.split('|').each_with_index do |obj_value, obj_i|
-                        new_field = { index: obj_i.to_s, creator: obj_value }
+                        new_field = { index: obj_i.to_s, creator: "#{first_value.first}, #{obj_value}" }
                         new_nested_item = @work_object.nested_ordered_creator.build(new_field)
                         @work_object.nested_ordered_creator <<  new_nested_item
                     end
@@ -102,9 +103,8 @@ module Murax
             work_value = @work_object.attributes[@fieldname]
             values = setup_values(@csv_value)
             begin
-                @logger.warning "work #{@pid} has more than one #{@fieldname} field. Cannot append."
+                @logger.error "work #{@pid} has more than one #{@fieldname} field. Cannot append."
                 unless work_value.count > 1
-                    byebug
                     first_value = work_value.entries.first
                     SearchAndReplaceInFieldOfObject.new(first_value, "#{first_value}, #{values.join(',')}", @fieldname, @work_object)
                     status = true
@@ -130,10 +130,6 @@ module Murax
             values
         end
 
-        def append_multiple(fieldname, value, pid, work_object)
-            status = true
-            byebug
-        end
     end
     
 end

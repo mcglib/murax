@@ -39,12 +39,12 @@ module Murax
                         status = updated_multivalued_field
                     end
 
-                    raise StandardError if !status
+                    raise StandardError "Failed to do an overwrite" if !status
                 end
                 # Return the updated object
             rescue StandardError => e
-                puts "error doing an overwrite/update. Error was #{e.message}"
-                @logger.error "error doing an overwrite/update. Error was #{e.message}"
+                puts "Error doing an overwrite/update on the field #{@fieldname}. Error was #{e.message}"
+                @logger.error "Error doing an overwrite/update  on the field #{@fieldname}. Error was #{e.message}"
             end
 
             status
