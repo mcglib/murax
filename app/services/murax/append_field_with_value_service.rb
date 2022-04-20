@@ -24,14 +24,18 @@ module Murax
         end
 
         def append
-            status = false
+            status = true
             #puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
             # Here we pass to the object service to update a single fieldname
+            if csv_value.include? '|'
+                @logger.info "Cannot append multi-valued field (CSV contains: #{csv_value} for work id #{work_id})"
+                status = false
+            end
 
             begin
                 #if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
                 unless @csv_value.nil? 
-                    if @nested_ordered_elements.key?(fieldname)
+                    if @nested_ordered_elements.key?(@fieldname)
                         status = append_nested_field 
                     elsif @work_object[@fieldname].instance_of? String
                         status = append_basic_field
@@ -53,12 +57,8 @@ module Murax
             nested_fieldname = @nested_ordered_elements[@fieldname]
             status = true
             indexed_values = []
-            @csv_value.split('|').each_with_index do |obj_value, obj_i|
-                new_field = { index: obj_i.to_s, creator: obj_value }
-                #indexed_values << process_ordered_field(nested_fieldname, new_field)
-                indexed_values << new_field
-            end
 
+            work_value = @work_object.attributes[@fieldname]
             begin
                 case @fieldname
                 when 'nested_ordered_creator'
@@ -73,8 +73,8 @@ module Murax
                 end
                 @work_object.save!
             rescue StandardError => e
-                puts "error was #{e.message}"
-                @logger.error "Error was #{e.message}"
+                puts "Error appending a nested ordered #{@fieldname}. Error was #{e.message}"
+                @logger.error "Error appending a nested ordered #{@fieldname}. Error was #{e.message}"
                 status = false
             end
 
@@ -84,11 +84,11 @@ module Murax
         def append_basic_field
             status = true
             begin
-                @work_object[fieldname] = csv_value
-                @work_object.save!
+                work_value = @work_object.attributes[@fieldname]
+                SearchAndReplaceInFieldOfObject.new(work_value, "#{work_value} #{@csv_value}", @fieldname, @work_object)
             rescue StandardError => e
-                puts "error was #{e.message}"
-                #@logger.error "Error was #{e.message}"
+                puts "Error appending a single string on the field #{@fieldname}. Error was #{e.message}"
+                @logger.error "Error appending a single string on the field #{@fieldname}. Error was #{e.message}"
                 status = false
             
             end
@@ -97,15 +97,23 @@ module Murax
         end
         
         def append_multivalued_field
-            status = true
+            status = false
             #puts "update a multivalued field #{@fieldname}"
+            work_value = @work_object.attributes[@fieldname]
             values = setup_values(@csv_value)
             begin
-                @work_object[@fieldname] = values
-                @work_object.save!
+                @logger.warning "work #{@pid} has more than one #{@fieldname} field. Cannot append."
+                unless work_value.count > 1
+                    byebug
+                    first_value = work_value.entries.first
+                    SearchAndReplaceInFieldOfObject.new(first_value, "#{first_value}, #{values.join(',')}", @fieldname, @work_object)
+                    status = true
+                end
+                raise StandardError "work #{@pid} has more than one #{@fieldname} field. Cannot append." if work_value.count > 1
+
             rescue StandardError => e
-                puts "error was #{e.message}"
-                ##@logger.error "Error was #{e.message}"
+                puts "Error appending a multivalued field #{@fieldname}. Error  was #{e.message}"
+               @logger.error "Error appending a multivalued field #{@fieldname}. Error  was #{e.message}"
                 status = false
             end
 

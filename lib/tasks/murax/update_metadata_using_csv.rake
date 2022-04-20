@@ -17,7 +17,7 @@ namespace :murax do
 
     begin
       start_time = Time.now
-      datetime_today = Time.now.strftime('%Y%m%d%H%M%S')
+      datetime_today = Time.now.strftime('%Y%m%d-%H%M%S')
       @logger = ActiveSupport::Logger.new("log/update_metadata_using_csv-#{datetime_today}.log")
       @logger.info "Task started at #{start_time}"
 
@@ -28,33 +28,35 @@ namespace :murax do
       else
         msg = "Can't find #{csv_file} in #{tmp_dir} directory."
         @logger.warn msg
-        puts 'bye'
+        puts "bye - #{msg}"
         exit
       end
+      # Send a notification email that the work is done
       send_notification_email(@user_email) if @user_email.present?
     
     rescue ArgumentError => e
-    
+        msg = "Missing an argument #{e}"
+        @logger.warn msg
+        puts "bye - #{msg}"
+        exit
     rescue StandardError => e
-    
+        msg = "A standard error occured. Error was #{e}"
+        @logger.warn msg
+        puts "bye - #{msg}"
+        exit
     ensure
+        end_time = Time.now
+        @logger.info "Task ended at #{end_time}"
+        puts "Log available at : #{@logger}"
         #csv_file.close
         #log_file.close
     end
-    if File.file?(csvfile_path)
-      process_csv(csvfile_path, @logger)
-    else
-      msg = "Can't find #{csv_file} in #{tmp_dir} directory."
-      @logger.warn msg
-      puts msg
-      puts 'bye'
-      exit
-    end
-    send_notification_email(@user_email) if @user_email.present?
+
+
   end
 end
 
-def process_csv(filename, logger)
+def process_csv(filename)
   # Read the csv file into the works_info array
   works_info = []
   headers = nil
@@ -74,10 +76,11 @@ def process_csv(filename, logger)
   works_info.each do |myrow|
     # We fix the row to a format that 
     # allows us to loop through all the fields in the row
-    puts "Updating row #: #{myrow[:id]}"
-
+    @logger.info "\n\nUpdating work id #: #{myrow[:id]}"
     update_work(myrow, myrow[:id], actions.to_h) unless myrow[:id] == 'Info'
   end
+  @logger.info "Processed #{works_info.count} work ids"
+
 end
 
 def update_field(row, work_object)
@@ -85,10 +88,10 @@ def update_field(row, work_object)
 
   case row[:action].downcase
   when 'overwrite'
-    puts "It's an overwrite for the field #{row[:attribute_field]}"
+    @logger.info "Overwrite field #{row[:attribute_field]} for work id #{row[:id]} with #{row[:value]}"
     Murax::UpdateFieldWithValueService.new(row[:attribute_field], row[:value], row[:id], work_object).update
-  when 'append'
-    puts "It's an append for the field #{row[:attribute_field]}"
+  when 'appended'
+    @logger.info "Append to field #{row[:attribute_field]} for work id #{row[:id]} with #{row[:value]}"
     Murax::AppendFieldWithValueService.new(row[:attribute_field], row[:value], row[:id], work_object).append
   else
     @logger.error "You gave the action #{row[:action]} -- I have no idea what to do with that."
@@ -164,26 +167,6 @@ def overwrite_field(fieldname, csv_value, work_id, work_object)
   end
 end
 
-def overwrite_field_with_multivalue(fieldname, csv_value, work_id)
-  @logger.info "overwrite #{fieldname} with multivalue in #{work_id} with #{csv_value}"
-  csv_values = csv_value.split '|'
-  work_object = ActiveFedora::Base.find(work_id)
-  work_object.attributes[fieldname] = nil
-  if @nested_ordered_elements.key?(fieldname)
-    # update of nested_ordered_elements is not working
-    csv_values.each_with_index do |v, i|
-      work_object.attributes[fieldname] << { index: i.to_s, @nested_ordered_elements[fieldname].to_sym => v }
-    end
-  else
-    # this is not working either
-    work_object[fieldname].clear
-    csv_values.each do |v|
-      work_object[fieldname] << v
-      work_object.save!
-    end
-  end
-  work_object.save!
-end
 
 def append_to_field(fieldname, csv_value, work_id)
   # currently trying to append to multivalued fields will throw an error.  Should this be revised?

@@ -24,14 +24,14 @@ module Murax
         end
 
         def update
-            status = false
+            status = true
             #puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
             # Here we pass to the object service to update a single fieldname
 
             begin
                 #if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
                 unless @csv_value.nil? 
-                    if @nested_ordered_elements.key?(fieldname)
+                    if @nested_ordered_elements.key?(@fieldname)
                         status = update_nested_field 
                     elsif @work_object[@fieldname].instance_of? String
                         status = update_basic_field
@@ -43,8 +43,8 @@ module Murax
                 end
                 # Return the updated object
             rescue StandardError => e
-                puts "error was #{e.message}"
-                @logger.error "Error was #{e.message}"
+                puts "error doing an overwrite/update. Error was #{e.message}"
+                @logger.error "error doing an overwrite/update. Error was #{e.message}"
             end
 
             status
@@ -54,11 +54,6 @@ module Murax
             nested_fieldname = @nested_ordered_elements[@fieldname]
             status = true
             indexed_values = []
-            @csv_value.split('|').each_with_index do |obj_value, obj_i|
-                new_field = { index: obj_i.to_s, creator: obj_value }
-                #indexed_values << process_ordered_field(nested_fieldname, new_field)
-                indexed_values << new_field
-            end
 
             begin
                 case @fieldname
@@ -74,8 +69,8 @@ module Murax
                 end
                 @work_object.save!
             rescue StandardError => e
-                puts "error was #{e.message}"
-                @logger.error "Error was #{e.message}"
+                puts "Error overwriting the nested ordered field #{@fieldname}. Error was #{e.message}"
+                @logger.error "error overwriting the nested ordered field #{@fieldname}. Error was #{e.message}"
                 status = false
             end
 
@@ -85,11 +80,11 @@ module Murax
         def update_basic_field
             status = true
             begin
-                @work_object[fieldname] = csv_value
+                @work_object[@fieldname] = csv_value
                 @work_object.save!
             rescue StandardError => e
-                puts "error was #{e.message}"
-                #@logger.error "Error was #{e.message}"
+                puts "Error occured overwriting a simple basic field #{@fieldname}. Error was #{e.message}"
+                @logger.error "Error occured overwriting a simple basic field #{@fieldname}. Error was #{e.message}"
                 status = false
             
             end
@@ -105,8 +100,8 @@ module Murax
                 @work_object[@fieldname] = values
                 @work_object.save!
             rescue StandardError => e
-                puts "error was #{e.message}"
-                ##@logger.error "Error was #{e.message}"
+                puts "Error occured updating multivalued field #{@fieldname}.Error was #{e.message}"
+                @logger.error "Error occured updating multivalued field #{@fieldname}.Error was #{e.message}"
                 status = false
             end
 
@@ -123,10 +118,6 @@ module Murax
             values
         end
 
-        def update_multiple(fieldname, value, pid, work_object)
-            status = true
-            byebug
-        end
     end
     
 end
