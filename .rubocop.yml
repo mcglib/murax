@@ -296,10 +296,6 @@ Performance/DeletePrefix:
 Performance/DeleteSuffix:
   Enabled: true
 
-Minitest/UnreachableAssertion:
-  Enabled: true
-  Gemspec/DateAssignment: # (new in 1.10)
-  Enabled: true
 Lint/NumberedParameterAssignment: # (new in 1.9)
   Enabled: true
 Lint/OrAssignmentToConstant: # (new in 1.9)

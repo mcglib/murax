@@ -3,91 +3,136 @@ require 'active_record'
 require 'csv'
 
 module Murax
-    class AppendFieldWithValueService 
-        def self.append(fieldname,value, pid, work_object)
-            byebug
-            status = false
-            @nested_ordered_elements = { 'nested_ordered_creator' => 'creator' }
-            puts "Overwrite #{fieldname} for work id #{work_id} with #{value}"
-            # Here we pass to the object service to update a single fieldname
+    class AppendFieldWithValueService
+        @logger = nil
+        @nested_ordered_elements = []
+        attr_reader :work_object, :pid, :csv_value, :fieldname
+
+        def initialize(fieldname, value, pid, work_object)
+            @nested_ordered_elements =  { 'nested_ordered_creator' => 'nested_ordered_creator' }
+            @logger = Logger.new(File.join(Rails.root, 'log', 'append-fields-values.log'))
             begin
-                if @nested_ordered_elements.key?(fieldname)
-                    updated_object = update_nested_field(fieldname, value, work_object)
-                elsif work_object[fieldname].instance_of? String
-                    updated_object = update_basic_field(fieldname, value, work_object)
-                else
-                    updated_object = updated_generic_field(fieldname, value, work_object)
+                raise ArgumentError.new("Missing required argument work_object.") if work_object.nil?
+                raise ArgumentError.new("Updates to the #{@field_name} field are not yet supported") if @field_name == 'creator'
+                @work_object = work_object
+                @work_id = pid
+                @csv_value = value
+                @fieldname = fieldname.to_s
+            rescue ArgumentError, Errno::ENOENT, StandardError => e
+                puts e.message
+            end
+        end
+
+        def append
+            status = true
+            #puts "Overwrite #{@fieldname} for work id #{@work_id} with #{@csv_value}"
+            # Here we pass to the object service to update a single fieldname
+            if csv_value.include? '|'
+                @logger.info "Cannot append multi-valued field (CSV contains: #{csv_value} for work id #{work_id})"
+                status = false
+            end
+
+            begin
+                #if @work_object[@fieldname].is_a?(ActiveTriples::Relation)
+                unless @csv_value.nil? 
+                    if @nested_ordered_elements.key?(@fieldname)
+                        status = append_nested_field 
+                    elsif @work_object[@fieldname].instance_of? String
+                        status = append_basic_field
+                    else
+                        status = append_multivalued_field
+                    end
+
+                    raise StandardError if !status
                 end
-
-                raise StandardError if !updated_object
-
                 # Return the updated object
-                updated_object
-
             rescue StandardError => e
                 puts "error was #{e.message}"
                 @logger.error "Error was #{e.message}"
-
             end
+
+            status
+        end
+        def append_nested_field
+            nested_fieldname = @nested_ordered_elements[@fieldname]
+            status = true
+            indexed_values = []
+
+            work_value = @work_object.attributes[@fieldname]
+            begin
+                case @fieldname
+                when 'nested_ordered_creator'
+                    @work_object.nested_ordered_creator = nil
+                    @csv_value.split('|').each_with_index do |obj_value, obj_i|
+                        new_field = { index: obj_i.to_s, creator: obj_value }
+                        new_nested_item = @work_object.nested_ordered_creator.build(new_field)
+                        @work_object.nested_ordered_creator <<  new_nested_item
+                    end
+                else
+                    @logger.error("#{@work_object.class} #{@work_id} #{field_name} unable to handle this type of ordered_*, rake task requires work to process these updates.")
+                end
+                @work_object.save!
+            rescue StandardError => e
+                puts "Error appending a nested ordered #{@fieldname}. Error was #{e.message}"
+                @logger.error "Error appending a nested ordered #{@fieldname}. Error was #{e.message}"
+                status = false
+            end
+
+            status
+        end
+
+        def append_basic_field
+            status = true
+            begin
+                work_value = @work_object.attributes[@fieldname]
+                SearchAndReplaceInFieldOfObject.new(work_value, "#{work_value} #{@csv_value}", @fieldname, @work_object)
+            rescue StandardError => e
+                puts "Error appending a single string on the field #{@fieldname}. Error was #{e.message}"
+                @logger.error "Error appending a single string on the field #{@fieldname}. Error was #{e.message}"
+                status = false
+            
+            end
+
+            status
+        end
+        
+        def append_multivalued_field
+            status = false
+            #puts "update a multivalued field #{@fieldname}"
+            work_value = @work_object.attributes[@fieldname]
+            values = setup_values(@csv_value)
+            begin
+                @logger.warning "work #{@pid} has more than one #{@fieldname} field. Cannot append."
+                unless work_value.count > 1
+                    byebug
+                    first_value = work_value.entries.first
+                    SearchAndReplaceInFieldOfObject.new(first_value, "#{first_value}, #{values.join(',')}", @fieldname, @work_object)
+                    status = true
+                end
+                raise StandardError "work #{@pid} has more than one #{@fieldname} field. Cannot append." if work_value.count > 1
+
+            rescue StandardError => e
+                puts "Error appending a multivalued field #{@fieldname}. Error  was #{e.message}"
+               @logger.error "Error appending a multivalued field #{@fieldname}. Error  was #{e.message}"
+                status = false
+            end
+
+            status
         end
 
         private
 
-        def self.update_nested_field(fieldname, csv_value, work_object)
-            nested_fieldname = @nested_ordered_elements[fieldname]
-            status = true
-            @logger.info "update a nested ordered element #{fieldname} with #{csv_value}"
-            work_object[fieldname].clear
-            new_field = { index: '0', nested_fieldname.to_sym => csv_value }
-            
-            begin
-                work_field = work_object[fieldname]
-                work_field.build(new_field)
-                work_object.save!
-            rescue StandardError => e
-                puts "error was #{e.message}"
-                @logger.error "Error was #{e.message}"
-                status = false
-            end
-
-            [status, work_object]
+        def setup_values(csv_string)
+            values = []
+              @csv_value.split('|').each_with_index do |v, i|
+                values << v
+              end
+            values
         end
 
-        def self.update_basic_field(fieldname, csv_value, work_object)
+        def append_multiple(fieldname, value, pid, work_object)
             status = true
-            @logger.info "update a string for the field #{fieldname}"
-            begin
-                work_object[fieldname] = csv_value
-                work_object.save!
-            rescue StandardError => e
-                puts "error was #{e.message}"
-                @logger.error "Error was #{e.message}"
-                status = false
-            
-            end
-
-            [status, work_object]
-        end
-        
-        def self.updated_generic_field(fieldname, csv_value, work_object)
-            status = true
-            @logger.info "update a generic field #{fieldname}"
-            begin
-                work_object[fieldname] = csv_value
-                work_object.save!
-            rescue StandardError => e
-                puts "error was #{e.message}"
-                @logger.error "Error was #{e.message}"
-                status = false
-            end
-
-            [status, work_object]
-        end
-
-        def self.update_multiple(fieldname, value, pid, work_object)
-                        status = true
             byebug
-
         end
     end
     
