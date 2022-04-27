@@ -20,6 +20,7 @@ module Murax
                 @fieldname = fieldname.to_s
             rescue ArgumentError, Errno::ENOENT, StandardError => e
                 puts e.message
+                @logger.error "Cannot append #{work_id}): #{e.message}"
             end
         end
 
