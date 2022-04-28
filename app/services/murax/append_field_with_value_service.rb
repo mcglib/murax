@@ -75,8 +75,8 @@ module Murax
                 end
                 @work_object.save!
             rescue StandardError => e
-                puts "Error appending a nested ordered #{@fieldname}. Error was #{e.message}"
-                @logger.error "Error appending a nested ordered #{@fieldname}. Error was #{e.message}"
+                puts "Error appending a nested ordered #{@fieldname} on the workid #{@work_id}. Error was #{e.message}"
+                @logger.error "Error appending a nested ordered #{@fieldname} on the workid #{@work_id}. Error was #{e.message}"
                 status = false
             end
 
@@ -113,8 +113,8 @@ module Murax
                 raise StandardError "work #{@pid} has more than one #{@fieldname} field. Cannot append." if work_value.count > 1
 
             rescue StandardError => e
-                puts "Error appending a multivalued field #{@fieldname}. Error  was #{e.message}"
-               @logger.error "Error appending a multivalued field #{@fieldname}. Error  was #{e.message}"
+                puts "Error appending a multivalued field #{@fieldname} on workid #{@work_id}. Error  was #{e.message}"
+               @logger.error "Error appending a multivalued field #{@fieldname} on workid #{@work_id}. Error  was #{e.message}"
                 status = false
             end
 
