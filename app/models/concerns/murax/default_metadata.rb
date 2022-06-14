@@ -15,6 +15,9 @@ module Murax
               index.as :stored_searchable
       end
 
+      property :access_right, predicate: ::RDF::Vocab::DC.accessRights
+      property :rights_notes, predicate: ::RDF::URI.new('http://purl.org/dc/elements/1.1/rights'), multiple: true
+
       property :creator_x,      predicate: RDF::Vocab::DC.creator, multiple: true do | index |
               index.as :stored_searchable, :facetable
       end

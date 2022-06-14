@@ -9,7 +9,7 @@ end
 gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.3'
+gem 'rails', '~> 5.2.8'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use postgresql on the sandbox
@@ -112,7 +112,7 @@ gem 'sshkit-sudo'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #gem 'hyrax', github: 'samvera/hyrax'
 
-gem 'hyrax', '2.9.6'
+gem 'hyrax', '3.1.0'
 gem 'hydra-editor'
 gem 'hydra-role-management'
 gem "rdf-vocab"

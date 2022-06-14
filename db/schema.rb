@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_18_131324) do
+ActiveRecord::Schema.define(version: 2022_06_03_195651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -342,9 +342,9 @@ ActiveRecord::Schema.define(version: 2019_09_18_131324) do
   end
 
   create_table "single_use_links", id: :serial, force: :cascade do |t|
-    t.string "downloadKey"
+    t.string "download_key"
     t.string "path"
-    t.string "itemId"
+    t.string "item_id"
     t.datetime "expires"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -382,7 +382,7 @@ ActiveRecord::Schema.define(version: 2019_09_18_131324) do
 
   create_table "sipity_entity_specific_responsibilities", id: :serial, force: :cascade do |t|
     t.integer "workflow_role_id", null: false
-    t.string "entity_id", null: false
+    t.integer "entity_id", null: false
     t.integer "agent_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
