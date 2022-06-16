@@ -2,7 +2,7 @@
 
 <% if @presenter.display_share_button? %>
   <div class="home_share_work row">
-    <div class="col-sm-12 text-center">
+    <div class="col-sm-12 text-center" style="margin-bottom: 10px;">
       <% if signed_in? %>
         <% if @presenter.create_many_work_types? %>
           <%= link_to '#',
