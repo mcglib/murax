@@ -8,7 +8,7 @@ ENV BUNDLE_PATH /vendor/bundle
 ENV BUNDLER_CACHE_PATH /vendor/cache
 ENV BUNDLE_VERSION 2.1.4
 ENV LANG=en_CA.UTF-8
-ENV RUBY_VERSION 2.6.8
+ENV RUBY_VERSION 2.6.10
 ENV PATH /usr/local/rbenv/bin:$PATH
 ENV RBENV_ROOT /usr/local/rbenv
 ENV CONFIGURE_OPTS --disable-install-doc
@@ -16,7 +16,7 @@ ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
 ENV FITS_VERSION 1.0.5
 ENV FITS_HOME /opt/$FITS_VERSION/install
-ENV RUBY_VERSION 2.6.8
+ENV RUBY_VERSION 2.6.10
 
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
@@ -66,9 +66,9 @@ ENV RBENV_ROOT /usr/local/rbenv
 ENV CONFIGURE_OPTS --disable-install-doc
 ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
-RUN git clone git://github.com/rbenv/rbenv.git /usr/local/rbenv \
- && git clone git://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
- && git clone git://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
+RUN git clone https://github.com/rbenv/rbenv.git /usr/local/rbenv \
+ && git clone https://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
+ && git clone https://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
  && /usr/local/rbenv/plugins/ruby-build/install.sh \
  && echo 'export RBENV_ROOT=/usr/local/rbenv' >> /etc/profile.d/rbenv.sh \
  && echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /etc/profile.d/rbenv.sh \
