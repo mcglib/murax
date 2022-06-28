@@ -144,3 +144,4 @@ gem "blacklight_advanced_search"
 gem "sitemap_generator"
 
 gem "nokogiri", ">= 1.12.3"
+gem 'logger', '~> 1.5', '>= 1.5.1'
