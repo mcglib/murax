@@ -8,8 +8,12 @@ set :rbenv_type, :user
 
 set :application, "murax"
 
-set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
-set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+#set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+#set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
+
+set :repo_url, ENV['REPO_URL'] || "git@gitlab.ncs.mcgill.ca:lts/adir/murax.git"
+set :repository, ENV['REPO_URL'] || "git@gitlab.ncs.mcgill.ca:lts/adir/murax.git"
+
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/storage/www/murax'
 set :rails_env, fetch(:stage).to_s

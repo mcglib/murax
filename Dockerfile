@@ -8,7 +8,6 @@ ENV BUNDLE_PATH /vendor/bundle
 ENV BUNDLER_CACHE_PATH /vendor/cache
 ENV BUNDLE_VERSION 2.1.4
 ENV LANG=en_CA.UTF-8
-ENV RUBY_VERSION 2.6.10
 ENV PATH /usr/local/rbenv/bin:$PATH
 ENV RBENV_ROOT /usr/local/rbenv
 ENV CONFIGURE_OPTS --disable-install-doc

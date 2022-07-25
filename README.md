@@ -2,7 +2,7 @@
 
 #### Hyrax based system underlying the escholarship@McGill repository
 Hyrax Version
-v2.8.0
+v2.8.1
 [changelog](https://github.com/samvera/hyrax/releases/tag/v2.8.0)
 
 * Currently using Hyrax version [2.8.0](https://github.com/samvera/hyrax)

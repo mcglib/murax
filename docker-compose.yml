@@ -83,7 +83,7 @@ services:
         aliases:
             - fcrepo.docker.local
   murax:
-    image: registry.it.mcgill.ca/lts/murax/hyrax:latest
+    image: registry.it.mcgill.ca/lts/murax:latest
     container_name: murax
     stdin_open: true
     volumes:
