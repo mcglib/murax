@@ -1,15 +1,12 @@
 # config valid only for current version of Capistrano
 lock "3.9.0"
 
-set :rbenv_ruby, '2.6.8'
+set :rbenv_ruby, '2.6.10'
 set :rbenv_type, :user
 
 # Set our own instance of sidekiq.
 
 set :application, "murax"
-
-#set :repo_url, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
-#set :repository, ENV['REPO_URL'] || "ssh://git@scm.library.mcgill.ca:7999/adir/murax.git"
 
 set :repo_url, ENV['REPO_URL'] || "git@gitlab.ncs.mcgill.ca:lts/adir/murax.git"
 set :repository, ENV['REPO_URL'] || "git@gitlab.ncs.mcgill.ca:lts/adir/murax.git"
