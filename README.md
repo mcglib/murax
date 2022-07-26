@@ -3,9 +3,9 @@
 #### Hyrax based system underlying the escholarship@McGill repository
 Hyrax Version
 v2.8.1
-[changelog](https://github.com/samvera/hyrax/releases/tag/v2.8.0)
+[changelog](https://github.com/samvera/hyrax/releases/tag/v2.8.1)
 
-* Currently using Hyrax version [2.8.0](https://github.com/samvera/hyrax)
+* Currently using Hyrax version [2.8.1](https://github.com/samvera/hyrax)
 * Currently in production
 * Hosts publications, scholarly works, and theses of McGill University faculty members, researchers, and students.
 

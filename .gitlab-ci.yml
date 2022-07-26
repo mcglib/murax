@@ -1,4 +1,4 @@
-image: registry.it.mcgill.ca/lts/murax/hyrax:latest
+image: registry.it.mcgill.ca/lts/murax:latest
 #image: ruby:2.5
 services:
     - redis:latest
