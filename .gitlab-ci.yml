@@ -95,3 +95,31 @@ lint:ruby:
     - syntax-ruby --text --size --extension=rb --path=app/ >> public/syntax-errors.txt
     - syntax-ruby --text --size --extension=rb --path=config/ >> public/syntax-errors.txt
     - syntax-ruby --text --size --extension=rb --path=lib/ >> public/syntax-errors.txt
+
+build:rubocop:
+  extends: .base
+  allow_failure: true
+  stage: build
+  cache:
+    policy: pull-push
+  only:
+    - master
+    - develop
+  artifacts:
+    name: "$CI_JOB_NAME"
+    when: on_failure
+    expire_in: 1 week
+    paths:
+      - public/rubocop-results.txt
+  script:
+    - gem install rubocop-performance --no-document
+    - rubocop >> public/rubocop-results.txt
+
+test:bundle_audit:
+  extends: .base
+  allow_failure: true
+  stage: test
+  only:
+    - master
+  script:
+    - bundle exec bundle audit check --update
