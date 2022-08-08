@@ -1,124 +1,53 @@
-image: registry.it.mcgill.ca/lts/murax/hyrax:latest
-#image: ruby:2.5
-services:
-    - redis:latest
-    - postgres:latest
-
-variables:
-  # make sure that your .gitmodules file is configured to use relative paths!
-  GIT_SUBMODULE_STRATEGY: recursive
-  POSTGRES_DB: ruby-getting-started_test
-  BUNDLE_PATH: /storage/www/murax/shared
-  DISABLE_SPRING: 1
-  DB_HOST: postgres
-  BUNDLE_VERSION: 2.1.4
-
-# Cache gems in between builds
-cache:
-  paths:
-    - vendor/
-    - node_modules
-    - log
-    - /storage/www/murax/shared
-
-before_script:
-  # Run the ssh-agent
-  - eval $(ssh-agent -s)
-  - printenv
-  - ruby -v
-  - which ruby
-  - ls -la $(pwd)
-  - gem install bundler -v $BUNDLE_VERSION -f --no-document
-  - bundle check || bundle install --path $BUNDLE_PATH --jobs $(nproc)  "${FLAGS[@]}"
-  #- apt  remove cmdtest -y
-  #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  #- echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  #- apt update
-  #- apt -qq install yarn
-  #- yarn
-  #- bundle check || bundle install --jobs $(nproc) --path vendor
-  #- cp config/database.yml.ci config/database.yml
-  #- bundle exec rails db:create RAILS_ENV=development
-  #- bundle exec rails db:schema:load RAILS_ENV=development
-  #- bundle exec webpack
-
+#image: registry.it.mcgill.ca/lts/murax/hyrax:latest
 stages:
-  - lint
+  - build
   - test
-  - deploy_dev
-  - deploy_qa
-  - deploy_prod
-  - cleanup
+  - report
+  - deploy
 
-rspec:
-  stage: test
-  script:
-    - bundle exec rspec
-  tags:
-    - azure
+.base_minimal:
+  image: alpine:latest
+  cache: {}
 
-rubocop:
-  stage: test
+.base:
+  image: ruby:2.6.8
+  cache:
+    key: gems_and_packages
+    paths:
+      - apt-cache/
+      - vendor/ruby
+  before_script:
+    - gem install bundler --no-document
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+
+.base_db:
+  extends: .base
+  services:
+    - postgres:latest
+  variables:
+    POSTGRES_DB: murax_gitlab
+    POSTGRES_USER: murax
+    POSTGRES_PASSWORD: ""
+    RAILS_ENV: gitlab
+  before_script:
+    - export APT_CACHE_DIR=`pwd`/apt-cache && mkdir -pv $APT_CACHE_DIR
+    - apt-get update -qq && apt-get -o dir::cache::archives="$APT_CACHE_DIR" install -yqq nodejs
+    - gem install bundler --no-document
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - bundle exec rake db:setup
+
+build:rubocop:
+  extends: .base
+  stage: build
   script:
     - bundle exec rubocop
   tags:
     - azure
 
-pronto:
-  stage: lint
-  allow_failure: true
-  except:
-    - master
+build:assets_precompile:
+  extends: .base_db
+  stage: build
   script:
-    - bundle exec pronto run -c origin/master --exit-code
-  tags:
-    - azure
-
-lint:
-  variables:
-    PRONTO_GITLAB_API_ENDPOINT: "https://gitlab.ncs.mcgill.ca/api/v4"
-    PRONTO_GITLAB_API_PRIVATE_TOKEN: token
-  only:
-    - merge_requests
-  script:
-    - git fetch
-    - bundle exec pronto run -f gitlab_mr -c origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-  tags:
-    - azure
-
-develop_deploy:
-  stage: deploy_dev
-  script:
-    - bundle exec cap development deploy
-  only:
-    - develop
-  tags:
-    - azure
-
-staging_deploy:
-  stage: deploy_qa
-  script:
-    - bundle exec cap staging deploy
-  only:
-    - master
-  tags:
-    - azure
-
-production_deploy:
-  stage: deploy_qa
-  script:
-    - bundle exec cap production deploy
-  only:
-    - master
-  when: manual
-  tags:
-    - azure
-
-cleanup:
-  stage: cleanup
-  script:
-    - rm -rf .vault-password
-    - rm -rf /root/.ssh
-  when: always
+    - bundle exec rake assets:precompile
   tags:
     - azure
