@@ -14,7 +14,7 @@ module Murax
       # get the user
       depositor = User.find(user)
       # Create the batch
-      batch = Batch.new({:no => pids.count, :name => name, :started => Time.now,
+      batch = Batch.new({:name => name, :started => Time.now,
                          :finished => Time.now, user: depositor, no: pids.count})
       batch.save!
       #flash[:message] = "You did it! A job with job id has been queued. You will receive a notification once the job is complete"
