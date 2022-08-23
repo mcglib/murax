@@ -1,5 +1,5 @@
-image: registry.it.mcgill.ca/lts/murax:latest
-#image: ruby:2.5
+#image: registry.it.mcgill.ca/lts/murax:latest
+image: ruby:2.6.10
 services:
     - redis:latest
     - postgres:latest
@@ -12,6 +12,7 @@ variables:
   DISABLE_SPRING: 1
   DB_HOST: postgres
   BUNDLE_VERSION: 2.1.4
+  RAILS_ENV: test
 
 # Cache gems in between builds
 cache:
@@ -44,75 +45,130 @@ before_script:
 
 stages:
   - lint
+  - build
+  - rubocop
   - test
+  - report
   - development
   - staging
   - production
   - cleanup
 
-rspec:
-  stage: test
-  script:
-    - bundle exec rspec
-  tags:
-    - azure
+.base:
+  stage: build
+  cache:
+    key:
+      files:
+        - Gemfile.lock
+    paths:
+      - vendor/bundle
+      - node_modules/
+    policy: pull
+  before_script:
+    - ruby -v # Print out ruby version for debugging
+    - gem install bundler rubocop rubocop-rails rubocop-performance --no-document
+      #- bundle config set path vendor/bundle
+      #- bundle install --jobs $(nproc) "${FLAGS[@]}"
+.base_deploy:
+  variables:
+    RAILS_ENV: production
+  before_script:
+    - export USER="$GITLAB_USER_LOGIN via gitlab"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )"
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - git config --global user.email "mutugi.gathuri@mcgill.ca"
+    - git config --global user.name "Mutugi Gathuri"
+    - gem install capistrano bundler capistrano-bundler capistrano-sidekiq capistrano-npm capistrano-locally capistrano3-puma capistrano-rails capistrano-ssh-doctor capistrano-rvm capistrano-safe-deploy-to --no-document
+    #- bundle install
 
-rubocop:
-  stage: test
-  script:
-    - bundle exec rubocop
-  tags:
-    - azure
+.base_minimal:
+  image: alpine:latest
+  cache: {}
 
-pronto:
+.base_lint:
+  image:
+    name: cytopia/awesome-ci
+
+
+lint:yaml:
   stage: lint
   allow_failure: true
-  except:
+  image:
+    name: cytopia/yamllint
+    entrypoint: ["/bin/ash", "-c"]
+  artifacts:
+    name: "$CI_JOB_NAME"
+    when: on_failure
+    expire_in: 1 days
+    paths:
+      - public/yamllint.txt
+  script:
+    - yamllint config/ >> public/yamllint.txt
+
+lint:ruby:
+  extends: .base_lint
+  stage: lint
+  artifacts:
+    name: "$CI_JOB_NAME"
+    when: on_failure
+    expire_in: 1 days
+    paths:
+      - public/syntax-errors.txt
+  script:
+    - file-crlf --path=app/
+    - syntax-ruby --text --size --extension=rb --path=app/ >> public/syntax-errors.txt
+    - syntax-ruby --text --size --extension=rb --path=config/ >> public/syntax-errors.txt
+    - syntax-ruby --text --size --extension=rb --path=lib/ >> public/syntax-errors.txt
+
+build:rubocop:
+  extends: .base
+  allow_failure: true
+  stage: build
+  cache:
+    policy: pull-push
+  only:
+    - master
+    - develop
+  artifacts:
+    name: "$CI_JOB_NAME"
+    when: on_failure
+    expire_in: 1 week
+    paths:
+      - public/rubocop-results.txt
+  script:
+    - gem install rubocop-performance --no-document
+    - rubocop >> public/rubocop-results.txt
+
+test:bundle_audit:
+  extends: .base
+  allow_failure: true
+  stage: test
+  only:
     - master
   script:
-    - bundle exec pronto run -c origin/master --exit-code
-  tags:
-    - azure
+    - bundle exec bundle audit check --update
 
-lint:
-  variables:
-    PRONTO_GITLAB_API_ENDPOINT: "https://gitlab.ncs.mcgill.ca/api/v4"
-    PRONTO_GITLAB_API_PRIVATE_TOKEN: token
-  only:
-    - merge_requests
-  script:
-    - git fetch
-    - bundle exec pronto run -f gitlab_mr -c origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-  tags:
-    - azure
 
 develop_deploy:
+  extends: .base_deploy
   stage: development
+  cache:
+    policy: pull-push
   script:
     - bundle exec cap development deploy
   only:
     - develop
   tags:
     - azure
-
-staging_deploy:
-  stage: staging
-  script:
-    - bundle exec cap staging deploy
-  only:
-    - master
-  tags:
-    - azure
-
-production_deploy:
-  stage: production
-  script:
-    - bundle exec cap production deploy
-  only:
-    - master
-  when: manual
-  tags:
-    - azure
+  artifacts:
+    name: "$CI_JOB_NAME-capistrano-log"
+    when: on_failure
+    expire_in: 1 week
+    paths:
+      - log/capistrano.log
 
 cleanup:
   stage: cleanup
