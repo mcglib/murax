@@ -105,7 +105,7 @@ staging_deploy:
     - azure
 
 production_deploy:
-  stage: deploy_qa
+  stage: deploy_prod
   script:
     - bundle exec cap production deploy
   only:
