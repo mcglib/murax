@@ -45,9 +45,9 @@ before_script:
 stages:
   - lint
   - test
-  - deploy_dev
-  - deploy_qa
-  - deploy_prod
+  - development
+  - staging
+  - production
   - cleanup
 
 rspec:
@@ -87,7 +87,7 @@ lint:
     - azure
 
 develop_deploy:
-  stage: deploy_dev
+  stage: development
   script:
     - bundle exec cap development deploy
   only:
@@ -96,7 +96,7 @@ develop_deploy:
     - azure
 
 staging_deploy:
-  stage: deploy_qa
+  stage: staging
   script:
     - bundle exec cap staging deploy
   only:
@@ -105,7 +105,7 @@ staging_deploy:
     - azure
 
 production_deploy:
-  stage: deploy_prod
+  stage: production
   script:
     - bundle exec cap production deploy
   only:
