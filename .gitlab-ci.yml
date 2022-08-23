@@ -95,7 +95,7 @@ lint:ruby:
     paths:
       - public/syntax-errors.txt
   script:
-    - file-crlf --path=app/
+    #- file-crlf --path=app/ Disable for now
     - syntax-ruby --text --size --extension=rb --path=app/ >> public/syntax-errors.txt
     - syntax-ruby --text --size --extension=rb --path=config/ >> public/syntax-errors.txt
     - syntax-ruby --text --size --extension=rb --path=lib/ >> public/syntax-errors.txt
