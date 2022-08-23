@@ -1,8 +1,5 @@
 #image: registry.it.mcgill.ca/lts/murax:latest
 image: ruby:2.6.10
-services:
-    - redis:latest
-    - postgres:latest
 
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
@@ -22,26 +19,6 @@ cache:
     - log
     - /storage/www/murax/shared
 
-before_script:
-  # Run the ssh-agent
-  - eval $(ssh-agent -s)
-  - printenv
-  - ruby -v
-  - which ruby
-  - ls -la $(pwd)
-  - gem install bundler -v $BUNDLE_VERSION -f --no-document
-  - bundle check || bundle install --path $BUNDLE_PATH --jobs $(nproc)  "${FLAGS[@]}"
-  #- apt  remove cmdtest -y
-  #- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  #- echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  #- apt update
-  #- apt -qq install yarn
-  #- yarn
-  #- bundle check || bundle install --jobs $(nproc) --path vendor
-  #- cp config/database.yml.ci config/database.yml
-  #- bundle exec rails db:create RAILS_ENV=development
-  #- bundle exec rails db:schema:load RAILS_ENV=development
-  #- bundle exec webpack
 
 stages:
   - lint
