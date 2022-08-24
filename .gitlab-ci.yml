@@ -150,13 +150,27 @@ test:bundle_audit:
   script:
     - bundle exec bundle audit check --update
 
+test:brakeman:
+  extends: .base
+  stage: test
+  allow_failure: true
+  artifacts:
+    name: brakeman_report
+    when: always
+    paths:
+      - brakeman/
+  only:
+    - master
+  script:
+    - bundle exec brakeman --format html -o brakeman/index.html
+
+
 pages:
   extends: .base_minimal
   stage: report
   allow_failure: true
   dependencies:
     - test:brakeman
-    - test:rspec
   artifacts:
     name: time_tracking_artifacts
     paths:
