@@ -33,6 +33,8 @@ require "capistrano/rails/assets"
 #require 'capistrano-rails'
 require 'sshkit/sudo'
 require "whenever/capistrano"
+require 'capistrano/safe_deploy_to'
+require 'capistrano/ssh_doctor'
 #require "capistrano/sidekiq"
 #require "capistrano/passenger"
 
@@ -41,6 +43,18 @@ require "whenever/capistrano"
 
 #require 'capistrano/honeybadger'
 
+# Sidekiq
+require 'capistrano/sidekiq'
+#require 'capistrano/sidekiq/monit'
+install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
+#install_plugin Capistrano::Sidekiq::Systemd 
+#install_plugin Capistrano::Sidekiq::Monit #, load_hooks: false  # Monit tasks without hooks
+
+
+
 # to create sitemap
 require 'capistrano/sitemap_generator'
+
+# Load custom tasks from `lib/capistrano/tasks` if you have any defined
+Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 

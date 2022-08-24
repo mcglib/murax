@@ -6,7 +6,7 @@ ARG arch=arm64
 ENV APP_PATH /storage/www/murax/current
 ENV BUNDLE_PATH /vendor/bundle
 ENV BUNDLER_CACHE_PATH /vendor/cache
-ENV BUNDLE_VERSION 2.1.4
+ENV BUNDLE_VERSION 2.3.21
 ENV LANG=en_CA.UTF-8
 ENV PATH /usr/local/rbenv/bin:$PATH
 ENV RBENV_ROOT /usr/local/rbenv
