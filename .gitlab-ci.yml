@@ -116,7 +116,6 @@ build:rubocop:
     paths:
       - public/rubocop-results.txt
   script:
-    - gem install rubocop-performance --no-document
     - rubocop >> public/rubocop-results.txt
 
 test:bundle_audit:
