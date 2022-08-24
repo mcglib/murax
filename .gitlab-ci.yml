@@ -146,12 +146,3 @@ develop_deploy:
     expire_in: 1 week
     paths:
       - log/capistrano.log
-
-cleanup:
-  stage: cleanup
-  script:
-    - rm -rf .vault-password
-    - rm -rf /root/.ssh
-  when: always
-  tags:
-    - azure
