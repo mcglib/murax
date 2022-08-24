@@ -58,7 +58,7 @@ stages:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - git config --global user.email "$GITLAB_USER_LOGIN"
     - git config --global user.name "$GITLAB_USER_NAME"
-    - gem install capistrano bundler capistrano-passenger capistrano-bundler capistrano-sidekiq capistrano-npm  capistrano-rbenv capistrano-locally capistrano-rails capistrano-ssh-doctor capistrano-safe-deploy-to --no-document
+    - gem install capistrano bundler sshkit-sudo capistrano-passenger capistrano-bundler capistrano-sidekiq capistrano-npm  capistrano-rbenv capistrano-locally capistrano-rails capistrano-ssh-doctor capistrano-safe-deploy-to --no-document
     - bundle config set path vendor/bundle
 
 .base_db:
