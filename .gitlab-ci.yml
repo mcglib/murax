@@ -60,8 +60,6 @@ stages:
     - git config --global user.name "$GITLAB_USER_NAME"
     - gem install capistrano bundler capistrano-bundler capistrano-sidekiq capistrano-npm capistrano-locally capistrano-rails capistrano-ssh-doctor capistrano-safe-deploy-to --no-document
     - bundle config set path vendor/bundle
-    - bundle install --jobs $(nproc) "${FLAGS[@]}"
-    #- bundle install
 
 .base_db:
   extends: .base
@@ -196,7 +194,8 @@ deploy:development:
     url: https://d-escholarship.mcgill.ca
   script:
     - echo "$DEPLOY_DEV_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 700 ~/.ssh/id_rsa
+    - eval `ssh-agent -s`
+    - chmod 400 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
     - bundle exec cap development deploy
