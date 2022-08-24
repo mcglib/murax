@@ -43,7 +43,7 @@ stages:
     policy: pull
   before_script:
     - ruby -v # Print out ruby version for debugging
-    - gem install bundler rubocop rubocop-rails rubocop-minitest rubocop-performance --no-document
+    - gem install bundler rubocop rubocop-rails rubocop-minitest rubocop-packaging rubocop-performance --no-document
     #- bundle config set path vendor/bundle
     #- bundle install --jobs $(nproc) "${FLAGS[@]}"
 .base_deploy:
