@@ -1,5 +1,5 @@
 #image: registry.it.mcgill.ca/lts/murax:latest
-image: ruby:2.6.10
+image: ruby:2.7
 
 variables:
   # make sure that your .gitmodules file is configured to use relative paths!
