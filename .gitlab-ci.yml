@@ -1,4 +1,5 @@
 #image: registry.it.mcgill.ca/lts/murax:latest
+image: registry.it.mcgill.ca/lts/adir/murax/docker-ci:latest
 image: ruby:2.7
 
 variables:
@@ -47,6 +48,7 @@ stages:
     #- bundle config set path vendor/bundle
     #- bundle install --jobs $(nproc) "${FLAGS[@]}"
 .base_deploy:
+  image: registry.it.mcgill.ca/lts/adir/murax/docker-ci:latest
   variables:
     RAILS_ENV: production
   before_script:
@@ -58,8 +60,6 @@ stages:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - git config --global user.email "$GITLAB_USER_LOGIN"
     - git config --global user.name "$GITLAB_USER_NAME"
-    - gem install capistrano bundler sshkit-sudo whenever sitemap_generator capistrano-passenger capistrano-bundler capistrano-sidekiq capistrano-npm  capistrano-rbenv capistrano-locally capistrano-rails capistrano-ssh-doctor capistrano-safe-deploy-to --no-document
-    - bundle config set path vendor/bundle
 
 .base_db:
   extends: .base
