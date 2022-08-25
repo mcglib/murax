@@ -24,5 +24,4 @@ RUN bundle install --jobs $(nproc) --retry 3 --without development test \
     && rm -rf /usr/local/bundle/bundler/gems/*/.git /usr/local/bundle/cache/
 
 # Define entrypoint
-ENTRYPOINT ["/bin/bash"]
-
+ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
