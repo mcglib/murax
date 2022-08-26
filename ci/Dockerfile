@@ -13,9 +13,9 @@ RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 RUN mkdir -p $WORKDIR/vendor/bundle
-RUN gem install capistrano -v 3.9.0
+RUN gem install capistrano -v 3.11.2
 
-RUN gem install bundler sshkit-sudo whenever sitemap_generator capistrano-passenger capistrano-bundler capistrano-sidekiq capistrano-npm  capistrano-rbenv capistrano-locally capistrano-rails capistrano-ssh-doctor capistrano-safe-deploy-to --no-document
+RUN gem install bundler sshkit-sudo whenever airbrussh sitemap_generator capistrano-passenger capistrano-bundler capistrano-sidekiq capistrano-npm  capistrano-rbenv capistrano-locally capistrano-rails capistrano-ssh-doctor capistrano-safe-deploy-to --no-document
 
 # Copy dependency manifest
 COPY Gemfile Gemfile.lock $WORKDIR/
