@@ -22,13 +22,13 @@ COPY Gemfile Gemfile.lock $WORKDIR/
 
 RUN bundle update --bundler
 RUN bundle config set path $WORKDIR/vendor/bundle
-RUN bundle install --jobs $(nproc) --retry 3 --without development test \
+ENV NODE_ENV development
+ENV RAILS_ENV development
+RUN bundle install --jobs $(nproc) --retry 3 --without test \
     && rm -rf /usr/local/bundle/bundler/gems/*/.git /usr/local/bundle/cache/
 
 # Define entrypoint
 # Define basic environment variables
-ENV NODE_ENV production
-ENV RAILS_ENV production
 ENV RAILS_LOG_TO_STDOUT true
 #
 #ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
