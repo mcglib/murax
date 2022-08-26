@@ -33,9 +33,8 @@ require "capistrano/rails/assets"
 #require 'capistrano-rails'
 require 'sshkit/sudo'
 require "whenever/capistrano"
-require 'capistrano/safe_deploy_to'
+#require 'capistrano/safe_deploy_to'
 require 'capistrano/ssh_doctor'
-#require "capistrano/sidekiq"
 #require "capistrano/passenger"
 
 #require 'capistrano/puma'
@@ -45,8 +44,8 @@ require 'capistrano/ssh_doctor'
 
 # Sidekiq
 require 'capistrano/sidekiq'
+#install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
 #require 'capistrano/sidekiq/monit'
-install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
 #install_plugin Capistrano::Sidekiq::Systemd 
 #install_plugin Capistrano::Sidekiq::Monit #, load_hooks: false  # Monit tasks without hooks
 
