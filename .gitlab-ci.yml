@@ -232,3 +232,27 @@ deploy:staging:
     expire_in: 1 week
     paths:
       - log/capistrano.log
+deploy:production:
+  extends: .base_deploy
+  stage: production
+  cache:
+    policy: pull-push
+  environment:
+    name: development
+    url: https://escholarship.mcgill.ca
+  script:
+    - echo "$DEPLOY_PROD_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - cap staging deploy
+  only:
+    - master
+  tags:
+    - azure
+  artifacts:
+    name: "$CI_JOB_NAME-capistrano-log"
+    when: on_failure
+    expire_in: 1 week
+    paths:
+      - log/capistrano.log
