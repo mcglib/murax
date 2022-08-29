@@ -194,11 +194,10 @@ deploy:development:
     url: https://d-escholarship.mcgill.ca
   script:
     - echo "$DEPLOY_DEV_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - eval `ssh-agent -s`
-    - chmod 400 ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - bundle exec cap development deploy --trace
+    - cap development deploy
   only:
     - develop
   tags:
