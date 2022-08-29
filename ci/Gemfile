@@ -70,6 +70,9 @@ gem 'pronto-brakeman', require: false
 gem 'pronto-rails_best_practices', require: false
 gem 'rubocop', require: false
 
+gem 'ed25519'
+gem 'bcrypt_pbkdf'
+
 group :development, :test do
   gem 'bixby'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
