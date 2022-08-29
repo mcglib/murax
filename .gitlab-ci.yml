@@ -210,11 +210,12 @@ deploy:development:
       - log/capistrano.log
 deploy:staging:
   extends: .base_deploy
+  when: manual
   stage: staging
   cache:
     policy: pull-push
   environment:
-    name: development
+    name: staging
     url: https://qa-escholarship.mcgill.ca
   script:
     - echo "$DEPLOY_QA_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
@@ -235,10 +236,11 @@ deploy:staging:
 deploy:production:
   extends: .base_deploy
   stage: production
+  when: manual
   cache:
     policy: pull-push
   environment:
-    name: development
+    name: production
     url: https://escholarship.mcgill.ca
   script:
     - echo "$DEPLOY_PROD_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
