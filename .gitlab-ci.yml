@@ -198,7 +198,7 @@ deploy:development:
     - chmod 400 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - bundle exec cap development deploy
+    - bundle exec cap development deploy --trace
   only:
     - develop
   tags:
