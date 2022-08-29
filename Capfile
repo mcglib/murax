@@ -1,15 +1,12 @@
 # Enable multistage
 
 # Require capistrano locally
-require 'capistrano/locally'
+#require 'capistrano/locally'
 # Load DSL and set up stages
 require "capistrano/setup"
 
 # Include default deployment tasks
 require "capistrano/deploy"
-
-# Load custom tasks from `lib/capistrano/tasks` if you have any defined
-Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 # Load the SCM plugin appropriate to your project:
 require "capistrano/scm/git"
@@ -35,7 +32,7 @@ require 'sshkit/sudo'
 require "whenever/capistrano"
 #require 'capistrano/safe_deploy_to'
 require 'capistrano/ssh_doctor'
-#require "capistrano/passenger"
+require "capistrano/passenger"
 
 #require 'capistrano/puma'
 #install_plugin Capistrano::Puma
@@ -49,6 +46,8 @@ require 'capistrano/sidekiq'
 #install_plugin Capistrano::Sidekiq::Systemd 
 #install_plugin Capistrano::Sidekiq::Monit #, load_hooks: false  # Monit tasks without hooks
 
+#require 'capistrano/puma'
+#install_plugin Capistrano::Puma
 
 
 # to create sitemap
