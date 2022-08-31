@@ -75,7 +75,7 @@ class SolrDocument
   end
 
   def nested_ordered_creator_label
-    Murax::OrderedParserService.parse(self[Solrizer.solr_name('nested_ordered_creator_label', :symbol)]) || []
+    Murax::OrderedParserService.parse(self["nested_ordered_creator_label_tesim"]) || []
   end
 
   def creator
@@ -83,139 +83,140 @@ class SolrDocument
   end
 
   def title
-    self[Solrizer.solr_name('title')]
+    #self[Solrizer.solr_name('title')]
+    self["title_tesim"]
   end
 
   def abstract
-    self[Solrizer.solr_name('abstract')]
+    self["abstract_tesim"]
   end
 
   def institution
-    self[Solrizer.solr_name('institution')]
+    self["institution_tesim"]
   end
 
   def degree
-    self[Solrizer.solr_name('degree')]
+    self["degree_tesim"]
   end
 
   def department
-    self[Solrizer.solr_name('department')]
+    self["department_tesim"]
   end
 
   def faculty
-    self[Solrizer.solr_name('faculty')]
+    self["faculty_tesim"]
   end
 
   def rights
-    self[Solrizer.solr_name('rights')]
+    self["rights_tesim"]
   end
   
   def rtype
-    self[Solrizer.solr_name('rtype')]
+    self["rtype_tesim"]
   end
 
   def date
-    self[Solrizer.solr_name('date')]
+    self["date_tesim"]
   end
 
   def date_accepted
-    self[Solrizer.solr_name('date_accepted')]
+    self["date_accepted_tesim"]
   end
 
   def orcidid
-    self[Solrizer.solr_name('orcidid')]
+    self["orcidid_tesim"]
   end
   
   def language
-    self[Solrizer.solr_name('language')]
+    self["language_tesim"]
   end
 
 
   def language_label
-    self[Solrizer.solr_name('language_label')]
+    self["language_label_tesim"]
   end
 
   def relation
-    self[Solrizer.solr_name('relation')]
+    self["relation_tesim"]
   end
 
   def bibliographic_citation
-    self[Solrizer.solr_name('bibliographic_citation')]
+    self["bibliographic_citation_tesim"]
   end 
 
   def related_url
-    self[Solrizer.solr_name('related_url')]
+    self["related_url_tesim"]
   end
 
   def alternative_title
-    self[Solrizer.solr_name('alternative_title')]
+    self["alternative_title_tesim"]
   end
 
   def local_affiliated_centre
-    self[Solrizer.solr_name('local_affiliated_centre')]
+    self["local_affiliated_centre_tesim"]
   end
 
   def pmid
-    self[Solrizer.solr_name('pmid')]
+    self["local_affiliated_centre_tesim"]
   end
 
   def research_unit
-    self[Solrizer.solr_name('research_unit')]
+    self["research_unit_tesim"]
   end
 
   def grant_number
-    self[Solrizer.solr_name('grant_number')]
+    self["grant_number"]
   end
 
   def status
-    self[Solrizer.solr_name('status')]
+    self["status_tesim"]
   end
   
   def source
-    self[Solrizer.solr_name('source')]
+    self["source_tesim"]
   end
 
   def report_number
-    self[Solrizer.solr_name('report_number')]
+    self["report_number_tesim"]
   end 
 
   def creator
-    self[Solrizer.solr_name('creator')]
+    self["creator_tesim"]
   end 
 
   def contributor
-    self[Solrizer.solr_name('contributor')]
+    self["contributor_tesim"]
   end 
 
   def work_description
-    self[Solrizer.solr_name('work_description')]
+    self["work_description_tesim"]
   end 
 
   def publisher
-    self[Solrizer.solr_name('publisher')]
+    self["publisher_tesim"]
   end 
 
   def subject
-    self[Solrizer.solr_name('subject')]
+    self["subject_tesim"]
   end 
 
   def extent
-    self[Solrizer.solr_name('extent')]
+    self["extent_tesim"]
   end 
 
   def identifier
-    self[Solrizer.solr_name('identifier')]
+    self["identifier_tesim"]
   end 
 
   def note
-    self[Solrizer.solr_name('note')]
+    self["note_tesim"]
   end 
 
   def license
-    self[Solrizer.solr_name('license')]
+    self["license_tesim"]
   end
 
   def author_order
-    self[Solrizer.solr_name('author_order')]
+    self["author_order_tesim"]
   end
 end 

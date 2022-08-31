@@ -11,6 +11,9 @@ module Hyrax
       property :label, predicate: ActiveFedora::RDF::Fcrepo::Model.downloadFilename, multiple: false
       property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
 
+      property :access_right, predicate: ::RDF::Vocab::DC.accessRights
+      property :rights_notes, predicate: ::RDF::URI.new('http://purl.org/dc/elements/1.1/rights'), multiple: true
+
       property :alternative_title,  predicate: RDF::Vocab::DC.alternative, multiple: true do | index |
               index.as :stored_searchable
       end

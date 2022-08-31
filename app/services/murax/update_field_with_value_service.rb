@@ -40,12 +40,12 @@ module Murax
                         status = updated_multivalued_field
                     end
 
-                    raise StandardError "Failed to do an overwrite" if !status
+                    raise StandardError "Failed to do an overwrite for #{@work_id}" if !status
                 end
                 # Return the updated object
             rescue StandardError => e
-                puts "Error doing an overwrite/update on the field #{@fieldname}. Error was #{e.message}"
-                @logger.error "Error doing an overwrite/update  on the field #{@fieldname}. Error was #{e.message}"
+                puts "Error doing an overwrite/update on the field #{@fieldname} for workid #{@work_id}. Error was #{e.message}"
+                @logger.error "Error doing an overwrite/update  on the field #{@fieldname} for workid #{@work_id}. Error was #{e.message}"
             end
 
             status
@@ -70,8 +70,8 @@ module Murax
                 end
                 @work_object.save!
             rescue StandardError => e
-                puts "Error overwriting the nested ordered field #{@fieldname}. Error was #{e.message}"
-                @logger.error "error overwriting the nested ordered field #{@fieldname}. Error was #{e.message}"
+                puts "Error overwriting the nested ordered field #{@fieldname} on workid #{@work_id}. Error was #{e.message}"
+                @logger.error "error overwriting the nested ordered field #{@fieldname} on workid #{@work_id}. Error was #{e.message}"
                 status = false
             end
 
