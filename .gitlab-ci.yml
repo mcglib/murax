@@ -35,7 +35,6 @@ stages:
   - development
   - staging
   - production
-  - cleanup
 
 .base:
   stage: build
@@ -145,7 +144,7 @@ build:rubocop:
     - rubocop >> public/rubocop-results.txt
 
 test:bundle_audit:
-  extends: .base
+  extends: .base_deploy
   allow_failure: true
   stage: test
   only:
@@ -154,7 +153,7 @@ test:bundle_audit:
     - bundle exec bundle audit check --update
 
 test:brakeman:
-  extends: .base
+  extends: .base_deploy
   stage: test
   allow_failure: true
   artifacts:
@@ -170,7 +169,7 @@ test:brakeman:
     when: on_failure
     expire_in: 1 week
     paths:
-      - public/rubocop-results.txt
+      - public/brakeman-results.txt
   script:
     - bundle exec brakeman --format html -o brakeman/index.html
 
