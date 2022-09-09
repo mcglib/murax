@@ -1,7 +1,7 @@
 # Enable multistage
 
 # Require capistrano locally
-#require 'capistrano/locally'
+require 'capistrano/locally'
 # Load DSL and set up stages
 require "capistrano/setup"
 
@@ -32,15 +32,14 @@ require 'sshkit/sudo'
 require "whenever/capistrano"
 #require 'capistrano/safe_deploy_to'
 require 'capistrano/ssh_doctor'
-require "capistrano/passenger"
+#require 'capistrano/sidekiq'
+#require "capistrano/passenger"
 
 #require 'capistrano/puma'
 #install_plugin Capistrano::Puma
 
 #require 'capistrano/honeybadger'
 
-# Sidekiq
-require 'capistrano/sidekiq'
 #install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
 #require 'capistrano/sidekiq/monit'
 #install_plugin Capistrano::Sidekiq::Systemd 
