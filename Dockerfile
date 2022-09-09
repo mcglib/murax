@@ -15,7 +15,7 @@ ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
 ENV FITS_VERSION 1.0.5
 ENV FITS_HOME /opt/$FITS_VERSION/install
-ENV RUBY_VERSION 2.6.10
+ENV RUBY_VERSION 2.7.6
 
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
