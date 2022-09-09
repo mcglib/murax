@@ -154,7 +154,7 @@ namespace :deploy do
  #   end
  # end
 
-  #before "deploy:assets:precompile", "deploy:npm_install"
+  before "deploy:assets:precompile", "deploy:npm_install"
   after  "deploy:npm_install", "deploy:yarn_install"
   after "deploy:cleanup", "deploy:refresh_sitemaps"
 
