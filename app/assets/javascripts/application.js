@@ -20,7 +20,7 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require blacklight/blacklight
-//// require bootstrap-table
+//= require bootstrap-table
 //= require bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js
 //= require corejs-typeahead/dist/typeahead.bundle.min.js
 //= require murax/tableexport/tableExport.min.js
