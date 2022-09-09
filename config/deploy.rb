@@ -106,9 +106,9 @@ set :init_system, :systemd
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production. Note that you must clear the previously-defined
 # tasks before re-defining them.
-#Rake::Task["sidekiq:stop"].clear_actions
-#Rake::Task["sidekiq:start"].clear_actions
-#Rake::Task["sidekiq:restart"].clear_actions
+Rake::Task["sidekiq:stop"].clear_actions
+Rake::Task["sidekiq:start"].clear_actions
+Rake::Task["sidekiq:restart"].clear_actions
 # Capistrano passenger restart isn't working consistently,
 # so restart apache2 after a successful deploy, to ensure
 # changes are picked up.
@@ -155,7 +155,7 @@ namespace :deploy do
  # end
 
   before "deploy:assets:precompile", "deploy:npm_install"
-  after  "deploy:npm_install", "deploy:yarn_install"
+#  after  "deploy:npm_install", "deploy:yarn_install"
   after "deploy:cleanup", "deploy:refresh_sitemaps"
 
 end
