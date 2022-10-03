@@ -8,11 +8,11 @@ module Hyrax
     self.model_class = ::Presentation
     self.terms += [:title,:alternative_title, :nested_ordered_creator,:local_affiliated_centre, :department, :extent, 
                    :note, :abstract, :pmid, :research_unit, :grant_number,
-                   :date,  :rights, :rtype, :orcidid, :relation,:faculty, :degree]
+                   :date,  :rights, :rtype, :orcidid, :relation,:faculty, :degree, :bibliographic_citation]
     self.terms -= [ :keyword, :creator, :rights_statement, :date_created, :resource_type,:import_url, :relative_path, :based_near]
     self.required_fields += [:nested_ordered_creator, :date, :rights, :rtype]
     self.required_fields -= [:keyword, :contact_email, :description, :rights_statement]
-    self.single_valued_fields = [:title, :rtype]
+    self.single_valued_fields = [:title, :rtype, :bibliographic_citation]
 
     def primary_terms
       [:title, :nested_ordered_creator, :date, :rights, :rtype ] | super
