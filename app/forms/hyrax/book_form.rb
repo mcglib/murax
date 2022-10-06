@@ -17,6 +17,11 @@ module Hyrax
       [:title, :nested_ordered_creator, :date, :rights, :rtype, :bibliographic_citation ] | super
     end
 
+    def secondary_terms
+      [:contributor, :orcidid, :publisher, :license, :faculty, :department, :local_affiliated_centre, :research_unit, :language, :abstract, :subject, :identifier,
+       :related_url, :source, :grant_number, :relation, :alternative_title, :note, :extent, :description, :status]
+    end
+
     def self.build_permitted_params
       super + [
         {
