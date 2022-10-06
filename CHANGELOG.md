@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [2.0.1] - 2022-10-06
+* Modified: Reordered the form fields for Book, Report, Paper, and Presentation worktypes. ADIR-1309.
+
 # [2.0.0] - 2022-08-31
 * Updated: Updated hyrax to v3.1.0[https://github.com/samvera/hyrax/releases/tag/v3.0.0] & [https://github.com/samvera/hyrax/releases/tag/v3.1.0]
 * Updated: Updated Rails to 5.2.8
