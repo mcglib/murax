@@ -207,8 +207,6 @@ deploy:development:
     - cap development deploy
   only:
     - develop
-  tags:
-    - azure
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
     when: on_failure
@@ -232,8 +230,6 @@ deploy:staging:
     - cap staging deploy
   only:
     - master
-  tags:
-    - azure
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
     when: on_failure
@@ -257,8 +253,6 @@ deploy:production:
     - cap staging deploy
   only:
     - master
-  tags:
-    - azure
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
     when: on_failure
