@@ -1,56 +1,79 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# [2.0.1] - 2022-10-06
+## [2.0.2] - 2022-11-18
+
+* Upgraded: Hyrax to 3.4.0.
+* Updated: Updated google analytics configuration that were changed since Hyrax 3.3.0.
+
+## [2.0.1] - 2022-10-06
+
 * Modified: Reordered the form fields for Book, Report, Paper, and Presentation worktypes. ADIR-1309.
 
-# [2.0.0] - 2022-08-31
+## [2.0.0] - 2022-08-31
+
 * Updated: Updated hyrax to v3.1.0[https://github.com/samvera/hyrax/releases/tag/v3.0.0] & [https://github.com/samvera/hyrax/releases/tag/v3.1.0]
 * Updated: Updated Rails to 5.2.8
 
-# [1.3.11] - 2022-08-30
+## [1.3.11] - 2022-08-30
+
 * Added format param to image-url function to fix manifests.
 
-# [1.3.10] - 2022-07-26
+## [1.3.10] - 2022-07-26
+
 * Changed the repo url to gitlab.ncs from scm.library. ADGEN-1026
 
-# [1.3.9] - 2022-04-27
+## [1.3.9] - 2022-04-27
+
 * Implement CSV updates via rake task. ADIR-1237
 
-# [1.3.8] - 2022-04-07
+## [1.3.8] - 2022-04-07
+
 * Upgraded Hyrax to 2.9.6. ADIR-911
 
-# [1.3.7] - 2022-03-03
+## [1.3.7] - 2022-03-03
+
 * Changed the loglevel on Prod. ADIR-1202
 
-# [1.3.6] - 2022-01-20
+## [1.3.6] - 2022-01-20
+
 * Updated the banner image. ADIR-1184
 
-# [1.3.5] - 2021-11-23
-* Updated: Help text for Faculty and Department properties. 
+## [1.3.5] - 2021-11-23
 
-# [1.3.4] - 2021-11-23
-* Updated: Local affiliated centre and research unit properties now also act as facets. 
+* Updated: Help text for Faculty and Department properties.
 
-# [1.3.3] - 2021-11-12
-### Changed
+## [1.3.4] - 2021-11-23
+
+* Updated: Local affiliated centre and research unit properties now also act as facets.
+
+## [1.3.3] - 2021-11-12
+
+## Changed
+
 * Added Alternative title to Thesis worktype.
 * Updated Alternative title property to be searchable.
 
-# [1.3.2] - 2021-11-11
+## [1.3.2] - 2021-11-11
+
 ### Changed
+
 * Downgrade to rails 5.2.4.3
 
+## [1.3.1] - 2021-11-11
 
-# [1.3.1] - 2021-11-11
-### Changed
+## Changed
+
 * Fixing the Gemfile
 
-# [1.3.0] - 2021-11-10
-### Changed
+## [1.3.0] - 2021-11-10
+
+## Changed
+
 * Upgraded to version 2.6.8 of ruby
 * Updated several rails gems including upgrade to rails 5.2.4.6
 * Rebuilt the dockerfile to use an CentOS docker image
@@ -60,47 +83,70 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Removing references to proxies
 
 # [1.2.27] - 2021-09-29
-### Added
+
+## Added
+
 * Added a link to change user's password in dashboard profile.
 * Updated password mailer to have change password link in the email template.
 
 # [1.2.26] - 2021-08-27
-### Changed
-* Changed the additional fields order for Article work-type form. 
+
+## Changed
+
+* Changed the additional fields order for Article work-type form.
 
 # [1.2.25] - 2021-08-26
-### Added
+
+## Added
+
 * no-indexing of the site on dev and qa servers.
 
 # [1.2.24] - 2021-08-09
-### Changed
+
+## Changed
+
 * Ugraded mimemagic and various nodes.js
 
 # [1.2.23] - 2021-07-07
-### Changed
+
+## Changed
+
 * License property is now visible in all worktypes.
 
 # [1.2.22] - 2021-06-22
-### Changed
+
+## Changed
+
 * Changed the user dev.library to dev.library@mcgill.ca
 
 # [1.2.21] - 2021-05-03
-### Changed
+
+## Changed
+
 * Started using show method from Hyrax::WorksControllerBehavior instead of Murax::WorksControllerBechaviour to fix the GoogleSearchConsole errore.
 
 # [1.2.20] - 2021-04-16
-### Added
+
+## Added
+
 * New rake task to reindex recently added works
 
 # [1.2.19] - 2021-03-23
-### Added
+
+## Added
+
 * Added new response formats for json and js to error_controller
+
 # [1.2.18] - 2021-02-22
-### Added
+
+## Added
+
 * New rake task murax:change_user_password[user.email]
 
 # [1.2.17] - 2021-02-10
-### Added
+
+## Added
+
 * New rake task murax:reindex_works_by_workid[id,id,id...]
 * reindex_works_by_workid task now uses IndexAWork service
 * Updated sitemap
@@ -109,102 +155,149 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * better log reporting for reindex_works_by_workid task
 
 # [1.2.16] - 2021-02-04
-### Changed
+
+## Changed
+
 * Upgraded yarn.lock packages
 
 # [1.2.15] - 2021-02-04
-### Changed
+
+## Changed
+
 * Upgraded nokogiri and puma gems
 
 # [1.2.14] - 2021-02-03
-### Changed
+
+## Changed
+
 * Fixed bug with the routes for /en on languages where generating 404s
 
 # [1.2.13] - 2021-01-18
-### Changed
+
+## Changed
+
 * Disabled fixity check on whenever scheduler
 
 # [1.2.12] - 2020-12-21
-### Changed
-* app/indexers/ indexers for all work types now include extracted text from representative media file as custom field in solr_doc 
+
+## Changed
+
+* app/indexers/ indexers for all work types now include extracted text from representative media file as custom field in solr_doc
 
 # [1.2.11] - 2020-09-29
-### Added
+
+## Added
+
 * New rake task report:report_filesize_by_workid['representative_media-or-other, fileformat, fileaccessibility, workid']
 * New rake task report:report_total_filesize_by_collectionid['representative_media-or-other, fileformat, fileaccessibility, collectionid']
 * New service to report filesize for specified file id
-### Changed
+
+## Changed
+
 * rake task murax:export_metadata_records_as_xml now correctly encodes entities
 
 # [1.2.10] - 2020-09-04
-### Changed
+
+## Changed
+
 * murax:build_csv_with_specific_fields_by_search_criteria now handles nil attributes
 
 # [1.2.9] - 2020-08-24
-### Added
+
+## Added
+
 * New rake task murax:build_csv_with_specific_fields_by_search_criteria['search-term','search-field','output-field1 output-field2 ...']
 
 # [1.2.8] - 2020-07-23
-### Changed
+
+## Changed
+
 * Updated rails to v5.2.4.3.
 
 # [1.2.7] - 2020-07-07
-### Changed
+
+## Changed
+
 * Upgraded to v2.8.0 of hyrax
 * Upgraded Active-Fedora to v12.1.1
 
 # [1.2.6] - 2020-07-07
-### Changed
+
+## Changed
+
 * Added the Orcid ID field to display on the rows
 * Made the identifier visible on report work type
 
 # [1.2.5] - 2020-06-10
-### Changed
+
+## Changed
+
 * Added a sitemap generator gem along with configuration in config/sitemap.rb
 
 # [1.2.4] - 2020-06-03
-### Changed
+
+## Changed
+
 * Upgraded to v2.7.2 of hyrax
 
 ## [1.2.3] - 2020-04-14
-### Changed
+
+## Changed
+
 * Upgraded to v2.7.1 of hyrax
 * Added a rake task to change the depositor of a given set of works
 
 ## [1.2.2] - 2020-04-08
-### Changed
+
+## Changed
+
 * Added a is-live env variable
 
 ## [1.2.1] - 2020-04-01
-### Changed
+
+## Changed
+
 * Enabled advanced search (beta)
 
 ## [1.1.27] - 2020-03-26
-### Changed
+
+## Changed
+
 * Removed no-follow, no-index so Google can crawl
 
 ## [1.1.26] - 2020-03-19
-### Changed
+
+## Changed
+
 * Upgraded to v2.7.0 of hyrax
 * Upgraded to v3.12.4 of puma
 
 ## [released]
+
 ## [1.1.25] - 2020-03-12
-### Changed
+
+## Changed
+
 * Enabled department, language and degree to be searchable
 * Disabled the abstract from showing in the index results
 
 ## [1.1.24] - 2020-03-10
-### Changed
+
+## Changed
+
 * Enabled department, language and degree to be searchable
 * Disabled the abstract from showing in the index results
 
 ## [1.1.23] - 2020-03-10
-### Changed
+
+## Changed
+
 * Disabled the advanced search link on the top of page
 
 ## [1.1.22] - 2020-03-09
-### Changed
+
+## Changed
+
 * Update metadata field service: report that creator field is not yet supported
 * Updated the readme
 * OAI: suppress etdms output for non-thesis records
@@ -213,7 +306,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added FAQ items for the Homepage
 
 ## [1.1.21] - 2020-03-04
-### Changed
+
+## Changed
+
 * Updated the classiq controller
 * Fixing the search controller
 * minor tweaks to docker-compose file
@@ -223,24 +318,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * added ENV variable for admin user
 
 ## [1.1.20] - 2020-02-25
-### Changed
+
+## Changed
+
 * Changing the core search engine functionality
+
 ## [1.1.9] - 2020-02-18
-### Changed
+
+## Changed
+
 * Upgraded to v2.6.0 of hyrax
 * Updates to the murax architecture
+
 ## [1.1.8] - 2020-02-11
-### Changed
+
+## Changed
+
 * Added a murax architecture svg file
+
 ## [1.1.7] - 2020-02-11
-### Changed
+
+## Changed
+
 * report_workids_service: documented behaviour of by_metadata_search; increased rows to 10000
 * made changes to thesis and book worktype
 * Fixed bug with docker container and apache
 
 ## [unreleased]
+
 ## [1.1.6] - 2020-02-04
-### Changed
+
+## Changed
+
 * report_workids_service: documented behaviour of by_metadata_search; increased rows to 10000
 * report_workids_service: renamed parameter of by_metadata_search from pattern to search_value for sake of clarity
 * Bump fstream from 1.0.11 to 1.0.12
@@ -249,25 +358,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Bump mixin-deep from 1.3.1 to 1.3.2
 
 ## [1.1.5] - 2020-02-03
-### Changed
+
+## Changed
+
 * Added code for footer
 * Updated the google analytics code
 * Added google analytics for the launch
 * Code cleanup
 
 ## [1.1.4] - 2020-02-03
-### Changed
+
+## Changed
+
 * Fixed a bug with the
 * Updated the README with info re: customizations to the abstract language tagging
 * Updated the README and the license info
 * Fixing the language field for all works.
 
 ## [1.1.3] - 2020-01-30
-### Changed
+
+## Changed
+
 * Removed Pronto from the Gemfile.lock file
 
 ## [1.1.2] - 2020-01-16
-### Changed
+
+## Changed
+
 * removed subject and identifier as required properties in ethesis profile form
 * fixed the bug with the whitespace on annoucmenet on home page
 * renamed the file to murax_homepage
@@ -276,38 +393,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * added muraxs directory namespace in stylesheets
 
 ## [1.1.1] - 2019-12-11
-### Changed
+
+## Changed
+
 * Added a condition that checks if the presenter is an edrtor we can hide the user activity
 * Added check so that a user must add a file before submitting a new work
+
 ## [1.1.0] - 2019-12-06
-### Changed
+
+## Changed
+
 * Added nofollow, noindex for preventing google searching and crawling
+
 ## [Unreleased]
+
 ## [1.0.43] - 2019-11-27
-### Changed
+
+## Changed
+
 * Added a rake task to export digitool xml of a given set of workids or csvfile
+
 ## [1.0.42] - 2019-11-26
-### Changed
+
+## Changed
+
 * Clara fixed bug with the papers that had and extra field
+
 ## [1.0.41] - 2019-11-25
-### Changed
+
+## Changed
+
 * Fixed the bug with ETHESIS2 not importing. Added a check so that we can get the dctype of the xml to check for thesis.
+
 ## [1.0.40] - 2019-11-25
-### Changed
+
+## Changed
+
 * Updated the code to fetch pids from the second template
 * Added the template 2 pids for ingest
 * Renaming the thesis pid for ETHESIS2
 
 ## [1.0.39] - 2019-11-22
-### Changed
+
+## Changed
+
 * fixed the file manager internal server error
 * hidden the share work button from the home page
 * hiddent the signup button on login
 * changed the log in heading to administrative login
 * moved the terms of use button to the right bottom of home content page. moved from index
 * Changed the verbage on login to login (staff only) and also changed the location of login button to footer of the home page.
+
 ## [1.0.38] - 2019-11-14
-### Changed
+
+## Changed
+
 * Minor changes to check thesis
 * add details to batch report for errors
 * Updated the code so that we can see the file that is being added to be checked
@@ -327,8 +467,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * support for a few more unexpected dc:types
 
 ## [Unreleased]
+
 ## [1.0.37] - 2019-11-13
-### Changed
+
+## Changed
+
 * Added route to batches
 * remvoed dev.library account from emails
 * removed the helper method in rtype filed, making it default to an empty value unless selected by a user
@@ -359,21 +502,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Bug fixing
 * Fixing a way to check for the thesis pids
 * Updated the task to send some logging details
+
 ## [1.0.36.3] - 2019-11-06
-### Changed
+
+## Changed
+
 * Disabled code that checks for items that are embargoed.
+
 ## [1.0.36.2] - 2019-10-30
-### Changed
+
+## Changed
+
 * Fixing logic checking if fileset is present
+
 ## [1.0.36.1] - 2019-10-30
-### Changed
+
+## Changed
+
 * Fixed bug when the main fileset is empty for suppressed pids.
+
 ## [1.0.36] - 2019-10-21
-### Changed
+
+## Changed
+
 * stop capturing faculty and dept info for books
 * Don't include 'McGill University' as a publisher for Papers (Presentations and Books already exclude McGill)
+
 ## [1.0.35] - 2019-10-15
-### Changed
+
+## Changed
+
 * Export samvera metadata as xml
 * Revert "Export samvera metadata as xml"
    This reverts commit 402e10a6cdc4e3261c5ccc9d0378e5352ddecb5d.
@@ -385,8 +543,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added a view log modal window to the import logs
 * Added the import log view and the log error modal
 * Minor UI tweaks to the import logs
+
 ## [1.0.34] - 2019-10-15
-### Changed
+
+## Changed
+
 * Report objects can now be imported into Samvera collection id faculty-pubs
 * Added support for Presentation work type in Research publications
 * Added support for Papers in Samvera Research publications
@@ -395,54 +556,93 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added a helper method to please the boss and it is working now.
 * Fixing a bug with the email report
 * Fixed a wrong regexp to clean up the urls
+
 ## [1.0.33] - 2019-10-15
-### Changed
+
+## Changed
+
 * Fixed bug with the thesis imports.
 * Updated the code for printing out the log
 * Changed the code for reading the localfilename so that it removes all whitespace from the url
 * Hid the link to download the pdf for embargoed items
 * changed to downcase
 * Updated the display error log
+
 ## [1.0.32] - 2019-10-10
-### Changed
+
+## Changed
+
 * Improved the Ui for digitool imports
+
 ## [1.0.31] - 2019-10-08
-### Changed
+
+## Changed
+
 * Fixing email reports
+
 ## [1.0.30.2] - 2019-10-07
-### Changed
+
+## Changed
+
 * Fixed sidekiq jobs to 2 in PROD.
+
 ## [1.0.30.1] - 2019-10-04
-### Changed
+
+## Changed
+
 * File name issues
+
 ## [1.0.30] - 2019-10-04
-### Changed
+
+## Changed
+
 * Added ethesis pids for better tracking
 * Adjusted the bulk import script so that we can do ethesis differently
+
 ## [1.0.29.2] - 2019-10-04
-### Changed
+
+## Changed
+
 * Fixed sidekiq jobs to 2 in PROD.
 * Added host in subject of email sent after import
+
 ## [1.0.29.1] - 2019-10-04
-### Changed
+
+## Changed
+
 * Forgot to echo out the js code part :)
+
 ## [1.0.29] - 2019-10-04
-### Changed
+
+## Changed
+
 * Fixing a bug with interface for the dashboard of hyrax
+
 ## [1.0.28] - 2019-10-03
-### Added
+
+## Added
+
 * Sorting and being able to export the logs
 * Fixed bug with the turbolinks not loading the bootstrap tables
+
 ## [1.0.27] - 2019-10-03
-### Changed
+
+## Changed
+
 * Fixing the duration for the batches
 * Visual change to the UI of the import_logs
+
 ## [1.0.26] - 2019-10-02
-### Changed
+
+## Changed
+
 * fixing batch ui
 * fixing the rails ui for import logs
+
 ## [1.0.25] - 2019-10-02
-### Changed
+
+## Changed
+
 * revised facultypublications_functions.py filename part deux
 * fixed collection ids for 'Research Publications' collection
 * app/models/digitool/article_item.rb added bib citation and identifier elements
@@ -459,17 +659,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * For ESHIP items import rights statements as is
 * For ESHIP don't import 'McGill University' as Publisher
 * Don't try to get an embargo date when processing waivers
+
 ## [1.0.24.2] - 2019-09-26
-### Changed
+
+## Changed
+
 * Fixed bug with wrong theses collection id in the config.yml in fixtures folder
+
 ## [1.0.24.1] - 2019-09-26
-### Changed
+
+## Changed
+
 * Making the UI for impot logger more responsive and added content for batches.
+
 ## [1.0.24] - 2019-09-26
-### Changed
+
+## Changed
+
 * Added bulk import work_ids to a collection
+
 ## [1.0.23] - 2019-09-25
-### Changed
+
+## Changed
+
 * Updated the import email preview file
 * new entries in discipline_Dictionary.txt for ugrad and ugpapers
 * added DEFAULT_DEPOSITOR_EMAIL to .env.test
@@ -480,18 +692,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added bootstrap tables
 * Added the batches controller
 * Finishing setting up the import_logs controller
+
 ## [1.0.22] - 2019-09-20
-### Changed
+
+## Changed
+
 * Fixin the error messages for 404, 422 and 500
 * Updated the env variables
 * Updated the code for import record
 * Fixed the email report
 * Added cc to the report
 * Removed authoring software
+
 ## [1.0.21] - 2019-09-18
-### Changed
+
+## Changed
+
 ## [1.0.20] - 2019-09-18
-### Changed
+
+## Changed
+
 * Added a method to check if the item is suppressed
 * Fixed bug with name of file for suppressed items
 * Added the import_digitool script
@@ -507,11 +727,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added a test import mailer
 * Added  a send error report
 
-### Added
+## Added
+
 * New batch model to bulk imports
 * New xml field to be added to the import_log model
+
 ## [1.0.19] - 2019-09-16
-### Changed
+
+## Changed
+
 * Added local collection code to the note field for report and paper
 * Testing to see if we can use azure containers
 * added new property date accepted to default metadata
@@ -524,8 +748,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added representative id to the work. The main pid is the representative id
 * Added a setup_chrome for CI testing
 * Fixing a bug with getting metadata
+
 ## [1.0.18] - 2019-09-13
-### Changed
+
+## Changed
+
 * Hidden the citations fields in work show page according to the request in ADIR-490
 * Fixed the date formats to be of XXXX instead for YYYY
 * Changing the bundler version for gitlab
@@ -533,20 +760,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixing the gitlab ci proccess
 * Fixed the way we name the files
 * Added en/fr prefixes
+
 ## [1.0.17] - 2019-09-12
-### Changed
+
+## Changed
+
 * changed the label for creator property
 * removed the author order from form
 * Fix bug with missing variable
 * Removed duplicate thesis item
 
 ## [1.0.16] - 2019-09-11
-### Changed
+
+## Changed
+
 * Fixed bug with tmp files not being deleted
 * Fixed missing fields for Report, Paper
 
 ## [1.0.14] - 2019-09-05
-### Changed
+
+## Changed
+
 * organized the order
 * Changed to require instead of require_dependency
 * create_user_assign_role rake task: use email as display name
@@ -571,19 +805,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Got the import of ordered creators working
 * Enabled reload(sys) and utf-8 functionality
 
-### Added
+## Added
+
 * added eship type dictionay
 * added a filed author_order to all work-types
 * fixed the author order for all work-types
 * Added the OrderedStringHelper module to order the language and terms
 * new rake task to create user by email and add to specified role
 
-
 ## [1.0.13] - 2019-08-27
-### Changed
+
+## Changed
+
 * Disabling temp to fix bug with parse on all branches
+
 ## [1.0.12] - 2019-08-26
-### Changed
+
+## Changed
+
 * Enabled utf-8 in thesis py script
 * Adding a few items
 * Adding a generic rake task to import a single digitool item
@@ -618,35 +857,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added custom multi_value so we can have html5 support of dates and integers
 * Added ovverides to the multi_value fields. Upadted the rights field property
 
-
-
 ## [1.0.11.2] - 2019-08-22
-### Changed
+
+## Changed
+
 * Added fix to get the rtype in the BREPR reports
 
 ## [1.0.11.1] - 2019-08-22
-### Changed
+
+## Changed
+
 * Added fix to get the rtype in the BREPR reports
 
 ## [1.0.11] - 2019-08-19
-### Changed
+
+## Changed
+
 * Added fix to get the publisher in the BREPR reports
 
 ## [1.0.10] - 2019-08-17
-### Changed
-* Fixed rtype view 
+
+## Changed
+
+* Fixed rtype view
 * Added helpers for the worktypes
 
 ## [1.0.9.1] - 2019-08-16
-### Changed
+
+## Changed
+
 * Fixing bug with adding works to a collection
 * Added extent field to ingest of works of the Report type
 
 ## [1.0.9] - 2019-08-15
+
 * Updated the code for Digitool import of reports
 
 ## [1.0.8] - 2019-08-12
-### Changed
+
+## Changed
+
 * Updated the fixity check
 * Updated the code for Digitool import
 * Changed identifier Script
@@ -661,8 +911,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated to run bioresource reports
 * Updated the config file
 
+## Added
 
-### Added
 * Added a separate task for creating default admin user
 * aaded a user group
 * added new user group settings
@@ -680,88 +930,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updating the identifier field
 * Added language to solr doc
 
-
 ## [1.0.7.1] - 2019-07-25
-### Changed
+
+## Changed
+
 - Merging changes from develop
 
 ## [1.0.7] - 2019-07-25
-### Added
-- Added open3 gem 
-- Integrated python scripts from Clara
-- Added reports.py
-- Added new PAPER work type as mentioned in ADIR-428
-- Added open3
-- added a new worktype PRESENTATION as mentioned in ADIR-429
-- Added a method to show for work item type alreay selected
-- Added Clara's bioReport py script
-- Added python libs
-- Added a new worktype BOOK as mentioned in ADIR-427
 
-### Changed
+## Added
+
+- Added open3 gem
+* Integrated python scripts from Clara
+* Added reports.py
+* Added new PAPER work type as mentioned in ADIR-428
+* Added open3
+* added a new worktype PRESENTATION as mentioned in ADIR-429
+* Added a method to show for work item type alreay selected
+* Added Clara's bioReport py script
+* Added python libs
+* Added a new worktype BOOK as mentioned in ADIR-427
+
+## Changed
+
 - changed the langauge and date fields
-- Created the workptype Report
-- fixed relation error
-- checked the license issue
-- changed some config for license
-- license fixed
-- changing help text for date in all worktype local/config files as it was mistyped by stakeholders
-- Modified item type property
-- changed multiple and single properties back
-- more requested changes to report worktype
-- changed work type report one more time.
-- removed the brwose everything as requested in the ticket ADIR-390
-- some ui changes
-- updated bioreport py file
-- UI help text updated according to ADIR-420
-- Updated the deploy command for sidekiq
-- Updated the docker file to install python packages via pip to run Clara's script
-- Removing worktypes IMAGE and POSTER
-- Changed the proprty fields as requested again in ADIR-426
-- Changed the proprty fields as requested again in ADIR-433
-- Cleanup code for cleanup services
-- Updated the generic report script
-- removed the work type WORK
-- tried reordering of work types
-- ADIR-425: Intergrated the python scripts. Added env variable for PYTHON_BIN
-
+* Created the workptype Report
+* fixed relation error
+* checked the license issue
+* changed some config for license
+* license fixed
+* changing help text for date in all worktype local/config files as it was mistyped by stakeholders
+* Modified item type property
+* changed multiple and single properties back
+* more requested changes to report worktype
+* changed work type report one more time.
+* removed the brwose everything as requested in the ticket ADIR-390
+* some ui changes
+* updated bioreport py file
+* UI help text updated according to ADIR-420
+* Updated the deploy command for sidekiq
+* Updated the docker file to install python packages via pip to run Clara's script
+* Removing worktypes IMAGE and POSTER
+* Changed the proprty fields as requested again in ADIR-426
+* Changed the proprty fields as requested again in ADIR-433
+* Cleanup code for cleanup services
+* Updated the generic report script
+* removed the work type WORK
+* tried reordering of work types
+* ADIR-425: Intergrated the python scripts. Added env variable for PYTHON_BIN
 
 ## [1.0.6] - 2019-05-15
-### Changed
+
+## Changed
+
 - Fixing bugs with the deploy script
 
 ## [1.0.5] - 2019-05-08
-### Added
-- Upgraded to v2.5.0 of hyrax
-- New UI for the homepage
-- Added  OAI-PMH gem
-- Added Rake tasks to import digitool items.
-- Implemented the thesis and article work-type
-- Updated the facets according to specs requested.
-- Updated the thesis worktype form and view page
 
-### Changed
+## Added
+
+- Upgraded to v2.5.0 of hyrax
+* New UI for the homepage
+* Added  OAI-PMH gem
+* Added Rake tasks to import digitool items.
+* Implemented the thesis and article work-type
+* Updated the facets according to specs requested.
+* Updated the thesis worktype form and view page
+
+## Changed
+
 - Modified basic metadata file to overwrite default file
-- Upgrade various gems
+* Upgrade various gems
 
 ## [1.0.4] - 2019-02-23
-### Added
+
+## Added
+
 - Upgraded to versions 2.4.1 of hyrax
-- Create a batch process to generate the digitool collections
-### Changed
+* Create a batch process to generate the digitool collections
+
+## Changed
+
 - Updated various gems and added others
 
 ## [1.0.3] - 2018-10-23
-### Added
-- Added rake taks to automate the role creation.  
+
+## Added
+
+* Added rake taks to automate the role creation.  
 
 ## [1.0.2] - 2018-10-23
-### Added
-- Added the right env files
-- Configured to work with external servers for db, solr and fedora
+
+## Added
+
+* Added the right env files
+* Configured to work with external servers for db, solr and fedora
 
 ## [1.0.0] - 2018-10-12
-### Added
-- Initial release of mura. preceded by nurax
-- updated the Gemfile.locka
-### Changed
+
+## Added
+
+* Initial release of mura. preceded by nurax
+* updated the Gemfile.locka
+
+## Changed
