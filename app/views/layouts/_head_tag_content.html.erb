@@ -31,7 +31,12 @@ signed in %>
 <%= render 'shared/appearance_styles' %>
 
 <!-- Google Analytics -->
-<%= render partial: '/ga', formats: [:html] %>
+<%#= render partial: '/ga', formats: [:html] %>
+<% if Hyrax.config.analytics? %>
+  <% if Hyrax.config.analytics_provider == 'google' %>
+    <%= render partial: 'shared/ga', formats: [:html]  %>
+  <% end %>
+<% end %>
 
 <!-- for extras, e.g., a favicon -->
 <%= render partial: '/head_tag_extras', formats: [:html] %>
