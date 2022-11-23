@@ -53,22 +53,16 @@ Hyrax.config do |config|
   # Enable displaying usage statistics in the UI
   # Defaults to false
   # Requires a Google Analytics id and OAuth2 keyfile.  See README for more info.
-  # Oauth2 file provided by Google API has to be in P12 format. 
-  # We will use env to make sure we collect stats only on PROD.
-  #config.analytics = true
-  if ENV['IS_LIVE'].downcase != "true"
-    config.analytics = false
-  else
-    config.analytics = true
-  end
-
-  # Google Analytics tracking ID to gather usage statistics
-  config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
+  # Oauth2 file provided by Google API has to be in P12 format. We will use env to make sure we collect stats only on PROD.
+  # Google Analytics tracking ID to gather usage statistics. Anayltycis major change in hyrax version 3.3.0
+  # config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
+  config.analytics = ENV['HYRAX_ANALYTICS']
+  config.analytics_provider = ENV['HYRAX_ANALYTICS_PROVIDER']
 
   # Date you wish to start collecting Google Analytic statistics for
   # Leaving it blank will set the start date to when ever the file was uploaded by
   # NOTE: if you have always sent analytics to GA for downloads and page views leave this commented out
-  config.analytic_start_date = DateTime.parse(ENV['GOOGLE_ANALYTICS_STARTDATE'])
+  config.analytic_start_date = DateTime.parse(ENV['ANALYTICS_START_DATE'])
 
   # Enables a link to the citations page for a work
   # Default is false
