@@ -35,6 +35,7 @@ stages:
   - production
 
 .base:
+  image: registry.it.mcgill.ca/lts/adir/murax/docker-ci:latest
   stage: build
   cache:
     key:
@@ -154,11 +155,6 @@ test:brakeman:
   extends: .base_deploy
   stage: test
   allow_failure: true
-  artifacts:
-    name: brakeman_report
-    when: always
-    paths:
-      - brakeman/
   only:
     - master
     - develop
@@ -172,25 +168,25 @@ test:brakeman:
     - bundle exec brakeman --format html -o brakeman/index.html
 
 
-pages:
-  extends: .base_minimal
-  stage: report
-  allow_failure: true
-  dependencies:
-    - test:brakeman
-  artifacts:
-    name: time_tracking_artifacts
-    paths:
-      - public/brakeman
-      - public/coverage
-      - public/dawnscanner
-      - public/erd.pdf
-  only:
-    - master
-  script:
-    - mv brakeman public/ || true
-    - mv coverage public/ || true
-    - mv dawnscanner public/ || true
+#pages:
+#  extends: .base_minimal
+#  stage: report
+#  allow_failure: true
+#  dependencies:
+#    - test:brakeman
+#  artifacts:
+#    name: time_tracking_artifacts
+#    paths:
+#      - public/brakeman
+#      - public/coverage
+#      - public/dawnscanner
+#      - public/erd.pdf
+#  only:
+#    - master
+#  script:
+#    - mv brakeman public/ || true
+#    - mv coverage public/ || true
+#    - mv dawnscanner public/ || true
 
 
 deploy:development:
@@ -209,8 +205,6 @@ deploy:development:
     - cap development deploy
   only:
     - develop
-  tags:
-    - azure
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
     when: on_failure
@@ -234,8 +228,6 @@ deploy:staging:
     - cap staging deploy
   only:
     - master
-  tags:
-    - azure
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
     when: on_failure
@@ -259,8 +251,6 @@ deploy:production:
     - cap staging deploy
   only:
     - master
-  tags:
-    - azure
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
     when: on_failure

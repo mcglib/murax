@@ -2,9 +2,11 @@
 # To integrate your app with Google Analytics, uncomment the lines below and add your API key information.
 #
 analytics:
-  app_name: <%= ENV["GA_APP_NAME"] %>
-  app_version: <%= ENV["GA_APP_VERSION"] %>
-  privkey_path: <%= ENV["GA_PRIVATE_KEY_PATH"] %>
-  privkey_secret: <%= ENV["GA_PRIVATE_KEY_SECRET"] %>
-  client_email: <%= ENV["GA_CLIENT_EMAIL"] %>
+  google:
+    analytics_id: <%= ENV['GOOGLE_ANALYTICS_ID'] %>
+    app_name: <%= ENV["GA_APP_NAME"] %>
+    app_version: <%= ENV["GA_APP_VERSION"] %>
+    privkey_path: <%= ENV["GA_PRIVATE_KEY_PATH"] %>
+    privkey_secret: <%= ENV["GA_PRIVATE_KEY_SECRET"] %>
+    client_email: <%= ENV["GA_CLIENT_EMAIL"] %>
 
