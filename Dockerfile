@@ -66,15 +66,15 @@ ENV CONFIGURE_OPTS --disable-install-doc
 ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
 RUN git clone https://github.com/rbenv/rbenv.git /usr/local/rbenv \
- && git clone https://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
- && git clone https://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
- && /usr/local/rbenv/plugins/ruby-build/install.sh \
- && echo 'export RBENV_ROOT=/usr/local/rbenv' >> /etc/profile.d/rbenv.sh \
- && echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /etc/profile.d/rbenv.sh \
- && echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+	&& git clone https://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
+	&& git clone https://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
+	&& /usr/local/rbenv/plugins/ruby-build/install.sh \
+	&& echo 'export RBENV_ROOT=/usr/local/rbenv' >> /etc/profile.d/rbenv.sh \
+	&& echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /etc/profile.d/rbenv.sh \
+	&& echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
 RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
- && echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /root/.bashrc \
- && echo 'eval "$(rbenv init -)"' >> /root/.bashrc
+	&& echo 'export PATH=/usr/local/rbenv/bin:$PATH' >> /root/.bashrc \
+	&& echo 'eval "$(rbenv init -)"' >> /root/.bashrc
 
 RUN rbenv install $RUBY_VERSION
 RUN rbenv global $RUBY_VERSION
@@ -82,8 +82,8 @@ RUN rbenv global $RUBY_VERSION
 
 RUN gem update --system
 RUN gem install bundler -v $BUNDLE_VERSION -f \
- 	&& gem install --default bundler -v $BUNDLE_VERSION -f \
- 	&& gem install whenever
+	&& gem install --default bundler -v $BUNDLE_VERSION -f \
+	&& gem install whenever
 ENV GROUP_ID 9999
 ENV USER_ID 126895
 RUN groupadd -g $GROUP_ID muraxuser
@@ -93,30 +93,30 @@ RUN echo 'muraxuser:muraxuser' | chpasswd
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR $APP_PATH
- ADD Gemfile $APP_PATH
- ADD Gemfile.lock $APP_PATH
- #COPY --chown=muraxuser:muraxuser . $APP_PATH
- # save time-stamp in a file on docker build
- ONBUILD RUN echo $(/bin/date "+%Y-%m-%d %H:%M:%S" && echo "google: " && curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g') >  $APP_PATH/public/build_timestamp.txt
+ADD Gemfile $APP_PATH
+ADD Gemfile.lock $APP_PATH
+#COPY --chown=muraxuser:muraxuser . $APP_PATH
+# save time-stamp in a file on docker build
+ONBUILD RUN echo $(/bin/date "+%Y-%m-%d %H:%M:%S" && echo "google: " && curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g') >  $APP_PATH/public/build_timestamp.txt
 # #
 # # # set permissions
- ONBUILD RUN chown --recursive muraxuser log tmp public
+ONBUILD RUN chown --recursive muraxuser log tmp public
 
- RUN  mkdir -p $BUNDLE_PATH \
- 	&&  mkdir -p $BUNDLER_CACHE_PATH \
- 	&&  chown muraxuser:muraxuser -R $BUNDLE_PATH \
- 	&&  chown muraxuser:muraxuser -R $BUNDLER_CACHE_PATH
- USER root
+RUN  mkdir -p $BUNDLE_PATH \
+	&&  mkdir -p $BUNDLER_CACHE_PATH \
+	&&  chown muraxuser:muraxuser -R $BUNDLE_PATH \
+	&&  chown muraxuser:muraxuser -R $BUNDLER_CACHE_PATH
+USER root
 
- RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --path $BUNDLE_PATH
+RUN bundle check || bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --path $BUNDLE_PATH
 
 
 RUN yum -y remove nodejs && \
 	curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
 RUN yum install -y nodejs
 
- RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
- 	yum -y install yarn
+RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
+	yum -y install yarn
 
 COPY ./docker/services/hyrax/config/apache_vhost.conf /etc/httpd/vhosts/000-default.conf 
 COPY ./docker/services/hyrax/config/apache_sslredirect_vhost.conf /etc/httpd/vhosts/redirect.conf
@@ -136,11 +136,11 @@ RUN chmod +x /docker-entrypoint.sh
 
 
 RUN mkdir -p /storage/www/murax/public \
- && mkdir -p /storage/www/murax/releases \
- && mkdir -p /storage/www/tmp \
- && mkdir -p /storage/www/uploads \
- && mkdir -p /storage/www/derivatives \
- && mkdir -p /var/log/apache2/murax
+	&& mkdir -p /storage/www/murax/releases \
+	&& mkdir -p /storage/www/tmp \
+	&& mkdir -p /storage/www/uploads \
+	&& mkdir -p /storage/www/derivatives \
+	&& mkdir -p /var/log/apache2/murax
 
 
 EXPOSE 80
