@@ -6,10 +6,11 @@ volumes:
   db:
   solr_repo:
   solr_index:
-  
+
+
 networks:
-    appnetwork:
-      driver: bridge
+  appnetwork:
+    driver: bridge
 services:
   mail:
     container_name: mailer
@@ -21,7 +22,7 @@ services:
     networks:
       appnetwork:
         aliases:
-            - mail.docker.local
+          - mail.docker.local
   postgres:
     container_name: postgres
     build:
@@ -30,11 +31,11 @@ services:
     environment:
       POSTGRES_PASSWORD: murax123
     ports:
-        - "5432:5432"
+      - "5432:5432"
     networks:
       appnetwork:
         aliases:
-            - postgres.docker.local
+          - postgres.docker.local
 
   adminer:
     container_name: adminer
@@ -47,7 +48,7 @@ services:
     networks:
       appnetwork:
         aliases:
-            - adminer.docker.local
+          - adminer.docker.local
   solr:
     container_name: solr
     image: solr:7.2
@@ -63,7 +64,7 @@ services:
     networks:
       appnetwork:
         aliases:
-            - solr.docker.local
+          - solr.docker.local
   fcrepo:
     container_name: fcrepo
     build:
@@ -81,9 +82,9 @@ services:
     networks:
       appnetwork:
         aliases:
-            - fcrepo.docker.local
+          - fcrepo.docker.local
   murax:
-    image: registry.it.mcgill.ca/lts/murax:latest
+    image: registry.it.mcgill.ca/lts/adir/murax:latest
     container_name: murax
     stdin_open: true
     volumes:
@@ -105,4 +106,4 @@ services:
     networks:
       appnetwork:
         aliases:
-            - murax.docker.local
+          - murax.docker.local
