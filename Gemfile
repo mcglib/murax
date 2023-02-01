@@ -148,5 +148,6 @@ gem "blacklight_advanced_search"
 # Sitemap generator
 gem "sitemap_generator"
 
+gem 'active-fedora', '~> 14.0'
 gem "nokogiri", ">= 1.12.3"
 gem 'logger', '~> 1.5', '>= 1.5.1'
