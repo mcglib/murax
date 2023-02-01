@@ -62,14 +62,14 @@ gem "haml-rails", "~> 2.0"
 gem "bootstrap-table-rails"
 
 # Lint checker and code checks
-gem 'pronto'
-gem 'pronto-rubocop', require: false
-gem 'pronto-flay', require: false
-gem 'pronto-scss', require: false
-gem 'pronto-eslint', require: false
-gem 'pronto-brakeman', require: false
-gem 'pronto-rails_best_practices', require: false
-gem 'rubocop', require: false
+#gem 'pronto'
+#gem 'pronto-rubocop', require: false
+#gem 'pronto-flay', require: false
+#gem 'pronto-scss', require: false
+#gem 'pronto-eslint', require: false
+#gem 'pronto-brakeman', require: false
+#gem 'pronto-rails_best_practices', require: false
+#gem 'rubocop', require: false
 
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
@@ -148,6 +148,6 @@ gem "blacklight_advanced_search"
 # Sitemap generator
 gem "sitemap_generator"
 
-gem 'active-fedora', '~> 14.0'
+gem 'active-fedora', '~> 14.0.0', '>= 13.3.0'
 gem "nokogiri", ">= 1.12.3"
 gem 'logger', '~> 1.5', '>= 1.5.1'
