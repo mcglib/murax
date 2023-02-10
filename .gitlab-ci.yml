@@ -204,7 +204,7 @@ deploy:development:
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - cap development deploy >> log/capistrano.log
+    - cap development deploy
   only:
     - develop
   artifacts:
@@ -226,7 +226,7 @@ deploy:staging:
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - cap staging deploy >> public/capistrano.log
+    - cap staging deploy
   only:
     - master
   artifacts:
@@ -248,7 +248,7 @@ deploy:production:
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - cap production deploy >> public/capistrano.log
+    - cap production deploy
   only:
     - master
   artifacts:
