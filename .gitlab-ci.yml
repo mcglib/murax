@@ -209,10 +209,9 @@ deploy:development:
     - develop
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
-    when: on_failure
     expire_in: 1 week
     paths:
-      - log/capistrano.log
+      - public/capistrano.log
 deploy:staging:
   extends: .base_deploy
   when: manual
@@ -227,15 +226,14 @@ deploy:staging:
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - cap staging deploy >> log/capistrano.log
+    - cap staging deploy >> public/capistrano.log
   only:
     - master
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
-    when: on_failure
     expire_in: 1 week
     paths:
-      - log/capistrano.log
+      - public/capistrano.log
 deploy:production:
   extends: .base_deploy
   stage: production
@@ -250,12 +248,11 @@ deploy:production:
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - cap production deploy >> log/capistrano.log
+    - cap production deploy >> public/capistrano.log
   only:
     - master
   artifacts:
     name: "$CI_JOB_NAME-capistrano-log"
-    when: on_failure
     expire_in: 1 week
     paths:
       - log/capistrano.log
