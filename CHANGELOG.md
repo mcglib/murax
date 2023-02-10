@@ -5,11 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.4] - 2023-02-10
+
+* Fixed: ADIR-1372 -  Deploy to PROD with murax
+
 ## [2.0.3] - 2023-02-01
 
 * Fixed: ADIR-1311 - Bug with collections not being able to remove works. We added a patch via copyig from the active-fedora plugin
 and we need to pin active-fedora to max version 13.3.0.
-
 
 ## [2.0.2] - 2022-11-18
 
@@ -940,13 +943,14 @@ and we need to pin active-fedora to max version 13.3.0.
 
 ## Changed
 
-- Merging changes from develop
+* Merging changes from develop
 
 ## [1.0.7] - 2019-07-25
 
 ## Added
 
-- Added open3 gem
+* Added open3 gem
+
 * Integrated python scripts from Clara
 * Added reports.py
 * Added new PAPER work type as mentioned in ADIR-428
@@ -959,7 +963,8 @@ and we need to pin active-fedora to max version 13.3.0.
 
 ## Changed
 
-- changed the langauge and date fields
+* changed the langauge and date fields
+
 * Created the workptype Report
 * fixed relation error
 * checked the license issue
@@ -989,13 +994,14 @@ and we need to pin active-fedora to max version 13.3.0.
 
 ## Changed
 
-- Fixing bugs with the deploy script
+* Fixing bugs with the deploy script
 
 ## [1.0.5] - 2019-05-08
 
 ## Added
 
-- Upgraded to v2.5.0 of hyrax
+* Upgraded to v2.5.0 of hyrax
+
 * New UI for the homepage
 * Added  OAI-PMH gem
 * Added Rake tasks to import digitool items.
@@ -1005,19 +1011,21 @@ and we need to pin active-fedora to max version 13.3.0.
 
 ## Changed
 
-- Modified basic metadata file to overwrite default file
+* Modified basic metadata file to overwrite default file
+
 * Upgrade various gems
 
 ## [1.0.4] - 2019-02-23
 
 ## Added
 
-- Upgraded to versions 2.4.1 of hyrax
+* Upgraded to versions 2.4.1 of hyrax
+
 * Create a batch process to generate the digitool collections
 
 ## Changed
 
-- Updated various gems and added others
+* Updated various gems and added others
 
 ## [1.0.3] - 2018-10-23
 
