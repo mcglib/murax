@@ -58,6 +58,7 @@ set :pty, false
 #append :linked_files, "config/database.yml"
 #append :linked_files, "config/secrets.yml"
 append :linked_files, ".env.production"
+append :linked_files, "escholarship-294403ff986f.p12"
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 append :linked_dirs, "public/assets"
