@@ -1,0 +1,10 @@
+[lts]
+
+# This will be for files owned by Libraries only
+
+* @lts
+
+[Shared Ownership]
+.gitlab-ci.yml @lts
+.gitignore @lts
+CODEOWNERS @lts
