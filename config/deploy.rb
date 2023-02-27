@@ -143,7 +143,7 @@ namespace :deploy do
     on roles(:all) do
         within "#{current_path}" do
           with rails_env: "#{fetch(:stage)}" do
-            execute "ln -sf #{shared_path }/config/escholarship-294403ff986f.p12 #{release_path}/index.p12"
+            execute "ln -sf #{shared_path }/config/escholarship-294403ff986f.p12 #{release_path}/escholarship-294403ff986f.p12"
           end
         end
     end
