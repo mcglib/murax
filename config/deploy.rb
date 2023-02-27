@@ -58,7 +58,7 @@ set :pty, false
 #append :linked_files, "config/database.yml"
 #append :linked_files, "config/secrets.yml"
 append :linked_files, ".env.production"
-append :linked_files, "escholarship-294403ff986f.p12"
+#append :linked_files, "escholarship-294403ff986f.p12"
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 append :linked_dirs, "public/assets"
@@ -138,6 +138,17 @@ namespace :deploy do
     end
   end
 
+  desc "add symlink to Google's analytics file"
+  task :add_google_analytics do
+    on roles(:all) do
+        within "#{current_path}" do
+          with rails_env: "#{fetch(:stage)}" do
+            execute "ln -sf #{shared_path }/config/escholarship-294403ff986f.p12 #{release_path}/index.p12"
+          end
+        end
+    end
+  end
+
  # after :finishing, :restart_apache do
  #   on roles(:app) do
  #     sudo :systemctl, :reload, :httpd
@@ -156,7 +167,7 @@ namespace :deploy do
  # end
 
   before "deploy:assets:precompile", "deploy:npm_install"
-#  after  "deploy:npm_install", "deploy:yarn_install"
   after "deploy:cleanup", "deploy:refresh_sitemaps"
-
+  after "deploy:finished", "deploy:add_google_analytics" 
+  
 end
