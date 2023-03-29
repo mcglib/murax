@@ -157,7 +157,7 @@ class SolrDocument
   end
 
   def pmid
-    self["local_affiliated_centre_tesim"]
+    self["pmid_tesim"]
   end
 
   def research_unit
@@ -165,7 +165,7 @@ class SolrDocument
   end
 
   def grant_number
-    self["grant_number"]
+    self["grant_number_tesim"]
   end
 
   def status
