@@ -1,6 +1,4 @@
-#image: registry.it.mcgill.ca/lts/murax:latest
 image: registry.it.mcgill.ca/lts/adir/murax/docker-ci:latest
-image: ruby:2.7
 
 #include:
 #  - template: Code-Quality.gitlab-ci.yml
