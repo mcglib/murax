@@ -8,6 +8,8 @@ OAI_CONFIG ={
   },
   document: {
     limit: ENV['OAI_DOCUMENT_LIMIT'].to_i,
+    timestamp_field: 'system_create_dtsi',
+    timestamp_method: 'system_created',
     set_fields: [{ label: 'DocumentType', solr_field: 'has_model_ssim' }, { label: 'Collection', solr_field: 'nesting_collection__parent_ids_ssim'}],
     set_class: '::OaiSet',
     format_filters: {
