@@ -9,7 +9,7 @@ class SolrDocument
   include Hyrax::SolrDocumentBehavior
 
   # self.unique_key = 'id'
-
+  self.timestamp_key = 'system_create_dtsi'
   # Email uses the semantic field mappings below to generate the body of an email.
   SolrDocument.use_extension(Blacklight::Document::Email)
 
@@ -29,6 +29,10 @@ class SolrDocument
   # Do content negotiation for AF models. 
   use_extension( Hydra::ContentNegotiation )
 
+  # Adding timestamp for OAI-PMH.Used in OAI CONFIG in config/initializers. ADIR-1400
+  def system_created
+    Time.parse self['system_create_dtsi']
+  end
  
   field_semantics.merge!(
     description: "description_tesim",
