@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.10] - 2023-07-03
+
+* Updated: The rake task that deleted the works by work ids also send an email with work ids list. ADIR-1394
+* Fixed: Google analytics bug by adding commenting out line# 59  config/initializers/hyrax.rb.
+
 ## [2.0.9] - 2023-05-30
 
 * Fixed: ADIR-1393 - Fixed dependecies that has security vulnerabilities for some packages.
