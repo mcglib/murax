@@ -47,3 +47,7 @@ lib/tasks/test
 
 /public/shared/sitemap.xml
 /public/shared/sitemap1.xml.gz
+
+.DS_Store
+.dccache
+.vscode/
