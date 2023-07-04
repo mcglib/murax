@@ -1,0 +1,13 @@
+A message from eScholarship@McGill
+
+A total of "<%= @deleted_works.count %>" work(s) have been deleted from the host.
+
+<%= @deleted_works.to_sentence %>
+      
+<%= link_to "eScholarship", root_url(:only_path => false, :host => "#{ENV['RAILS_HOST']}"), :target => "_blank" %>
+      
+Email <%= ENV['CONTACT_US_EMAIL'] %> if you have questions.
+     
+Thank you,
+                      
+eScholarship@McGill

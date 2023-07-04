@@ -56,7 +56,7 @@ Hyrax.config do |config|
   # Oauth2 file provided by Google API has to be in P12 format. We will use env to make sure we collect stats only on PROD.
   # Google Analytics tracking ID to gather usage statistics. Anayltycis major change in hyrax version 3.3.0
   # config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
-  config.analytics = ENV['HYRAX_ANALYTICS']
+  #config.analytics = ENV['HYRAX_ANALYTICS'] ## Removing the bug that gives unknown error for dashbaord by commenting out this line. This env variable is now read by analytics service under app/serivces.
   config.analytics_provider = ENV['HYRAX_ANALYTICS_PROVIDER']
 
   # Date you wish to start collecting Google Analytic statistics for
