@@ -724,7 +724,8 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.10)
     public_suffix (4.0.7)
-    puma (3.12.6)
+    puma (5.6.7)
+      nio4r (~> 2.0)
     qa (5.8.1)
       activerecord-import
       deprecation
@@ -1143,7 +1144,7 @@ DEPENDENCIES
   pronto-scss
   pry
   pry-byebug
-  puma (~> 3.12.4)
+  puma (~> 5.6.7)
   rails (~> 5.2.8)
   rdf-vocab
   redis (~> 4.0)
