@@ -129,7 +129,7 @@ gem 'devise-guests', '~> 0.6'
 #gem 'rsolr', '~> 2.0'
 gem 'rsolr'
 gem 'jquery-rails'
-gem 'sidekiq', '~> 5.2.7'
+gem 'sidekiq', '~> 6.5.10'
 gem 'sidekiq-limit_fetch'
 gem 'sidekiq-status'
 
